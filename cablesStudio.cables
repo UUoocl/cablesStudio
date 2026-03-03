@@ -1,0 +1,463 @@
+{
+    "_id": "69a6276a625289c58c2f99c3",
+    "shortId": "fjI5Lc",
+    "name": "cablesStudio",
+    "description": "",
+    "userId": "69a6276a8de9cf1899ae4c20",
+    "cachedUsername": "",
+    "created": 1772496746294,
+    "updated": 1772540712893,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "szfj90869",
+            "uiAttribs": {
+                "translate": {
+                    "x": -409.35036245924334,
+                    "y": -856.3185223639013
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "width",
+                    "value": 547
+                },
+                {
+                    "name": "height",
+                    "value": 322
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "2d826e0d-bb71-4e5d-8f43-cd27af6fc454",
+            "id": "rzkx6znbp",
+            "uiAttribs": {
+                "translate": {
+                    "x": -253,
+                    "y": -920
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "IP",
+                    "value": "localhost"
+                },
+                {
+                    "name": "Port",
+                    "value": 4455
+                },
+                {
+                    "name": "password",
+                    "value": "drfthgfyhgty"
+                },
+                {
+                    "name": "connect",
+                    "value": 1
+                },
+                {
+                    "name": "Sub General",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Config",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Scenes Events",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Inputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Transitions",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Filters",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Outputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub SceneItems",
+                    "value": 1
+                },
+                {
+                    "name": "Sub MediaInputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Vendors",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Ui",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "connected",
+                    "value": true
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "7a8369b2-9a89-45ec-8fe5-ae2e039379dd",
+            "id": "iq45s86ly",
+            "uiAttribs": {
+                "translate": {
+                    "x": -253,
+                    "y": -963.0063387782743
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "App Name",
+                    "value": "OBS"
+                },
+                {
+                    "name": "App Path",
+                    "value": ""
+                },
+                {
+                    "name": "Collection",
+                    "value": "Untitled"
+                },
+                {
+                    "name": "Debug Port",
+                    "value": "9222"
+                },
+                {
+                    "name": "WSS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "WSS Password",
+                    "value": "drfthgfyhgty"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "b1lb2zgur",
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -272,
+                    "y": -863.7971828603322
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Value",
+                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12"
+                },
+                {
+                    "name": "Variable",
+                    "value": "pythonPath"
+                }
+            ]
+        },
+        {
+            "opId": "69a6276a625289c58c2f99c5",
+            "id": "idilno7ie",
+            "uiAttribs": {
+                "title": "PythonScript Keyboard",
+                "translate": {
+                    "x": -253,
+                    "y": -823.2765630642602
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Auto Restart",
+                    "value": 1
+                },
+                {
+                    "name": "Startup Delay",
+                    "value": 2
+                },
+                {
+                    "name": "Script Path",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/pythonScripts/keyboard_monitor.py"
+                },
+                {
+                    "name": "Python Path",
+                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+                    "useVariable": "pythonPath"
+                },
+                {
+                    "name": "Arguments",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Running",
+                    "value": true
+                },
+                {
+                    "name": "Stdout",
+                    "value": "Connected to SocketCluster: ws://127.0.0.1:8000/socketcluster/\n"
+                },
+                {
+                    "name": "Stderr",
+                    "value": ""
+                },
+                {
+                    "name": "Exit Code",
+                    "value": -1
+                }
+            ]
+        },
+        {
+            "opId": "69a6276a625289c58c2f99c5",
+            "id": "ng6p8hr8x",
+            "uiAttribs": {
+                "translate": {
+                    "x": -254.17472686252802,
+                    "y": -779.187205421291
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Auto Restart",
+                    "value": 1
+                },
+                {
+                    "name": "Startup Delay",
+                    "value": 2
+                },
+                {
+                    "name": "Script Path",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/pythonScripts/mouse_monitor.py"
+                },
+                {
+                    "name": "Python Path",
+                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+                    "useVariable": "pythonPath"
+                },
+                {
+                    "name": "Arguments",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Running",
+                    "value": true
+                },
+                {
+                    "name": "Stdout",
+                    "value": "Connected to SocketCluster: ws://127.0.0.1:8000/socketcluster/\n"
+                },
+                {
+                    "name": "Stderr",
+                    "value": ""
+                },
+                {
+                    "name": "Exit Code",
+                    "value": -1
+                }
+            ]
+        },
+        {
+            "opId": "69a6276a625289c58c2f99c6",
+            "id": "tdk83kwr7",
+            "uiAttribs": {
+                "translate": {
+                    "x": -362.76002644064147,
+                    "y": -718.219573717996
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 8000
+                },
+                {
+                    "name": "Path",
+                    "value": "/socketcluster/"
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Listening",
+                    "value": 1
+                },
+                {
+                    "name": "Clients",
+                    "value": 2
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "69a6276a8de9cf1899ae4c20",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1772496746294
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 547,
+            "h": 322,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -170.02566143646905,
+                "y": -987.0378538053629,
+                "z": 1199.1255130493887
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "cablesStudio"
+    },
+    "opsHash": "11a7e7ed64955be9a15af96be840deb3c6f0821c",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1772213739493,
+            "created": "2026-02-27T17:35:39.493Z",
+            "git": {
+                "branch": "develop",
+                "commit": "45d19ca6502d9d1725e25f78506c6b9a9a7d86e6",
+                "date": "1772213605",
+                "message": "canvasmode default value init"
+            }
+        },
+        "ui": {
+            "timestamp": 1772213757898,
+            "created": "2026-02-27T17:35:57.898Z",
+            "git": {
+                "branch": "develop",
+                "commit": "361cccd3c9711c3e02d79a2e23ff4faf87a6d5fc",
+                "date": "1772205698",
+                "message": "cblbutton"
+            }
+        },
+        "api": {
+            "timestamp": 1772213775190,
+            "created": "2026-02-27T17:36:15.190Z",
+            "git": {
+                "branch": "develop",
+                "commit": "720f87c4bb190f5089bff2e8d9cb034f15a95176",
+                "date": "1772211104",
+                "message": "zip build only"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.2"
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEn1JREFUeF7t1sENADAMAjG6/9Ct1DXO2QCTB2fbnSNAgAABAgQIEMgIHAMw07WgBAgQIECAAIEvYAB6BAIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgACBBx1VaBA+Pro5AAAAAElFTkSuQmCC"
+}

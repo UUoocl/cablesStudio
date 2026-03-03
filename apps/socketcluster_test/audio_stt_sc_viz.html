@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio STT Visualizer (SocketCluster)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            width: 100vw;
+            height: 100vh;
+            box-sizing: border-box;
+            background-color: #111;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-y: auto;
+        }
+        #visualizers-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .visualizer-card {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 15px;
+            width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        .visualizer-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+            color: #00ffcc;
+        }
+        .current-transcript {
+            font-size: 24px;
+            line-height: 1.4;
+            min-height: 100px;
+            margin-bottom: 15px;
+            color: #fff;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #00ffcc;
+            word-wrap: break-word;
+        }
+        .history-log {
+            font-family: monospace;
+            font-size: 12px;
+            color: #888;
+            max-height: 250px;
+            overflow-y: auto;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        .history-item {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dotted #333;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .timestamp {
+            color: #555;
+            margin-right: 8px;
+        }
+        #info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .no-data {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+            margin-top: 50px;
+        }
+    </style>
+    <script src="lib/socketcluster.js"></script>
+</head>
+<body>
+    <div id="info">
+        Audio STT Visualizer (SocketCluster)<br>
+        Status: Disconnected
+    </div>
+
+    <div id="visualizers-container">
+        <div class="no-data" id="no-data-msg">Waiting for SocketCluster data...</div>
+    </div>
+
+    <script>
+        const container = document.getElementById('visualizers-container');
+        const noDataMsg = document.getElementById('no-data-msg');
+        const info = document.getElementById('info');
+        const devices = new Map(); // name -> { card, transcriptEl, historyEl, lastUpdate, lastLoggedText }
+
+        const options = {
+            hostname: '127.0.0.1',
+            port: 8000,
+            path: '/socketcluster/'
+        };
+
+        const socket = socketClusterClient.create(options);
+
+        (async () => {
+            for await (let {error} of socket.listener('error')) {
+                console.error('SocketCluster error:', error);
+            }
+        })();
+
+        (async () => {
+            for await (let event of socket.listener('connect')) {
+                console.log('Connected to SocketCluster');
+                updateStatus('Connected');
+            }
+        })();
+
+        (async () => {
+            for await (let event of socket.listener('disconnect')) {
+                console.log('Disconnected from SocketCluster');
+                updateStatus('Disconnected');
+            }
+        })();
+
+        function updateStatus(status) {
+            if (!info) return;
+            info.innerHTML = `Audio STT Visualizer (SocketCluster)<br>Status: ${status}`;
+        }
+
+        // Listen for audio STT events
+        (async () => {
+            const channel = socket.subscribe('audio_stt');
+            for await (let data of channel) {
+                const { device, stt } = data;
+
+                if (!devices.has(device)) {
+                    createVisualizer(device);
+                }
+
+                const deviceData = devices.get(device);
+                deviceData.lastUpdate = Date.now();
+                updateSTT(deviceData, stt);
+            }
+        })();
+
+        function createVisualizer(name) {
+            if (!container) return;
+            if (noDataMsg) noDataMsg.style.display = 'none';
+
+            const card = document.createElement('div');
+            card.className = 'visualizer-card';
+            card.innerHTML = `
+                <h3>${name}</h3>
+                <div class="current-transcript" id="current-${name}">...</div>
+                <div class="history-log" id="history-${name}"></div>
+            `;
+            container.appendChild(card);
+
+            devices.set(name, {
+                card,
+                transcriptEl: card.querySelector('.current-transcript'),
+                historyEl: card.querySelector('.history-log'),
+                lastUpdate: Date.now(),
+                lastLoggedText: ""
+            });
+        }
+
+        function updateSTT(deviceData, text) {
+            if (!text || !deviceData.transcriptEl) return;
+            
+            // Update the main display
+            deviceData.transcriptEl.textContent = text;
+
+            clearTimeout(deviceData.logTimer);
+            deviceData.logTimer = setTimeout(() => {
+                if (text !== deviceData.lastLoggedText && text.trim().length > 0) {
+                    addHistoryItem(deviceData, text);
+                    deviceData.lastLoggedText = text;
+                }
+            }, 2000); 
+        }
+
+        function addHistoryItem(deviceData, text) {
+            if (!deviceData.historyEl) return;
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            const time = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            item.innerHTML = `<span class="timestamp">[${time}]</span>${text}`;
+            
+            deviceData.historyEl.prepend(item);
+            
+            if (deviceData.historyEl.children.length > 30) {
+                deviceData.historyEl.lastChild.remove();
+            }
+        }
+
+        // Cleanup stale devices
+        setInterval(() => {
+            const now = Date.now();
+            for (const [name, data] of devices.entries()) {
+                if (now - data.lastUpdate > 60000) { 
+                    data.card.remove();
+                    devices.delete(name);
+                    if (devices.size === 0 && noDataMsg) {
+                        noDataMsg.style.display = 'block';
+                    }
+                }
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

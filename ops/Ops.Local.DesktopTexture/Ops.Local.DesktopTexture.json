@@ -1,0 +1,110 @@
+{
+    "id": "9c612970-da01-4bf7-a47d-dc35575b7f4f",
+    "created": 1772498069264,
+    "license": "MIT",
+    "authorName": "",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Texture",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Refresh Sources",
+                "group": "Source"
+            },
+            {
+                "type": 1,
+                "name": "Update Size",
+                "group": "Source"
+            },
+            {
+                "type": 0,
+                "name": "Source index",
+                "group": "Source",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Texture",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "FPS",
+                "group": "Texture",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Requested Width",
+                "group": "Source",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Requested Height",
+                "group": "Source",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Show HTML Element",
+                "group": "Video Element",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "CSS",
+                "group": "Video Element"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Ratio",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Available",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Size Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Size Height",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            },
+            {
+                "type": 2,
+                "name": "HTML Element"
+            }
+        ]
+    }
+}
