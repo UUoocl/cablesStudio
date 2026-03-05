@@ -1,0 +1,44 @@
+{
+    "id": "7b3d0e25-e654-4fc8-b58e-ec46686c8f62",
+    "name": "Ops.Local.SocketClusterToMidiOutput",
+    "authorName": "Gemini",
+    "description": "Bridges SocketCluster messages to a MIDI Output device. Listens for midi_send topic and forwards to the selected MIDI device using native Web MIDI API.",
+    "category": "local",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "SC Socket",
+                "objType": "socketcluster"
+            },
+            {
+                "type": 5,
+                "name": "SC Topic Filter"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Output Device",
+                "values": []
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Forwarded"
+            },
+            {
+                "type": 5,
+                "name": "Debug Info"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "dependencies": []
+}

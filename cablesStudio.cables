@@ -6,7 +6,7 @@
     "userId": "69a6276a8de9cf1899ae4c20",
     "cachedUsername": "",
     "created": 1772496746294,
-    "updated": 1772540712893,
+    "updated": 1772673763815,
     "visibility": "private",
     "ops": [
         {
@@ -14,8 +14,8 @@
             "id": "szfj90869",
             "uiAttribs": {
                 "translate": {
-                    "x": -409.35036245924334,
-                    "y": -856.3185223639013
+                    "x": -574.362505268509,
+                    "y": -855.0588876859679
                 }
             },
             "portsIn": [
@@ -46,12 +46,23 @@
             ],
             "portsOut": [
                 {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "tgv92bv4u",
+                            "objOut": "szfj90869"
+                        }
+                    ]
+                },
+                {
                     "name": "width",
-                    "value": 547
+                    "value": 423
                 },
                 {
                     "name": "height",
-                    "value": 322
+                    "value": 170
                 },
                 {
                     "name": "Pixel Density",
@@ -64,8 +75,8 @@
             "id": "rzkx6znbp",
             "uiAttribs": {
                 "translate": {
-                    "x": -253,
-                    "y": -920
+                    "x": -725.5,
+                    "y": -1010.0000000000001
                 }
             },
             "portsIn": [
@@ -146,8 +157,8 @@
             "id": "iq45s86ly",
             "uiAttribs": {
                 "translate": {
-                    "x": -253,
-                    "y": -963.0063387782743
+                    "x": -725.5,
+                    "y": -1053.0063387782743
                 }
             },
             "portsIn": [
@@ -193,8 +204,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": -272,
-                    "y": -863.7971828603322
+                    "x": -44.5,
+                    "y": -1027.5471828603322
                 }
             },
             "portsIn": [
@@ -214,8 +225,8 @@
             "uiAttribs": {
                 "title": "PythonScript Keyboard",
                 "translate": {
-                    "x": -253,
-                    "y": -823.2765630642602
+                    "x": -25.5,
+                    "y": -987.0265630642602
                 }
             },
             "portsIn": [
@@ -256,7 +267,7 @@
                 },
                 {
                     "name": "Stderr",
-                    "value": ""
+                    "value": "INFO:CONNECTED to SocketCluster: ws://127.0.0.1:8000/socketcluster/\n"
                 },
                 {
                     "name": "Exit Code",
@@ -269,8 +280,8 @@
             "id": "ng6p8hr8x",
             "uiAttribs": {
                 "translate": {
-                    "x": -254.17472686252802,
-                    "y": -779.187205421291
+                    "x": -26.67472686252802,
+                    "y": -942.937205421291
                 }
             },
             "portsIn": [
@@ -311,7 +322,7 @@
                 },
                 {
                     "name": "Stderr",
-                    "value": ""
+                    "value": "INFO:CONNECTED to SocketCluster: ws://127.0.0.1:8000/socketcluster/\n"
                 },
                 {
                     "name": "Exit Code",
@@ -320,12 +331,141 @@
             ]
         },
         {
-            "opId": "69a6276a625289c58c2f99c6",
-            "id": "tdk83kwr7",
+            "opId": "7b8d0c2e-4b6a-4d2a-8b8a-9c7f6e5d4a3b",
+            "id": "tgv92bv4u",
             "uiAttribs": {
                 "translate": {
-                    "x": -362.76002644064147,
-                    "y": -718.219573717996
+                    "x": -553.3955234215327,
+                    "y": -783.9395742024282
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Source index",
+                    "value": 0
+                },
+                {
+                    "name": "Source",
+                    "value": "Projector - Source: Video Capture Device"
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 1
+                },
+                {
+                    "name": "FPS",
+                    "value": 12
+                },
+                {
+                    "name": "Requested Width",
+                    "value": 2
+                },
+                {
+                    "name": "Requested Height",
+                    "value": 2
+                },
+                {
+                    "name": "Show HTML Element",
+                    "value": 1
+                },
+                {
+                    "name": "CSS",
+                    "value": "z-index:99999;position:absolute;"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "3ozpur9ff",
+                            "objOut": "tgv92bv4u"
+                        }
+                    ]
+                },
+                {
+                    "name": "Ratio",
+                    "value": 1
+                },
+                {
+                    "name": "Available",
+                    "value": 1
+                },
+                {
+                    "name": "Size Width",
+                    "value": 2
+                },
+                {
+                    "name": "Size Height",
+                    "value": 2
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "HTML Element",
+                    "links": [
+                        {
+                            "portIn": "Video Element",
+                            "portOut": "HTML Element",
+                            "objIn": "3ozpur9ff",
+                            "objOut": "tgv92bv4u"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "xyz6w7g9v",
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -481.39552342153274,
+                    "y": -640.6699494454944
+                },
+                "extendTitle": null
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "69a6276a625289c58c2f99c6",
+            "id": "irpnllnmp",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1103.3914906038963,
+                    "y": -1129.9709550659893
                 }
             },
             "portsIn": [
@@ -357,11 +497,884 @@
                 },
                 {
                     "name": "Clients",
-                    "value": 2
+                    "value": 20
                 },
                 {
                     "name": "Error",
                     "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "d9d8e272-4d54-40e8-ae81-3ce8584d1663",
+            "id": "3ozpur9ff",
+            "uiAttribs": {
+                "translate": {
+                    "x": -521.2423479139816,
+                    "y": -717.9131233759321
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Server URL",
+                    "value": "http://127.0.0.1:8000"
+                },
+                {
+                    "name": "Model Path",
+                    "value": "/mediapipe/models/pose_landmarker_heavy.task"
+                },
+                {
+                    "name": "Delegate index",
+                    "value": 0
+                },
+                {
+                    "name": "Delegate",
+                    "value": "GPU"
+                },
+                {
+                    "name": "Num Poses",
+                    "value": 1
+                },
+                {
+                    "name": "Min Detection Confidence",
+                    "value": 0.3
+                },
+                {
+                    "name": "Min Tracking Confidence",
+                    "value": 0.04
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Landmarks",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Landmarks",
+                            "objIn": "xyz6w7g9v",
+                            "objOut": "3ozpur9ff"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": false
+                },
+                {
+                    "name": "Loaded",
+                    "value": false
+                },
+                {
+                    "name": "Error",
+                    "value": "Init error: SocketCluster server unreachable at http://127.0.0.1:8000"
+                }
+            ]
+        },
+        {
+            "opId": "1ec869b2-9a89-45ec-8fe5-ae2e039379cc",
+            "id": "hrev1ltnp",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1127.0077138708016,
+                    "y": -1003.6842057163914
+                },
+                "extendTitlePort": "Channel",
+                "widthOnlyGrow": "Channel"
+            },
+            "portsIn": [
+                {
+                    "name": "Channel",
+                    "value": "touchOSC-out"
+                },
+                {
+                    "name": "Server hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Server port",
+                    "value": 8000
+                },
+                {
+                    "name": "Use SSL",
+                    "value": 0
+                },
+                {
+                    "name": "Server path",
+                    "value": "/socketcluster/"
+                },
+                {
+                    "name": "Allow send",
+                    "value": 1
+                },
+                {
+                    "name": "Allow multiple senders",
+                    "value": 1
+                },
+                {
+                    "name": "Delay send (ms)",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Ready",
+                    "value": true
+                },
+                {
+                    "name": "Socket",
+                    "links": [
+                        {
+                            "portIn": "socket",
+                            "portOut": "Socket",
+                            "objIn": "3bvrjmux2",
+                            "objOut": "hrev1ltnp"
+                        }
+                    ]
+                },
+                {
+                    "name": "Own client id",
+                    "value": "82caffe5-b69c-43f7-ac52-84cff07687b3"
+                },
+                {
+                    "name": "Can send",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": "SocketProtocolError"
+                }
+            ]
+        },
+        {
+            "opId": "18a2f804-20ad-4cb9-87b9-b097ad23f518",
+            "id": "bloppzmch",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1290.4068923997015,
+                    "y": -1038.4966914831025
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 12345
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Message Received",
+                    "links": [
+                        {
+                            "portIn": "send",
+                            "portOut": "Message Received",
+                            "objIn": "3bvrjmux2",
+                            "objOut": "bloppzmch"
+                        }
+                    ]
+                },
+                {
+                    "name": "Message",
+                    "links": [
+                        {
+                            "portIn": "data",
+                            "portOut": "Message",
+                            "objIn": "3bvrjmux2",
+                            "objOut": "bloppzmch"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Message",
+                            "objIn": "peglmx5lx",
+                            "objOut": "bloppzmch"
+                        }
+                    ]
+                },
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "OSC Connection",
+                            "portOut": "Connection",
+                            "objIn": "7cgb0x05y",
+                            "objOut": "bloppzmch"
+                        }
+                    ]
+                },
+                {
+                    "name": "Status",
+                    "value": "ready"
+                }
+            ]
+        },
+        {
+            "opId": "03d2c172-5492-48c1-8093-f3335f665c67",
+            "id": "3bvrjmux2",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1079.12059344202,
+                    "y": -879.9953923757407
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "topic",
+                    "value": "touchOSC"
+                },
+                {
+                    "name": "delay (ms)",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "peglmx5lx",
+            "uiAttribs": {
+                "height": 323.11146924342245,
+                "width": 397.2105035098032,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -962.049505520376,
+                    "y": -783.4923556909624
+                },
+                "extendTitle": null
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "1ec869b2-9a89-45ec-8fe5-ae2e039379cc",
+            "id": "edi2xjygv",
+            "uiAttribs": {
+                "title": "SocketClusterClient touchOSC-in",
+                "translate": {
+                    "x": -1529.1287675785982,
+                    "y": -935.3052216678277
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Channel",
+                    "value": "touchOSC-in"
+                },
+                {
+                    "name": "Server hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Server port",
+                    "value": 8000
+                },
+                {
+                    "name": "Use SSL",
+                    "value": 0
+                },
+                {
+                    "name": "Server path",
+                    "value": "/socketcluster/"
+                },
+                {
+                    "name": "Allow send",
+                    "value": 1
+                },
+                {
+                    "name": "Allow multiple senders",
+                    "value": 1
+                },
+                {
+                    "name": "Delay send (ms)",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Ready",
+                    "value": true
+                },
+                {
+                    "name": "Socket",
+                    "links": [
+                        {
+                            "portIn": "SC Socket",
+                            "portOut": "Socket",
+                            "objIn": "7cgb0x05y",
+                            "objOut": "edi2xjygv"
+                        }
+                    ]
+                },
+                {
+                    "name": "Own client id",
+                    "value": "29a8835b-5746-4702-ab62-ae9d07a2b4ba"
+                },
+                {
+                    "name": "Can send",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": "SocketProtocolError"
+                }
+            ]
+        },
+        {
+            "opId": "b7a2e9c1-4d54-4fb7-a47d-dc35575b7f50",
+            "id": "7cgb0x05y",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1443.4566774831683,
+                    "y": -821.8523274133628
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "SC Topic Filter",
+                    "value": "osc_send"
+                },
+                {
+                    "name": "OSC Target IP",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "OSC Target Port",
+                    "value": 5558
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Last Message",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Last Message",
+                            "objIn": "pkfc63wzk",
+                            "objOut": "7cgb0x05y"
+                        }
+                    ]
+                },
+                {
+                    "name": "Debug Info",
+                    "value": "Subscribed to: touchOSC-in/objects (Topic: osc_send)"
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "pkfc63wzk",
+            "uiAttribs": {
+                "height": 164.23622330707144,
+                "width": 212.11675551564667,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -1431.4566774831683,
+                    "y": -745.848261403539
+                },
+                "extendTitle": null
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "3f585ff5-afd6-45d5-b082-80c62f6cdf2b",
+            "id": "dgcbjb5hy",
+            "uiAttribs": {
+                "translate": {
+                    "x": -2121.3123743511387,
+                    "y": -1088.8377227803921
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "MIDI Event Out",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "MIDI Event Out",
+                            "objIn": "0h3a2uj9v",
+                            "objOut": "dgcbjb5hy"
+                        },
+                        {
+                            "portIn": "data",
+                            "portOut": "MIDI Event Out",
+                            "objIn": "6ww66yq00",
+                            "objOut": "dgcbjb5hy"
+                        }
+                    ]
+                },
+                {
+                    "name": "Trigger Out",
+                    "links": [
+                        {
+                            "portIn": "send",
+                            "portOut": "Trigger Out",
+                            "objIn": "6ww66yq00",
+                            "objOut": "dgcbjb5hy"
+                        }
+                    ]
+                },
+                {
+                    "name": "Device",
+                    "value": "IAC Driver Bus 1"
+                },
+                {
+                    "name": "MIDI Channel",
+                    "value": 16
+                },
+                {
+                    "name": "Message Type",
+                    "value": "Note"
+                },
+                {
+                    "name": "Note",
+                    "value": 127
+                },
+                {
+                    "name": "Note Velocity",
+                    "value": 0
+                },
+                {
+                    "name": "CC Number",
+                    "value": "-"
+                },
+                {
+                    "name": "CC Value",
+                    "value": "-"
+                },
+                {
+                    "name": "Pitch Bend Value",
+                    "value": "-"
+                },
+                {
+                    "name": "NRPN Number",
+                    "value": "-"
+                },
+                {
+                    "name": "NRPN Value",
+                    "value": "-"
+                },
+                {
+                    "name": "Program Change Value",
+                    "value": "-"
+                }
+            ]
+        },
+        {
+            "opId": "484b3a00-41b7-4e3f-8a99-a1b32a764eff",
+            "id": "3pyxxxs4w",
+            "uiAttribs": {
+                "translate": {
+                    "x": -2135.446183904674,
+                    "y": -1141.261171339915
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Device index",
+                    "value": 0
+                },
+                {
+                    "name": "Device",
+                    "value": "IAC Driver Bus 1"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Event",
+                    "links": [
+                        {
+                            "portIn": "Event",
+                            "portOut": "Event",
+                            "objIn": "dgcbjb5hy",
+                            "objOut": "3pyxxxs4w"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "0h3a2uj9v",
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -2170.019455058703,
+                    "y": -947.4177695496138
+                },
+                "extendTitle": null
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "03d2c172-5492-48c1-8093-f3335f665c67",
+            "id": "6ww66yq00",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1893.2672004284686,
+                    "y": -1040.4662097884773
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "topic",
+                    "value": "touchOSC"
+                },
+                {
+                    "name": "delay (ms)",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "1ec869b2-9a89-45ec-8fe5-ae2e039379cc",
+            "id": "m3bzfht7p",
+            "uiAttribs": {
+                "translate": {
+                    "x": -1873.3647539225055,
+                    "y": -1185.9552551814945
+                },
+                "extendTitlePort": "Channel",
+                "widthOnlyGrow": "Channel"
+            },
+            "portsIn": [
+                {
+                    "name": "Channel",
+                    "value": "touchOSC-Midi-in"
+                },
+                {
+                    "name": "Server hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Server port",
+                    "value": 8000
+                },
+                {
+                    "name": "Use SSL",
+                    "value": 0
+                },
+                {
+                    "name": "Server path",
+                    "value": "/socketcluster/"
+                },
+                {
+                    "name": "Allow send",
+                    "value": 1
+                },
+                {
+                    "name": "Allow multiple senders",
+                    "value": 1
+                },
+                {
+                    "name": "Delay send (ms)",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Ready",
+                    "value": true
+                },
+                {
+                    "name": "Socket",
+                    "links": [
+                        {
+                            "portIn": "socket",
+                            "portOut": "Socket",
+                            "objIn": "6ww66yq00",
+                            "objOut": "m3bzfht7p"
+                        }
+                    ]
+                },
+                {
+                    "name": "Own client id",
+                    "value": "b97e1f83-1bc3-414b-8071-e79d6f20bf77"
+                },
+                {
+                    "name": "Can send",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": "SocketProtocolError"
+                }
+            ]
+        },
+        {
+            "opId": "1ec869b2-9a89-45ec-8fe5-ae2e039379cc",
+            "id": "re716f4nw",
+            "uiAttribs": {
+                "translate": {
+                    "x": -2146.8759416017574,
+                    "y": -683.9931268172242
+                },
+                "extendTitlePort": "Channel",
+                "widthOnlyGrow": "Channel"
+            },
+            "portsIn": [
+                {
+                    "name": "Channel",
+                    "value": "touchOSC-Midi-out"
+                },
+                {
+                    "name": "Server hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Server port",
+                    "value": 8000
+                },
+                {
+                    "name": "Use SSL",
+                    "value": 0
+                },
+                {
+                    "name": "Server path",
+                    "value": "/socketcluster/"
+                },
+                {
+                    "name": "Allow send",
+                    "value": 1
+                },
+                {
+                    "name": "Allow multiple senders",
+                    "value": 1
+                },
+                {
+                    "name": "Delay send (ms)",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Ready",
+                    "value": true
+                },
+                {
+                    "name": "Socket",
+                    "links": [
+                        {
+                            "portIn": "socket",
+                            "portOut": "Socket",
+                            "objIn": "vlu3a4jox",
+                            "objOut": "re716f4nw"
+                        },
+                        {
+                            "portIn": "SC Socket",
+                            "portOut": "Socket",
+                            "objIn": "nt5lw1zvx",
+                            "objOut": "re716f4nw"
+                        }
+                    ]
+                },
+                {
+                    "name": "Own client id",
+                    "value": "1edb0e3b-0030-40b6-9c98-73336950a21e"
+                },
+                {
+                    "name": "Can send",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": "SocketProtocolError"
+                }
+            ]
+        },
+        {
+            "opId": "0ac88fc4-3d8a-4dd4-a5ae-f196d0303580",
+            "id": "vlu3a4jox",
+            "uiAttribs": {
+                "translate": {
+                    "x": -2124.4583374252006,
+                    "y": -610.9821336855938
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "topic",
+                    "value": "midi_send"
+                },
+                {
+                    "name": "Receive Own Data",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "client id",
+                    "value": "86ed72c7-2e39-4fb7-b7c6-490060cdcc08"
+                },
+                {
+                    "name": "data",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "data",
+                            "objIn": "r54aw8169",
+                            "objOut": "vlu3a4jox"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "r54aw8169",
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -2100.336399292273,
+                    "y": -549.5745754356935
+                },
+                "extendTitle": null
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "7b3d0e25-e654-4fc8-b58e-ec46686c8f62",
+            "id": "nt5lw1zvx",
+            "uiAttribs": {
+                "translate": {
+                    "x": -2349.0992710014716,
+                    "y": -577.3148231609615
+                },
+                "extendTitle": 0
+            },
+            "portsIn": [
+                {
+                    "name": "SC Topic Filter",
+                    "value": "midi_send"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Output Device index",
+                    "value": 0
+                },
+                {
+                    "name": "Output Device",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Debug Info",
+                    "value": "Subscribed to: touchOSC-Midi-out/objects (Topic: midi_send)"
                 }
             ]
         }
@@ -386,8 +1399,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 547,
-            "h": 322,
+            "w": 423,
+            "h": 170,
             "s": 1
         },
         "timeline": {},
@@ -395,9 +1408,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -170.02566143646905,
-                "y": -987.0378538053629,
-                "z": 1199.1255130493887
+                "x": -2025.990004388346,
+                "y": -683.1948412713299,
+                "z": 1000.0900009494856
             }
         },
         "outline": {
@@ -418,7 +1431,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "11a7e7ed64955be9a15af96be840deb3c6f0821c",
+    "opsHash": "2504e438c7ed3394e074e4a4a8fe848a9a1fc88e",
     "buildInfo": {
         "updateWarning": false,
         "core": {

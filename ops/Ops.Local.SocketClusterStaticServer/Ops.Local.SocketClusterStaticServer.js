@@ -23,6 +23,7 @@ let lastRootDirInput = null;
 const MIME_TYPES = {
     '.html': 'text/html',
     '.js': 'text/javascript',
+    '.mjs': 'text/javascript',
     '.css': 'text/css',
     '.json': 'application/json',
     '.png': 'image/png',
@@ -35,7 +36,8 @@ const MIME_TYPES = {
     '.ttf': 'application/font-ttf',
     '.eot': 'application/vnd.ms-fontobject',
     '.otf': 'application/font-otf',
-    '.wasm': 'application/wasm'
+    '.wasm': 'application/wasm',
+    '.task': 'application/octet-stream'
 };
 
 function resolveRootDir(p) {
@@ -79,6 +81,17 @@ function handleHttpRequest(req, res) {
     // If headers already sent (by SocketCluster or previous listener), do nothing
     if (res.headersSent || res.writableEnded) return;
 
+    // Add CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
     const scPath = inPath.get() || "/socketcluster/";
     const urlStr = req.url.split('?')[0];
 
@@ -114,6 +127,39 @@ function handleHttpRequest(req, res) {
         res.writeHead(302, { 'Location': loc });
         res.end();
         return;
+    }
+
+    // 2b. MediaPipe dedicated routes
+    if (urlStr.startsWith('/mediapipe/')) {
+        let mpPath = "";
+        const projectRoot = resolveRootDir(".");
+        
+        if (urlStr === '/mediapipe/vision_bundle.mjs') {
+            mpPath = path.join(projectRoot, "ops/Ops.Local.MediaPipePose/tasks-vision/vision_bundle.mjs");
+        } else if (urlStr.startsWith('/mediapipe/wasm/')) {
+            const fileName = urlStr.replace('/mediapipe/wasm/', '');
+            mpPath = path.join(projectRoot, "ops/Ops.Local.MediaPipePose/tasks-vision/wasm/", fileName);
+        } else if (urlStr.startsWith('/mediapipe/models/')) {
+            const fileName = urlStr.replace('/mediapipe/models/', '');
+            mpPath = path.join(projectRoot, "ops/Ops.Local.MediaPipePose/models/", fileName);
+        }
+
+        if (mpPath && fs.existsSync(mpPath)) {
+            const ext = path.extname(mpPath).toLowerCase();
+            const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+            fs.readFile(mpPath, (err, content) => {
+                if (err) { res.writeHead(500); res.end("Error reading MediaPipe file"); }
+                else { res.writeHead(200, { 'Content-Type': contentType }); res.end(content); }
+            });
+            return;
+        } else if (mpPath) {
+            const errorMsg = "MediaPipe file not found: " + urlStr + " (Resolved to: " + mpPath + ")";
+            console.error("[SocketClusterServer]", errorMsg);
+            outError.set(errorMsg); 
+            res.writeHead(404);
+            res.end(errorMsg);
+            return;
+        }
     }
 
     // 3. Skip internal SC paths (let them hang or 404 if SC didn't catch them, but we'll 404 at the end)
@@ -202,6 +248,9 @@ function startServer() {
 
     // 2. Add our request listener AFTER SC
     httpServer.on("request", handleHttpRequest);
+
+    const projectRoot = resolveRootDir(inRootDir.get());
+    op.log("Project root resolved to: " + projectRoot);
 
     try {
         httpServer.listen(inPort.get(), inHost.get(), () => {

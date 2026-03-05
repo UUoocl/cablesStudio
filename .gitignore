@@ -2,3 +2,6 @@ Examples/
 ops/Ops.Local.ObsConnect/node_modules/
 ops/Ops.Local.SocketClusterStaticServer/node_modules/
 .DS_Store
+ops/Ops.Local.MediaPipePose/node_modules
+ops/Ops.Local.SocketClusterToMidiOutput/node_modules
+ops/Ops.Local.SocketClusterToOscSend/node_modules
