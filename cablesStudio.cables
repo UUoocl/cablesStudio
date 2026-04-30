@@ -6,7 +6,7 @@
     "userId": "69a6276a8de9cf1899ae4c20",
     "cachedUsername": "",
     "created": 1772496746294,
-    "updated": 1772673763815,
+    "updated": 1772675439274,
     "visibility": "private",
     "ops": [
         {
@@ -497,7 +497,7 @@
                 },
                 {
                     "name": "Clients",
-                    "value": 20
+                    "value": 26
                 },
                 {
                     "name": "Error",
@@ -641,7 +641,7 @@
                 },
                 {
                     "name": "Own client id",
-                    "value": "82caffe5-b69c-43f7-ac52-84cff07687b3"
+                    "value": "66ca16ea-7742-4770-aec0-9ba6826e15d4"
                 },
                 {
                     "name": "Can send",
@@ -837,7 +837,7 @@
                 },
                 {
                     "name": "Own client id",
-                    "value": "29a8835b-5746-4702-ab62-ae9d07a2b4ba"
+                    "value": "f5b85a35-5f12-4dc0-ae8d-689ee5329ea5"
                 },
                 {
                     "name": "Can send",
@@ -975,7 +975,7 @@
                 },
                 {
                     "name": "MIDI Channel",
-                    "value": 16
+                    "value": 1
                 },
                 {
                     "name": "Message Type",
@@ -983,11 +983,11 @@
                 },
                 {
                     "name": "Note",
-                    "value": 127
+                    "value": 60
                 },
                 {
                     "name": "Note Velocity",
-                    "value": 0
+                    "value": 64
                 },
                 {
                     "name": "CC Number",
@@ -1172,7 +1172,7 @@
                 },
                 {
                     "name": "Own client id",
-                    "value": "b97e1f83-1bc3-414b-8071-e79d6f20bf77"
+                    "value": "dbdd4423-9ff7-4740-9180-0470aef3ece4"
                 },
                 {
                     "name": "Can send",
@@ -1257,7 +1257,7 @@
                 },
                 {
                     "name": "Own client id",
-                    "value": "1edb0e3b-0030-40b6-9c98-73336950a21e"
+                    "value": "f41439db-8aaa-49e4-bf03-eb4541bf631e"
                 },
                 {
                     "name": "Can send",
@@ -1291,7 +1291,7 @@
             "portsOut": [
                 {
                     "name": "client id",
-                    "value": "86ed72c7-2e39-4fb7-b7c6-490060cdcc08"
+                    "value": "2b7b6af6-2724-48ff-9e4a-27ab7de5a0c3"
                 },
                 {
                     "name": "data",
@@ -1348,10 +1348,9 @@
             "id": "nt5lw1zvx",
             "uiAttribs": {
                 "translate": {
-                    "x": -2349.0992710014716,
-                    "y": -577.3148231609615
-                },
-                "extendTitle": 0
+                    "x": -2436.516414160378,
+                    "y": -581.4775442637666
+                }
             },
             "portsIn": [
                 {
@@ -1364,17 +1363,17 @@
                 },
                 {
                     "name": "Output Device index",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "Output Device",
-                    "value": 0
+                    "value": "IAC Driver Bus 1"
                 }
             ],
             "portsOut": [
                 {
                     "name": "Debug Info",
-                    "value": "Subscribed to: touchOSC-Midi-out/objects (Topic: midi_send)"
+                    "value": "[8:25:13 PM] Sent MIDI: [144,60,101] to IAC Driver Bus 1"
                 }
             ]
         }
@@ -1408,9 +1407,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -2025.990004388346,
-                "y": -683.1948412713299,
-                "z": 1000.0900009494856
+                "x": -1939.2266423865917,
+                "y": -1037.9637819859888,
+                "z": 1139.2887920329129
             }
         },
         "outline": {
@@ -1431,7 +1430,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "2504e438c7ed3394e074e4a4a8fe848a9a1fc88e",
+    "opsHash": "9ea34222354739018c61a550ee5fe5bf10600112",
     "buildInfo": {
         "updateWarning": false,
         "core": {

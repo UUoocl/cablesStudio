@@ -1,0 +1,101 @@
+{
+    "id": "02d5d695-646b-4373-aed8-2a48e129c419",
+    "changelog": [
+        {
+            "message": "created op",
+            "author": "pandur",
+            "date": 1689248529267
+        },
+        {
+            "message": "Clear background every frame",
+            "type": "improvement",
+            "author": "pandur",
+            "date": 1712763041798
+        },
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "",
+            "date": 1773798948457
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Update"
+            },
+            {
+                "type": 0,
+                "name": "Pos X",
+                "group": "Position",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Pos Y",
+                "group": "Position",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Size",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Size",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Smoothing",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Stretch",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Title"
+            },
+            {
+                "type": 1,
+                "name": "Open Window"
+            },
+            {
+                "type": 1,
+                "name": "Fullscreen"
+            },
+            {
+                "type": 1,
+                "name": "Close"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Element",
+                "objType": "element"
+            }
+        ]
+    },
+    "authorName": "",
+    "created": 1773798948456,
+    "summary": "Open a new window that shows a copy of the patch canvas",
+    "docs": {
+        "ports": []
+    },
+    "license": "MIT",
+    "coreLibs": [
+        "cgl"
+    ]
+}
