@@ -9,6 +9,9 @@ Provides offline, high-performance computer vision capabilities using Google's M
 - **FaceLandmarker**: Detects detailed face landmarks and blendshapes from a video or image texture.
 - **HandLandmarker**: Tracks hand positions, skeletal structures, and gestures in real-time.
 - **PoseLandmarker**: Performs full-body skeletal tracking for motion analysis and interaction.
+Video example
+
+https://github.com/user-attachments/assets/94d5deb8-cff3-42bc-ac68-60818ae5247b
 
 ### 2. OBS WebSocket Standalone
 Enables direct control and automation of OBS Studio via the WebSocket v5 protocol.
