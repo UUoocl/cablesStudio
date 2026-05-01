@@ -1,0 +1,23 @@
+{
+    "id": "a1b2c3d4-1111-4444-aaaa-000000000001",
+    "name": "Ops.Extension.Standalone.PythonConfig",
+    "summary": "Configures Python install location and manages Python IO.",
+    "authorName": "Antigravity",
+    "created": 1714204800000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": ["standalone_electron"],
+    "layout": {
+        "portsIn": [
+            { "type": 5, "name": "Python Install Location" },
+            { "type": 1, "name": "Start Engine" },
+            { "type": 1, "name": "Stop Engine" }
+        ],
+        "portsOut": [
+            { "type": 5, "name": "Status" },
+            { "type": 0, "name": "Found", "subType": "boolean" },
+            { "type": 1, "name": "On Started" },
+            { "type": 1, "name": "On Stopped" }
+        ]
+    }
+}

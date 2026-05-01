@@ -1,0 +1,371 @@
+{
+    "_id": "abc123def456",
+    "name": "python_standalone",
+    "ops": [
+        {
+            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
+            "id": "python_config_1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 0,
+                    "y": -200
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Python Install Location",
+                    "value": "/usr/bin/python3"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Found: Python 3.9.6"
+                },
+                {
+                    "name": "Found",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-2222-4444-aaaa-000000000002",
+            "id": "python_mouse_1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -47,
+                    "y": -93.00228098182237
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/syphon-out-user-op/cables_python_standalone_patch/pythonScripts/mouse_monitor_cables.py"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "On Update",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "On Update",
+                            "objIn": "744ozn2oe",
+                            "objOut": "python_mouse_1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Click",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Pos X",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Pos X",
+                            "objIn": "5rp7k7q0t",
+                            "objOut": "python_mouse_1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos Y",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Pos Y",
+                            "objIn": "y7m6b0hcs",
+                            "objOut": "python_mouse_1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Scroll Delta",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Scroll Delta",
+                            "objIn": "hduifacey",
+                            "objOut": "python_mouse_1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-3333-4444-aaaa-000000000003",
+            "id": "python_keyboard_1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 148.49754430058704,
+                    "y": -40.83207914657294
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/syphon-out-user-op/cables_python_standalone_patch/pythonScripts/keyboard_monitor_cables.py"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Trigger",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "Trigger",
+                            "objIn": "bkabu878x",
+                            "objOut": "python_keyboard_1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Last Single Key",
+                    "value": "s"
+                },
+                {
+                    "name": "Last Key Combination",
+                    "links": [
+                        {
+                            "portIn": "value",
+                            "portOut": "Last Key Combination",
+                            "objIn": "lrlk9ipsq",
+                            "objOut": "python_keyboard_1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-4444-4444-aaaa-000000000004",
+            "id": "python_uvc_1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -47,
+                    "y": 142.33589629806585
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/syphon-out-user-op/cables_python_standalone_patch/pythonScripts/uvc_util_bridge_cables.py"
+                },
+                {
+                    "name": "UVC Camera Target",
+                    "value": "default"
+                },
+                {
+                    "name": "Poll Rate Per Second",
+                    "value": 30
+                },
+                {
+                    "name": "Camera Control Command",
+                    "value": "{}"
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "5rp7k7q0t",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": -77.28654220724798,
+                    "y": -11.489735581799323
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 4123
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "y7m6b0hcs",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": -74.29110417089277,
+                    "y": 32.424104759056064
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 346
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "hduifacey",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": -60.20546153362568,
+                    "y": 78.6561502619862
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "e640619f-235c-4543-bbf8-b358e0283180",
+            "id": "bkabu878x",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 148,
+                    "y": 19.143955556313927
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "timesTriggered",
+                    "value": 4
+                }
+            ]
+        },
+        {
+            "opId": "e640619f-235c-4543-bbf8-b358e0283180",
+            "id": "744ozn2oe",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -153.5025140153046,
+                    "y": -142.85465836132408
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "timesTriggered",
+                    "value": 511
+                }
+            ]
+        },
+        {
+            "opId": "eff161f2-6fe2-43a5-a884-af7e7a19a523",
+            "id": "lrlk9ipsq",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 100,
+                "width": 250,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 172.49754430058704,
+                    "y": 76.38366923027613
+                },
+                "extendTitle": ""
+            },
+            "portsOut": [
+                {
+                    "name": "String",
+                    "value": "cmd + s"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 461,
+            "h": 235,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 411.5723845724066,
+                "y": 124.26684472121747,
+                "z": 799.3635007412008
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "python_standalone"
+    },
+    "updated": 1777505447787,
+    "updatedByUser": "",
+    "opsHash": "7bb545ebd70b63b0a323ff20c2dd594cc9dd92c8",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1777512526532,
+            "created": "2026-04-30T01:28:46.532Z",
+            "git": {
+                "branch": "develop",
+                "commit": "db53c3e811af6d141da6584ec3ca94aeb6392246",
+                "date": "1777480946",
+                "message": "gltf parse"
+            }
+        },
+        "ui": {
+            "timestamp": 1777512532169,
+            "created": "2026-04-30T01:28:52.169Z",
+            "git": {
+                "branch": "develop",
+                "commit": "45ce300547134b86a592a65d9ce08c50d359a46f",
+                "date": "1777401508",
+                "message": "cm update"
+            }
+        },
+        "api": {
+            "timestamp": 1777516652430,
+            "created": "2026-04-30T02:37:32.430Z",
+            "git": {
+                "branch": "develop",
+                "commit": "355b19805aebeb4d00b1f0372185b757d2882e8d",
+                "date": "1777394432",
+                "message": "relative paths in patchexport - cables-gl/cables/issues/7898"
+            },
+            "platform": {
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            }
+        }
+    },
+    "exports": 1
+}

@@ -1,0 +1,30 @@
+{
+    "id": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a2",
+    "name": "Ops.Extension.Standalone.SyphonOut",
+    "summary": "Publishes a texture to Syphon via IOSurface for OBS (Standalone only).",
+    "authorName": "Antigravity",
+    "created": 1713792000000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 5,
+                "name": "Server Name"
+            }
+        ],
+        "portsOut": []
+    }
+}

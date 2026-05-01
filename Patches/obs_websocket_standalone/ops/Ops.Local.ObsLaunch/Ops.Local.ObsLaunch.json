@@ -1,0 +1,61 @@
+{
+    "id": "7f8a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+    "authorName": "Cables GL",
+    "description": "Launch OBS Studio with specific arguments for remote control.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "App Name"
+            },
+            {
+                "type": 5,
+                "name": "App Path"
+            },
+            {
+                "type": 5,
+                "name": "Collection"
+            },
+            {
+                "type": 5,
+                "name": "Debug Port"
+            },
+            {
+                "type": 5,
+                "name": "WSS Port"
+            },
+            {
+                "type": 5,
+                "name": "WSS Password"
+            },
+            {
+                "type": 1,
+                "name": "Generate Password"
+            },
+            {
+                "type": 1,
+                "name": "Launch OBS"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Success",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "OBS Port",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Password"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}

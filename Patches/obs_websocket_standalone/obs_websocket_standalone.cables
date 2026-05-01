@@ -1,0 +1,320 @@
+{
+    "updated": 1777603890251,
+    "ops": [
+        {
+            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+            "id": "61poxco1m",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -365,
+                    "y": -260.4446497202301
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Request Type",
+                    "value": "SetCurrentProgramScene"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 0
+                },
+                {
+                    "name": "Error",
+                    "value": "Not connected to OBS"
+                }
+            ]
+        },
+        {
+            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
+            "id": "ksbl7liwc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -524.9275323346437,
+                    "y": -328.964667464914
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Clear",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "zpfon4uu0",
+                            "objOut": "ksbl7liwc"
+                        },
+                        {
+                            "portIn": "Send Request",
+                            "portOut": "Next",
+                            "objIn": "61poxco1m",
+                            "objOut": "ksbl7liwc"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Request Data",
+                            "portOut": "Result",
+                            "objIn": "61poxco1m",
+                            "objOut": "ksbl7liwc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "zpfon4uu0",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -524.9275323346437,
+                    "y": -222.20693163027144
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "sceneName"
+                },
+                {
+                    "name": "String",
+                    "value": "Scene 2"
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "ja36z7xx9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -506.37965872930965,
+                    "y": -443.2759727993926
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "ksbl7liwc",
+                            "objOut": "ja36z7xx9"
+                        },
+                        {
+                            "portIn": "Generate Password",
+                            "portOut": "Next",
+                            "objIn": "8ipbi85we",
+                            "objOut": "ja36z7xx9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+            "id": "ovs656on7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -377,
+                    "y": -322.05311139592715
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "IP",
+                    "value": "localhost"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connected",
+                    "value": 0
+                },
+                {
+                    "name": "obsConnection",
+                    "links": [
+                        {
+                            "portIn": "obsConnection",
+                            "portOut": "obsConnection",
+                            "objIn": "61poxco1m",
+                            "objOut": "ovs656on7"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "7f8a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+            "id": "8ipbi85we",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -377,
+                    "y": -398.83001113628217
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "App Name",
+                    "value": "OBS"
+                },
+                {
+                    "name": "App Path",
+                    "value": ""
+                },
+                {
+                    "name": "Collection",
+                    "value": "teest"
+                },
+                {
+                    "name": "Debug Port",
+                    "value": "9222"
+                },
+                {
+                    "name": "WSS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "WSS Password",
+                    "value": "7ea083a2-14e6-415b-88ac-55d801407eaf"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 0
+                },
+                {
+                    "name": "OBS Port",
+                    "links": [
+                        {
+                            "portIn": "Port",
+                            "portOut": "OBS Port",
+                            "objIn": "ovs656on7",
+                            "objOut": "8ipbi85we"
+                        }
+                    ]
+                },
+                {
+                    "name": "Password",
+                    "links": [
+                        {
+                            "portIn": "Password",
+                            "portOut": "Password",
+                            "objIn": "ovs656on7",
+                            "objOut": "8ipbi85we"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "variables": [],
+    "settings": {
+        "canvasWidth": 1280,
+        "canvasHeight": 720
+    },
+    "name": "obs_websocket_standalone",
+    "summary": {
+        "title": "obs_websocket_standalone"
+    },
+    "opsHash": "258489a5e8cb7815c5fec9e2826d20fcb337b576",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1776324955053,
+            "created": "2026-04-16T07:35:55.053Z",
+            "git": {
+                "branch": "develop",
+                "commit": "12ef888bd62e6ea8da6563fbefb7caba61bf5f7b",
+                "date": "1776243540",
+                "message": "npe"
+            }
+        },
+        "ui": {
+            "timestamp": 1776324973976,
+            "created": "2026-04-16T07:36:13.976Z",
+            "git": {
+                "branch": "develop",
+                "commit": "7f071424980705b1abdd9b2e437e09d855584a37",
+                "date": "1776268840",
+                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+            }
+        },
+        "api": {
+            "timestamp": 1776324993785,
+            "created": "2026-04-16T07:36:33.785Z",
+            "git": {
+                "branch": "develop",
+                "commit": "7f6cf2230c2e20500f5917c94e60f6c7e7970662",
+                "date": "1776268492",
+                "message": "send new patchdir to client on initial save - cables-gl/cables/issues/8218"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.6"
+        }
+    },
+    "updatedByUser": "",
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -375.5097553737433,
+                "y": -510.31534163226837,
+                "z": 361.93418224462687
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    }
+}

@@ -1,0 +1,74 @@
+{
+    "id": "e5b5b5b5-b5b5-4b5b-b5b5-b5b5b5b5b5b5",
+    "created": 1730300000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1730300000000
+        },
+        {
+            "message": "added canvas and texture outputs",
+            "type": "improvement",
+            "author": "Antigravity",
+            "date": 1730300700000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "P5 Library Path"
+            },
+            {
+                "type": 5,
+                "name": "Sketch File"
+            },
+            {
+                "type": 2,
+                "name": "Input Data"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 1,
+                "name": "Manual Reload"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Rendered Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Output Data",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron",
+        "cgl"
+    ],
+    "summary": "Run a P5.js sketch in instance mode and output the resulting canvas and WebGL texture",
+    "docs": {
+        "ports": []
+    },
+    "isReleased": true
+}

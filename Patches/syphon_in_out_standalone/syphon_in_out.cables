@@ -1,0 +1,74 @@
+{
+    "_id": "69e8f4c1943b6a4acb1340a1",
+    "name": "syphon_in_out",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "jdtjmgcqb",
+            "uiAttribs": { "translate": { "x": -210, "y": -200 } },
+            "portsIn": [
+                { "name": "Max Pixel Density (DPR)", "value": 2 },
+                { "name": "Active", "value": 1 }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "syphonin_1",
+                            "objOut": "jdtjmgcqb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a3",
+            "id": "syphonin_1",
+            "uiAttribs": { "translate": { "x": -210, "y": -100 } },
+            "portsIn": [
+                { "name": "Server", "value": "None" }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture",
+                            "objIn": "syphonout_1",
+                            "objOut": "syphonin_1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Found",
+                            "objIn": "syphonout_1",
+                            "objOut": "syphonin_1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a2",
+            "id": "syphonout_1",
+            "uiAttribs": { "translate": { "x": -210, "y": 0 } },
+            "portsIn": [
+                { "name": "Server Name", "value": "Cables_Repeater" }
+            ]
+        }
+    ],
+    "settings": { "licence": "none" },
+    "ui": {
+        "viewBox": {},
+        "renderer": { "w": 800, "h": 600, "s": 1 }
+    },
+    "summary": { "title": "Syphon In & Out Mock Patch" }
+}

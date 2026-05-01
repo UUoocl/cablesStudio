@@ -1,0 +1,50 @@
+{
+    "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "authorName": "Cables GL",
+    "description": "Connect to OBS Studio via WebSocket v5 protocol.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "IP"
+            },
+            {
+                "type": 0,
+                "name": "Port",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Password"
+            },
+            {
+                "type": 1,
+                "name": "Connect"
+            },
+            {
+                "type": 1,
+                "name": "Disconnect"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "obsConnection",
+                "objType": "obsConnection"
+            },
+            {
+                "type": 2,
+                "name": "Obs event"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}

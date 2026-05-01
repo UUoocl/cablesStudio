@@ -1,0 +1,63 @@
+{
+    "id": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a3",
+    "name": "Ops.Extension.Standalone.SyphonIn",
+    "summary": "Receives a texture from a Syphon server (Standalone only).",
+    "authorName": "Antigravity",
+    "created": 1714204800000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 5,
+                "name": "Server",
+                "values": [
+                    "None",
+                    "OBS Studio: OBSSyphon",
+                    "cables Helper (Renderer): Cables_Repeater"
+                ]
+            },
+            {
+                "type": 5,
+                "name": "Manual Server Name"
+            },
+            {
+                "type": 5,
+                "name": "Manual App Name"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Found",
+                "subType": "boolean"
+            }
+        ]
+    }
+}
