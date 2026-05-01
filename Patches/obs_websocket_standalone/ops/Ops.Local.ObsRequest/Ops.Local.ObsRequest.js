@@ -10,14 +10,14 @@ const
 
 inRequest.onTriggered = async () => {
     const obs = inObs.get();
-    if (!obs || !obs.obsInstance) {
+    if (!obs) {
         outError.set("Not connected to OBS");
         outSuccess.set(false);
         return;
     }
 
     try {
-        const response = await obs.obsInstance.call(inType.get(), inData.get() || {});
+        const response = await obs.call(inType.get(), inData.get() || {});
         outResult.set(response);
         outSuccess.set(true);
         outError.set("");

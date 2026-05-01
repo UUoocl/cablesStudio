@@ -1,7 +1,7 @@
 {
-    "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "id": "f8a9b0c1-d2e3-4f4a-b5c6-d7e8f9a0b1c2",
     "authorName": "Cables GL",
-    "description": "Send a request to OBS Studio via WebSocket v5 protocol.",
+    "description": "Send multiple requests to OBS in a single batch at a controlled rate.",
     "layout": {
         "portsIn": [
             {
@@ -10,27 +10,28 @@
                 "objType": "obsConnection"
             },
             {
-                "type": 5,
-                "name": "Request Type"
+                "type": 0,
+                "name": "Request Rate (Hz)",
+                "subType": "number"
             },
             {
                 "type": 2,
-                "name": "Request Data"
+                "name": "Request Object"
             },
             {
                 "type": 1,
-                "name": "Send Request"
+                "name": "Add to Batch"
             }
         ],
         "portsOut": [
             {
+                "type": 2,
+                "name": "Results"
+            },
+            {
                 "type": 0,
                 "name": "Success",
                 "subType": "boolean"
-            },
-            {
-                "type": 2,
-                "name": "Result"
             },
             {
                 "type": 5,

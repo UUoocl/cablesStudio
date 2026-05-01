@@ -1,33 +1,6 @@
 {
-    "updated": 1777603890251,
+    "updated": 1777636441720,
     "ops": [
-        {
-            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
-            "id": "61poxco1m",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -365,
-                    "y": -260.4446497202301
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Request Type",
-                    "value": "SetCurrentProgramScene"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Success",
-                    "value": 0
-                },
-                {
-                    "name": "Error",
-                    "value": "Not connected to OBS"
-                }
-            ]
-        },
         {
             "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
             "id": "ksbl7liwc",
@@ -57,7 +30,7 @@
                         {
                             "portIn": "Send Request",
                             "portOut": "Next",
-                            "objIn": "61poxco1m",
+                            "objIn": "rvrqooref",
                             "objOut": "ksbl7liwc"
                         }
                     ]
@@ -68,7 +41,7 @@
                         {
                             "portIn": "Request Data",
                             "portOut": "Result",
-                            "objIn": "61poxco1m",
+                            "objIn": "rvrqooref",
                             "objOut": "ksbl7liwc"
                         }
                     ]
@@ -103,8 +76,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -506.37965872930965,
-                    "y": -443.2759727993926
+                    "x": -524.9275323346437,
+                    "y": -438.3145643417053
                 }
             },
             "portsOut": [
@@ -116,52 +89,8 @@
                             "portOut": "Next",
                             "objIn": "ksbl7liwc",
                             "objOut": "ja36z7xx9"
-                        },
-                        {
-                            "portIn": "Generate Password",
-                            "portOut": "Next",
-                            "objIn": "8ipbi85we",
-                            "objOut": "ja36z7xx9"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
-            "id": "ovs656on7",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -377,
-                    "y": -322.05311139592715
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "IP",
-                    "value": "localhost"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Connected",
-                    "value": 0
-                },
-                {
-                    "name": "obsConnection",
-                    "links": [
-                        {
-                            "portIn": "obsConnection",
-                            "portOut": "obsConnection",
-                            "objIn": "61poxco1m",
-                            "objOut": "ovs656on7"
-                        }
-                    ]
-                },
-                {
-                    "name": "Error",
-                    "value": ""
                 }
             ]
         },
@@ -204,7 +133,7 @@
             "portsOut": [
                 {
                     "name": "Success",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "OBS Port",
@@ -212,7 +141,13 @@
                         {
                             "portIn": "Port",
                             "portOut": "OBS Port",
-                            "objIn": "ovs656on7",
+                            "objIn": "n4pfhf52w",
+                            "objOut": "8ipbi85we"
+                        },
+                        {
+                            "portIn": "Port",
+                            "portOut": "OBS Port",
+                            "objIn": "l4k9qibjz",
                             "objOut": "8ipbi85we"
                         }
                     ]
@@ -223,10 +158,259 @@
                         {
                             "portIn": "Password",
                             "portOut": "Password",
-                            "objIn": "ovs656on7",
+                            "objIn": "n4pfhf52w",
+                            "objOut": "8ipbi85we"
+                        },
+                        {
+                            "portIn": "Password",
+                            "portOut": "Password",
+                            "objIn": "l4k9qibjz",
                             "objOut": "8ipbi85we"
                         }
                     ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e7f8a9b0-c1d2-4e3f-a4b5-c6d7e8f9a0b1",
+            "id": "2ph82341q",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -206.17976593424558,
+                    "y": -262.16299362003554
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Event Type",
+                    "value": "InputVolumeMeters"
+                }
+            ]
+        },
+        {
+            "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+            "id": "n4pfhf52w",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -377,
+                    "y": -329.9913649282268
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "IP",
+                    "value": "localhost"
+                },
+                {
+                    "name": "Connection Name",
+                    "value": "Default"
+                },
+                {
+                    "name": "Sub General",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Config",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Scenes",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Inputs",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Transitions",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Filters",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Outputs",
+                    "value": 0
+                },
+                {
+                    "name": "Sub SceneItems",
+                    "value": 0
+                },
+                {
+                    "name": "Sub MediaInputs",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Vendors",
+                    "value": 0
+                },
+                {
+                    "name": "Sub UI",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Volume Meters",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Active",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Show",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Item Transform",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connected",
+                    "value": 0
+                },
+                {
+                    "name": "obsConnection",
+                    "links": [
+                        {
+                            "portIn": "obsConnection",
+                            "portOut": "obsConnection",
+                            "objIn": "2ph82341q",
+                            "objOut": "n4pfhf52w"
+                        },
+                        {
+                            "portIn": "obsConnection",
+                            "portOut": "obsConnection",
+                            "objIn": "rvrqooref",
+                            "objOut": "n4pfhf52w"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+            "id": "l4k9qibjz",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -112.36804837295887,
+                    "y": -328.6469131307218
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "IP",
+                    "value": "localhost"
+                },
+                {
+                    "name": "Connection Name",
+                    "value": "Defcault"
+                },
+                {
+                    "name": "Sub General",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Config",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Scenes",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Inputs",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Transitions",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Filters",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Outputs",
+                    "value": 0
+                },
+                {
+                    "name": "Sub SceneItems",
+                    "value": 0
+                },
+                {
+                    "name": "Sub MediaInputs",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Vendors",
+                    "value": 0
+                },
+                {
+                    "name": "Sub UI",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Volume Meters",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Active",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Input Show",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Item Transform",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connected",
+                    "value": 0
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+            "id": "rvrqooref",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -365,
+                    "y": -260.4446497202301
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Request Type",
+                    "value": "SetCurrentProgramScene"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 0
                 },
                 {
                     "name": "Error",
@@ -244,7 +428,7 @@
     "summary": {
         "title": "obs_websocket_standalone"
     },
-    "opsHash": "258489a5e8cb7815c5fec9e2826d20fcb337b576",
+    "opsHash": "172469d59bb0a1cbceeb1f24c5e843b2653e4d71",
     "buildInfo": {
         "updateWarning": false,
         "core": {
@@ -297,9 +481,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -375.5097553737433,
-                "y": -510.31534163226837,
-                "z": 361.93418224462687
+                "x": -255.30075424198606,
+                "y": -599.769087183659,
+                "z": 526.9752015252132
             }
         },
         "outline": {

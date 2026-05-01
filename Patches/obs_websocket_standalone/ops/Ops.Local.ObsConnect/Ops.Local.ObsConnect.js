@@ -3030,15 +3030,44 @@ const
     inIp = op.inString("IP", "localhost"),
     inPort = op.inFloat("Port", 4455),
     inPass = op.inString("Password", ""),
+    inName = op.inString("Connection Name", "Default"),
     inConnect = op.inTriggerButton("Connect"),
     inDisconnect = op.inTriggerButton("Disconnect"),
-    
+
+    inSubGeneral = op.inBool("Sub General", true),
+    inSubConfig = op.inBool("Sub Config", true),
+    inSubScenes = op.inBool("Sub Scenes", true),
+    inSubInputs = op.inBool("Sub Inputs", true),
+    inSubTransitions = op.inBool("Sub Transitions", true),
+    inSubFilters = op.inBool("Sub Filters", true),
+    inSubOutputs = op.inBool("Sub Outputs", true),
+    inSubSceneItems = op.inBool("Sub SceneItems", true),
+    inSubMediaInputs = op.inBool("Sub MediaInputs", true),
+    inSubVendors = op.inBool("Sub Vendors", true),
+    inSubUi = op.inBool("Sub UI", true),
+
+    inSubVol = op.inBool("Sub Volume Meters", false),
+    inSubActive = op.inBool("Sub Input Active", false),
+    inSubShow = op.inBool("Sub Input Show", false),
+    inSubTransform = op.inBool("Sub Item Transform", false),
+
     outConnected = op.outBoolNum("Connected", false),
     outObs = op.outObject("obsConnection", null, "obsConnection"),
     outEvent = op.outObject("Obs event", null),
     outError = op.outString("Error", "");
 
+[
+    inSubGeneral, inSubConfig, inSubScenes, inSubInputs,
+    inSubTransitions, inSubFilters, inSubOutputs, inSubSceneItems,
+    inSubMediaInputs, inSubVendors, inSubUi,
+    inSubVol, inSubActive, inSubShow, inSubTransform
+].forEach((p) => { p.setUiAttribs({ group: "Subscriptions" }); });
+
 op.obsInstance = null;
+
+inName.onChange = () => {
+    op.setUiAttrib({ extendTitle: inName.get() });
+};
 
 async function doConnect() {
     const url = "ws://" + inIp.get() + ":" + inPort.get();
@@ -3048,28 +3077,49 @@ async function doConnect() {
         await doDisconnect();
     }
 
+    let subs = 0;
+    if (inSubGeneral.get()) subs |= OBSWebSocket.EventSubscription.General;
+    if (inSubConfig.get()) subs |= OBSWebSocket.EventSubscription.Config;
+    if (inSubScenes.get()) subs |= OBSWebSocket.EventSubscription.Scenes;
+    if (inSubInputs.get()) subs |= OBSWebSocket.EventSubscription.Inputs;
+    if (inSubTransitions.get()) subs |= OBSWebSocket.EventSubscription.Transitions;
+    if (inSubFilters.get()) subs |= OBSWebSocket.EventSubscription.Filters;
+    if (inSubOutputs.get()) subs |= OBSWebSocket.EventSubscription.Outputs;
+    if (inSubSceneItems.get()) subs |= OBSWebSocket.EventSubscription.SceneItems;
+    if (inSubMediaInputs.get()) subs |= OBSWebSocket.EventSubscription.MediaInputs;
+    if (inSubVendors.get()) subs |= OBSWebSocket.EventSubscription.Vendors;
+    if (inSubUi.get()) subs |= OBSWebSocket.EventSubscription.Ui;
+
+    if (inSubVol.get()) subs |= OBSWebSocket.EventSubscription.InputVolumeMeters;
+    if (inSubActive.get()) subs |= OBSWebSocket.EventSubscription.InputActiveStateChanged;
+    if (inSubShow.get()) subs |= OBSWebSocket.EventSubscription.InputShowStateChanged;
+    if (inSubTransform.get()) subs |= OBSWebSocket.EventSubscription.SceneItemTransformChanged;
+
     // Use the embedded OBSWebSocket
     try {
         op.obsInstance = new OBSWebSocket();
-        
+
         // Catch all events emitted by the instance
         const originalEmit = op.obsInstance.emit;
-        op.obsInstance.emit = function(event, data) {
+        op.obsInstance.emit = function (event, data) {
             // Ignore internal lifecycle events
-            if (event !== "ConnectionOpened" && event !== "Hello" && event !== "Identified" && event !== "ConnectionClosed" && event !== "ConnectionError") {
-                 outEvent.set({ eventType: event, eventData: data });
+            if (event !== "ConnectionOpened" && event !== "Hello" && event !== "Identified" && event !== "ConnectionClosed" && event !== "ConnectionError" && event !== "__anyEvent") {
+                outEvent.set({ eventType: event, eventData: data });
+                originalEmit.call(this, "__anyEvent", { eventType: event, eventData: data });
             }
             return originalEmit.apply(this, arguments);
         };
 
-        await op.obsInstance.connect(url, password);
+        await op.obsInstance.connect(url, password, { eventSubscriptions: subs });
         outConnected.set(true);
-        outObs.set(op);
+        outObs.set(op.obsInstance);
         outError.set("");
+        op.setUiAttrib({ extendTitle: inName.get() });
         op.log("Connected to OBS at " + url);
     } catch (e) {
         op.logError("OBS Connection Error: ", e);
         outConnected.set(false);
+        outObs.set(null);
         outError.set(e.message || "Unknown error");
     }
 }
@@ -3078,10 +3128,11 @@ async function doDisconnect() {
     if (op.obsInstance) {
         try {
             await op.obsInstance.disconnect();
-        } catch (e) {}
+        } catch (e) { }
         op.obsInstance = null;
     }
     outConnected.set(false);
+    outObs.set(null);
 }
 
 inConnect.onTriggered = doConnect;
