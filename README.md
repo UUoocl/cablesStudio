@@ -19,6 +19,8 @@ Enables direct control and automation of OBS Studio via the WebSocket v5 protoco
 - **ObsConnect**: Establishes a persistent connection to OBS and broadcasts real-time server events.
 - **ObsRequest**: Composes and sends arbitrary requests to control scenes, sources, and settings in OBS.
 
+https://github.com/user-attachments/assets/23b2c86b-44c5-4024-9fc8-cf518a19ee42
+
 ### 3. P5.js Standalone
 Integrates the creative coding power of P5.js directly into the Cables GL rendering pipeline.
 - **P5Instance**: Executes P5.js sketches in instance mode and shares the resulting canvas as a high-performance texture.
@@ -29,6 +31,8 @@ Bridges Cables with Python to access system-wide input monitoring and specialize
 - **PythonGlobalKeyboardMonitor**: Listens for system-wide keyboard events and keystrokes regardless of window focus.
 - **PythonGlobalMouseMonitor**: Tracks global mouse coordinates and button clicks across the entire desktop.
 - **PythonUvcPtzControl**: Manages Pan, Tilt, and Zoom operations for UVC-compatible cameras through native commands.
+
+https://github.com/user-attachments/assets/29ab12af-3d3f-43de-bddc-a37ac925ef1f
 
 ### 5. Syphon In/Out Standalone (macOS)
 Facilitates real-time video sharing between Cables and other macOS creative software.
