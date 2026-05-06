@@ -1,1 +1,9 @@
 .DS_Store
+Patches/VisionBundle_2.cables
+Patches/mediaPipe_bundle/libs/mediapipe/
+Patches/mediaPipe_bundle/models/
+Patches/mediaPipe_bundle/ops/Ops.User.FaceLandmarker.standalone/
+Patches/mediaPipe_bundle/ops/Ops.User.HandLandmarker.standalone/
+Patches/mediaPipe_bundle/ops/Ops.User.PoseLandmarker.standalone/
+Patches/mediaPipe_bundle/ops/Ops.User.MediaPipe.VisionBundle.zip
+Patches/mediaPipe_bundle/mediapipe_bundle_test.cables
