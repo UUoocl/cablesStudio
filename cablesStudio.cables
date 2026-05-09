@@ -1,0 +1,590 @@
+{
+    "_id": "69ff4a5b55accb86e01c67d9",
+    "shortId": "L2Gq8j",
+    "name": "cablesStudio",
+    "description": "",
+    "userId": "69ff4a5b713d18e17f1752a2",
+    "cachedUsername": "",
+    "created": 1778338395154,
+    "updated": 1778363643313,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "fls3at9do",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -343.71389013215565,
+                    "y": -627.0418948175916
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "n2xrt203o",
+                            "objOut": "fls3at9do"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 406
+                },
+                {
+                    "name": "height",
+                    "value": 298
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a2",
+            "id": "1bp9pt2g9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -128.5421126743597,
+                    "y": -249.98763470551899
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Server Name",
+                    "value": "Cables_Output"
+                }
+            ]
+        },
+        {
+            "opId": "a8b50e2ddc9943efb387052637738f73",
+            "id": "pvrzbnwek",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -300.4444501868972,
+                    "y": -487.4290536083606
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Model index",
+                    "value": 2
+                },
+                {
+                    "name": "Model",
+                    "value": "pose_landmarker_heavy.task"
+                },
+                {
+                    "name": "Vision Module URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.MediaPipe/libs/mediapipe/vision_bundle.js"
+                },
+                {
+                    "name": "Vision WASM URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.MediaPipe/libs/mediapipe/wasm/"
+                },
+                {
+                    "name": "Model URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.MediaPipe/models/pose_landmarker_lite.task"
+                },
+                {
+                    "name": "Num Poses",
+                    "value": 1
+                },
+                {
+                    "name": "Min Confidence",
+                    "value": 0.5
+                },
+                {
+                    "name": "Output Format index",
+                    "value": 0
+                },
+                {
+                    "name": "Output Format",
+                    "value": "MediaPipe"
+                },
+                {
+                    "name": "Fail-Safe Polling",
+                    "value": 1
+                },
+                {
+                    "name": "Interval (ms)",
+                    "value": 100
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Found",
+                    "value": 1
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Input Data",
+                            "portOut": "Result",
+                            "objIn": "g1jipcdvf",
+                            "objOut": "pvrzbnwek"
+                        }
+                    ]
+                },
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "g1jipcdvf",
+                            "objOut": "pvrzbnwek"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a3",
+            "id": "n2xrt203o",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -330.2508214275414,
+                    "y": -554.4269545550208
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Server",
+                    "value": "OBS Studio: OBS Syphon0"
+                },
+                {
+                    "name": "Manual Server Name",
+                    "value": ""
+                },
+                {
+                    "name": "Manual App Name",
+                    "value": ""
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "n2xrt203o"
+                        }
+                    ]
+                },
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "Next",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "n2xrt203o"
+                        }
+                    ]
+                },
+                {
+                    "name": "Width",
+                    "value": 256
+                },
+                {
+                    "name": "Height",
+                    "value": 144
+                },
+                {
+                    "name": "Found",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "e7154880-ee21-4884-a6e7-ee8c423e7eb3",
+            "id": "oeommdern",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -233.11604499510682,
+                    "y": -594.4238099854721
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Is Running",
+                    "value": 1
+                },
+                {
+                    "name": "Server Ready",
+                    "links": [
+                        {
+                            "portIn": "Reload",
+                            "portOut": "Server Ready",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "oeommdern"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2fbada6b-70fa-4b43-87db-8b0d9293990b",
+            "id": "uae894afc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -252.69822720339573,
+                    "y": -369.61343866889405
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "filter index",
+                    "value": 1
+                },
+                {
+                    "name": "filter",
+                    "value": "linear"
+                },
+                {
+                    "name": "wrap index",
+                    "value": 0
+                },
+                {
+                    "name": "wrap",
+                    "value": "repeat"
+                },
+                {
+                    "name": "flip",
+                    "value": 0
+                },
+                {
+                    "name": "unpackPreMultipliedAlpha",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "width",
+                    "value": 800
+                },
+                {
+                    "name": "height",
+                    "value": 600
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "wcgsyrwgs",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 150,
+                "resizable": true,
+                "translate": {
+                    "x": -362.08791858103825,
+                    "y": -316.087550787555
+                },
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e5b5b5b5-b5b5-4b5b-b5b5-b5b5b5b5b5b5",
+            "id": "g1jipcdvf",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -264.69822720339573,
+                    "y": -415.83473950449235
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "P5 Module URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.P5/libs/p5.esm.min.js"
+                },
+                {
+                    "name": "Sketch URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.P5/examples/r1b2.js"
+                },
+                {
+                    "name": "Canvas Width",
+                    "value": 800
+                },
+                {
+                    "name": "Canvas Height",
+                    "value": 600
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Rendered Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "Rendered Texture",
+                            "objIn": "wcgsyrwgs",
+                            "objOut": "g1jipcdvf"
+                        }
+                    ]
+                },
+                {
+                    "name": "Canvas",
+                    "links": [
+                        {
+                            "portIn": "canvas",
+                            "portOut": "Canvas",
+                            "objIn": "uae894afc",
+                            "objOut": "g1jipcdvf"
+                        }
+                    ]
+                },
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Force Update",
+                            "portOut": "Next",
+                            "objIn": "uae894afc",
+                            "objOut": "g1jipcdvf"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output Data",
+                    "value": {
+                        "frame": 1814,
+                        "textX": 336
+                    }
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "69ff4a5b713d18e17f1752a2",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1778338395154
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 406,
+            "h": 298,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -164.52609711740288,
+                "y": -352.06406054447274,
+                "z": 237.2817137176777
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "cablesStudio"
+    },
+    "opsHash": "43403197be348bcb99c778beab7522edde874569",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1776324955053,
+            "created": "2026-04-16T07:35:55.053Z",
+            "git": {
+                "branch": "develop",
+                "commit": "12ef888bd62e6ea8da6563fbefb7caba61bf5f7b",
+                "date": "1776243540",
+                "message": "npe"
+            }
+        },
+        "ui": {
+            "timestamp": 1776324973976,
+            "created": "2026-04-16T07:36:13.976Z",
+            "git": {
+                "branch": "develop",
+                "commit": "7f071424980705b1abdd9b2e437e09d855584a37",
+                "date": "1776268840",
+                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+            }
+        },
+        "api": {
+            "timestamp": 1776324993785,
+            "created": "2026-04-16T07:36:33.785Z",
+            "git": {
+                "branch": "develop",
+                "commit": "7f6cf2230c2e20500f5917c94e60f6c7e7970662",
+                "date": "1776268492",
+                "message": "send new patchdir to client on initial save - cables-gl/cables/issues/8218"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.6"
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEn1JREFUeF7t1sENADAMAjG6/9Ct1DXO2QCTB2fbnSNAgAABAgQIEMgIHAMw07WgBAgQIECAAIEvYAB6BAIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgACBBx1VaBA+Pro5AAAAAElFTkSuQmCC"
+}

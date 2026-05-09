@@ -1,0 +1,36 @@
+{
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Execute"
+            },
+            {
+                "type": 5,
+                "name": "Source URL"
+            },
+            {
+                "type": 0,
+                "name": "Width"
+            },
+            {
+                "type": 0,
+                "name": "Height"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Texture"
+            }
+        ]
+    },
+    "summary": "Loads a p5.js sketch in a headless iframe, passes it an OffscreenCanvas via postMessage, and outputs the rendered texture.",
+    "docs": {
+        "ports": []
+    }
+}

@@ -7,3 +7,7 @@ Patches/mediaPipe_bundle/ops/Ops.User.HandLandmarker.standalone/
 Patches/mediaPipe_bundle/ops/Ops.User.PoseLandmarker.standalone/
 Patches/mediaPipe_bundle/ops/Ops.User.MediaPipe.VisionBundle.zip
 Patches/mediaPipe_bundle/mediapipe_bundle_test.cables
+/reference/
+/cables-develop
+ops/Ops.Local.Fastify/node_modules
+ops/index.html
