@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal js studio</title>
+    <style>
+        .container {
+            position: relative;
+            overflow: hidden;
+            width: 500px;
+            padding-top: 281.25px;
+            /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+        }
+
+        /* Then style the iframe to fit in the container div with full height and width */
+        .responsive-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 2 column form grid layout         */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 350px 150px;
+        }
+
+        .form-button {
+            padding: 2px;
+            margin: 10px 10px 0 0;
+        }
+
+        .slide-location {
+            width: 500px
+        }
+    </style>
+    <link href="./css/tabulator.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div id="controls" style="margin-bottom: 10px; display: flex; align-items: center; flex-wrap: wrap;">
+        <button type="button" id="setSlideSceneButton" class="form-button"
+            style="background: #4ec9b0; color: white;">Set Slide Scene</button>
+        <div style="margin: 10px 10px 0 0; display: flex; align-items: center;">
+            <input type="text" id="newSceneName" placeholder="New Scene Name"
+                style="width: 150px; padding: 4px; background: #252526; color: white; border: 1px solid #454545; border-radius: 4px; margin-right: 5px;">
+            <button type="button" id="createSceneButton" class="form-button"
+                style="background: #ce9178; color: white; margin: 0;">Create Scene</button>
+        </div>
+    </div>
+    <div id="slidesTable">
+        <h3>Slides tags</h3>
+    </div>
+
+
+    <script src="lib/gsap.min.js"></script>
+    <script src="lib/CustomEase.min.js"></script>
+
+    <script type="text/javascript" src="lib/tabulator.min.js"></script>
+
+    <script type="module">
+        import './lib/obsApiProxy.js';
+        import { loadTable } from './lib/setupTable.js';
+
+        // --- Global Variables ---
+        window.slideDeckId = undefined;
+        let slideStateStr = ''; // To track Reveal.js state for changes
+        window.slidesArray = [];
+        let dropDownOptions = { scene: [] };
+        let selectedRowNumber = 0;
+        let slidesLoaded = false;
+        let tableLoaded = false;
+        window.isTableBuilt = false;
+
+        // v2.0 State
+        window.currentSceneName = '';
+        let currentSceneConfig = {};
+        let lerpTween = null;
+
+        // --- Function Definitions ---
+
+
+
+        // --- broadcastSlidesCommand (Centralized command handler & broadcaster) ---
+        window.broadcastSlidesCommand = async function (eventName, msgParam) {
+            try {
+                // Modern centralized command broadcast
+                await window.obsWss.broadcastSlidesCommand(eventName, msgParam);
+            } catch (e) {
+                console.error("[Studio] Failed to broadcast command", e);
+            }
+        }
+
+        // --- Metadata fetching removed as per v2.0 spec ---
+
+        // Global function to handle keyboard navigation
+        window.handleKeyboardNavigation = function (keyCode) {
+            if (!window.table) return;
+            const selectedRows = window.table.getSelectedRows();
+            if (selectedRows.length === 0) return;
+
+            let currentRow = selectedRows[0];
+            let targetRow = null;
+
+            switch (keyCode) {
+                case 37: targetRow = currentRow.getPrevRow(); break;
+                case 39: targetRow = currentRow.getNextRow(); break;
+                case 32: targetRow = currentRow.getNextRow(); break;
+                case 38: targetRow = currentRow.getPrevRow(); break;
+                case 40: targetRow = currentRow.getNextRow(); break;
+                case 27: window.table.deselectRow(); return;
+            }
+
+            if (targetRow) {
+                window.table.deselectRow();
+                targetRow.select();
+                window.filterRowData(targetRow.getData());
+            }
+        }
+
+        window.sendMessageToParent = function (message) {
+            window.parent.postMessage(JSON.stringify(message), window.location.origin);
+        }
+
+        window.triggerIframeMethod = function (method, args = []) {
+            // If navigation is triggered manually in Studio, update the viewer
+            obsWss.publish('studio_to_currentSlide', 'navigate', { method, args });
+        }
+
+
+        window.filterRowData = function (rowData) {
+            const row = Object.fromEntries(
+                Object.entries(rowData).filter(([key, value]) => {
+                    if (key === 'cameraShape' && rowData.hasOwnProperty(key)) return true;
+                    return value != undefined && `${value}`.length > 0;
+                })
+            );
+
+            // Track state to prevent re-broadcast loops
+            if (row.slideState) {
+                slideStateStr = row.slideState;
+                const args = row.slideState.split(',').map(x => Number(x));
+                window.triggerIframeMethod('slide', args);
+            }
+
+
+            // Notify parent of live mapping update
+            window.parent.postMessage(JSON.stringify({
+                namespace: "studio",
+                message: "update-mapping",
+                data: row
+            }), "*");
+
+            // Broadcast to both viewer and broadcast overlays
+            window.broadcastSlidesCommand('slide-changed', row);
+        }
+
+
+        // --- Event Listeners ---
+
+        window.addEventListener("DOMContentLoaded", (event) => {
+            obsWss.connect().then(async () => {
+                let filteredScenes = [];
+                try {
+                    const sceneList = await obsWss.call('GetSceneList');
+                    if (sceneList && sceneList.scenes) {
+                        filteredScenes = sceneList.scenes
+                            .map(s => s.sceneName || s)
+                            .filter(name => typeof name === 'string' && name.startsWith('Scene'));
+                    }
+                } catch (err) {
+                    console.warn("[Studio] Could not fetch scene list:", err);
+                }
+
+                window.dropDownOptions = { scene: filteredScenes };
+
+                // Request current deck info from parent if already loaded
+                window.parent.postMessage(JSON.stringify({ namespace: "tabulator", message: "slides-data" }), "*");
+                loadTable(window.dropDownOptions, window.slidesArray);
+            }).catch(e => {
+                console.error("[Studio] OBS Connection failed:", e);
+                // Still request data even if connection fails
+                window.parent.postMessage(JSON.stringify({ namespace: "tabulator", message: "slides-data" }), "*");
+                loadTable({}, window.slidesArray);
+            });
+        });
+
+        // Unified WebSocket listener via obsWss
+        obsWss.on('keyboardPress', (eventData) => {
+            if (eventData.key) {
+                window.handleKeyboardNavigation(eventData.keyCode || eventData.key);
+            }
+        });
+
+        // Sync OBS scene changes back to the table
+        obsWss.on('CurrentProgramSceneChanged', (data) => {
+            if (window.table && window.isTableBuilt) {
+                const rows = window.table.searchRows("scene", "=", data.sceneName);
+                if (rows.length > 0) {
+                    const targetRow = rows[0];
+                    const selectedRows = window.table.getSelectedRows();
+                    if (selectedRows.length === 0 || selectedRows[0].getIndex() !== targetRow.getIndex()) {
+                        window.table.deselectRow();
+                        targetRow.select();
+                        window.table.scrollToRow(targetRow, "center", false);
+                    }
+                }
+            }
+        });
+
+        // Listen for global setup commands
+        obsWss.on('slidesCommands', async (data) => {
+            const eventName = data.eventName;
+            const payload = data.msgParam;
+
+            if (eventName === 'set-deck-id') {
+                console.log("[Studio] Received set-deck-id:", payload.deckId);
+                window.slideDeckId = payload.deckId;
+
+            }
+
+            if (eventName === 'set-slides-studio-url') {
+                // Relay the URL to the broadcast navigation channel so OBS views can load the deck
+                window.broadcastSlidesCommand('set-slides-studio-url', { url: payload.url });
+            }
+
+            if (eventName === 'next-slide') {
+                window.handleKeyboardNavigation(39); // Simulate right arrow
+            }
+
+            if (eventName === 'previous-slide') {
+                window.handleKeyboardNavigation(37); // Simulate left arrow
+            }
+        });
+
+        // Listen specifically for viewer reporting its state
+        obsWss.on('currentSlide_to_studio', async (data) => {
+            try {
+                const eventName = data.eventName;
+                const payload = data.msgParam;
+
+                if (eventName === 'reveal-event') {
+                    const revealData = payload;
+                    // console.log("[Studio] Reveal event:", revealData.eventName, revealData.method);
+
+                    if (!slidesLoaded) return;
+
+                    // Navigation Sync (After indexing)
+                    if (revealData.state) {
+                        let stateString = `${revealData.state.indexh},${revealData.state.indexv}`;
+                        if (revealData.state.indexf !== undefined && revealData.state.indexf > -1) {
+                            stateString += `,${revealData.state.indexf}`;
+                        }
+
+                        if (stateString !== slideStateStr) {
+                            slideStateStr = stateString;
+
+                            if (window.table && window.isTableBuilt) {
+                                let rows = window.table.searchRows("slideState", "=", stateString);
+                                if (rows.length > 0) {
+                                    const targetRow = rows[0];
+                                    window.table.deselectRow();
+                                    targetRow.select();
+                                    selectedRowNumber = targetRow.getPosition();
+                                    window.table.scrollToRow(targetRow, "center", false);
+
+                                    // Broadcast the master message only to broadcast navigation
+                                    window.broadcastSlidesCommand('slide-changed', targetRow.getData());
+                                }
+                            }
+                        }
+                    }
+
+                    // Overview logic handled by editor/v2.0 choreography
+                }
+            } catch (err) {
+                console.error("[Studio] Error processing viewer state message:", err);
+            }
+        });
+
+        window.addEventListener("message", async (event) => {
+            if (event.origin !== window.location.origin) return;
+
+            let data;
+            try { data = JSON.parse(event.data); } catch (e) { return; }
+
+            if (data.namespace === "speakerview" && data.message === "set-deck-id") {
+                window.slideDeckId = data.deckId;
+                document.getElementById("slideDeckId").value = window.slideDeckId;
+                if (!slidesLoaded && localStorage.getItem(window.slideDeckId)) {
+                    window.loadSavedTable();
+                }
+            }
+
+            if (data.namespace === "speakerview" && data.message === "slides-data-response") {
+                console.log("[Studio] Received indexed slides data from parent:", data.slidesData);
+                window.slidesArray = data.slidesData;
+                slidesLoaded = true;
+                tableLoaded = true;
+
+
+                loadTable(window.dropDownOptions || dropDownOptions, window.slidesArray);
+            }
+        });
+
+        // (Indexing logic removed - now handled by parent index.html)
+
+        // v2.0 Event Listeners
+
+
+        document.getElementById('setSlideSceneButton').addEventListener('click', async () => {
+            const activeSlide = window.slidesArray[selectedRowNumber];
+            if (!activeSlide) return alert('Select a slide first');
+
+            const scene = await window.obsWss.call("GetCurrentProgramScene");
+            activeSlide.scene = scene.currentProgramSceneName;
+
+            // Update local storage / table
+            if (window.table) {
+                const row = window.table.getRowFromPosition(selectedRowNumber);
+                if (row) row.update({ scene: activeSlide.scene });
+            }
+
+            console.log(`Mapped slide to scene: ${activeSlide.scene}`);
+        });
+
+        document.getElementById('createSceneButton').addEventListener('click', async () => {
+            let sceneName = document.getElementById('newSceneName').value.trim();
+            if (!sceneName) return alert('Enter a scene name');
+
+            // Prefix with "Scene " if it doesn't start with "Scene"
+            if (!sceneName.startsWith('Scene')) {
+                sceneName = 'Scene ' + sceneName;
+            }
+
+            // Duplicate check
+            if (window.dropDownOptions && window.dropDownOptions.scene && window.dropDownOptions.scene.includes(sceneName)) {
+                return alert('A scene with this name already exists.');
+            }
+
+            try {
+                // Get platform for correct text source kind
+                const version = await window.obsWss.call('GetVersion');
+                const platform = (version.platform || '').toLowerCase();
+                const inputKind = platform === 'windows' ? 'text_gdiplus_v2' : 'text_ft2_source_v2';
+
+                console.log(`[Studio] Creating scene "${sceneName}" on platform: ${platform}`);
+
+                // 1. Create the scene
+                await window.obsWss.call('CreateScene', { sceneName });
+
+                // 2. Create the SceneConfig source
+                await window.obsWss.call('CreateInput', {
+                    sceneName: sceneName,
+                    inputName: `SceneConfig-${sceneName}`,
+                    inputKind: inputKind,
+                    inputSettings: { text: '{}' }
+                });
+
+                // 3. Update UI
+                if (window.dropDownOptions && window.dropDownOptions.scene) {
+                    if (!window.dropDownOptions.scene.includes(sceneName)) {
+                        window.dropDownOptions.scene.push(sceneName);
+                        window.dropDownOptions.scene.sort();
+                    }
+                }
+
+                // Notify parent to update its validScenes
+                window.parent.postMessage(JSON.stringify({
+                    namespace: "studio",
+                    message: "new-scene-created",
+                    sceneName: sceneName
+                }), "*");
+
+                // Refresh table to show new scene in dropdowns
+                loadTable(window.dropDownOptions, window.slidesArray);
+
+                document.getElementById('newSceneName').value = '';
+                alert(`Scene "${sceneName}" created successfully.`);
+
+            } catch (err) {
+                console.error("Failed to create scene:", err);
+                alert(`Error: ${err.message || err}`);
+            }
+        });
+    </script>
+</body>
+
+</html>

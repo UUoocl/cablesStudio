@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BroadcastChannel BcPubSub Example</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .log { background: #1e1e1e; color: #00ff00; padding: 15px; height: 300px; overflow-y: scroll; margin-top: 10px; font-family: monospace; border-radius: 5px; }
+        .controls { margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; border: 1px solid #ddd; }
+        input, button { padding: 8px 12px; margin-right: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        h3 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>Cables.gl BroadcastChannel Example</h1>
+    <p>This page demonstrates how to communicate with the <code>Ops.User.BroadcastChannel.BcPubSub</code> operator in Cables.</p>
+    
+    <div class="controls">
+        <h3>1. Connection Settings</h3>
+        <label>Channel Name: <input type="text" id="channelName" value="test"></label>
+        <button id="connectBtn">Connect</button>
+    </div>
+
+    <div class="controls">
+        <h3>2. Publish to Cables</h3>
+        <p>This sends data to the <code>pub-{ChannelName}</code> channel. The Cables operator listens to this channel and outputs the data on its <code>Message Received</code> port.</p>
+        <input type="text" id="msgInput" placeholder="Enter string message">
+        <button id="sendBtn">Send Message</button>
+        <button id="sendObjBtn">Send Complex Object</button>
+    </div>
+
+    <div class="controls">
+        <h3>3. Subscribe to Cables</h3>
+        <p>This listens for data on the <code>sub-{ChannelName}</code> channel. When inputs change on the Cables operator, it publishes a bundled object here.</p>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        let pubChannel = null; // We publish to Cables' pub channel
+        let subChannel = null; // We subscribe to Cables' sub channel
+        
+        const logEl = document.getElementById('log');
+        const channelInput = document.getElementById('channelName');
+        const connectBtn = document.getElementById('connectBtn');
+        const msgInput = document.getElementById('msgInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const sendObjBtn = document.getElementById('sendObjBtn');
+
+        function log(msg, isError = false) {
+            const div = document.createElement('div');
+            div.style.color = isError ? '#ff5555' : '#00ff00';
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logEl.appendChild(div);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function connect() {
+            if (pubChannel) pubChannel.close();
+            if (subChannel) subChannel.close();
+
+            const cName = channelInput.value;
+            if (!cName) {
+                log('Error: Channel name is required', true);
+                return;
+            }
+
+            // Cables LISTENS on pub-{name}, so we SEND on it.
+            pubChannel = new BroadcastChannel('pub-' + cName);
+            
+            // Cables SENDS on sub-{name}, so we LISTEN on it.
+            subChannel = new BroadcastChannel('sub-' + cName);
+
+            subChannel.onmessage = (event) => {
+                log('⬇️ Received from Cables: ' + JSON.stringify(event.data, null, 2));
+            };
+
+            log(`🔄 Connected to channel: ${cName}`);
+        }
+
+        function sendData(data) {
+            if (!pubChannel) {
+                log('Error: Not connected.', true);
+                return;
+            }
+            try {
+                // Structured cloning happens automatically here
+                pubChannel.postMessage(data);
+                log('⬆️ Sent to Cables: ' + JSON.stringify(data));
+            } catch (e) {
+                log(`Error sending data: ${e.message}`, true);
+            }
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const data = msgInput.value;
+            // The op just outputs event.data directly, so we can send any type
+            sendData({ text: data, timestamp: Date.now() });
+            msgInput.value = '';
+        });
+
+        sendObjBtn.addEventListener('click', () => {
+            // Demonstrate sending structured data like typed arrays
+            const buffer = new Float32Array([1.1, 2.2, 3.3]);
+            sendData({
+                type: 'complex_data',
+                active: true,
+                values: [10, 20, 30],
+                buffer: buffer
+            });
+        });
+
+        connectBtn.addEventListener('click', connect);
+
+        // Auto connect on load
+        connect();
+    </script>
+</body>
+</html>

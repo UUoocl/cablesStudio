@@ -1,0 +1,45 @@
+{
+    "authorName": "jonwood",
+    "id": "bcPubSub01",
+    "created": 1778063747510,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Channel Name"
+            },
+            {
+                "type": 5,
+                "name": "String"
+            },
+            {
+                "type": 2,
+                "name": "Object"
+            },
+            {
+                "type": 3,
+                "name": "Array"
+            },
+            {
+                "type": 0,
+                "name": "Number",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Boolean",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Base64"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Message Received"
+            }
+        ]
+    }
+}

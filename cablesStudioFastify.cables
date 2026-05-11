@@ -1,0 +1,1805 @@
+{
+    "_id": "69ff4a5b55accb86e01c67d9",
+    "shortId": "L2Gq8j",
+    "name": "cablesStudio",
+    "description": "",
+    "userId": "69ff4a5b713d18e17f1752a2",
+    "cachedUsername": "",
+    "created": 1778338395154,
+    "updated": 1778443360525,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "fls3at9do",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -511.82457593689594,
+                    "y": -622.1530853986101
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "n2xrt203o",
+                            "objOut": "fls3at9do"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 493
+                },
+                {
+                    "name": "height",
+                    "value": 453
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a2",
+            "id": "1bp9pt2g9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -326.8657022656338,
+                    "y": -293.46499290944706
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Server Name",
+                    "value": "Cables_Output1"
+                }
+            ]
+        },
+        {
+            "opId": "a8b50e2ddc9943efb387052637738f73",
+            "id": "pvrzbnwek",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -499.82457593689594,
+                    "y": -489.6987255397276
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Model index",
+                    "value": 2
+                },
+                {
+                    "name": "Model",
+                    "value": "pose_landmarker_heavy.task"
+                },
+                {
+                    "name": "Vision Module URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.MediaPipe/libs/mediapipe/vision_bundle.js"
+                },
+                {
+                    "name": "Vision WASM URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.MediaPipe/libs/mediapipe/wasm/"
+                },
+                {
+                    "name": "Model URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.MediaPipe/models/pose_landmarker_lite.task"
+                },
+                {
+                    "name": "Num Poses",
+                    "value": 1
+                },
+                {
+                    "name": "Min Confidence",
+                    "value": 0.5
+                },
+                {
+                    "name": "Output Format index",
+                    "value": 0
+                },
+                {
+                    "name": "Output Format",
+                    "value": "MediaPipe"
+                },
+                {
+                    "name": "Fail-Safe Polling",
+                    "value": 1
+                },
+                {
+                    "name": "Interval (ms)",
+                    "value": 100
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Found",
+                    "value": 1
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Input Data",
+                            "portOut": "Result",
+                            "objIn": "g1jipcdvf",
+                            "objOut": "pvrzbnwek"
+                        }
+                    ]
+                },
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "g1jipcdvf",
+                            "objOut": "pvrzbnwek"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a3",
+            "id": "n2xrt203o",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -511.82457593689594,
+                    "y": -558.7094990288256
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Server",
+                    "value": "OBS Studio: OBS Syphon0"
+                },
+                {
+                    "name": "Manual Server Name",
+                    "value": ""
+                },
+                {
+                    "name": "Manual App Name",
+                    "value": ""
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "n2xrt203o"
+                        }
+                    ]
+                },
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "Next",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "n2xrt203o"
+                        }
+                    ]
+                },
+                {
+                    "name": "Width",
+                    "value": 256
+                },
+                {
+                    "name": "Height",
+                    "value": 144
+                },
+                {
+                    "name": "Found",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "e7154880-ee21-4884-a6e7-ee8c423e7eb3",
+            "id": "oeommdern",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -428.3890558553758,
+                    "y": -608.7362282081488
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Is Running",
+                    "value": 1
+                },
+                {
+                    "name": "Server Ready",
+                    "links": [
+                        {
+                            "portIn": "Reload",
+                            "portOut": "Server Ready",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "oeommdern"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2fbada6b-70fa-4b43-87db-8b0d9293990b",
+            "id": "uae894afc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -361.4501199191896,
+                    "y": -356.11343957485803
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "filter index",
+                    "value": 1
+                },
+                {
+                    "name": "filter",
+                    "value": "linear"
+                },
+                {
+                    "name": "wrap index",
+                    "value": 0
+                },
+                {
+                    "name": "wrap",
+                    "value": "repeat"
+                },
+                {
+                    "name": "flip",
+                    "value": 0
+                },
+                {
+                    "name": "unpackPreMultipliedAlpha",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "texture",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "texture",
+                            "objIn": "1bp9pt2g9",
+                            "objOut": "uae894afc"
+                        },
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "texture",
+                            "objIn": "7mgg3u1ke",
+                            "objOut": "uae894afc"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 100
+                },
+                {
+                    "name": "height",
+                    "value": 100
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "wcgsyrwgs",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 228.9973774531267,
+                "resizable": true,
+                "translate": {
+                    "x": -42.60413175718995,
+                    "y": -301.4093089371604
+                },
+                "width": 208.06646192002924
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e5b5b5b5-b5b5-4b5b-b5b5-b5b5b5b5b5b5",
+            "id": "g1jipcdvf",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -455.350669438218,
+                    "y": -418.10441143585933
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "P5 Module URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.P5/libs/p5.esm.min.js"
+                },
+                {
+                    "name": "Sketch URL",
+                    "value": "http://127.0.0.1:8080/Ops.Local.P5/examples/r1b2.js"
+                },
+                {
+                    "name": "Canvas Width",
+                    "value": 900
+                },
+                {
+                    "name": "Canvas Height",
+                    "value": 450
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Canvas",
+                    "links": [
+                        {
+                            "portIn": "canvas",
+                            "portOut": "Canvas",
+                            "objIn": "uae894afc",
+                            "objOut": "g1jipcdvf"
+                        }
+                    ]
+                },
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Force Update",
+                            "portOut": "Next",
+                            "objIn": "uae894afc",
+                            "objOut": "g1jipcdvf"
+                        },
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "1bp9pt2g9",
+                            "objOut": "g1jipcdvf"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output Data",
+                    "value": {
+                        "frame": 1814,
+                        "textX": 336
+                    }
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
+            "id": "r79bsmdcq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 28.303280686330652,
+                    "y": -602.5631215580007
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Python Install Location",
+                    "value": "/usr/bin/python3"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Found: Python 3.9.6"
+                },
+                {
+                    "name": "Found",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-3333-4444-aaaa-000000000003",
+            "id": "15brm56h7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 42.89432774395851,
+                    "y": -561.0615581525851
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/pythonScripts/keyboard_monitor_cables.py"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Last Single Key",
+                    "links": [
+                        {
+                            "portIn": "Text",
+                            "portOut": "Last Single Key",
+                            "objIn": "2e9dklffz",
+                            "objOut": "15brm56h7"
+                        }
+                    ]
+                },
+                {
+                    "name": "Last Key Combination",
+                    "value": "cmd + s"
+                }
+            ]
+        },
+        {
+            "opId": "9e74b275-a1ed-4d10-aba4-4b3311363a99",
+            "id": "of746bojh",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -79.5656942717375,
+                    "y": -505.51809098612273
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "URL",
+                    "value": "file:////Users/jonwood/Github_local_dev/cablesStudio/space_type_generator/cylinder/index.html?channel=KeyInput&width=400&height=400"
+                },
+                {
+                    "name": "ID",
+                    "value": ""
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Style",
+                    "value": "position:absolute;\nz-index:9999;\nleft: 100px;\nborder:0;\n\n"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Element",
+                    "links": [
+                        {
+                            "portIn": "Iframe Element",
+                            "portOut": "Element",
+                            "objIn": "0vpszcpse",
+                            "objOut": "of746bojh"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2fbada6b-70fa-4b43-87db-8b0d9293990b",
+            "id": "2o1o8htpj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 30.39590099923865,
+                    "y": -388.975284808884
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "filter index",
+                    "value": 1
+                },
+                {
+                    "name": "filter",
+                    "value": "linear"
+                },
+                {
+                    "name": "wrap index",
+                    "value": 0
+                },
+                {
+                    "name": "wrap",
+                    "value": "repeat"
+                },
+                {
+                    "name": "flip",
+                    "value": 0
+                },
+                {
+                    "name": "unpackPreMultipliedAlpha",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "texture",
+                    "links": [
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "texture",
+                            "objIn": "wcgsyrwgs",
+                            "objOut": "2o1o8htpj"
+                        },
+                        {
+                            "portIn": "Texture",
+                            "portOut": "texture",
+                            "objIn": "z6gs2ph8d",
+                            "objOut": "2o1o8htpj"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 400
+                },
+                {
+                    "name": "height",
+                    "value": 400
+                }
+            ]
+        },
+        {
+            "opId": "01094f4a-d0aa-4484-b50d-528c491a2fbf",
+            "id": "0vpszcpse",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -79.5656942717375,
+                    "y": -439.4335624446708
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Selector",
+                    "value": "canvas"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Canvas Element",
+                    "links": [
+                        {
+                            "portIn": "canvas",
+                            "portOut": "Canvas Element",
+                            "objIn": "2o1o8htpj",
+                            "objOut": "0vpszcpse"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "7mgg3u1ke",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 222.73205330582715,
+                "resizable": true,
+                "translate": {
+                    "x": -574.5043940112229,
+                    "y": -307.8743513379786
+                },
+                "width": 222.3109724123627
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a2",
+            "id": "z6gs2ph8d",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 200.25276097352008,
+                    "y": -292.12309471615845
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Server Name",
+                    "value": "Cables_Output_stg"
+                }
+            ]
+        },
+        {
+            "opId": "1a31e35f-69b6-4be1-88d5-12b99deee1d6",
+            "id": "2e9dklffz",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 66.39590099923865,
+                    "y": -486.68748288069025
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Channel Name",
+                    "value": "KeyInput"
+                },
+                {
+                    "name": "Preset",
+                    "value": "jellyfish"
+                },
+                {
+                    "name": "Radius",
+                    "value": 247.55
+                },
+                {
+                    "name": "Stack Num",
+                    "value": 10
+                },
+                {
+                    "name": "Rotation Speed",
+                    "value": 4.55
+                },
+                {
+                    "name": "Ring Offset",
+                    "value": 8
+                },
+                {
+                    "name": "Wave Count",
+                    "value": 3.54
+                },
+                {
+                    "name": "Wave Speed",
+                    "value": 30
+                },
+                {
+                    "name": "Wave Intensity",
+                    "value": 39.23
+                },
+                {
+                    "name": "Ripple Intensity",
+                    "value": 0
+                },
+                {
+                    "name": "Stretch X",
+                    "value": 8.05
+                },
+                {
+                    "name": "Stretch Y",
+                    "value": 4.64
+                },
+                {
+                    "name": "Font Width",
+                    "value": 42.2
+                },
+                {
+                    "name": "Font Height",
+                    "value": 40
+                },
+                {
+                    "name": "Stroke Thickness",
+                    "value": 2
+                },
+                {
+                    "name": "Camera X Rot",
+                    "value": -0.95
+                },
+                {
+                    "name": "Camera Y Rot",
+                    "value": -1.1
+                },
+                {
+                    "name": "Camera Z Rot",
+                    "value": -0.29
+                },
+                {
+                    "name": "Camera Zoom",
+                    "value": -234.83
+                },
+                {
+                    "name": "Background Color",
+                    "value": "#ffffff00"
+                },
+                {
+                    "name": "Text Color",
+                    "value": "#ff22ff"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "On Draw",
+                    "links": [
+                        {
+                            "portIn": "Force Update",
+                            "portOut": "On Draw",
+                            "objIn": "2o1o8htpj",
+                            "objOut": "2e9dklffz"
+                        },
+                        {
+                            "portIn": "Render",
+                            "portOut": "On Draw",
+                            "objIn": "z6gs2ph8d",
+                            "objOut": "2e9dklffz"
+                        }
+                    ]
+                },
+                {
+                    "name": "On Ready",
+                    "links": [
+                        {
+                            "portIn": "Refresh",
+                            "portOut": "On Ready",
+                            "objIn": "0vpszcpse",
+                            "objOut": "2e9dklffz"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "18a2f804-20ad-4cb9-87b9-b097ad23f518",
+            "id": "uledd81ya",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 484.8373891244341,
+                    "y": -560.273004600754
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 12345
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Message",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Message",
+                            "objIn": "tml4mijgm",
+                            "objOut": "uledd81ya"
+                        }
+                    ]
+                },
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "OSC Connection",
+                            "portOut": "Connection",
+                            "objIn": "o03l1sx3o",
+                            "objOut": "uledd81ya"
+                        }
+                    ]
+                },
+                {
+                    "name": "Status",
+                    "value": "ready"
+                }
+            ]
+        },
+        {
+            "opId": "c8b3d0e2-5e65-4fc8-b58e-ec46686c8f61",
+            "id": "o03l1sx3o",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 508.8373891244341,
+                    "y": -469.32803052512077
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Net Address",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 5558
+                },
+                {
+                    "name": "OSC Address",
+                    "value": "/1/fader1"
+                },
+                {
+                    "name": "Arguments",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Debug Info",
+                    "value": "Error: No OSC Connection linked"
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "tml4mijgm",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 196.4691601297787,
+                "width": 278.94093064271715,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 496.8373891244341,
+                    "y": -377.2841209310919
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
+            "id": "0cx1hebbj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 550.5694084397422,
+                    "y": -598.7389824715434
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "JSON String",
+                    "value": "{\n  \"address\": \"/4/toggle4\",\n  \"args\": [\n    { \"type\": \"f\", \"value\": 0 }\n  ]\n}\n"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Payload Object",
+                            "portOut": "Result",
+                            "objIn": "o03l1sx3o",
+                            "objOut": "0cx1hebbj"
+                        }
+                    ]
+                },
+                {
+                    "name": "Valid",
+                    "links": [
+                        {
+                            "portIn": "Auto Send on Payload",
+                            "portOut": "Valid",
+                            "objIn": "o03l1sx3o",
+                            "objOut": "0cx1hebbj"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "to1e3spnf",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 627.6723070801158,
+                    "y": -560.2790114692352
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Send",
+                            "portOut": "Next",
+                            "objIn": "o03l1sx3o",
+                            "objOut": "to1e3spnf"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "c8b3d0e2-5e65-4fc8-b58e-ec46686c8f61",
+            "id": "k4mobopzz",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 958.8630520753767,
+                    "y": -484.51276062333153
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Net Address",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 58000
+                },
+                {
+                    "name": "OSC Address",
+                    "value": "/1/fader1"
+                },
+                {
+                    "name": "Arguments",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Debug Info",
+                    "value": "Error: No OSC Connection linked"
+                }
+            ]
+        },
+        {
+            "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
+            "id": "9do24oios",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 992.5400638295758,
+                    "y": -595.104017463081
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "JSON String",
+                    "value": "{\n  \"address\": \"/zoom/all/lowerHand\"\n}\n"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Payload Object",
+                            "portOut": "Result",
+                            "objIn": "k4mobopzz",
+                            "objOut": "9do24oios"
+                        }
+                    ]
+                },
+                {
+                    "name": "Valid",
+                    "links": [
+                        {
+                            "portIn": "Auto Send on Payload",
+                            "portOut": "Valid",
+                            "objIn": "k4mobopzz",
+                            "objOut": "9do24oios"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "ibap2o0i8",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1073.9183878204326,
+                    "y": -545.8570142508764
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Send",
+                            "portOut": "Next",
+                            "objIn": "k4mobopzz",
+                            "objOut": "ibap2o0i8"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "18a2f804-20ad-4cb9-87b9-b097ad23f518",
+            "id": "s6f8ii0eb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 901.8585648855986,
+                    "y": -560.1953274192535
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 23456
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Message",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Message",
+                            "objIn": "gv36xwydw",
+                            "objOut": "s6f8ii0eb"
+                        }
+                    ]
+                },
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "OSC Connection",
+                            "portOut": "Connection",
+                            "objIn": "k4mobopzz",
+                            "objOut": "s6f8ii0eb"
+                        }
+                    ]
+                },
+                {
+                    "name": "Status",
+                    "value": "ready"
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "gv36xwydw",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 196.7134643745173,
+                "width": 375.2658887053715,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 913.8585648855986,
+                    "y": -384.28973269854197
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e7f8a9b0-c1d2-4e3f-a4b5-c6d7e8f9a0b1",
+            "id": "540jqu6sn",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -42.60413175718995,
+                    "y": -301.4093089371604
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Event Type",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e7f8a9b0-c1d2-4e3f-a4b5-c6d7e8f9a0b1",
+            "id": "lhad31zhm",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1627.258843157374,
+                    "y": -732.3427783605246
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Event Type",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "7f8a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+            "id": "coeykkmeo",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1572.9699748081205,
+                    "y": -637.2421134651014
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "App Name",
+                    "value": "OBS"
+                },
+                {
+                    "name": "App Path",
+                    "value": ""
+                },
+                {
+                    "name": "Collection",
+                    "value": "Untitled"
+                },
+                {
+                    "name": "Debug Port",
+                    "value": "9222"
+                },
+                {
+                    "name": "WSS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "WSS Password",
+                    "value": "a46060dc-382a-47d3-a8ca-838b77141e62"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 0
+                },
+                {
+                    "name": "OBS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "Password",
+                    "value": "a46060dc-382a-47d3-a8ca-838b77141e62"
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+            "id": "5q409b567",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1690.6348925086288,
+                    "y": -565.1697848770434
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "IP",
+                    "value": "localhost"
+                },
+                {
+                    "name": "Port",
+                    "value": 4455
+                },
+                {
+                    "name": "Password",
+                    "value": "1Jogi2chsgTSH49X"
+                },
+                {
+                    "name": "Connection Name",
+                    "value": "Default"
+                },
+                {
+                    "name": "Sub General",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Config",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Scenes",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Inputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Transitions",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Filters",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Outputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub SceneItems",
+                    "value": 1
+                },
+                {
+                    "name": "Sub MediaInputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Vendors",
+                    "value": 1
+                },
+                {
+                    "name": "Sub UI",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Volume Meters",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Active",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Show",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Item Transform",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connected",
+                    "value": 1
+                },
+                {
+                    "name": "obsConnection",
+                    "links": [
+                        {
+                            "portIn": "OBS Connection",
+                            "portOut": "obsConnection",
+                            "objIn": "o8ov5suh9",
+                            "objOut": "5q409b567"
+                        }
+                    ]
+                },
+                {
+                    "name": "Obs event",
+                    "links": [
+                        {
+                            "portIn": "OBS Event Data",
+                            "portOut": "Obs event",
+                            "objIn": "o8ov5suh9",
+                            "objOut": "5q409b567"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Obs event",
+                            "objIn": "li08murtm",
+                            "objOut": "5q409b567"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+            "id": "glkrk5qml",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1870,
+                    "y": -489.174685748964
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Request Type",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 0
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "f8a9b0c1-d2e3-4f4a-b5c6-d7e8f9a0b1c2",
+            "id": "s1b8dgfrh",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1870,
+                    "y": -643.6519672407678
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Request Rate (Hz)",
+                    "value": 10
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 0
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "BABCAD7B-B360-4F3F-A9C1-0B4EC1386E07",
+            "id": "o8ov5suh9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1704.7413425147217,
+                    "y": -487.3024784482026
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "OBS Event Type",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Error Message",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "li08murtm",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 1590.30617049536,
+                    "y": -419.8498278489658
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e7154880-ee21-4884-a6e7-ee8c423e7eb3",
+            "id": "vbir0f5xb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1486.0291896137485,
+                    "y": -565.7854783594448
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 8888
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/slides_studio/slide-studio-app"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Is Running",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "3208ee03-6526-4fc1-b449-365cf5d41770",
+            "id": "ttta4c1ym",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1486,
+                    "y": -511.07873413032286
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Channel Name",
+                    "value": "broadcast"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "69ff4a5b713d18e17f1752a2",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1778338395154
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 493,
+            "h": 453,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 1831.8380486667766,
+                "y": -748.1055304552393,
+                "z": 685.9589326913891
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "cablesStudio"
+    },
+    "opsHash": "f0068bd4974fc725f73746b6830c83623df95710",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1777913765733,
+            "created": "2026-05-04T16:56:05.733Z",
+            "git": {
+                "branch": "develop",
+                "commit": "f99328394cb5173850c8e1e44dbb3873ab1e252c",
+                "date": "1777911286",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1777913784349,
+            "created": "2026-05-04T16:56:24.349Z",
+            "git": {
+                "branch": "develop",
+                "commit": "ce073c5313c86cee733c84039a36efcd603a920b",
+                "date": "1777910715",
+                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+            }
+        },
+        "api": {
+            "timestamp": 1777913803958,
+            "created": "2026-05-04T16:56:43.958Z",
+            "git": {
+                "branch": "develop",
+                "commit": "d6c646b8f9459fe6ce60f09a5137e3763ca45d79",
+                "date": "1777533606",
+                "message": "toggleMaximizeCanvas -> toggleMaximized"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.7"
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEn1JREFUeF7t1sENADAMAjG6/9Ct1DXO2QCTB2fbnSNAgAABAgQIEMgIHAMw07WgBAgQIECAAIEvYAB6BAIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgACBBx1VaBA+Pro5AAAAAElFTkSuQmCC"
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js OffscreenCanvas Example</title>
+    <style>
+        body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <script>
+        let offscreenCanvas = null;
+        let bc = null;
+        let p5Instance = null;
+        
+        // Sketch settings that can be updated via BroadcastChannel
+        let sketchSettings = {
+            bgR: 30, bgG: 30, bgB: 40,
+            speed: 0.05,
+            rectSize: 150
+        };
+
+        // Check for broadcast channel in query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelName = urlParams.get('channel');
+        
+        if (channelName) {
+            bc = new BroadcastChannel(channelName);
+            bc.onmessage = (event) => {
+                const data = event.data;
+                if (data && typeof data === 'object') {
+                    if (data.bgR !== undefined) sketchSettings.bgR = data.bgR;
+                    if (data.bgG !== undefined) sketchSettings.bgG = data.bgG;
+                    if (data.bgB !== undefined) sketchSettings.bgB = data.bgB;
+                    if (data.speed !== undefined) sketchSettings.speed = data.speed;
+                    if (data.rectSize !== undefined) sketchSettings.rectSize = data.rectSize;
+                }
+            };
+            console.log("Listening for sketch settings on BroadcastChannel:", channelName);
+        }
+
+        // Listen for the postMessage from the Cables Op (TransferCanvasControl)
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'init_canvas') {
+                offscreenCanvas = event.data.canvas;
+                
+                // Load p5.js and initialize in Instance Mode
+                let script = document.createElement('script');
+                script.src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js";
+                script.onload = () => {
+                    initSketch();
+                };
+                document.head.appendChild(script);
+            }
+        });
+
+        function initSketch() {
+            // Define the sketch in Instance Mode
+            const sketch = (p) => {
+                p.setup = () => {
+                    // We don't call createCanvas with the offscreenCanvas here.
+                    // Instead, we pass the offscreenCanvas to the p5 constructor below.
+                    p.createCanvas(offscreenCanvas.width, offscreenCanvas.height);
+                    p.rectMode(p.CENTER);
+                };
+
+                p.draw = () => {
+                    p.background(sketchSettings.bgR, sketchSettings.bgG, sketchSettings.bgB);
+                    
+                    p.push();
+                    p.translate(p.width / 2, p.height / 2);
+                    p.rotate(p.frameCount * sketchSettings.speed);
+                    p.fill(p.sin(p.frameCount * 0.02) * 127 + 128, 100, 200);
+                    p.noStroke();
+                    p.rect(0, 0, sketchSettings.rectSize + p.sin(p.frameCount * 0.1) * 50, sketchSettings.rectSize + p.cos(p.frameCount * 0.1) * 50);
+                    p.pop();
+
+                    p.fill(255, 150);
+                    p.ellipse((p.frameCount * 2) % p.width, p.height / 2 + p.sin(p.frameCount * sketchSettings.speed) * 100, 30, 30);
+                    p.ellipse((p.frameCount * 3) % p.width, p.height / 2 + p.cos(p.frameCount * sketchSettings.speed * 0.6) * 80, 20, 20);
+                };
+            };
+
+            // This is the CRITICAL part: Pass the offscreenCanvas as the second argument
+            p5Instance = new p5(sketch, offscreenCanvas);
+        }
+    </script>
+</body>
+</html>

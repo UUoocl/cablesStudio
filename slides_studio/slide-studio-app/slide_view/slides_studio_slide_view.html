@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slides Studio (OBS View)</title>
+    <link rel="stylesheet" href="../css/iframe_positioins.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        window.applyTransparency = function() {
+            const iframe = document.getElementById("revealIframe");
+            if (!iframe || !iframe.contentDocument) return;
+
+            console.log("[SlideView] Applying transparency to Reveal iframe...");
+            
+            const style = iframe.contentDocument.createElement("style");
+            style.textContent = `
+                /* Make the core Reveal containers transparent */
+                html, body, .reveal, .reveal-viewport, .reveal .backgrounds {
+                    background: transparent !important;
+                    background-color: transparent !important;
+                }
+                
+                /* Ensure slide-specific backgrounds still work */
+                .reveal .backgrounds .slide-background[data-loaded="true"] {
+                    /* Reveal.js sets backgrounds here; we keep them as is */
+                }
+            `;
+            iframe.contentDocument.head.appendChild(style);
+        }
+
+        window.onIframeLoad = function() {
+            const iframe = document.getElementById("revealIframe");
+            if (!iframe) return;
+            
+            // Apply transparency immediately on load
+            window.applyTransparency();
+
+            const url = iframe.src;
+            if (url && url !== "about:blank" && !url.includes("slides_studio_slide_view.html")) {
+                console.log("[SlideView] Deck loaded:", url);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <iframe id="revealIframe" class="slide-position full-screen" src="about:blank" onload="onIframeLoad()" onerror="onIframeError()" allow="autoplay; fullscreen"></iframe>
+    </div>
+    
+    <!-- WebSocket Scripts -->
+    <script type="module" src="../lib/slides-studio-connection.js"></script>
+    <script type="module" src="../lib/slideSync_OBS.js"></script>
+
+    <script type="module">
+        const broadcastChannels = {}; 
+
+        (async () => {
+            while (!window.ssSocket) {
+                await new Promise(r => setTimeout(r, 100));
+            }
+
+            // Connection listener loop
+            (async () => {
+                for await (let event of window.ssSocket.listener('connect')) {
+                    // Connected
+                }
+            })();
+
+            // Disconnection listener loop
+            (async () => {
+                for await (let event of window.ssSocket.listener('disconnect')) {
+                    // Disconnected
+                }
+            })();
+
+            // Subscribe specifically to the choreography command channel
+            const cmdChannel = window.ssSocket.subscribe('custom_slidesCommands');
+
+            // Listener for modern Choreography updates
+            (async () => {
+                for await (let data of cmdChannel) {
+                    if (data.eventName === 'CHOREOGRAPHY_UPDATE') {
+                        const { config } = data.msgParam;
+                        console.log("[SlideView] Choreography Update:", config);
+                        
+                        if (config.slideComponent) {
+                            applySlideComponentConfig(config.slideComponent);
+                        }
+                        
+                        if (config.cameraComponent && broadcastChannels.cameraShapes) {
+                            broadcastChannels.cameraShapes.postMessage(config.cameraComponent);
+                        }
+                    }
+                }
+            })();
+        })();
+
+        window.addEventListener('DOMContentLoaded', () => {
+            broadcastChannels.cameraShapes = new BroadcastChannel("cameraShapes_channel");
+        });
+        
+        function applySlideComponentConfig(config) {
+            const iframe = document.getElementById("revealIframe");
+            if (!iframe) return;
+
+            // Apply direct transform and scaling from Editor
+            const { x, y, scaleX, scaleY, style } = config;
+            iframe.style.left = `${x}px`;
+            iframe.style.top = `${y}px`;
+            iframe.style.width = "100%"; // Base width
+            iframe.style.height = "100%"; // Base height
+            iframe.style.transform = `scale(${scaleX || 1}, ${scaleY || 1})`;
+            iframe.style.transformOrigin = "top left";
+            
+            // Apply arbitrary CSS styles (filters, borders, etc.)
+            if (style && typeof style === 'object') {
+                Object.assign(iframe.style, style);
+            }
+
+            // Remove all classes, only use inline styles for dynamic positioning
+            iframe.className = "slide-position"; 
+        }
+    </script>
+</body>
+</html>

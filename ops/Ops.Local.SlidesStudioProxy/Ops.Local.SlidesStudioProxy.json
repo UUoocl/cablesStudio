@@ -1,0 +1,48 @@
+{
+    "id": "BABCAD7B-B360-4F3F-A9C1-0B4EC1386E07",
+    "authorName": "Antigravity",
+    "description": "Proxy bridge for Slides Studio, handling OBS requests and WebSocket broadcasting via Fastify.",
+    "category": "local",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Server Instance"
+            },
+            {
+                "type": 1,
+                "name": "On WS Message"
+            },
+            {
+                "type": 2,
+                "name": "WS Message Data"
+            },
+            {
+                "type": 2,
+                "name": "OBS Connection"
+            },
+            {
+                "type": 1,
+                "name": "On OBS Event"
+            },
+            {
+                "type": 5,
+                "name": "OBS Event Type"
+            },
+            {
+                "type": 2,
+                "name": "OBS Event Data"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Proxy Error"
+            },
+            {
+                "type": 5,
+                "name": "Error Message"
+            }
+        ]
+    }
+}

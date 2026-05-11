@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>TelePrompter</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/teleprompter.css">
+
+    <!-- Preload Assets -->
+    <link rel="preload" href="font/fontawesome-webfont.woff" as="font" type="font/woff" crossorigin>
+  </head>
+
+  <body id="gui">
+    <header>
+      <h1><span class="clock">00:00:00</span></h1>
+      <nav>
+        <div class="colors" role="group" aria-label="Color Pickers">
+          <input type="color" id="text-color" value="#ffffff" aria-label="Text Color">
+          <input type="color" id="background-color" value="#141414" aria-label="Background Color">
+        </div>
+        <div class="sliders">
+          <label class="font_size_label" aria-label="Font Size">
+            Font <span>(60)</span>:&nbsp;
+            <input type="range" class="font_size slider" min="12" max="200" value="60">
+          </label><br>
+          <label class="speed_label" aria-label="Page Speed">
+            Speed <span>(35)</span>:&nbsp;
+            <input type="range" class="speed slider" min="0" max="50" value="35">
+          </label><br>
+          <label class="auto_scroll_label" aria-label="Auto Scroll">
+            Auto Scroll:&nbsp;
+            <input type="checkbox" id="auto-scroll">
+          </label>
+        </div>
+        <div class="buttons" role="group" aria-label="TelePrompter Controls">
+          <button class="button small icon-eye-close dim-controls" aria-label="Dim While Reading" title="Dim While Reading" data-ga data-category="Nav" data-action="Control" data-label="Dim"></button>
+          <button class="button small icon-undo reset" aria-label="Reset TelePrompter" title="Reset TelePrompter" data-ga data-category="Nav" data-action="Control" data-label="Reset"></button>
+          <button class="button small icon-text-width flip-x" aria-label="Flip Text Horizontally" title="Flip Text Horizontally" data-ga data-category="Nav" data-action="Control" data-label="FlipX"></button>
+          <button class="button small icon-text-height flip-y" aria-label="Flip Text Vertically" title="Flip Text Vertically" data-ga data-category="Nav" data-action="Control" data-label="FlipY"></button>
+          <button class="button icon-play play active" aria-label="Play / Pause" title="Play / Pause TelePrompter" data-ga data-category="Nav" data-action="Control" data-label="Play"></button>
+        </div>
+      </nav>
+    </header>
+    <article>
+      <div class="overlay">
+        <div class="top"></div>
+        <div class="bottom"></div>
+      </div>
+      <div class="teleprompter" id="teleprompter" role="textbox" aria-multiline="true" aria-label="TelePrompter Text" contenteditable>
+        Loading notes...
+      </div>
+      <i class="icon-play marker" style="display: none"></i>
+    </article>
+
+    <script type="module" src="lib/slides-studio-connection.js"></script>
+    <script src="lib/teleprompter.vanilla.js"></script>
+
+    <script type="module">
+      // Initialize App
+      window.onload = function() {
+        TelePrompter.init();
+      };
+
+      // Unified WebSocket listener for all plugin events
+      (async () => {
+        while (!window.ssSocket) {
+            await new Promise(r => setTimeout(r, 100));
+        }
+
+        console.log("[Teleprompter] Subscribing to custom_slidesCommands via WebSocket...");
+        const channel = window.ssSocket.subscribe('custom_slidesCommands');
+        
+        for await (let data of channel) {
+            try {
+                const eventName = data.eventName;
+                const payload = data.msgParam;
+
+                if (eventName === 'reveal-event') {
+                    if (payload.eventName === 'callback' && payload.method === 'getSlideNotes') {
+                        console.log("[Teleprompter] Received notes via WebSocket callback");
+                        document.getElementById("teleprompter").innerHTML = payload.result;
+                        TelePrompter.resetPageScroll();
+                        if (TelePrompter.isAutoScroll()) {
+                            console.log("[Teleprompter] Auto-scroll enabled, starting...");
+                            TelePrompter.start();
+                        }
+                    }
+                }
+
+                // Handle remote control requests
+                if (eventName === 'teleprompterChangeRequest') {
+                    console.log("[Teleprompter] Change request via WebSocket:", payload.functionName);
+                    if (typeof TelePrompter[payload.functionName] === 'function') {
+                        TelePrompter[payload.functionName](payload.value);
+                    }
+                }
+
+                if (eventName === 'togglePlay') {
+                    console.log("[Teleprompter] Toggle play via WebSocket");
+                    if (typeof TelePrompter[payload.functionName] === 'function') {
+                        TelePrompter[payload.functionName]();
+                    }
+                }
+            } catch (err) {
+                console.error("[Teleprompter] Error processing WebSocket message:", err);
+            }
+        }
+      })();
+    </script>
+  </body>
+</html>

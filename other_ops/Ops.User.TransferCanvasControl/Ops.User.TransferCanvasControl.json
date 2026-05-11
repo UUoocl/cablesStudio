@@ -1,0 +1,51 @@
+{
+    "id": "f8a7c2e1-9d3b-4e5f-a6b0-c7d8e9f0a1b2",
+    "created": 1730400000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created and renamed from IframeToTexture",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1730400000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Execute"
+            },
+            {
+                "type": 5,
+                "name": "Source URL"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            }
+        ]
+    },
+    "summary": "Loads a p5.js sketch in a headless iframe, passes it an OffscreenCanvas via postMessage, and outputs the rendered texture.",
+    "docs": {
+        "ports": []
+    }
+}

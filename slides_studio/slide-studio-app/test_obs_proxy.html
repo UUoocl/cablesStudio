@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Proxy Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #1e1e1e;
+            color: #eee;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #444;
+        }
+        #log {
+            flex-grow: 1;
+            background: #000;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+        }
+        .event { color: #4ec9b0; }
+        .request { color: #ce9178; }
+        .response { color: #9cdcfe; }
+        .error { color: #f44747; }
+        .header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007acc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">OBS WebSocket Proxy Tester</div>
+
+    <div class="controls">
+        <button id="btn-connect">Connect Proxy</button>
+        <button id="btn-version">Get Version</button>
+        <button id="btn-scenes">Get Scene List</button>
+        <button id="btn-inputs">Get Input List</button>
+        <button id="btn-refresh">Refresh Browsers</button>
+        <button id="btn-clear">Clear Log</button>
+    </div>
+
+    <div id="log">Waiting for connection...</div>
+
+    <script type="module">
+        import { create } from './lib/slides-studio-client.js';
+        // Note: obsApiProxy.js is also a module and expects to be imported or loaded as one.
+        // But since it attaches itself to 'window', we can just import it.
+        import './lib/obsApiProxy.js';
+
+        const logEl = document.getElementById('log');
+        
+        function log(msg, type = '') {
+            const div = document.createElement('div');
+            div.className = type;
+            const now = new Date().toLocaleTimeString();
+            div.textContent = `[${now}] ${msg}`;
+            logEl.appendChild(div);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        document.getElementById('btn-clear').onclick = () => logEl.innerHTML = '';
+
+        document.getElementById('btn-connect').onclick = async () => {
+            log("Attempting to connect...", "request");
+            try {
+                const res = await window.obsWss.connect();
+                log(`Connected! OBS Version: ${res.obsWebSocketVersion}`, "response");
+            } catch (e) {
+                log(`Connection failed: ${e.message}`, "error");
+            }
+        };
+
+        document.getElementById('btn-version').onclick = async () => {
+            log("Sending: GetVersion", "request");
+            try {
+                const res = await window.obsWss.call("GetVersion");
+                log(`Response: ${JSON.stringify(res, null, 2)}`, "response");
+            } catch (e) {
+                log(`Error: ${e.message}`, "error");
+            }
+        };
+
+        document.getElementById('btn-scenes').onclick = async () => {
+            log("Sending: GetSceneList", "request");
+            try {
+                const res = await window.obsWss.call("GetSceneList");
+                log(`Scenes: ${res.scenes.map(s => s.sceneName).join(', ')}`, "response");
+            } catch (e) {
+                log(`Error: ${e.message}`, "error");
+            }
+        };
+
+        document.getElementById('btn-inputs').onclick = async () => {
+            log("Sending: GetInputList", "request");
+            try {
+                const res = await window.obsWss.call("GetInputList");
+                log(`Inputs Found: ${res.inputs.length}`, "response");
+            } catch (e) {
+                log(`Error: ${e.message}`, "error");
+            }
+        };
+
+        document.getElementById('btn-refresh').onclick = async () => {
+            log("Sending: Refresh OBS Browsers", "request");
+            try {
+                await window.obsWss.refreshOBSbrowsers();
+                log("Refresh batch sent.", "response");
+            } catch (e) {
+                log(`Error: ${e.message}`, "error");
+            }
+        };
+
+        // Event Monitoring
+        window.obsWss.on('ConnectionOpened', () => log("Event: ConnectionOpened", "event"));
+        window.obsWss.on('ConnectionClosed', () => log("Event: ConnectionClosed", "event"));
+        window.obsWss.on('Identified', () => log("Event: Identified", "event"));
+        
+        // Listen for all common OBS events forwarded by the proxy
+        const monitorEvents = [
+            'CurrentProgramSceneChanged', 
+            'SceneItemEnableStateChanged',
+            'InputMuteStateChanged',
+            'StudioModeStateChanged'
+        ];
+
+        monitorEvents.forEach(evt => {
+            window.obsWss.on(evt, (data) => {
+                log(`Event [${evt}]: ${JSON.stringify(data)}`, "event");
+            });
+        });
+
+    </script>
+</body>
+</html>

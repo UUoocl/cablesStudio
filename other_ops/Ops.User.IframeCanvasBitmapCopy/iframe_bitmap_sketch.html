@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P5 ImageBitmap Bridge</title>
+    <style>
+        body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+    <script src="./lib/p5.1.9.0.js"></script>
+</head>
+<body>
+    <script>
+        // Listen for resize messages from Cables
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'resize') {
+                if (typeof resizeCanvas === 'function') {
+                    resizeCanvas(event.data.w, event.data.h);
+                }
+            }
+        });
+
+        function setup() {
+            const w = window.innerWidth || 800;
+            const h = window.innerHeight || 600;
+            createCanvas(w, h);
+            background(0, 0, 0, 0);
+        }
+
+        function draw() {
+            clear();
+            translate(width / 2, height / 2);
+            rotate(frameCount * 0.05);
+            
+            noStroke();
+            for (let i = 0; i < 8; i++) {
+                push();
+                rotate(TWO_PI * i / 8);
+                fill(100 + i * 20, 150, 255, 150);
+                ellipse(100 + sin(frameCount * 0.1) * 50, 0, 60, 30);
+                pop();
+            }
+
+            captureFrame();
+        }
+
+        let isCapturing = false;
+        async function captureFrame() {
+            if (isCapturing) return;
+            
+            const canvasElt = document.querySelector('canvas');
+            if (!canvasElt) return;
+            
+            isCapturing = true;
+            try {
+                const bmp = await createImageBitmap(canvasElt);
+                window.parent.postMessage({
+                    type: 'iframe_frame',
+                    bmp: bmp
+                }, '*', [bmp]);
+            } catch (e) {
+                // Ignore transient errors
+            } finally {
+                isCapturing = false;
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(window.innerWidth, window.innerHeight);
+        }
+    </script>
+</body>
+</html>

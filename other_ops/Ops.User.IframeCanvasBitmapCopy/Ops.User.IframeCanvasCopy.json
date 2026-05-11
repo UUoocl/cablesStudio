@@ -1,0 +1,60 @@
+{
+    "id": "a1b2c3d4-e5f6-4a5b-b6c7-d8e9f0a1b2c3",
+    "created": 1730500000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created using ImageBitmap transfer",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1730500000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Url"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "integer"
+            },
+            {
+                "type": 2,
+                "name": "Settings"
+            },
+            {
+                "type": 1,
+                "name": "Reload"
+            },
+            {
+                "type": 1,
+                "name": "Execute"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Is Loaded",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "summary": "Captures a canvas from an iframe via ImageBitmap transfer. Optimized for high-performance cross-window rendering.",
+    "docs": {
+        "ports": []
+    }
+}

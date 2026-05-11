@@ -1,0 +1,41 @@
+/* Base styles for all slide positions */
+.slide-position {
+    position: absolute;
+    box-sizing: border-box;
+    transition: all 0.5s ease-in-out;
+    border-style: solid;
+    border-width: 0px;
+    visibility: visible !important;
+    z-index: 1;
+}
+
+.full-screen {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0px;
+    transform: perspective(1500px) rotateY(0deg);
+    filter: opacity(100%) drop-shadow(rgba(0, 0, 0, 0) 0px 0px 0px);
+}
+
+.side-by-side {
+    top: 0 !important;
+    left: 0 !important;
+    width: 50% !important;
+    height: 100% !important;
+    border-radius: 0px;
+    transform: perspective(1500px) rotateY(0deg);
+    filter: opacity(100%) drop-shadow(rgba(0, 0, 0, 0) 0px 0px 0px);
+}
+
+.over-the-shoulder {
+    top: 10% !important;
+    left: 5% !important;
+    width: 40% !important;
+    height: 40% !important;
+    border-radius: 24px;
+    border-width: 2px;
+    transform: perspective(1500px) rotateY(10deg); 
+    filter: opacity(100%) drop-shadow(rgba(0, 0, 0, 0.5) 20px 15px 30px);
+}

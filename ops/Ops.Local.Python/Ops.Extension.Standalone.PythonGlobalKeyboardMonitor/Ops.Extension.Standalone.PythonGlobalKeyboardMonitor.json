@@ -1,0 +1,21 @@
+{
+    "id": "a1b2c3d4-3333-4444-aaaa-000000000003",
+    "name": "Ops.Extension.Standalone.PythonGlobalKeyboardMonitor",
+    "summary": "Monitors global keyboard events using a Python script.",
+    "authorName": "Antigravity",
+    "created": 1714204800000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": ["standalone_electron"],
+    "layout": {
+        "portsIn": [
+            { "type": 5, "name": "Script Location" },
+            { "type": 0, "name": "Active", "subType": "boolean" }
+        ],
+        "portsOut": [
+            { "type": 1, "name": "Trigger" },
+            { "type": 5, "name": "Last Single Key" },
+            { "type": 5, "name": "Last Key Combination" }
+        ]
+    }
+}

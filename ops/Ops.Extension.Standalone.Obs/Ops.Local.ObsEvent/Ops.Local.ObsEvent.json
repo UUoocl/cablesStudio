@@ -1,0 +1,28 @@
+{
+    "id": "e7f8a9b0-c1d2-4e3f-a4b5-c6d7e8f9a0b1",
+    "authorName": "Cables GL",
+    "description": "Listen to OBS events from a connection.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "obsConnection",
+                "objType": "obsConnection"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Event Type"
+            },
+            {
+                "type": 2,
+                "name": "Event Data"
+            },
+            {
+                "type": 1,
+                "name": "Received"
+            }
+        ]
+    }
+}

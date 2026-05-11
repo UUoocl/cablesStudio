@@ -1,0 +1,26 @@
+{
+    "id": "da5e3c8c-1234-4567-890a-sse-broadcast",
+    "name": "Ops.Local.Fastify.SseBroadcast",
+    "description": "Broadcasts data to all connected SSE clients via a Fastify SseServer",
+    "category": "Local.Fastify",
+    "author": "Antigravity",
+    "core": false,
+    "inputs": [
+        {
+            "name": "Server Instance",
+            "type": "object"
+        },
+        {
+            "name": "Channel",
+            "type": "string"
+        },
+        {
+            "name": "Data",
+            "type": "object"
+        },
+        {
+            "name": "Broadcast",
+            "type": "trigger"
+        }
+    ]
+}

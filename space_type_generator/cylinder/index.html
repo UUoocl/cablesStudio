@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>STG Cylinder Headless</title>
+    <script src="../lib/p5.0.7.2.js"></script>
+    <script src="../lib/p5.dom.0.4.0.js"></script>
+    <script src="../lib/p5.sound.0.3.8.js"></script>
+    <script src="sketch.js" type="text/javascript"></script>
+    <script src="../lib/keyboardEngine_190103.js" type="text/javascript"></script>
+
+    <style>
+        body { padding: 0; margin: 0; background: transparent; overflow: hidden; }
+        canvas { vertical-align: top; }
+        .p5_container { display: none !important; }
+    </style>
+
+    <script>
+        // --- COMMUNICATION BRIDGE ---
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelName = urlParams.get('channel') || 'defaultChannel';
+        const initialWidth = parseInt(urlParams.get('width')) || window.innerWidth;
+        const initialHeight = parseInt(urlParams.get('height')) || window.innerHeight;
+
+
+        // pub-channel is for sending messages TO the parent (e.g. draw signals)
+        const pubChannel = new BroadcastChannel('pub-' + channelName);
+        // sub-channel is for receiving messages FROM the parent (e.g. settings)
+        const subChannel = new BroadcastChannel('sub-' + channelName);
+
+        subChannel.onmessage = (event) => {
+            if (!event.data) return;
+            console.log("[STG Iframe] Received settings via BroadcastChannel:", event.data);
+            if (typeof updateSettings === 'function') {
+                updateSettings(event.data);
+            }
+        };
+
+        window.addEventListener('message', (event) => {
+            if (!event.data) return;
+
+            // 1. Handle resizing
+            if (event.data.type === 'resize') {
+                if (typeof resizeCanvas === 'function') {
+                    resizeCanvas(event.data.w, event.data.h);
+                }
+            }
+
+
+            // 2. Handle direct settings injection (Legacy/Alternative)
+            if (event.data.type === 'settings' && event.data.payload) {
+                if (typeof updateSettings === 'function') {
+                    updateSettings(event.data.payload);
+                }
+            }
+        });
+
+
+        // 3. Signal frame draw to Cables
+        function captureFrame() {
+            // Signal to Cables that a frame has been drawn
+            // This is used by Ops.User.BroadcastChannel.BcSTG_Cylinder to trigger texture updates
+            pubChannel.postMessage({ type: 'draw' });
+        }
+
+        function signalReady() {
+            console.log("[STG Iframe] Sending ready signal...");
+            pubChannel.postMessage({ type: 'ready' });
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <!-- Canvas injected by p5.js -->
+</body>
+</html>

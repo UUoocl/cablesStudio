@@ -1,0 +1,198 @@
+{
+    "id": "8803b60a-9007-4e1f-839d-7174088db7bf",
+    "created": 1724238219266,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1724238219267
+        },
+        {
+            "message": "integrated SSE support directly into the operator for stability",
+            "type": "update",
+            "author": "Antigravity",
+            "date": 1778443360530
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Hostname"
+            },
+            {
+                "type": 0,
+                "name": "Port",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "Root Directory"
+            },
+            {
+                "type": 0,
+                "name": "Auto Start",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Start Server"
+            },
+            {
+                "type": 1,
+                "name": "Stop Server"
+            },
+            {
+                "type": 5,
+                "name": "SSE Event Name"
+            },
+            {
+                "type": 2,
+                "name": "SSE Data"
+            },
+            {
+                "type": 1,
+                "name": "Broadcast SSE"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Server Started"
+            },
+            {
+                "type": 1,
+                "name": "Server Stopped"
+            },
+            {
+                "type": 1,
+                "name": "Server Ready"
+            },
+            {
+                "type": 1,
+                "name": "On HTTP Request"
+            },
+            {
+                "type": 5,
+                "name": "HTTP URL"
+            },
+            {
+                "type": 2,
+                "name": "HTTP Request Data"
+            },
+            {
+                "type": 2,
+                "name": "HTTP Response Data"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Server Instance"
+            },
+            {
+                "type": 0,
+                "name": "Active Clients"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "HTTP File Server for standalone cables gl. Supports File serving, Health check, and Integrated SSE broadcasts.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Hostname",
+                "text": "Interface to listen on (default 127.0.0.1 for local only)"
+            },
+            {
+                "name": "Port",
+                "text": "Port to listen on"
+            },
+            {
+                "name": "Root Directory",
+                "text": "Root directory to serve files from. Defaults to patch directory."
+            },
+            {
+                "name": "Auto Start",
+                "text": "If enabled, the server starts automatically after a short delay."
+            },
+            {
+                "name": "Start Server",
+                "text": "Manually start the server."
+            },
+            {
+                "name": "Stop Server",
+                "text": "Manually stop the server."
+            },
+            {
+                "name": "SSE Event Name",
+                "text": "The name of the SSE event to broadcast (default: message)."
+            },
+            {
+                "name": "SSE Data",
+                "text": "The JSON data payload to broadcast."
+            },
+            {
+                "name": "Broadcast SSE",
+                "text": "Trigger to send the event to all connected SSE clients."
+            },
+            {
+                "name": "Server Started",
+                "text": "Fires when the server has successfully started."
+            },
+            {
+                "name": "Server Stopped",
+                "text": "Fires when the server has stopped."
+            },
+            {
+                "name": "Server Ready",
+                "text": "Fires when the server is ready to accept connections."
+            },
+            {
+                "name": "On HTTP Request",
+                "text": "Fires on every incoming HTTP request."
+            },
+            {
+                "name": "HTTP URL",
+                "text": "The URL of the incoming request."
+            },
+            {
+                "name": "HTTP Request Data",
+                "text": "The Node.js incoming request object."
+            },
+            {
+                "name": "HTTP Response Data",
+                "text": "The Node.js server response object."
+            },
+            {
+                "name": "Error",
+                "text": "Contains any error message if the server fails to start or run."
+            },
+            {
+                "name": "Running",
+                "text": "True if the server is currently running."
+            },
+            {
+                "name": "Server Instance",
+                "text": "The Node.js HTTP server instance."
+            },
+            {
+                "name": "Active Clients",
+                "text": "The number of currently connected SSE clients."
+            }
+        ]
+    },
+    "isReleased": true
+}

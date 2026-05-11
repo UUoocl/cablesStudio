@@ -1,0 +1,1076 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Slides Studio</title>
+
+    <style>
+        body {
+            font-family: Helvetica;
+            font-size: 18px;
+        }
+
+        #current-slide,
+        #upcoming-slide,
+        #speaker-controls {
+            padding: 6px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        #current-slide iframe,
+        #upcoming-slide iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #333;
+        }
+
+        #current-slide {
+            position: absolute;
+            width: 60%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        #upcoming-slide {
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            right: 0;
+            top: 0;
+        }
+
+        #speaker-controls {
+            position: absolute;
+            top: 40%;
+            right: 0;
+            width: 40%;
+            height: 60%;
+            overflow: auto;
+            font-size: 18px;
+        }
+
+        .speaker-controls-time {
+            display: none;
+        }
+
+        .speaker-controls-notes {
+            padding: 10px 0;
+        }
+
+        .speaker-controls-notes .label {
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.6em;
+            font-weight: bold;
+        }
+
+        .speaker-controls-notes .value {
+            margin-top: 5px;
+            line-height: 1.4;
+            font-size: 1.2em;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        /* Layout selector */
+        #speaker-layout {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #222;
+            z-index: 10;
+        }
+
+        #speaker-layout .speaker-layout-label {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.6em;
+            padding-right: 10px;
+        }
+
+        #speaker-layout .speaker-layout-dropdown {
+            font-size: 0.8em;
+        }
+
+        /* Speaker layout overrides */
+        /* Wide */
+        body[data-speaker-layout="wide"] #current-slide,
+        body[data-speaker-layout="wide"] #upcoming-slide {
+            width: 50%;
+            height: 45%;
+            padding: 6px;
+        }
+
+        body[data-speaker-layout="wide"] #current-slide {
+            top: 0;
+            left: 0;
+        }
+
+        body[data-speaker-layout="wide"] #upcoming-slide {
+            top: 0;
+            left: 50%;
+        }
+
+        body[data-speaker-layout="wide"] #speaker-controls {
+            top: 45%;
+            left: 0;
+            width: 100%;
+            height: 55%;
+        }
+
+        /* Tall */
+        body[data-speaker-layout="tall"] #current-slide,
+        body[data-speaker-layout="tall"] #upcoming-slide {
+            width: 45%;
+            height: 50%;
+            padding: 6px;
+        }
+
+        body[data-speaker-layout="tall"] #current-slide {
+            top: 0;
+            left: 0;
+        }
+
+        body[data-speaker-layout="tall"] #upcoming-slide {
+            top: 50%;
+            left: 0;
+        }
+
+        body[data-speaker-layout="tall"] #speaker-controls {
+            top: 0;
+            left: 45%;
+            width: 55%;
+            height: 100%;
+        }
+
+        /* Notes only */
+        body[data-speaker-layout="notes-only"] #current-slide,
+        body[data-speaker-layout="notes-only"] #upcoming-slide {
+            display: none;
+        }
+
+        body[data-speaker-layout="notes-only"] #speaker-controls {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Teleprompter/Studio specific layout */
+        body[data-speaker-layout="teleprompter"] #current-slide,
+        body[data-speaker-layout="teleprompter"] #upcoming-slide {
+            width: 50%;
+            height: 30%;
+            padding: 6px;
+        }
+
+        body[data-speaker-layout="teleprompter"] #current-slide {
+            top: 0;
+            left: 0;
+        }
+
+        body[data-speaker-layout="teleprompter"] #upcoming-slide {
+            top: 0;
+            left: 50%;
+        }
+
+        body[data-speaker-layout="teleprompter"] #speaker-controls {
+            top: 30%;
+            left: 0;
+            width: 100%;
+            height: 70%;
+        }
+
+        .connection-status {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            padding: 30px 20px;
+            background: #fff;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .connection-status h2 {
+            margin-bottom: 0.5em;
+        }
+
+        .connection-status p {
+            margin-bottom: 1.5em;
+            color: #666;
+        }
+
+        .location-input {
+            width: 400px;
+            padding: 10px;
+            font-size: 1.1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1em;
+        }
+
+        .load-button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .load-button:hover {
+            background: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="connection-status" class="connection-status">
+        <h2>Slide Studio Viewer</h2>
+        <p>Enter the path to your slide deck (relative to vault root).</p>
+        <input type="text" id="location" class="location-input" placeholder="slides_demo_deck/index.html"
+            value="slides_demo_deck/index.html" />
+        <button id="loadDeckButton" class="load-button">Load Presentation</button>
+    </div>
+
+    <div id="current-slide" style="display: none;"></div>
+
+    <div id="upcoming-slide" style="display: none;"></div>
+
+    <div id="speaker-controls" style="display: none;">
+        <div id="studio-table" style="height: 100%; width: 100%; display: none;"></div>
+        <div id="teleprompter" style="height: 100%; width: 100%; display: none;"></div>
+    </div>
+
+    <div id="speaker-layout" class="overlay-element interactive" style="display: none;">
+        <span class="speaker-layout-label"></span>
+        <select class="speaker-layout-dropdown"></select>
+    </div>
+
+    <script type="module" src="./lib/slides-studio-connection.js"></script>
+    <script type="module" src="./lib/obsApiProxy.js"></script>
+
+
+    <script>
+        window.onbeforeunload = () => {
+            console.warn("[Diagnostic] Page is reloading/unloading!");
+        };
+
+        window.addEventListener("load", (event) => {
+            document.getElementById("loadDeckButton").addEventListener("click", () => {
+                if (window.loadSpeakerView) window.loadSpeakerView();
+            });
+        });
+    </script>
+    <script id="setupSpeakerView" type="module">
+
+        let notesIframe,
+            studioIframe,
+            layoutLabel,
+            layoutDropdown,
+            lastRevealApiCallId = 0,
+            connected = false,
+            currentActiveScene = "",
+            validScenes = [], // Cache of available OBS scenes
+            sidecarMappings = {}; // Cache of slideId/slideState -> sceneName from .obs-map.json
+
+        const sourceStateCache = new Map();
+
+        const EASING = {
+            linear: t => t,
+            'ease-in': t => t * t,
+            'ease-out': t => t * (2 - t),
+            bounce: t => {
+                if (t < (1 / 2.75)) {
+                    return 7.5625 * t * t;
+                } else if (t < (2 / 2.75)) {
+                    return 7.5625 * (t -= (1.5 / 2.75)) * t + 0.75;
+                } else if (t < (2.5 / 2.75)) {
+                    return 7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375;
+                } else {
+                    return 7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375;
+                }
+            }
+        };
+
+        async function cacheAllSourceTransforms(sceneName) {
+            try {
+                const response = await window.obsWss.call('GetSceneItemList', { sceneName });
+                if (response && response.sceneItems) {
+                    // Fetch all transforms in parallel to minimize blocking
+                    await Promise.all(response.sceneItems.map(async (item) => {
+                        try {
+                            const response = await window.obsWss.call('GetSceneItemTransform', {
+                                sceneName,
+                                sceneItemId: item.sceneItemId
+                            });
+                            const transform = response.sceneItemTransform;
+                            if (transform) {
+                                sourceStateCache.set(item.sourceName, transform);
+                            }
+                        } catch (e) { }
+                    }));
+                }
+            } catch (err) {
+                console.warn(`[Move] Failed to cache transforms for ${sceneName}:`, err);
+            }
+        }
+
+        /**
+         * Prepares sources in the target scene by snapping them to their previous positions.
+         * Returns an array of animation data for the subsequent lerp.
+         */
+        async function prepareMoveTransition(targetScene, moveConfig) {
+            if (!moveConfig || !moveConfig.sources || !Array.isArray(moveConfig.sources)) return null;
+
+            const { sources } = moveConfig;
+            try {
+                const response = await window.obsWss.call('GetSceneItemList', { sceneName: targetScene });
+                const sceneItems = response.sceneItems;
+                const animations = [];
+                const snapBatch = [];
+
+                for (const sourceName of sources) {
+                    const item = sceneItems.find(i => i.sourceName === sourceName);
+                    const prevTransform = sourceStateCache.get(sourceName);
+
+                    if (item && prevTransform) {
+                        try {
+                            const response = await window.obsWss.call('GetSceneItemTransform', {
+                                sceneName: targetScene,
+                                sceneItemId: item.sceneItemId
+                            });
+                            const targetTransform = response.sceneItemTransform;
+
+                            if (targetTransform) {
+                                // Check if there's actually a difference worth animating
+                                const diff = Math.abs(targetTransform.positionX - prevTransform.positionX) +
+                                    Math.abs(targetTransform.positionY - prevTransform.positionY);
+
+                                if (diff > 1) { // 1px threshold
+                                    animations.push({
+                                        sourceName,
+                                        itemId: item.sceneItemId,
+                                        start: prevTransform,
+                                        end: targetTransform
+                                    });
+
+                                    // 1. Hide source in target scene to prevent flicker
+                                    snapBatch.push({
+                                        requestType: 'SetSceneItemEnabled',
+                                        requestData: {
+                                            sceneName: targetScene,
+                                            sceneItemId: item.sceneItemId,
+                                            sceneItemEnabled: false
+                                        }
+                                    });
+
+                                    // 2. Snap to previous position
+                                    snapBatch.push({
+                                        requestType: 'SetSceneItemTransform',
+                                        requestData: {
+                                            sceneName: targetScene,
+                                            sceneItemId: item.sceneItemId,
+                                            sceneItemTransform: prevTransform
+                                        }
+                                    });
+                                } else {
+                                    console.log(`[Move] Skipping ${sourceName} - no significant change (Diff: ${diff})`);
+                                }
+                            }
+                        } catch (e) { }
+                    } else {
+                        console.log(`[Move] Could not animate ${sourceName}: Item found? ${!!item}, Prev state? ${!!prevTransform}`);
+                    }
+                }
+
+                if (snapBatch.length > 0) {
+                    await window.obsWss.callBatch(snapBatch);
+                    console.log(`[Move] Pre-snapped and hid ${snapBatch.length} sources in ${targetScene}`);
+                }
+
+                return animations;
+            } catch (err) {
+                console.warn("[Move] Preparation failed:", err);
+                return null;
+            }
+        }
+
+        async function runMoveTransition(targetScene, moveConfig, animations) {
+            if (!animations || animations.length === 0) return;
+
+            const { duration = 500, steps = 15, ease = 'linear' } = moveConfig;
+            const easingFn = EASING[ease] || EASING.linear;
+            const sleepMillis = Math.floor(duration / steps);
+
+            console.log(`[Move] Starting animation for ${animations.length} sources over ${duration}ms (${ease})...`);
+
+            try {
+                const batch = [];
+
+                // 1. Re-enable and start animation
+                for (let i = 0; i <= steps; i++) {
+                    const t = easingFn(i / steps);
+
+                    animations.forEach(anim => {
+                        // On first step, ensure source is visible
+                        if (i === 0) {
+                            batch.push({
+                                requestType: 'SetSceneItemEnabled',
+                                requestData: {
+                                    sceneName: targetScene,
+                                    sceneItemId: anim.itemId,
+                                    sceneItemEnabled: true
+                                }
+                            });
+                        }
+
+                        const intermediate = {};
+                        ['positionX', 'positionY', 'scaleX', 'scaleY', 'rotation'].forEach(prop => {
+                            const startVal = anim.start[prop] ?? 0;
+                            const endVal = anim.end[prop] ?? 0;
+                            intermediate[prop] = startVal + (endVal - startVal) * t;
+                        });
+
+                        batch.push({
+                            requestType: 'SetSceneItemTransform',
+                            requestData: {
+                                sceneName: targetScene,
+                                sceneItemId: anim.itemId,
+                                sceneItemTransform: intermediate
+                            }
+                        });
+                    });
+
+                    if (i < steps) {
+                        batch.push({
+                            requestType: 'Sleep',
+                            requestData: { sleepMillis }
+                        });
+                    }
+                }
+
+                await window.obsWss.callBatch(batch);
+                console.log(`[Move] Animation complete for ${targetScene}`);
+            } catch (err) {
+                console.warn("[Move] Lerp failed:", err);
+            }
+        }
+
+        let slidesArray = [];
+        let slidesLoaded = false;
+        let tableLoaded = false;
+        let slideDeck;
+        let slideDeckURL;
+
+        // Expose to window for other modules
+        window.currentSlide = undefined;
+        window.upcomingSlide = undefined;
+
+        var SPEAKER_LAYOUTS = {
+            'teleprompter': 'Teleprompter',
+            'studio': 'Studio',
+            'default': 'Default',
+            'wide': 'Wide',
+            'tall': 'Tall',
+            'notes-only': 'Notes only'
+        };
+
+        window.loadSpeakerView = async function () {
+            if (window.isViewLoaded) return;
+            window.isViewLoaded = true;
+
+            // Connect to OBS via proxy in background
+            obsWss.connect().then(async () => {
+                try {
+                    const sceneList = await window.obsWss.call('GetSceneList');
+                    if (sceneList && sceneList.scenes) {
+                        validScenes = sceneList.scenes.map(s => (s.sceneName || s).trim());
+                        console.log(`[Choreography] Found ${validScenes.length} valid scenes in OBS.`);
+
+                        // Capture initial state for Move transitions
+                        try {
+                            const currentScene = await window.obsWss.call('GetCurrentProgramScene');
+                            currentActiveScene = currentScene.currentProgramSceneName;
+                            await cacheAllSourceTransforms(currentActiveScene);
+                            console.log(`[Move] Initialized state cache with scene: ${currentActiveScene}`);
+                        } catch (initErr) { }
+                    }
+                } catch (sceneListErr) {
+                    console.warn("[Choreography] Could not fetch scene list from OBS. Safe-switch disabled.", sceneListErr);
+                }
+            }).catch(e => {
+                console.warn("OBS connection attempt failed:", e);
+            });
+
+            document.getElementById("connection-status").style.display = 'none';
+            document.getElementById("current-slide").style.display = 'block';
+            document.getElementById("upcoming-slide").style.display = 'block';
+            document.getElementById("speaker-controls").style.display = 'block';
+            document.getElementById("speaker-layout").style.display = 'block';
+
+            //set slides url
+            let locationValue = document.getElementById("location").value;
+            if (!locationValue.startsWith("http")) {
+                locationValue = `${window.location.origin}/${locationValue}`
+                document.getElementById("location").value = locationValue;
+            }
+
+            try {
+                // Extract a deck ID from the original relative path for storage purposes
+                let relativePath = locationValue;
+                if (relativePath.startsWith(window.location.origin)) {
+                    relativePath = relativePath.replace(window.location.origin + "/", "");
+                }
+                const deckId = relativePath.replace(/\.(html|md)$/, '');
+                window.currentDeckId = deckId;
+
+                slideDeckURL = new URL(locationValue.startsWith("http") ? locationValue : `${window.location.origin}/${locationValue}`)
+                slideDeck = slideDeckURL.href
+
+                setupLayout();
+                setupIframes();
+
+                // Send initialization data to other views (Studio, etc.) via WebSocket
+                setTimeout(() => {
+                    console.log("[SpeakerView] Broadcasting deck info:", deckId);
+                    window.broadcastSlidesCommand("set-slides-studio-url", { url: slideDeck });
+                    window.broadcastSlidesCommand("set-deck-id", { deckId: deckId });
+                }, 1000);
+
+            } catch (e) {
+                alert("Please enter a valid URL or deck path.");
+                window.isViewLoaded = false;
+                document.getElementById("connection-status").style.display = 'flex';
+                return;
+            }
+
+            handleConnectMessage();
+            window.document.getElementById("speaker-controls").focus();
+
+            // Load sidecar mappings if deckId is available
+            // if (window.currentDeckId) {
+            //     await window.loadFromSidecar();
+            // }
+        }
+
+        window.loadFromSidecar = async function () {
+            if (!window.currentDeckId) return;
+
+            console.log(`[SpeakerView] Attempting to load sidecar for ${window.currentDeckId}...`);
+            try {
+                const response = await fetch(`/api/file/get?folder=&filename=${window.currentDeckId}.obs-map.json`);
+                if (response.ok) {
+                    const sidecarData = await response.json();
+                    console.log(`[SpeakerView] Loaded sidecar mappings:`, sidecarData);
+
+                    // Convert array [{id, scene}] to object {id: scene}
+                    if (Array.isArray(sidecarData)) {
+                        sidecarData.forEach(mapping => {
+                            sidecarMappings[mapping.id] = mapping.scene;
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log("[SpeakerView] No sidecar found or failed to load. Using slide attributes.");
+            }
+        }
+
+        // Helper to get attributes from the current slide in the iframe
+        window.getSlideAttributes = function () {
+            if (!window.currentSlide || !window.currentSlide.contentDocument) return {};
+
+            let slideEl = window.currentSlide.contentDocument.querySelector('.present');
+            if (slideEl && slideEl.classList.contains('stack')) {
+                slideEl = window.currentSlide.contentDocument.querySelector('.present .present');
+            }
+            if (!slideEl) return {};
+
+            const getAttr = (name) => {
+                const attr = slideEl.getAttribute(name);
+                if (attr) return attr.trim();
+                const subEl = slideEl.querySelector(`[${name}]`);
+                return subEl ? subEl.getAttribute(name).trim() : "";
+            };
+
+            const fragmentEl = slideEl.querySelector('.current-fragment');
+
+            return {
+                slideId: getAttr("data-id"),
+                slideName: getAttr("data-slide-name"),
+                slidePosition: getAttr("data-slide-position"),
+                cameraPosition: getAttr("data-camera-position"),
+                cameraShape: getAttr("data-camera-shape"),
+                scene: getAttr("data-scene"),
+                // Fragment specific attributes
+                fragmentName: fragmentEl ? fragmentEl.getAttribute("data-fragment-name") : "",
+                fragmentPosition: fragmentEl ? fragmentEl.getAttribute("data-fragment-position") : "",
+                fragmentCameraPosition: fragmentEl ? fragmentEl.getAttribute("data-fragment-camera-position") : "",
+                fragmentCameraShape: fragmentEl ? fragmentEl.getAttribute("data-fragment-camera-shape") : "",
+                fragmentScene: fragmentEl ? fragmentEl.getAttribute("data-fragment-scene") : ""
+            };
+        }
+
+        // Listen for messages from Reveal.js iframes and the Studio brain
+        window.addEventListener('message', event => {
+            try {
+                const data = JSON.parse(event.data);
+
+                if (data.namespace === 'tabulator' && data.message === "slides-data") {
+                    if (studioIframe && studioIframe.contentWindow) {
+                        studioIframe.contentWindow.postMessage(JSON.stringify({
+                            namespace: "speakerview",
+                            message: "slides-data-response",
+                            slidesData: slidesArray
+                        }), "*");
+                    }
+                }
+
+                if (data.namespace === 'studio') {
+                    if (data.message === 'update-mapping') {
+                        const row = data.data;
+                        const slideKey = row.slideId || row.slideState;
+                        sidecarMappings[slideKey] = row.scene;
+                        console.log(`[SpeakerView] Updated live mapping for ${slideKey}: ${row.scene}`);
+                    } else if (data.message === 'new-scene-created') {
+                        const sceneName = data.sceneName;
+                        if (!validScenes.includes(sceneName)) {
+                            validScenes.push(sceneName);
+                            validScenes.sort();
+                            console.log(`[SpeakerView] Added new scene to validScenes: ${sceneName}`);
+                        }
+                    }
+                }
+
+                if (data.namespace === 'reveal') {
+                    // --- Indexing Logic (Example Project Pattern) ---
+                    if (!slidesLoaded && !tableLoaded) {
+                        if (data.eventName === 'ready') {
+                            console.log("[Indexing] Slides ready, starting collection...");
+                            slidesArray = [];
+                            addSlideToSlideArray(data);
+                        } else if (data.eventName === 'slidechanged') {
+                            addSlideToSlideArray(data);
+                        } else if (['fragmentshown', 'fragmenthidden'].includes(data.eventName)) {
+                            addFragmentToSlideArray(data);
+                        } else if (data.eventName === 'callback' && data.method === 'getProgress') {
+                            const progress = data.result;
+                            if (progress === 1) {
+                                console.log("[Indexing] Complete! Compiled Slides Array:", slidesArray);
+                                slidesLoaded = true;
+                                tableLoaded = true;
+                                // Return to start
+                                window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'slide', args: [0, 0] }), "*");
+                                // Send to Studio
+                                if (studioIframe && studioIframe.contentWindow) {
+                                    studioIframe.contentWindow.postMessage(JSON.stringify({
+                                        namespace: "speakerview",
+                                        message: "slides-data-response",
+                                        slidesData: slidesArray
+                                    }), "*");
+                                }
+                            } else {
+                                // Get next
+                                window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'next' }), "*");
+                            }
+                        }
+                    }
+                    // --- End Indexing Logic ---
+
+                    if (typeof window.broadcastSlidesCommand === 'function') {
+                        if (data.eventName === 'slidechanged' || data.eventName === 'ready') {
+                            // Request notes for the teleprompter
+                            window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'getSlideNotes' }), "*");
+                        } else if (data.method === 'getSlideNotes') {
+                            console.log("[SpeakerView] Received notes from iframe, broadcasting to Teleprompter...");
+                            window.broadcastSlidesCommand('reveal-event', { eventName: 'callback', method: 'getSlideNotes', result: data.result });
+                        } else if (['overviewhidden', 'overviewshown'].includes(data.eventName)) {
+                            window.obsWss.publish('studio_to_currentSlide', 'overview-toggled', data.state);
+                        }
+
+                        // Publish reveal events specifically to the Studio "brain" to prevent loops
+                        console.log("[SpeakerView] Forwarding reveal event to Studio:", data.eventName);
+                        const enrichedData = { ...data, attributes: window.getSlideAttributes() };
+                        obsWss.publish('currentSlide_to_studio', 'reveal-event', enrichedData);
+
+                        // Broadcast navigation for synced views (OBS View, etc.)
+                        if (data.eventName === 'slidechanged' || data.eventName === 'fragmentshown') {
+                            obsWss.publish('slides_navigation', 'slide-changed', data.state);
+                        }
+
+                        // --- Scene Choreography Logic ---
+                        if (slidesLoaded && (data.eventName === 'slidechanged' || data.eventName === 'fragmentshown')) {
+                            const stateStr = `${data.state.indexh},${data.state.indexv}${data.state.indexf !== undefined && data.state.indexf !== -1 ? ',' + data.state.indexf : ''}`;
+
+                            // Search recursively in slidesArray
+                            let foundSlide = null;
+                            const findInArray = (arr, state) => {
+                                for (const s of arr) {
+                                    if (s.slideState === state) return s;
+                                    if (s._children) {
+                                        const found = findInArray(s._children, state);
+                                        if (found) return found;
+                                    }
+                                }
+                                return null;
+                            };
+
+                            foundSlide = findInArray(slidesArray, stateStr);
+
+                            if (foundSlide) {
+                                const slideKey = foundSlide.slideId || foundSlide.slideState;
+                                const targetScene = sidecarMappings[slideKey] || foundSlide.scene;
+
+                                if (targetScene) {
+                                    (async () => {
+                                        try {
+                                            // 0. Cache current scene state before switching
+                                            if (currentActiveScene) {
+                                                await cacheAllSourceTransforms(currentActiveScene);
+                                            }
+
+                                            // 1. Fetch SceneConfig to see if we need to pre-snap
+                                            let moveConfig = null;
+                                            let sceneConfig = null;
+                                            try {
+                                                // Try scene-specific config first
+                                                let configResp = await window.obsWss.call('GetInputSettings', {
+                                                    inputName: `SceneConfig-${targetScene}`
+                                                }).catch(e => null);
+
+                                                // Fallback to global SceneConfig
+                                                if (!configResp || !configResp.inputSettings || !configResp.inputSettings.text) {
+                                                    configResp = await window.obsWss.call('GetInputSettings', {
+                                                        inputName: 'SceneConfig'
+                                                    }).catch(e => null);
+                                                }
+
+                                                // 3. Last resort: scan the target scene items for anything containing "SceneConfig"
+                                                if (!configResp || !configResp.inputSettings || !configResp.inputSettings.text) {
+                                                    const itemsRes = await window.obsWss.call('GetSceneItemList', { sceneName: targetScene }).catch(e => ({ sceneItems: [] }));
+                                                    const foundConfig = itemsRes.sceneItems.find(i => i.sourceName.includes('SceneConfig'));
+                                                    if (foundConfig) {
+                                                        console.log(`[Choreography] Discovered SceneConfig via scan: ${foundConfig.sourceName}`);
+                                                        configResp = await window.obsWss.call('GetInputSettings', {
+                                                            inputName: foundConfig.sourceName
+                                                        }).catch(e => null);
+                                                    }
+                                                }
+
+                                                if (configResp && configResp.inputSettings && configResp.inputSettings.text) {
+                                                    sceneConfig = JSON.parse(configResp.inputSettings.text);
+                                                    moveConfig = sceneConfig.moveTransition;
+                                                    console.log(`[Choreography] Found Move config in ${targetScene}:`, moveConfig);
+                                                } else {
+                                                    console.log(`[Choreography] No SceneConfig found for ${targetScene}`);
+                                                }
+                                            } catch (e) {
+                                                console.warn("[Choreography] Failed to fetch SceneConfig:", e);
+                                            }
+
+                                            // 2. Sequential Transition (Hide -> Snap -> Wait -> Switch)
+                                            try {
+                                                const response = await window.obsWss.call('GetSceneItemList', { sceneName: targetScene });
+                                                const sceneItems = response.sceneItems;
+                                                const animations = [];
+                                                const snapBatch = [];
+
+                                                if (moveConfig && moveConfig.sources) {
+                                                    for (const sourceName of moveConfig.sources) {
+                                                        const item = sceneItems.find(i => i.sourceName === sourceName);
+                                                        const prevTransform = sourceStateCache.get(sourceName);
+
+                                                        if (item && prevTransform) {
+                                                            const transformRes = await window.obsWss.call('GetSceneItemTransform', {
+                                                                sceneName: targetScene,
+                                                                sceneItemId: item.sceneItemId
+                                                            });
+                                                            const targetTransform = transformRes.sceneItemTransform;
+
+                                                            if (targetTransform) {
+                                                                const diff = Math.abs(targetTransform.positionX - prevTransform.positionX) +
+                                                                    Math.abs(targetTransform.positionY - prevTransform.positionY);
+
+                                                                if (diff > 1) {
+                                                                    animations.push({
+                                                                        sourceName,
+                                                                        itemId: item.sceneItemId,
+                                                                        start: prevTransform,
+                                                                        end: targetTransform
+                                                                    });
+
+                                                                    // Step 1a: Hide source in target scene (Double-tap: Enabled=false AND Scale=0)
+                                                                    snapBatch.push({
+                                                                        requestType: 'SetSceneItemEnabled',
+                                                                        requestData: {
+                                                                            sceneName: targetScene,
+                                                                            sceneItemId: item.sceneItemId,
+                                                                            sceneItemEnabled: false
+                                                                        }
+                                                                    });
+
+                                                                    const hiddenTransform = { ...prevTransform, scaleX: 0, scaleY: 0 };
+                                                                    snapBatch.push({
+                                                                        requestType: 'SetSceneItemTransform',
+                                                                        requestData: {
+                                                                            sceneName: targetScene,
+                                                                            sceneItemId: item.sceneItemId,
+                                                                            sceneItemTransform: hiddenTransform
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                // Step 1: Execute Hide & Snap
+                                                if (snapBatch.length > 0) {
+                                                    console.log(`[Choreography] Step 1: Hiding and Snapping ${animations.length} sources...`);
+                                                    await window.obsWss.callBatch(snapBatch);
+
+                                                    // Step 2: Aggressive delay to let OBS "settle"
+                                                    const snapDelay = moveConfig.delay || 300;
+                                                    await new Promise(r => setTimeout(r, snapDelay));
+                                                }
+
+                                                // Step 3: Switch Scene
+                                                if (targetScene && currentActiveScene !== targetScene) {
+                                                    console.log(`[Choreography] Step 3: Switching to ${targetScene}...`);
+                                                    await window.obsWss.call('SetCurrentProgramScene', { sceneName: targetScene });
+                                                    currentActiveScene = targetScene;
+                                                }
+
+                                                // Step 4: Run Lerp (Activate -> Animate)
+                                                if (sceneConfig) {
+                                                    if (animations.length > 0) {
+                                                        // Short extra pause to ensure transition is fully engaged
+                                                        await new Promise(r => setTimeout(r, 100));
+                                                        runMoveTransition(targetScene, moveConfig, animations);
+                                                    }
+
+                                                    window.broadcastSlidesCommand("CHOREOGRAPHY_UPDATE", {
+                                                        scene: foundSlide.scene,
+                                                        config: sceneConfig
+                                                    });
+                                                }
+                                            } catch (err) {
+                                                console.warn("[Choreography] Transition Logic Failed:", err);
+                                            }
+                                        } catch (err) {
+                                            console.warn("[Choreography] OBS Sync Failed:", err);
+                                        }
+                                    })();
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                // Silently ignore non-JSON messages
+            }
+        });
+
+        async function addSlideToSlideArray(data) {
+            if (!data.state) return;
+            const attrs = window.getSlideAttributes();
+            const state = `${data.state.indexh},${data.state.indexv}`;
+
+            // Prevent duplicates
+            if (slidesArray.find(s => s.slideState === state)) return;
+
+            slidesArray.push({
+                slideId: attrs.slideId || `slide-${state}`,
+                slideState: state,
+                slideName: attrs.slideName || "",
+                slidePosition: attrs.slidePosition || "",
+                cameraPosition: attrs.cameraPosition || "",
+                cameraShape: attrs.cameraShape || "",
+                scene: attrs.scene || ""
+            });
+
+            window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: "getProgress" }), "*");
+        }
+
+        async function addFragmentToSlideArray(data) {
+            if (!data.state) return;
+            const state = `${data.state.indexh},${data.state.indexv}`;
+            const foundSlide = slidesArray.find(s => s.slideState === state);
+
+            if (foundSlide) {
+                if (!foundSlide._children) foundSlide._children = [];
+                const attrs = window.getSlideAttributes();
+                const fragState = `${state},${data.state.indexf}`;
+
+                if (!foundSlide._children.find(f => f.slideState === fragState)) {
+                    foundSlide._children.push({
+                        slideId: `frag-${fragState}`,
+                        slideState: fragState,
+                        slideName: attrs.fragmentName || attrs.slideName || "",
+                        slidePosition: attrs.fragmentPosition || attrs.slidePosition || "",
+                        cameraPosition: attrs.fragmentCameraPosition || attrs.cameraPosition || "",
+                        cameraShape: attrs.fragmentCameraShape || attrs.cameraShape || "",
+                        scene: attrs.fragmentScene || attrs.scene || ""
+                    });
+                }
+            }
+            window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: "getProgress" }), "*");
+        }
+
+        // #region Iframe setup
+        function setupIframes() {
+            const currentUrl = new URL(slideDeck);
+            currentUrl.searchParams.set("postMessageEvents", "true");
+
+            window.currentSlide = document.createElement("iframe");
+            window.currentSlide.setAttribute("width", "100%");
+            window.currentSlide.setAttribute("height", "100%");
+            window.currentSlide.setAttribute("src", currentUrl.toString());
+            window.currentSlide.setAttribute("id", "current-iframe");
+            document.querySelector("#current-slide").appendChild(window.currentSlide);
+
+            const upcomingUrl = new URL(slideDeck);
+            upcomingUrl.searchParams.set("postMessageEvents", "false");
+            upcomingUrl.searchParams.set("postMessage", "true");
+
+            window.upcomingSlide = document.createElement("iframe");
+            window.upcomingSlide.setAttribute("width", "100%");
+            window.upcomingSlide.setAttribute("height", "100%");
+            window.upcomingSlide.setAttribute("src", upcomingUrl.toString());
+            window.upcomingSlide.setAttribute("id", "upcoming-iframe");
+            document.querySelector("#upcoming-slide").appendChild(window.upcomingSlide);
+
+            notesIframe = document.createElement("iframe");
+            notesIframe.setAttribute("width", '100%')
+            notesIframe.setAttribute("height", '100%')
+            notesIframe.setAttribute("style", "border:none;")
+            notesIframe.setAttribute("src", `teleprompter.html`)
+            notesIframe.setAttribute("id", "notes-iframe");
+            document.getElementById("teleprompter").appendChild(notesIframe);
+
+            studioIframe = document.createElement("iframe");
+            studioIframe.setAttribute("width", '100%')
+            studioIframe.setAttribute("height", '100%')
+            studioIframe.setAttribute("style", "border:none;")
+            studioIframe.setAttribute("src", `studio.html`)
+            studioIframe.setAttribute("id", "studio-iframe");
+            document.getElementById("studio-table").appendChild(studioIframe);
+        }
+        //#endregion
+
+        // #region Layout
+        function setupLayout() {
+            layoutDropdown = document.querySelector(".speaker-layout-dropdown");
+            layoutLabel = document.querySelector(".speaker-layout-label");
+
+            // Render the list of available layouts
+            if (layoutDropdown) {
+                layoutDropdown.innerHTML = '';
+                for (var id in SPEAKER_LAYOUTS) {
+                    var option = document.createElement("option");
+                    option.setAttribute("value", id);
+                    option.textContent = SPEAKER_LAYOUTS[id];
+                    layoutDropdown.appendChild(option);
+                }
+
+                layoutDropdown.addEventListener('change', event => {
+                    setLayout(event.target.value);
+                });
+            }
+
+            setLayout(getLayout());
+        }
+
+        function setLayout(value) {
+            var title = SPEAKER_LAYOUTS[value];
+
+            if (layoutLabel) layoutLabel.innerHTML = "Layout" + (title ? ": " + title : "");
+            if (layoutDropdown) layoutDropdown.value = value;
+
+            // Persist locally
+            if (supportsLocalStorage()) {
+                window.localStorage.setItem("reveal-speaker-layout", value);
+            }
+
+            const tagTable = document.getElementById("studio-table")
+            const teleprompter = document.getElementById("teleprompter")
+
+            if (value === "teleprompter") {
+                if (teleprompter) teleprompter.style.display = 'block';
+                if (tagTable) tagTable.style.display = 'none';
+            } else if (value === "studio") {
+                if (teleprompter) teleprompter.style.display = 'none';
+                if (tagTable) tagTable.style.display = 'block';
+                value = 'teleprompter';
+            } else {
+                if (teleprompter) teleprompter.style.display = 'block';
+                if (tagTable) tagTable.style.display = 'none';
+            }
+
+            document.body.setAttribute("data-speaker-layout", value);
+        }
+
+        function getLayout() {
+            if (supportsLocalStorage()) {
+                var layout = window.localStorage.getItem("reveal-speaker-layout");
+                if (layout && SPEAKER_LAYOUTS[layout]) {
+                    return layout;
+                }
+            }
+            return 'default';
+        }
+        //#endregion
+
+        // #region Reveal.js API
+        function callRevealApi(method, args) {
+            if (!window.currentSlide || !window.currentSlide.contentWindow) return;
+            const callId = ++lastRevealApiCallId;
+            window.currentSlide.contentWindow.postMessage(JSON.stringify({
+                method: method,
+                args: args,
+                callId: callId
+            }), '*');
+        }
+
+        function handleConnectMessage() {
+            if (connected === false) {
+                connected = true;
+                callRevealApi('configure', [{
+                    controls: false,
+                    progress: false,
+                    history: false,
+                    keyboard: false
+                }]);
+            }
+        }
+        //#endregion
+
+        // #region Storage
+        function supportsLocalStorage() {
+            try {
+                localStorage.setItem("test", "test");
+                localStorage.removeItem("test");
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        //#endregion
+    </script>
+    <script type="module" src="./lib/slideSync_SpeakerView_Browser.js"></script>
+</body>
+
+</html>

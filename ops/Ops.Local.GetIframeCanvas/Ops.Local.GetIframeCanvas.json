@@ -1,0 +1,30 @@
+{
+    "id": "01094f4a-d0aa-4484-b50d-528c491a2fbf",
+    "created": 1778408925967,
+    "license": "MIT",
+    "authorName": "",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Iframe Element"
+            },
+            {
+                "type": 5,
+                "name": "Selector"
+            },
+            {
+                "type": 1,
+                "name": "Refresh"
+            }
+
+
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Canvas Element"
+            }
+        ]
+    }
+}
