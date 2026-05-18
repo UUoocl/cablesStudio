@@ -3030,6 +3030,7 @@ const
     inIp = op.inString("IP", "localhost"),
     inPort = op.inFloat("Port", 4455),
     inPass = op.inString("Password", ""),
+    inAutoStart = op.inBool("Auto Start", false),
     inName = op.inString("Connection Name", "Default"),
     inConnect = op.inTriggerButton("Connect"),
     inDisconnect = op.inTriggerButton("Disconnect"),
@@ -3114,6 +3115,7 @@ async function doConnect() {
         outConnected.set(true);
         outObs.set(op.obsInstance);
         outError.set("");
+        op.setUiError("connection", null);
         op.setUiAttrib({ extendTitle: inName.get() });
         op.log("Connected to OBS at " + url);
     } catch (e) {
@@ -3121,6 +3123,7 @@ async function doConnect() {
         outConnected.set(false);
         outObs.set(null);
         outError.set(e.message || "Unknown error");
+        op.setUiError("connection", "OBS connection failed: " + (e.message || "Unknown error"));
     }
 }
 
@@ -3137,5 +3140,12 @@ async function doDisconnect() {
 
 inConnect.onTriggered = doConnect;
 inDisconnect.onTriggered = doDisconnect;
+
+op.onLoaded = () => {
+    if (inAutoStart.get() && inPort.get() && inPass.get()) {
+        op.log("[ObsConnect] Auto Start is enabled, attempting connection to OBS...");
+        doConnect();
+    }
+};
 
 op.onDelete = doDisconnect;

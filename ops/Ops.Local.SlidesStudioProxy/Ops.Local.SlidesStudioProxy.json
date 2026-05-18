@@ -11,27 +11,15 @@
             },
             {
                 "type": 1,
-                "name": "On WS Message"
+                "name": "On HTTP Request"
             },
             {
                 "type": 2,
-                "name": "WS Message Data"
+                "name": "HTTP Request Data"
             },
             {
                 "type": 2,
                 "name": "OBS Connection"
-            },
-            {
-                "type": 1,
-                "name": "On OBS Event"
-            },
-            {
-                "type": 5,
-                "name": "OBS Event Type"
-            },
-            {
-                "type": 2,
-                "name": "OBS Event Data"
             }
         ],
         "portsOut": [
@@ -42,6 +30,18 @@
             {
                 "type": 5,
                 "name": "Error Message"
+            },
+            {
+                "type": 1,
+                "name": "Broadcast SSE"
+            },
+            {
+                "type": 5,
+                "name": "SSE Event Name"
+            },
+            {
+                "type": 2,
+                "name": "SSE Data"
             }
         ]
     }

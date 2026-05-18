@@ -186,6 +186,31 @@
             height: 70%;
         }
 
+        /* Studio layout (similar to teleprompter but optimized for the table) */
+        body[data-speaker-layout="studio"] #current-slide,
+        body[data-speaker-layout="studio"] #upcoming-slide {
+            width: 50%;
+            height: 30%;
+            padding: 6px;
+        }
+
+        body[data-speaker-layout="studio"] #current-slide {
+            top: 0;
+            left: 0;
+        }
+
+        body[data-speaker-layout="studio"] #upcoming-slide {
+            top: 0;
+            left: 50%;
+        }
+
+        body[data-speaker-layout="studio"] #speaker-controls {
+            top: 30%;
+            left: 0;
+            width: 100%;
+            height: 70%;
+        }
+
         .connection-status {
             position: absolute;
             top: 0;
@@ -241,9 +266,11 @@
     <div id="connection-status" class="connection-status">
         <h2>Slide Studio Viewer</h2>
         <p>Enter the path to your slide deck (relative to vault root).</p>
-        <input type="text" id="location" class="location-input" placeholder="slides_demo_deck/index.html"
-            value="slides_demo_deck/index.html" />
+        <input type="text" id="location" class="location-input"
+            placeholder="slides_studio/slide-studio-app/slides_demo_deck/index.html"
+            value="slides_studio/slide-studio-app/slides_demo_deck/index.html" />
         <button id="loadDeckButton" class="load-button">Load Presentation</button>
+        <button id="helloButton" class="load-button" style="margin-top: 10px; background: #666;">Hello: 0</button>
     </div>
 
     <div id="current-slide" style="display: none;"></div>
@@ -260,7 +287,6 @@
         <select class="speaker-layout-dropdown"></select>
     </div>
 
-    <script type="module" src="./lib/slides-studio-connection.js"></script>
     <script type="module" src="./lib/obsApiProxy.js"></script>
 
 
@@ -272,6 +298,18 @@
         window.addEventListener("load", (event) => {
             document.getElementById("loadDeckButton").addEventListener("click", () => {
                 if (window.loadSpeakerView) window.loadSpeakerView();
+            });
+
+            let clickCount = 0;
+            document.getElementById("helloButton").addEventListener("click", () => {
+                clickCount++;
+                const msg = `Hello ${clickCount}`;
+                document.getElementById("helloButton").innerText = msg;
+
+                console.log(`[Debug] Sending command: ${msg}`);
+                if (window.broadcastSlidesCommand) {
+                    window.broadcastSlidesCommand('debug-hello', { message: msg, count: clickCount });
+                }
             });
         });
     </script>
@@ -493,8 +531,8 @@
             if (window.isViewLoaded) return;
             window.isViewLoaded = true;
 
-            // Connect to OBS via proxy in background
-            obsWss.connect().then(async () => {
+            // Fetch scene list and current scene directly from Cables API/SSE backend
+            (async () => {
                 try {
                     const sceneList = await window.obsWss.call('GetSceneList');
                     if (sceneList && sceneList.scenes) {
@@ -512,9 +550,7 @@
                 } catch (sceneListErr) {
                     console.warn("[Choreography] Could not fetch scene list from OBS. Safe-switch disabled.", sceneListErr);
                 }
-            }).catch(e => {
-                console.warn("OBS connection attempt failed:", e);
-            });
+            })();
 
             document.getElementById("connection-status").style.display = 'none';
             document.getElementById("current-slide").style.display = 'block';
@@ -542,9 +578,10 @@
                 slideDeck = slideDeckURL.href
 
                 setupLayout();
+                await loadObsMap();
                 setupIframes();
 
-                // Send initialization data to other views (Studio, etc.) via WebSocket
+                // Send initialization data to other views (Studio, etc.) via API
                 setTimeout(() => {
                     console.log("[SpeakerView] Broadcasting deck info:", deckId);
                     window.broadcastSlidesCommand("set-slides-studio-url", { url: slideDeck });
@@ -631,6 +668,7 @@
 
                 if (data.namespace === 'tabulator' && data.message === "slides-data") {
                     if (studioIframe && studioIframe.contentWindow) {
+                        console.log("[SpeakerView] Sending indexed slides data to Studio iframe:", (slidesArray ? slidesArray.length : 0) + " slides");
                         studioIframe.contentWindow.postMessage(JSON.stringify({
                             namespace: "speakerview",
                             message: "slides-data-response",
@@ -640,11 +678,50 @@
                 }
 
                 if (data.namespace === 'studio') {
-                    if (data.message === 'update-mapping') {
+                    if (data.message === 'sse-event') {
+                        const { channel, data: payload } = data;
+
+                        // 1. Forward to sync script in index.html (SpeakerView host)
+                        window.postMessage(JSON.stringify({
+                            namespace: "speakerview-sync",
+                            channel: channel,
+                            data: payload
+                        }), "*");
+
+                        // 2. Forward to teleprompter if it's a notes or control command
+                        if (channel === 'custom_slidesCommands') {
+                            if (notesIframe && notesIframe.contentWindow) {
+                                if (payload.eventName === 'reveal-event' && payload.msgParam.method === 'getSlideNotes') {
+                                    notesIframe.contentWindow.postMessage(JSON.stringify({
+                                        namespace: "speakerview",
+                                        message: "notes",
+                                        notes: payload.msgParam.result
+                                    }), "*");
+                                } else if (['teleprompterChangeRequest', 'togglePlay'].includes(payload.eventName)) {
+                                    notesIframe.contentWindow.postMessage(JSON.stringify({
+                                        namespace: "speakerview",
+                                        message: "control",
+                                        eventName: payload.eventName,
+                                        payload: payload.msgParam
+                                    }), "*");
+                                }
+                            }
+                        }
+                    } else if (data.message === 'update-mapping') {
                         const row = data.data;
                         const slideKey = row.slideId || row.slideState;
                         sidecarMappings[slideKey] = row.scene;
                         console.log(`[SpeakerView] Updated live mapping for ${slideKey}: ${row.scene}`);
+                    } else if (data.message === 'import-obs-mapping') {
+                        const mapping = data.mapping;
+                        let count = 0;
+                        mapping.forEach(entry => {
+                            if (entry.id && entry.scene) {
+                                sidecarMappings[entry.id] = entry.scene;
+                                count++;
+                            }
+                        });
+                        console.log(`[SpeakerView] Imported ${count} active mappings from OBS`);
                     } else if (data.message === 'new-scene-created') {
                         const sceneName = data.sceneName;
                         if (!validScenes.includes(sceneName)) {
@@ -652,6 +729,17 @@
                             validScenes.sort();
                             console.log(`[SpeakerView] Added new scene to validScenes: ${sceneName}`);
                         }
+                    } else if (data.message === 'navigate') {
+                        // Direct navigation request from Studio row click
+                        console.log("[SpeakerView] Received direct navigate request from Studio:", data.data);
+                        window.postMessage(JSON.stringify({
+                            namespace: "speakerview-sync",
+                            channel: 'studio_to_currentSlide',
+                            data: {
+                                eventName: 'navigate',
+                                msgParam: data.data
+                            }
+                        }), "*");
                     }
                 }
 
@@ -695,19 +783,42 @@
                             // Request notes for the teleprompter
                             window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'getSlideNotes' }), "*");
                         } else if (data.method === 'getSlideNotes') {
-                            console.log("[SpeakerView] Received notes from iframe, broadcasting to Teleprompter...");
-                            window.broadcastSlidesCommand('reveal-event', { eventName: 'callback', method: 'getSlideNotes', result: data.result });
+                            console.log("[SpeakerView] Received notes from iframe, relaying to Teleprompter...");
+                            if (notesIframe && notesIframe.contentWindow) {
+                                notesIframe.contentWindow.postMessage(JSON.stringify({
+                                    namespace: "speakerview",
+                                    message: "notes",
+                                    notes: data.result
+                                }), "*");
+                            }
+                            if (slidesLoaded) {
+                                window.broadcastSlidesCommand('reveal-event', { eventName: 'callback', method: 'getSlideNotes', result: data.result });
+                            }
                         } else if (['overviewhidden', 'overviewshown'].includes(data.eventName)) {
-                            window.obsWss.publish('studio_to_currentSlide', 'overview-toggled', data.state);
+                            if (slidesLoaded) {
+                                window.obsWss.publish('studio_to_currentSlide', 'overview-toggled', data.state);
+                            }
                         }
 
                         // Publish reveal events specifically to the Studio "brain" to prevent loops
-                        console.log("[SpeakerView] Forwarding reveal event to Studio:", data.eventName);
-                        const enrichedData = { ...data, attributes: window.getSlideAttributes() };
-                        obsWss.publish('currentSlide_to_studio', 'reveal-event', enrichedData);
+                        // Filter out high-frequency internal events (autoanimate, callback, etc.)
+                        const essentialEvents = ['slidechanged', 'ready', 'overviewhidden', 'overviewshown', 'fragmentshown', 'fragmenthidden'];
+                        if (slidesLoaded && essentialEvents.includes(data.eventName)) {
+                            console.log("[SpeakerView] Forwarding reveal event to Studio:", data.eventName);
+                            const enrichedData = { ...data, attributes: window.getSlideAttributes() };
+
+                            // Immediate local sync to Studio table
+                            if (studioIframe && studioIframe.contentWindow) {
+                                studioIframe.contentWindow.postMessage(JSON.stringify({
+                                    namespace: "speakerview",
+                                    message: "reveal-event",
+                                    data: enrichedData
+                                }), "*");
+                            }
+                        }
 
                         // Broadcast navigation for synced views (OBS View, etc.)
-                        if (data.eventName === 'slidechanged' || data.eventName === 'fragmentshown') {
+                        if (slidesLoaded && (data.eventName === 'slidechanged' || data.eventName === 'fragmentshown')) {
                             obsWss.publish('slides_navigation', 'slide-changed', data.state);
                         }
 
@@ -935,6 +1046,7 @@
             const currentUrl = new URL(slideDeck);
             currentUrl.searchParams.set("postMessageEvents", "true");
 
+            console.log("[SpeakerView] Initializing current-slide iframe with URL:", currentUrl.toString());
             window.currentSlide = document.createElement("iframe");
             window.currentSlide.setAttribute("width", "100%");
             window.currentSlide.setAttribute("height", "100%");
@@ -946,6 +1058,7 @@
             upcomingUrl.searchParams.set("postMessageEvents", "false");
             upcomingUrl.searchParams.set("postMessage", "true");
 
+            console.log("[SpeakerView] Initializing upcoming-slide iframe with URL:", upcomingUrl.toString());
             window.upcomingSlide = document.createElement("iframe");
             window.upcomingSlide.setAttribute("width", "100%");
             window.upcomingSlide.setAttribute("height", "100%");
@@ -953,6 +1066,7 @@
             window.upcomingSlide.setAttribute("id", "upcoming-iframe");
             document.querySelector("#upcoming-slide").appendChild(window.upcomingSlide);
 
+            console.log("[SpeakerView] Initializing teleprompter iframe...");
             notesIframe = document.createElement("iframe");
             notesIframe.setAttribute("width", '100%')
             notesIframe.setAttribute("height", '100%')
@@ -961,15 +1075,38 @@
             notesIframe.setAttribute("id", "notes-iframe");
             document.getElementById("teleprompter").appendChild(notesIframe);
 
+            console.log("[SpeakerView] Initializing studio iframe...");
             studioIframe = document.createElement("iframe");
             studioIframe.setAttribute("width", '100%')
             studioIframe.setAttribute("height", '100%')
             studioIframe.setAttribute("style", "border:none;")
-            studioIframe.setAttribute("src", `studio.html`)
+            studioIframe.setAttribute("src", `studio.html?t=${Date.now()}`)
             studioIframe.setAttribute("id", "studio-iframe");
             document.getElementById("studio-table").appendChild(studioIframe);
         }
         //#endregion
+
+        async function loadObsMap() {
+            if (!slideDeck) return;
+            const mapUrl = slideDeck.replace(".html", ".obs-map.json");
+            try {
+                const response = await fetch(mapUrl);
+                if (response.ok) {
+                    const mapping = await response.json();
+                    let count = 0;
+                    mapping.forEach(entry => {
+                        const key = entry.id || entry.slideId;
+                        if (key && entry.scene) {
+                            sidecarMappings[key] = entry.scene;
+                            count++;
+                        }
+                    });
+                    console.log(`[SpeakerView] Loaded ${count} mappings from ${mapUrl}`);
+                }
+            } catch (e) {
+                console.log("[SpeakerView] No local .obs-map.json found fallback to OBS source.");
+            }
+        }
 
         // #region Layout
         function setupLayout() {
@@ -1008,14 +1145,15 @@
             const tagTable = document.getElementById("studio-table")
             const teleprompter = document.getElementById("teleprompter")
 
-            if (value === "teleprompter") {
-                if (teleprompter) teleprompter.style.display = 'block';
-                if (tagTable) tagTable.style.display = 'none';
-            } else if (value === "studio") {
+            // Toggle sub-views based on layout selection
+            if (value === "studio") {
                 if (teleprompter) teleprompter.style.display = 'none';
                 if (tagTable) tagTable.style.display = 'block';
-                value = 'teleprompter';
+            } else if (value === "teleprompter" || value === "notes-only") {
+                if (teleprompter) teleprompter.style.display = 'block';
+                if (tagTable) tagTable.style.display = 'none';
             } else {
+                // Default fallback
                 if (teleprompter) teleprompter.style.display = 'block';
                 if (tagTable) tagTable.style.display = 'none';
             }

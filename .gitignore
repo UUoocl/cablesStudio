@@ -12,3 +12,5 @@ Patches/mediaPipe_bundle/mediapipe_bundle_test.cables
 other_ops/Ops.Local.Fastify/node_modules
 ops/index.html
 ops/Ops.Local.Osc.OscSendArguments/node_modules
+
+ops/Ops.Local.Fastify/node_modules

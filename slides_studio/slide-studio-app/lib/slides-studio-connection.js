@@ -5,7 +5,7 @@ import { create } from './slides-studio-api.js';
  */
 window.ssSocket = create({
     hostname: window.location.hostname,
-    port: window.location.port || (window.location.protocol === 'https:' ? 443 : 80),
+    port: window.location.port,
     path: '/api/slides/command'
 });
 

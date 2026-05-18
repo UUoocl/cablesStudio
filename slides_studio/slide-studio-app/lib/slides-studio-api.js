@@ -8,24 +8,32 @@ class SlidesStudioClient {
         this.port = options.port || window.location.port;
         this.baseUrl = `http://${this.hostname}:${this.port}`;
         this.listeners = new Map();
+        this.disableSse = options.disableSse || false;
         
-        console.log(`[SlidesStudioClient] Initialized (API Version) at ${this.baseUrl}`);
+        console.log(`[SlidesStudioClient] Initialized (API Version) at ${this.baseUrl} (SSE: ${!this.disableSse})`);
 
-        // Setup SSE Listener for real-time push events (OSC, triggers, etc.)
-        this.eventSource = new EventSource(`${this.baseUrl}/api/events`);
-        this.eventSource.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                console.log(`[SlidesStudioClient] SSE Event received on channel ${data.channel}:`, data.payload);
-                this.emit(data.channel, data.payload);
-            } catch (e) {
-                // Ignore heartbeats and malformed data
-            }
-        };
+        if (!this.disableSse) {
+            // Setup SSE Listener for real-time push events (OSC, triggers, etc.)
+            this.eventSource = new EventSource(`${this.baseUrl}/sse`);
+            this.eventSource.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    const channel = data.channel || data.type || data.eventName;
+                    const payload = data.payload || data.data || data;
+                    
+                    if (channel) {
+                        console.log(`[SlidesStudioClient] SSE Event received on channel ${channel}:`, payload);
+                        this.emit(channel, payload);
+                    }
+                } catch (e) {
+                    // Ignore heartbeats and malformed data
+                }
+            };
 
-        this.eventSource.onerror = (err) => {
-            console.warn("[SlidesStudioClient] SSE Connection error. Browser will auto-reconnect.");
-        };
+            this.eventSource.onerror = (err) => {
+                console.warn("[SlidesStudioClient] SSE Connection error. Browser will auto-reconnect.");
+            };
+        }
     }
 
     emit(channel, data) {
@@ -38,7 +46,7 @@ class SlidesStudioClient {
      * Send a command to Cables via HTTP POST
      */
     async invoke(type, data = {}) {
-        const url = `${this.baseUrl}/api/slides/command`;
+        const url = `${this.baseUrl}/api/obs`;
         console.log(`[SlidesStudioClient] Invoking ${type}:`, data);
         
         try {
@@ -62,7 +70,8 @@ class SlidesStudioClient {
     connect() { console.log("[SlidesStudioClient] API Mode: No connection needed."); }
     disconnect() { }
     publish(channel, data) { return this.invoke('publish', { channel, data }); }
-    subscribe(channel) { console.warn("[SlidesStudioClient] Subscribe not supported in API mode. Use OBS events."); }
+    subscribe(channel) { return this.listener(channel); }
+    get state() { return 'open'; }
     
     _addListener(event, cb) { 
         if (event === 'connect') {
@@ -86,6 +95,14 @@ class SlidesStudioClient {
      * Async iterator for events (matches old client API)
      */
     async *listener(channel) {
+        // Special case for one-time events to avoid infinite loops
+        if (channel === 'connect') {
+            yield await new Promise(resolve => {
+                this._addListener(channel, resolve);
+            });
+            return;
+        }
+
         while (true) {
             yield await new Promise(resolve => {
                 const cb = (data) => {

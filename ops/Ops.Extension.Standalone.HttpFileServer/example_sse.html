@@ -22,6 +22,7 @@
             margin-top: 20px;
             font-family: monospace;
             font-size: 14px;
+            text-transform: none;
         }
         .status {
             display: inline-block;
@@ -35,11 +36,19 @@
         .disconnected { background: #b71c1c; color: #fff; }
         .message { color: #81d4fa; margin-bottom: 5px; border-bottom: 1px solid #333; padding-bottom: 5px; }
         .timestamp { color: #666; margin-right: 10px; }
+        .filter-container { margin-top: 20px; background: #222; padding: 10px; border-radius: 4px; border: 1px solid #333; }
+        input { background: #333; color: #fff; border: 1px solid #444; padding: 5px 10px; border-radius: 4px; }
     </style>
 </head>
 <body>
     <h1>Cables Standalone SSE Client</h1>
     <div id="status-tag" class="status disconnected">Disconnected</div>
+    
+    <div class="filter-container">
+        <label for="route-input">SSE Route:</label>
+        <input type="text" id="route-input" placeholder="/sse" value="/sse">
+        <button id="connect-btn" style="background: #333; color: #fff; border: 1px solid #555; cursor: pointer; padding: 5px 10px; border-radius: 4px;">Connect</button>
+    </div>
     
     <div id="log"></div>
 
@@ -56,39 +65,43 @@
             logEl.scrollTop = logEl.scrollHeight;
         }
 
+        let evtSource = null;
+
         function connect() {
-            addLog('Connecting to /events...');
-            
-            // Use current host/port
-            const evtSource = new EventSource('/events');
+            const route = document.getElementById('route-input').value.trim() || '/sse';
+            if (evtSource) evtSource.close();
+
+            addLog(`Connecting to ${route}...`);
+            evtSource = new EventSource(route);
 
             evtSource.onopen = () => {
                 statusTag.innerText = 'Connected';
                 statusTag.className = 'status connected';
-                addLog('SSE Connection established.');
+                addLog(`SSE Connection established on ${route}.`);
             };
 
             evtSource.onerror = (err) => {
                 statusTag.innerText = 'Disconnected';
                 statusTag.className = 'status disconnected';
-                addLog('SSE Error/Disconnected. Attempting reconnect...', 'error');
+                addLog('SSE Error/Disconnected.', 'error');
             };
 
             // Listen for default 'message' event
             evtSource.onmessage = (event) => {
                 try {
-                    const data = JSON.parse(event.data);
-                    addLog('Received message: ' + JSON.stringify(data));
+                    const payload = JSON.parse(event.data);
+                    const route = payload.route || 'unknown';
+                    const eventName = payload.eventName || 'message';
+                    const data = payload.data || payload;
+                    
+                    addLog(`<b>[${route}]</b> ${eventName}: ${JSON.stringify(data)}`);
                 } catch (e) {
                     addLog('Received raw: ' + event.data);
                 }
             };
-
-            // Listen for custom named events if needed
-            // You can add more listeners here:
-            // evtSource.addEventListener('update', (e) => { ... });
         }
 
+        document.getElementById('connect-btn').addEventListener('click', connect);
         connect();
     </script>
 </body>

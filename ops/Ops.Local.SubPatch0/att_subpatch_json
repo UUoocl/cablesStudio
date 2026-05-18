@@ -1,0 +1,156 @@
+{
+  "ops": [
+    {
+      "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+      "id": "5x5sqt7zd",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -815,
+          "y": -723.9643187001761
+        },
+        "subPatch": "zr5eu9lay",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Request Type",
+          "value": ""
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Success",
+          "value": 0
+        },
+        {
+          "name": "Error",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "opId": "f8a9b0c1-d2e3-4f4a-b5c6-d7e8f9a0b1c2",
+      "id": "kne9kj4p1",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -815,
+          "y": -640
+        },
+        "subPatch": "zr5eu9lay",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Request Rate (Hz)",
+          "value": 10
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Success",
+          "value": 0
+        },
+        {
+          "name": "Error",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "opId": "BABCAD7B-B360-4F3F-A9C1-0B4EC1386E07",
+      "id": "1zv4pkv52",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -815,
+          "y": -580
+        },
+        "subPatch": "zr5eu9lay",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "Error Message",
+          "value": ""
+        },
+        {
+          "name": "SSE Event Name",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "opId": "e7f8a9b0-c1d2-4e3f-a4b5-c6d7e8f9a0b1",
+      "id": "ltlrhsv5x",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -815,
+          "y": -680
+        },
+        "subPatch": "zr5eu9lay",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "Event Type",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "opId": "c4e4e933-136e-479e-8de8-0b35b75d9217",
+      "id": "9xx3w5khp",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "zr5eu9lay",
+        "translate": {
+          "x": -678.7080000000001,
+          "y": -803.9643187001761
+        },
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "innerOut_gadwiczy9",
+          "title": "obsConnection",
+          "links": [
+            {
+              "portIn": "obsConnection",
+              "portOut": "innerOut_gadwiczy9",
+              "objIn": "5x5sqt7zd",
+              "objOut": "9xx3w5khp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "02d45073-7936-4830-81ad-59a162febf1f",
+      "id": "pqgkrfg8t",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "zr5eu9lay",
+        "translate": {
+          "x": -678,
+          "y": -495.8847052989381
+        },
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {}
+    }
+  ]
+}

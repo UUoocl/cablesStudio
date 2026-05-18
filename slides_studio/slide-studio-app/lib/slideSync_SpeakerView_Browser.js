@@ -1,18 +1,14 @@
 // This script runs in index.html (the viewer host)
 // It handles synchronization of the local viewer iframes (current, upcoming, teleprompter)
-// based on messages from the Studio "brain" and WebSocket events.
+// based on messages from the Studio "brain" forwarded via parent window.
 
-(async () => {
-    // Wait for ssSocket to be available
-    while (!window.ssSocket) {
-        await new Promise(r => setTimeout(r, 100));
-    }
+window.addEventListener('message', (event) => {
+    try {
+        const msg = JSON.parse(event.data);
+        if (msg.namespace === 'speakerview-sync' && msg.channel === 'studio_to_currentSlide') {
+            const data = msg.data;
+            console.log("[SpeakerViewSync] Received event:", data.eventName, data.msgParam);
 
-    // Subscribe to commands specifically for this viewer instance
-    const channel = window.ssSocket.subscribe('studio_to_currentSlide');
-    
-    for await (let data of channel) {
-        try {
             if (data.eventName === "slide-changed" || data.eventName === "navigate") {
                 const msgParam = data.msgParam;
                 let slidesState;
@@ -25,9 +21,19 @@
                     slidesState = [msgParam.indexh, msgParam.indexv, msgParam.indexf || 0];
                 }
 
-                if (slidesState && window.currentSlide && window.currentSlide.contentWindow) {
-                    window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'slide', args: slidesState }), "*");
-                    window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'getSlideNotes' }), "*");
+                if (slidesState) {
+                    // 1. Sync current slide
+                    if (window.currentSlide && window.currentSlide.contentWindow) {
+                        window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'slide', args: slidesState }), "*");
+                        window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'getSlideNotes' }), "*");
+                    }
+
+                    // 2. Sync upcoming slide (usually just current + 1 on indexh)
+                    if (window.upcomingSlide && window.upcomingSlide.contentWindow) {
+                        const upcomingState = [...slidesState];
+                        upcomingState[0]++; // Increment horizontal index for "next" slide
+                        window.upcomingSlide.contentWindow.postMessage(JSON.stringify({ method: 'slide', args: upcomingState }), "*");
+                    }
                 }
             } else if (data.eventName === "overview-toggled") {
                 const msgParam = data.msgParam;
@@ -35,8 +41,8 @@
                     window.currentSlide.contentWindow.postMessage(JSON.stringify({ method: 'toggleOverview', args: [msgParam.overview] }), "*");
                 }
             }
-        } catch (err) {
-            console.error("[SpeakerViewerSync] Error processing WS message:", err);
         }
+    } catch (err) {
+        console.error("[SpeakerViewSync] Error processing message:", err);
     }
-})();
+});

@@ -70,8 +70,9 @@
         };
 
         window.addEventListener('DOMContentLoaded', async (event) => {
-            while (!window.ssSocket) {
-                await new Promise(r => setTimeout(r, 100));
+            if (!window.ssSocket) {
+                console.warn("[CameraShape] ssSocket not found on window. Make sure slides-studio-connection.js is loaded.");
+                return;
             }
 
             // Connection listener loops (keep for status if needed, or remove)

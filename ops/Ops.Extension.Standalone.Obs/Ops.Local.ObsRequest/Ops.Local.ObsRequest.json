@@ -34,6 +34,14 @@
             },
             {
                 "type": 5,
+                "name": "Request Type Output"
+            },
+            {
+                "type": 1,
+                "name": "On Result"
+            },
+            {
+                "type": 5,
                 "name": "Error"
             }
         ]

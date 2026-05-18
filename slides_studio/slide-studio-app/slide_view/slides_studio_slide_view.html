@@ -71,9 +71,10 @@
     <script type="module">
         const broadcastChannels = {}; 
 
-        (async () => {
-            while (!window.ssSocket) {
-                await new Promise(r => setTimeout(r, 100));
+        (() => {
+            if (!window.ssSocket) {
+                console.warn("[SlideView] ssSocket not found on window. Make sure slides-studio-connection.js is loaded.");
+                return;
             }
 
             // Connection listener loop

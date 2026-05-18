@@ -10,6 +10,10 @@ const inPort = op.inInt("Port", 8080);
 const inRootDir = op.inString("Root Directory", "");
 const inAutoStart = op.inBool("Auto Start", false);
 
+// Set default root directory to patch directory if available
+const paths = op.patch.config.paths || {};
+if (paths.patchPath && !inRootDir.get()) inRootDir.set(paths.patchPath);
+
 const outStarted = op.outTrigger("Server Started");
 const outStopped = op.outTrigger("Server Stopped");
 
@@ -63,6 +67,41 @@ async function startServer() {
         }
 
         await app.register(fastifyWebsocket);
+
+        // Add WebSocket route
+        app.register(async function (fastify) {
+            fastify.get('/ws', { websocket: true }, (connection, req) => {
+                const id = generateId();
+                const isV8 = !connection.socket;
+                const socket = connection.socket || connection; // Support both @fastify/websocket v7 and v8+
+                
+                activeSockets.set(id, socket);
+                
+                socket.send(JSON.stringify({ 
+                    type: "system", 
+                    message: "Connected to Fastify",
+                    apiVersion: isV8 ? "v8+" : "v7"
+                }));
+                
+                socket.on('message', message => {
+                    let msgStr = message.toString();
+                    let parsed = { data: msgStr };
+                    try { parsed = JSON.parse(msgStr); } catch(e) {}
+                    
+                    outWsMessageData.set({ id, ...parsed });
+                    outWsMessage.trigger();
+                });
+                
+                socket.on('close', () => {
+                    activeSockets.delete(id);
+                });
+
+                socket.on('error', (err) => {
+                    op.logWarn("[Fastify WS] Socket Error:", err);
+                    activeSockets.delete(id);
+                });
+            });
+        });
 
         // Add a hook to log ALL requests for debugging
         app.addHook('onRequest', (request, reply, done) => {

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Simplified Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+        }
+        button {
+            background-color: #0e639c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #1177bb;
+        }
+        #scene-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .scene-item {
+            background-color: #2d2d2d;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .scene-btn {
+            background-color: #4CAF50;
+            margin: 0;
+        }
+        .scene-btn:hover {
+            background-color: #45a049;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OBS Scene Controller</h1>
+    <button id="getScenesBtn">Get Scene List</button>
+
+    <div id="scene-list">
+        <!-- Scenes will be populated here -->
+    </div>
+
+    <div id="status">Status: Waiting for action...</div>
+
+    <!-- Include the obsApiProxy for SSE listening -->
+    <script type="module">
+        import './lib/obsApiProxy.js';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const getScenesBtn = document.getElementById("getScenesBtn");
+            const sceneListDiv = document.getElementById("scene-list");
+            const statusDiv = document.getElementById("status");
+
+            // Connect to SSE for responses
+            window.obsWss.connect().then(() => {
+                statusDiv.innerText = "Status: Connected to SSE";
+                
+                // Listen for GetSceneListResponse via SSE
+                window.obsWss.on('GetSceneListResponse', (responseEnvelope) => {
+                    // Extract the actual OBS data from the v5 envelope
+                    const sceneList = responseEnvelope.responseData || responseEnvelope;
+                    
+                    statusDiv.innerText = `Status: Received ${sceneList.scenes ? sceneList.scenes.length : 0} scenes`;
+                    sceneListDiv.innerHTML = ""; // Clear existing
+
+                    if (sceneList && sceneList.scenes) {
+                        sceneList.scenes.forEach(scene => {
+                            // Support both formats (object with sceneName or string)
+                            const sceneName = scene.sceneName || scene;
+                            
+                            const div = document.createElement("div");
+                            div.className = "scene-item";
+                            div.innerHTML = `
+                                <span>${sceneName}</span>
+                                <button class="scene-btn" data-scene="${sceneName}">Switch to Scene</button>
+                            `;
+                            sceneListDiv.appendChild(div);
+                        });
+
+                        // Add click event listeners to new buttons
+                        document.querySelectorAll(".scene-btn").forEach(btn => {
+                            btn.addEventListener("click", (e) => {
+                                const targetScene = e.target.getAttribute("data-scene");
+                                changeScene(targetScene);
+                            });
+                        });
+                    }
+                });
+            }).catch(e => {
+                statusDiv.innerText = "Status: Connection failed. " + e.message;
+            });
+
+            // Handle Get Scene List Button
+            getScenesBtn.addEventListener("click", () => {
+                statusDiv.innerText = "Status: Requesting Scene List...";
+                // Send API request to Cables HTTP server
+                fetch('/api/obs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        requestType: "GetSceneList", 
+                        requestData: {} 
+                    })
+                }).catch(err => {
+                    statusDiv.innerText = "Status: Request failed - " + err.message;
+                });
+            });
+
+            // Handle Change Scene
+            function changeScene(sceneName) {
+                statusDiv.innerText = `Status: Changing to scene '${sceneName}'...`;
+                
+                fetch('/api/obs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        requestType: "SetCurrentProgramScene", 
+                        requestData: { sceneName: sceneName } 
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        statusDiv.innerText = `Status: Successfully requested switch to '${sceneName}'`;
+                    } else {
+                        statusDiv.innerText = `Status: Switch failed with HTTP ${response.status}`;
+                    }
+                }).catch(err => {
+                    statusDiv.innerText = "Status: Switch failed - " + err.message;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

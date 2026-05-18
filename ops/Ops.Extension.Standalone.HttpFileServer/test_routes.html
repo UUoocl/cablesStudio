@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cables HTTP Route Length Tester</title>
+    <!-- Import Google Font "Inter" -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0b0f19;
+            --bg-surface: rgba(22, 29, 49, 0.7);
+            --bg-card: #151c2c;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --emerald-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --indigo-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --rose-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+            header {
+                grid-column: span 2;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, #f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .method-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .method-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .method-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .method-btn.active.get {
+            color: #34d399;
+            background: rgba(52, 211, 153, 0.15);
+        }
+
+        .method-btn.active.post {
+            color: #f472b6;
+            background: rgba(244, 114, 182, 0.15);
+        }
+
+        .test-buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .route-test-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .route-test-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.85;
+            z-index: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        .route-test-btn:hover::before {
+            opacity: 1;
+        }
+
+        .route-test-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-emerald { background: var(--emerald-gradient); }
+        .btn-indigo { background: var(--indigo-gradient); }
+        .btn-rose { background: var(--rose-gradient); }
+
+        .btn-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .btn-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+
+        .btn-path {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            opacity: 0.85;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 2px 6px;
+            border-radius: 4px;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+
+        .btn-arrow {
+            position: relative;
+            z-index: 2;
+            font-size: 1.25rem;
+            transition: transform 0.2s ease;
+        }
+
+        .route-test-btn:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Post Body Input Container */
+        .post-body-container {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            resize: vertical;
+            min-height: 80px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: #6366f1;
+        }
+
+        /* Right panel: Log & Details */
+        .log-panel {
+            grid-column: span 1;
+        }
+
+        #log-container {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            height: 380px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-family: var(--font-sans);
+        }
+
+        .log-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .log-entry {
+            background: #182235;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .log-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-method {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-method.GET { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+        .badge-method.POST { background: rgba(244, 114, 182, 0.15); color: #f472b6; }
+
+        .log-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .status-success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .status-error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+
+        .log-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .log-path {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            word-break: break-all;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .log-response {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 6px;
+            padding: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: #cbd5e1;
+        }
+
+        .clear-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Custom Route Input Row */
+        .custom-route-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .custom-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .custom-input:focus {
+            border-color: #6366f1;
+        }
+
+        .custom-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            border: none;
+            color: white;
+            padding: 0 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .custom-btn:hover {
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>HTTP Route Tester</h1>
+        <p class="subtitle">Test how Cables Standalone HttpFileServer processes different route lengths</p>
+    </header>
+
+    <!-- Control / Actions Card -->
+    <div class="card">
+        <div class="card-title">
+            <span>Configure & Request</span>
+        </div>
+
+        <!-- HTTP Method Selection -->
+        <div class="options-group">
+            <label>HTTP Method</label>
+            <div class="method-selector">
+                <button class="method-btn active get" onclick="setMethod('GET')">GET</button>
+                <button class="method-btn post" onclick="setMethod('POST')">POST</button>
+            </div>
+        </div>
+
+        <!-- Post Body Input (Hidden initially) -->
+        <div class="post-body-container" id="post-body-container">
+            <label for="post-body">JSON Request Body</label>
+            <textarea id="post-body">{\n  "test": true,\n  "msg": "Hello Cables!"\n}</textarea>
+        </div>
+
+        <!-- Route Testing Buttons -->
+        <div class="options-group">
+            <label>Predefined Routes (Different Lengths)</label>
+            <div class="test-buttons-container">
+                <!-- Route Length 1: /api -->
+                <button class="route-test-btn btn-emerald" onclick="testRoute('/api')">
+                    <div class="btn-content">
+                        <span class="btn-title">Route Length 1 (Single)</span>
+                        <span class="btn-path">/api</span>
+                    </div>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <!-- Route Length 2: /api/second -->
+                <button class="route-test-btn btn-indigo" onclick="testRoute('/api/second')">
+                    <div class="btn-content">
+                        <span class="btn-title">Route Length 2 (Double)</span>
+                        <span class="btn-path">/api/second</span>
+                    </div>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <!-- Route Length 3: /api/third/route -->
+                <button class="route-test-btn btn-rose" onclick="testRoute('/api/third/route')">
+                    <div class="btn-content">
+                        <span class="btn-title">Route Length 3 (Triple)</span>
+                        <span class="btn-path">/api/third/route</span>
+                    </div>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Custom Route -->
+        <div class="options-group">
+            <label for="custom-route">Or Try Custom Route Path</label>
+            <div class="custom-route-row">
+                <input type="text" id="custom-route" class="custom-input" placeholder="/api/your/own/route" value="/api/obs">
+                <button class="custom-btn" onclick="testRoute(document.getElementById('custom-route').value)">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs / Results Card -->
+    <div class="card log-panel">
+        <div class="card-title">
+            <span>Response & Request Logs</span>
+            <button class="clear-btn" onclick="clearLogs()">Clear Logs</button>
+        </div>
+
+        <div id="log-container">
+            <div class="log-placeholder" id="log-placeholder">
+                Trigger an API request to see response logs here...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMethod = 'GET';
+
+    function setMethod(method) {
+        currentMethod = method;
+        document.querySelectorAll('.method-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        if (method === 'GET') {
+            document.querySelector('.method-btn.get').classList.add('active');
+            document.getElementById('post-body-container').style.display = 'none';
+        } else {
+            document.querySelector('.method-btn.post').classList.add('active');
+            document.getElementById('post-body-container').style.display = 'flex';
+        }
+    }
+
+    function clearLogs() {
+        const container = document.getElementById('log-container');
+        container.innerHTML = `
+            <div class="log-placeholder" id="log-placeholder">
+                Trigger an API request to see response logs here...
+            </div>
+        `;
+    }
+
+    async function testRoute(routePath) {
+        // Validate routePath starts with /
+        if (!routePath.startsWith('/')) {
+            routePath = '/' + routePath;
+        }
+
+        // Hide placeholder
+        const placeholder = document.getElementById('log-placeholder');
+        if (placeholder) {
+            placeholder.style.display = 'none';
+        }
+
+        const logId = 'log-' + Date.now();
+        const timestamp = new Date().toLocaleTimeString();
+        
+        // Append dynamic pending log entry
+        const logContainer = document.getElementById('log-container');
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+        logEntry.id = logId;
+        
+        logEntry.innerHTML = `
+            <div class="log-header">
+                <div class="log-meta">
+                    <span class="badge-method ${currentMethod}">${currentMethod}</span>
+                    <span class="log-status status-pending" id="${logId}-status">PENDING</span>
+                </div>
+                <span class="log-time">${timestamp}</span>
+            </div>
+            <div class="log-path">${routePath}</div>
+            <div class="log-response" id="${logId}-response">Sending request to server...</div>
+        `;
+        
+        logContainer.insertBefore(logEntry, logContainer.firstChild);
+
+        if (window.self !== window.top) {
+            window.parent.postMessage({
+                type: 'api-test-init',
+                method: currentMethod,
+                path: routePath
+            }, '*');
+        }
+
+        const startTime = performance.now();
+
+        try {
+            const options = {
+                method: currentMethod,
+                headers: {}
+            };
+
+            if (currentMethod === 'POST') {
+                options.headers['Content-Type'] = 'application/json';
+                const bodyVal = document.getElementById('post-body').value.trim();
+                if (bodyVal) {
+                    options.body = bodyVal;
+                }
+            }
+
+            const response = await fetch(routePath, options);
+            const duration = Math.round(performance.now() - startTime);
+            const statusText = `${response.status} ${response.statusText} (${duration}ms)`;
+            
+            const statusBadge = document.getElementById(`${logId}-status`);
+            statusBadge.innerText = statusText;
+            
+            if (response.ok) {
+                statusBadge.className = 'log-status status-success';
+            } else {
+                statusBadge.className = 'log-status status-error';
+            }
+
+            let responseData;
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                const json = await response.json();
+                responseData = JSON.stringify(json, null, 2);
+            } else {
+                responseData = await response.text();
+            }
+
+            document.getElementById(`${logId}-response`).innerText = responseData;
+
+            if (window.self !== window.top) {
+                window.parent.postMessage({
+                    type: 'api-test-complete',
+                    method: currentMethod,
+                    path: routePath,
+                    status: response.status,
+                    statusText: response.statusText,
+                    ok: response.ok,
+                    duration: duration,
+                    response: responseData
+                }, '*');
+            }
+
+        } catch (error) {
+            const duration = Math.round(performance.now() - startTime);
+            const statusBadge = document.getElementById(`${logId}-status`);
+            statusBadge.innerText = `FAILED (${duration}ms)`;
+            statusBadge.className = 'log-status status-error';
+            
+            document.getElementById(`${logId}-response`).innerText = `Error: ${error.message}\n\nThis usually happens if the route did not resolve or the server failed to respond.`;
+
+            if (window.self !== window.top) {
+                window.parent.postMessage({
+                    type: 'api-test-failed',
+                    method: currentMethod,
+                    path: routePath,
+                    duration: duration,
+                    error: error.message
+                }, '*');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+{
+    "_id": "6a0a6c66ec04eac0e391b39c",
+    "shortId": "Lb3OVj",
+    "name": "FastifyTest",
+    "description": "",
+    "userId": "6a0a6c6666ac09df17c130eb",
+    "cachedUsername": "",
+    "created": 1779068006025,
+    "updated": 1779070441604,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "e7154880-ee21-4884-a6e7-ee8c423e7eb3",
+            "id": "et0kjun0t",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -168,
+                    "y": -60
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Is Running",
+                    "value": 1
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a0a6c6666ac09df17c130eb",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1779068006025
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -67.4153905665663,
+                "y": -13.304465209366569,
+                "z": 215.43227702371627
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "FastifyTest"
+    },
+    "opsHash": "1f0f3e47393ca37185538c1d9d1fa1d696e9e57c",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1777913765733,
+            "created": "2026-05-04T16:56:05.733Z",
+            "git": {
+                "branch": "develop",
+                "commit": "f99328394cb5173850c8e1e44dbb3873ab1e252c",
+                "date": "1777911286",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1777913784349,
+            "created": "2026-05-04T16:56:24.349Z",
+            "git": {
+                "branch": "develop",
+                "commit": "ce073c5313c86cee733c84039a36efcd603a920b",
+                "date": "1777910715",
+                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+            }
+        },
+        "api": {
+            "timestamp": 1777913803958,
+            "created": "2026-05-04T16:56:43.958Z",
+            "git": {
+                "branch": "develop",
+                "commit": "d6c646b8f9459fe6ce60f09a5137e3763ca45d79",
+                "date": "1777533606",
+                "message": "toggleMaximizeCanvas -> toggleMaximized"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.7"
+        }
+    },
+    "updatedByUser": ""
+}

@@ -13,20 +13,26 @@ function onObsEvent(data) {
 }
 
 inObs.onChange = () => {
-    if (currentObs) {
-        currentObs.off("__anyEvent", onObsEvent);
-        currentObs = null;
+    if (currentObs && typeof currentObs.off === 'function') {
+        try {
+            currentObs.off("__anyEvent", onObsEvent);
+        } catch (e) {}
     }
+    currentObs = null;
 
     const obs = inObs.get();
-    if (obs) {
+    if (obs && typeof obs.on === 'function') {
         currentObs = obs;
         currentObs.on("__anyEvent", onObsEvent);
+    } else if (obs) {
+        op.logWarn("[ObsEvent] Received invalid OBS connection object (missing .on() method)");
     }
 };
 
 op.onDelete = () => {
-    if (currentObs) {
-        currentObs.off("__anyEvent", onObsEvent);
+    if (currentObs && typeof currentObs.off === 'function') {
+        try {
+            currentObs.off("__anyEvent", onObsEvent);
+        } catch (e) {}
     }
 };

@@ -1,5 +1,11 @@
 const
     channelName = op.inString("Channel Name", "defaultChannel"),
+    // Add your input ports here:
+    inText = op.inString("Text", "Hello World"),
+    inValue = op.inValue("Value", 0),
+
+    outDraw = op.outTrigger("On Draw"),
+    outReady = op.outTrigger("On Ready"),
     outMessage = op.outObject("Message Received");
 
 let pubChannel = null;
@@ -15,14 +21,18 @@ function initChannels() {
     const pubName = 'pub-' + cName;
     const subName = 'sub-' + cName;
 
-    console.log(`[BcPubSub] Initializing. Parent Origin: ${window.location.origin}`);
-    console.log(`[BcPubSub] Channels: Listening on "${pubName}", Sending on "${subName}"`);
+    console.log(`[BcPubSub] Initializing. Channels: Listening on "${pubName}", Sending on "${subName}"`);
 
     pubChannel = new BroadcastChannel(pubName);
     subChannel = new BroadcastChannel(subName);
 
     pubChannel.onmessage = (event) => {
-        console.log(`[BcPubSub] Received from "${pubName}":`, event.data);
+        if (event.data && event.data.type === 'draw') {
+            outDraw.trigger();
+        }
+        if (event.data && event.data.type === 'ready') {
+            outReady.trigger();
+        }
         outMessage.setRef(event.data);
     };
 }
@@ -30,10 +40,7 @@ function initChannels() {
 channelName.onChange = initChannels;
 
 function broadcastData() {
-    if (!subChannel) {
-        console.warn("[BcPubSub] Cannot broadcast: subChannel is null");
-        return;
-    }
+    if (!subChannel) return;
 
     const payload = {};
     const allPorts = op.portsIn;
@@ -44,9 +51,6 @@ function broadcastData() {
         payload[p.name] = p.get();
     }
 
-    const cName = channelName.get();
-    console.log(`[BcPubSub] Broadcasting to "sub-${cName}":`, payload);
-
     try {
         subChannel.postMessage(payload);
     } catch (e) {
@@ -54,6 +58,7 @@ function broadcastData() {
     }
 }
 
+// Bind broadcast to all input ports except Channel Name
 op.onPortAdded = (p) => {
     if (p.name !== "Channel Name") {
         p.onChange = broadcastData;
@@ -65,6 +70,17 @@ op.portsIn.forEach(p => {
         p.onChange = broadcastData;
     }
 });
+
+initChannels();
+
+op.onDelete = () => {
+    if (pubChannel) pubChannel.close();
+    if (subChannel) subChannel.close();
+};
+
+
+
+
 
 initChannels();
 

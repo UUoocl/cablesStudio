@@ -11,9 +11,14 @@ const
     inStart = op.inTriggerButton("Start Server"),
     inStop = op.inTriggerButton("Stop Server"),
 
+    inSseRoute = op.inString("SSE Route", "/sse"),
     inSseEvent = op.inString("SSE Event Name", "message"),
     inSseData = op.inObject("SSE Data"),
     inSseBroadcast = op.inTrigger("Broadcast SSE"),
+
+    inHttpResponseCode = op.inInt("HTTP Response Code", 200),
+    inHttpResponseData = op.inObject("HTTP Response Data Input"),
+    inHttpResponseTrigger = op.inTriggerButton("Send HTTP Response"),
 
     outStarted = op.outTrigger("Server Started"),
     outStopped = op.outTrigger("Server Stopped"),
@@ -30,7 +35,20 @@ const
     outActiveClients = op.outNumber("Active Clients", 0);
 
 let server = null;
-const sseClients = new Set();
+const sseClientsByRoute = new Map();
+let lastApiRes = null;
+
+inHttpResponseTrigger.onTriggered = () => {
+    if (lastApiRes && !lastApiRes.headersSent) {
+        lastApiRes.statusCode = inHttpResponseCode.get();
+        lastApiRes.setHeader("Content-Type", "application/json");
+        let data = inHttpResponseData.get();
+        if (typeof data !== "string") {
+            try { data = JSON.stringify(data); } catch(e) { data = "{}"; }
+        }
+        lastApiRes.end(data);
+    }
+};
 
 const mimeTypes = {
     ".html": "text/html",
@@ -68,15 +86,17 @@ function start()
     if (server) return;
     if (!http) return;
 
-    server = http.createServer((req, res) =>
+    server = http.createServer({ "noDelay": true, "keepAlive": true }, (req, res) =>
     {
         const parsedUrl = url.parse(req.url);
         let pathname = parsedUrl.pathname;
 
+        // op.log("HttpFileServer Received Request:", req.method, req.url);
+
         outHttpUrl.set(req.url);
-        outHttpReqData.set(req);
-        outHttpResData.set(res);
-        outHttpRequest.trigger();
+
+        const isApi = pathname === "/api" || pathname.startsWith("/api/");
+        const isSse = pathname === "/sse" || pathname.startsWith("/sse/");
 
         if (res.headersSent) return;
 
@@ -90,9 +110,16 @@ function start()
         }
 
         // SSE route
-        if (pathname === "/events")
+        if (pathname === "/sse" || pathname.startsWith("/sse/"))
         {
-            setupSse(req, res);
+            setupSse(req, res, pathname);
+            return;
+        }
+
+        // Generic API route
+        if (pathname === "/api" || pathname.startsWith("/api/"))
+        {
+            handleApiRequest(req, res, pathname);
             return;
         }
 
@@ -182,8 +209,84 @@ function start()
         op.logWarn(e);
     }
 }
+function handleApiRequest(req, res, pathname)
+{
+    outHttpUrl.set(req.url);
+    outHttpResData.set(res);
+    lastApiRes = res;
 
-function setupSse(req, res)
+    if (req.method === "POST")
+    {
+        let body = "";
+        req.on("data", (chunk) => { body += chunk; });
+        req.on("end", () =>
+        {
+            let data = body;
+            try
+            {
+                data = JSON.parse(body);
+            }
+            catch (e) {}
+
+            op.log("[HttpFileServer] POST body payload:", JSON.stringify(data));
+
+            const reqInfo = Object.assign({
+                "method": req.method,
+                "url": req.url,
+                "pathname": pathname,
+                "headers": req.headers,
+                "body": data
+            }, (data && typeof data === "object") ? data : {});
+
+            outHttpReqData.set(reqInfo);
+            outHttpRequest.trigger();
+
+            // Default response if not handled
+            setTimeout(() =>
+            {
+                if (!res.headersSent)
+                {
+                    res.statusCode = 200;
+                    res.setHeader("Content-Type", "application/json");
+                    res.end(JSON.stringify({ "status": "received", "path": pathname, "note": "handled by timeout" }));
+                }
+            }, 50); // Small timeout to quickly resolve the HTTP POST and avoid connection blocking
+        });
+    }
+    else
+    {
+        let queryParams = {};
+        try
+        {
+            const parsedUrl = url.parse(req.url, true);
+            queryParams = parsedUrl.query || {};
+        }
+        catch (e) {}
+
+        const reqInfo = Object.assign({
+            "method": req.method,
+            "url": req.url,
+            "pathname": pathname,
+            "headers": req.headers,
+            "query": queryParams
+        }, queryParams);
+
+        outHttpReqData.set(reqInfo);
+        outHttpRequest.trigger();
+
+        setTimeout(() =>
+        {
+            if (!res.headersSent)
+            {
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify({ "status": "ok", "path": pathname, "note": "handled by timeout" }));
+            }
+        }, 50); // Small timeout to quickly resolve the HTTP POST and avoid connection blocking
+    }
+}
+
+function setupSse(req, res, route)
 {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
@@ -192,11 +295,14 @@ function setupSse(req, res)
 
     if (res.flushHeaders) res.flushHeaders();
 
+    if (!sseClientsByRoute.has(route)) sseClientsByRoute.set(route, new Set());
+    const clients = sseClientsByRoute.get(route);
+    
     const client = { "res": res };
-    sseClients.add(client);
-    outActiveClients.set(sseClients.size);
+    clients.add(client);
+    outActiveClients.set(getTotalClients());
 
-    op.log("[SSE] Client connected");
+    op.log(`[SSE] Client connected to route: ${route}`);
 
     const heartbeat = setInterval(() =>
     {
@@ -220,24 +326,38 @@ function setupSse(req, res)
     req.on("close", () =>
     {
         clearInterval(heartbeat);
-        sseClients.delete(client);
-        outActiveClients.set(sseClients.size);
-        op.log("[SSE] Client disconnected");
+        clients.delete(client);
+        if (clients.size === 0) sseClientsByRoute.delete(route);
+        outActiveClients.set(getTotalClients());
+        op.log(`[SSE] Client disconnected from route: ${route}`);
     });
+}
+
+function getTotalClients()
+{
+    let count = 0;
+    sseClientsByRoute.forEach((clients) => { count += clients.size; });
+    return count;
 }
 
 inSseBroadcast.onTriggered = () =>
 {
-    if (sseClients.size === 0) return;
+    const route = inSseRoute.get();
+    const clients = sseClientsByRoute.get(route);
+    if (!clients || clients.size === 0) return;
 
     const eventName = inSseEvent.get();
     const data = inSseData.get();
 
-    let message = "";
-    if (eventName) message += `event: ${eventName}\n`;
-    message += `data: ${JSON.stringify(data || {})}\n\n`;
+    const payload = {
+        "route": route,
+        "eventName": eventName,
+        "data": data
+    };
 
-    sseClients.forEach((client) =>
+    const message = `data: ${JSON.stringify(payload)}\n\n`;
+
+    clients.forEach((client) =>
     {
         try
         {
@@ -247,15 +367,15 @@ inSseBroadcast.onTriggered = () =>
             }
             else
             {
-                sseClients.delete(client);
-                outActiveClients.set(sseClients.size);
+                clients.delete(client);
+                outActiveClients.set(getTotalClients());
             }
         }
         catch (e)
         {
             op.logWarn("[SSE] Broadcast failed for a client", e);
-            sseClients.delete(client);
-            outActiveClients.set(sseClients.size);
+            clients.delete(client);
+            outActiveClients.set(getTotalClients());
         }
     });
 };
@@ -270,11 +390,14 @@ function stop()
         outStopped.trigger();
     }
 
-    sseClients.forEach((client) =>
+    sseClientsByRoute.forEach((clients) =>
     {
-        try { client.res.end(); } catch (e) {}
+        clients.forEach((client) =>
+        {
+            try { client.res.end(); } catch (e) {}
+        });
     });
-    sseClients.clear();
+    sseClientsByRoute.clear();
     outActiveClients.set(0);
 
     outRunning.set(false);
@@ -295,4 +418,4 @@ function restart()
 setTimeout(() =>
 {
     if (inAutoStart.get()) start();
-}, 500);
+}, 0);

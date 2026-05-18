@@ -10,32 +10,23 @@
             },
             {
                 "type": 5,
-                "name": "String"
-            },
-            {
-                "type": 2,
-                "name": "Object"
-            },
-            {
-                "type": 3,
-                "name": "Array"
+                "name": "Text"
             },
             {
                 "type": 0,
-                "name": "Number",
+                "name": "Value",
                 "subType": "number"
-            },
-            {
-                "type": 0,
-                "name": "Boolean",
-                "subType": "boolean"
-            },
-            {
-                "type": 5,
-                "name": "Base64"
             }
         ],
         "portsOut": [
+            {
+                "type": 1,
+                "name": "On Draw"
+            },
+            {
+                "type": 1,
+                "name": "On Ready"
+            },
             {
                 "type": 2,
                 "name": "Message Received"

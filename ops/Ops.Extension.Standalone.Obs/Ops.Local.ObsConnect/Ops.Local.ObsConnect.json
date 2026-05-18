@@ -18,6 +18,11 @@
                 "name": "Password"
             },
             {
+                "type": 0,
+                "name": "Auto Start",
+                "subType": "boolean"
+            },
+            {
                 "type": 5,
                 "name": "Connection Name"
             },

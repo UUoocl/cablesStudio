@@ -1,11 +1,8 @@
 let slideState = '';
 
-// Subscribe to remote changes via WebSocket
-(async () => {
-    while (!window.ssSocket) {
-        await new Promise(r => setTimeout(r, 100));
-    }
-
+if (!window.ssSocket) {
+    console.warn("[SlideSync_OBS] ssSocket not found on window. Make sure slides-studio-connection.js is loaded.");
+} else {
     // Subscribe specifically for general setup commands (URL, etc.)
     const cmdChannel = window.ssSocket.subscribe('custom_slidesCommands');
     (async () => {
@@ -60,7 +57,7 @@ let slideState = '';
             }
         }
     })();
-})();
+}
 
 function updateIframeUrl(url) {
     const oldIframe = document.getElementById("revealIframe");
@@ -84,22 +81,3 @@ function updateIframeUrl(url) {
     }
 }
 
-// Message from Reveal Slides iFrame API
-window.addEventListener('message', async (event) => {
-    try {
-        let data = JSON.parse(event.data);
-        
-        if (data.namespace === 'reveal') {
-            console.log("[SlideSync_OBS] Message from Reveal iframe:", data.eventName || data.method);
-            const newState = data.state ? JSON.stringify(data.state) : null;
-            if (!newState || newState !== slideState) {
-                if (newState) slideState = newState;
-                
-                // Report all reveal events (ready, slidechanged, callback, etc.) back to Studio
-                if (window.ssSocket && window.ssSocket.state === 'open') {
-                    window.ssSocket.publish('currentSlide_to_studio', { eventName: 'reveal-event', msgParam: data });
-                }
-            }
-        }
-    } catch (e) { }
-});

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fastify WebSocket Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #log { width: 100%; height: 300px; border: 1px solid #ccc; overflow-y: scroll; padding: 10px; margin-top: 10px; font-family: monospace; }
+        button { padding: 10px 15px; margin-right: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Fastify WebSocket Test</h1>
+    
+    <div>
+        <label>WebSocket URL:</label>
+        <input type="text" id="wsUrl" value="ws://127.0.0.1:8080/ws" style="width: 250px;">
+        <button id="btnConnect" onclick="connect()">Connect</button>
+        <button id="btnDisconnect" onclick="disconnect()" disabled>Disconnect</button>
+        <span id="apiVersion" style="margin-left: 15px; font-weight: bold; color: #555;"></span>
+    </div>
+    
+    <div style="margin-top: 15px;">
+        <input type="text" id="msgInput" placeholder="Message to send..." style="width: 250px;">
+        <button id="btnSend" onclick="sendMessage()" disabled>Send Message</button>
+    </div>
+    
+    <div id="log"></div>
+
+    <script>
+        let ws = null;
+        const logEl = document.getElementById('log');
+        const btnConnect = document.getElementById('btnConnect');
+        const btnDisconnect = document.getElementById('btnDisconnect');
+        const btnSend = document.getElementById('btnSend');
+        const wsUrl = document.getElementById('wsUrl');
+        const msgInput = document.getElementById('msgInput');
+        const apiVersionEl = document.getElementById('apiVersion');
+
+        function log(msg) {
+            const time = new Date().toLocaleTimeString();
+            logEl.innerHTML += `<div>[${time}] ${msg}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function connect() {
+            if (ws) return;
+            log(`Attempting connection to ${wsUrl.value}...`);
+            ws = new WebSocket(wsUrl.value);
+
+            ws.onopen = () => {
+                log('✅ Connected successfully!');
+                btnConnect.disabled = true;
+                btnDisconnect.disabled = false;
+                btnSend.disabled = false;
+                apiVersionEl.innerText = "Detecting API Version...";
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === "system" && data.apiVersion) {
+                        apiVersionEl.innerText = `API: @fastify/websocket ${data.apiVersion}`;
+                    }
+                } catch(e) {}
+                log(`⬇️ Received: ${event.data}`);
+            };
+
+            ws.onclose = () => {
+                log('❌ Connection closed.');
+                ws = null;
+                btnConnect.disabled = false;
+                btnDisconnect.disabled = true;
+                btnSend.disabled = true;
+            };
+
+            ws.onerror = (err) => {
+                log(`⚠️ Error: ${err}`);
+            };
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+        }
+
+        function sendMessage() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('Cannot send: not connected.');
+                return;
+            }
+            const msg = msgInput.value;
+            ws.send(msg);
+            log(`⬆️ Sent: ${msg}`);
+            msgInput.value = '';
+        }
+    </script>
+</body>
+</html>

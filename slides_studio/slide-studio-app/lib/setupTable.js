@@ -125,6 +125,9 @@ export function loadTable(options = {}, data = null) {
                     cellEdited: (cell) => {
                         broadcastChange(cell);
                         saveTableToLocalStorage();
+                        if (typeof window.saveTableToObs === 'function') {
+                            window.saveTableToObs();
+                        }
                     }
                 },
             ],

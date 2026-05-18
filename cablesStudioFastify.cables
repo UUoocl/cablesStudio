@@ -1,7 +1,7 @@
 {
     "_id": "69ff4a5b55accb86e01c67d9",
     "shortId": "L2Gq8j",
-    "name": "cablesStudio",
+    "name": "cablesStudioFastify",
     "description": "",
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
@@ -1758,7 +1758,7 @@
         }
     },
     "summary": {
-        "title": "cablesStudio"
+        "title": "cablesStudioFastify"
     },
     "opsHash": "f0068bd4974fc725f73746b6830c83623df95710",
     "buildInfo": {

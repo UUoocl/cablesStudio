@@ -47,6 +47,10 @@
             },
             {
                 "type": 5,
+                "name": "SSE Route"
+            },
+            {
+                "type": 5,
                 "name": "SSE Event Name"
             },
             {
@@ -56,6 +60,19 @@
             {
                 "type": 1,
                 "name": "Broadcast SSE"
+            },
+            {
+                "type": 0,
+                "name": "HTTP Response Code",
+                "subType": "integer"
+            },
+            {
+                "type": 2,
+                "name": "HTTP Response Data Input"
+            },
+            {
+                "type": 1,
+                "name": "Send HTTP Response"
             }
         ],
         "portsOut": [
@@ -102,7 +119,8 @@
             },
             {
                 "type": 0,
-                "name": "Active Clients"
+                "name": "Active Clients",
+                "subType": "number"
             }
         ]
     },

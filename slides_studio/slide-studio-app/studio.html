@@ -66,6 +66,7 @@
 
     <script type="text/javascript" src="lib/tabulator.min.js"></script>
 
+    <script type="module" src="./lib/slides-studio-connection.js"></script>
     <script type="module">
         import './lib/obsApiProxy.js';
         import { loadTable } from './lib/setupTable.js';
@@ -127,13 +128,79 @@
         }
 
         window.sendMessageToParent = function (message) {
+            console.log("[Studio] Sending message to parent:", message.message || message.eventName || "unnamed");
             window.parent.postMessage(JSON.stringify(message), window.location.origin);
         }
 
         window.triggerIframeMethod = function (method, args = []) {
-            // If navigation is triggered manually in Studio, update the viewer
+            // 1. Immediate local navigation via parent relay
+            window.sendMessageToParent({
+                namespace: 'studio',
+                message: 'navigate',
+                data: { method, args }
+            });
+
+            // 2. Broadcast to other remote views via SSE
             obsWss.publish('studio_to_currentSlide', 'navigate', { method, args });
         }
+
+        /**
+         * Logic to highlight the correct row in Tabulator based on slide state
+         */
+        window.syncTableToSlide = function (revealData) {
+            if (!slidesLoaded) return;
+            if (!revealData || !revealData.state) return;
+
+            let stateString = `${revealData.state.indexh},${revealData.state.indexv}`;
+            if (revealData.state.indexf !== undefined && revealData.state.indexf > -1) {
+                stateString += `,${revealData.state.indexf}`;
+            }
+
+            if (stateString !== slideStateStr) {
+                console.log("[Studio] Syncing table to slide state:", stateString);
+                slideStateStr = stateString;
+
+                if (window.table && window.isTableBuilt) {
+                    let rows = window.table.searchRows("slideState", "=", stateString);
+                    if (rows.length > 0) {
+                        const targetRow = rows[0];
+                        console.log("[Studio] Found matching row, selecting index:", targetRow.getIndex());
+                        window.table.deselectRow();
+                        targetRow.select();
+                        selectedRowNumber = targetRow.getPosition();
+                        window.table.scrollToRow(targetRow, "center", false);
+                    } else {
+                        console.warn("[Studio] No matching row found for state:", stateString);
+                    }
+                }
+            }
+        };
+
+        /**
+         * Saves current table mapping back to OBS text source
+         */
+        window.saveTableToObs = async function () {
+            if (!window.table || !window.isTableBuilt) return;
+
+            try {
+                const data = window.table.getData();
+                // Extract only id and scene to keep it clean
+                const mapping = data.map(row => ({
+                    id: row.id || row.slideId,
+                    scene: row.scene || ""
+                }));
+
+                await window.obsWss.call('SetInputSettings', {
+                    inputName: '_Slide_Scene_Map',
+                    inputSettings: {
+                        text: JSON.stringify(mapping, null, 2)
+                    }
+                });
+                console.log("[Studio] Successfully saved mapping to OBS (_Slide_Scene_Map)");
+            } catch (err) {
+                console.error("[Studio] Failed to save mapping to OBS:", err);
+            }
+        };
 
 
         window.filterRowData = function (rowData) {
@@ -158,9 +225,6 @@
                 message: "update-mapping",
                 data: row
             }), "*");
-
-            // Broadcast to both viewer and broadcast overlays
-            window.broadcastSlidesCommand('slide-changed', row);
         }
 
 
@@ -169,18 +233,42 @@
         window.addEventListener("DOMContentLoaded", (event) => {
             obsWss.connect().then(async () => {
                 let filteredScenes = [];
-                try {
-                    const sceneList = await obsWss.call('GetSceneList');
+
+                // Listen for the SSE broadcast of the result
+                obsWss.on('GetSceneListResponse', (responseEnvelope) => {
+                    const sceneList = responseEnvelope.responseData || responseEnvelope;
                     if (sceneList && sceneList.scenes) {
                         filteredScenes = sceneList.scenes
-                            .map(s => s.sceneName || s)
+                            .map(s => (s.sceneName || s))
                             .filter(name => typeof name === 'string' && name.startsWith('Scene'));
+                        window.dropDownOptions.scene = filteredScenes;
+                        console.log("[Studio] Fetched available scenes from SSE:", filteredScenes.length);
+                        // Refresh table if already loaded
+                        if (tableLoaded) {
+                            loadTable(window.dropDownOptions, window.slidesArray);
+                        }
                     }
-                } catch (err) {
-                    console.warn("[Studio] Could not fetch scene list:", err);
-                }
+                });
 
                 window.dropDownOptions = { scene: filteredScenes };
+
+                // Fetch existing mapping from OBS text source
+                try {
+                    const mapInput = await obsWss.call('GetInputSettings', { inputName: '_Slide_Scene_Map' });
+                    if (mapInput && mapInput.inputSettings && mapInput.inputSettings.text) {
+                        const obsMap = JSON.parse(mapInput.inputSettings.text);
+                        console.log("[Studio] Loaded mapping from OBS:", obsMap.length, "entries");
+
+                        // Notify parent of the imported mapping
+                        window.parent.postMessage(JSON.stringify({
+                            namespace: "studio",
+                            message: "import-obs-mapping",
+                            mapping: obsMap
+                        }), "*");
+                    }
+                } catch (err) {
+                    console.log("[Studio] No existing mapping found in OBS (_Slide_Scene_Map) or source missing.");
+                }
 
                 // Request current deck info from parent if already loaded
                 window.parent.postMessage(JSON.stringify({ namespace: "tabulator", message: "slides-data" }), "*");
@@ -193,11 +281,30 @@
             });
         });
 
-        // Unified WebSocket listener via obsWss
-        obsWss.on('keyboardPress', (eventData) => {
-            if (eventData.key) {
-                window.handleKeyboardNavigation(eventData.keyCode || eventData.key);
-            }
+        // Unified SSE event forwarding to parent
+        const forwardChannels = [
+            'studio_to_currentSlide',
+            'custom_slidesCommands',
+            'keyboardPress',
+            'obsEvents'
+        ];
+
+        forwardChannels.forEach(chan => {
+            const emitName = chan === 'custom_slidesCommands' ? 'slidesCommands' : chan;
+            obsWss.on(emitName, (data) => {
+                // Forward to parent
+                window.sendMessageToParent({
+                    namespace: 'studio',
+                    message: 'sse-event',
+                    channel: chan,
+                    data: data
+                });
+
+                // Local handling for keyboard
+                if (chan === 'keyboardPress' && data.key) {
+                    window.handleKeyboardNavigation(data.keyCode || data.key);
+                }
+            });
         });
 
         // Sync OBS scene changes back to the table
@@ -228,8 +335,8 @@
             }
 
             if (eventName === 'set-slides-studio-url') {
-                // Relay the URL to the broadcast navigation channel so OBS views can load the deck
-                window.broadcastSlidesCommand('set-slides-studio-url', { url: payload.url });
+                console.log("[Studio] Received new slides URL:", payload.url);
+                // No need to echo back, index.html already initiated this.
             }
 
             if (eventName === 'next-slide') {
@@ -244,42 +351,8 @@
         // Listen specifically for viewer reporting its state
         obsWss.on('currentSlide_to_studio', async (data) => {
             try {
-                const eventName = data.eventName;
-                const payload = data.msgParam;
-
-                if (eventName === 'reveal-event') {
-                    const revealData = payload;
-                    // console.log("[Studio] Reveal event:", revealData.eventName, revealData.method);
-
-                    if (!slidesLoaded) return;
-
-                    // Navigation Sync (After indexing)
-                    if (revealData.state) {
-                        let stateString = `${revealData.state.indexh},${revealData.state.indexv}`;
-                        if (revealData.state.indexf !== undefined && revealData.state.indexf > -1) {
-                            stateString += `,${revealData.state.indexf}`;
-                        }
-
-                        if (stateString !== slideStateStr) {
-                            slideStateStr = stateString;
-
-                            if (window.table && window.isTableBuilt) {
-                                let rows = window.table.searchRows("slideState", "=", stateString);
-                                if (rows.length > 0) {
-                                    const targetRow = rows[0];
-                                    window.table.deselectRow();
-                                    targetRow.select();
-                                    selectedRowNumber = targetRow.getPosition();
-                                    window.table.scrollToRow(targetRow, "center", false);
-
-                                    // Broadcast the master message only to broadcast navigation
-                                    window.broadcastSlidesCommand('slide-changed', targetRow.getData());
-                                }
-                            }
-                        }
-                    }
-
-                    // Overview logic handled by editor/v2.0 choreography
+                if (data.eventName === 'reveal-event') {
+                    window.syncTableToSlide(data.msgParam);
                 }
             } catch (err) {
                 console.error("[Studio] Error processing viewer state message:", err);
@@ -306,8 +379,18 @@
                 slidesLoaded = true;
                 tableLoaded = true;
 
-
                 loadTable(window.dropDownOptions || dropDownOptions, window.slidesArray);
+
+                // Send request to Cables HTTP server which will route to OBS
+                fetch('/api/obs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ requestType: "GetSceneList", requestData: {} })
+                }).catch(err => console.warn("[Studio] Could not send GetSceneList request:", err));
+            }
+
+            if (data.namespace === "speakerview" && data.message === "reveal-event") {
+                window.syncTableToSlide(data.data);
             }
         });
 
@@ -330,6 +413,9 @@
             }
 
             console.log(`Mapped slide to scene: ${activeSlide.scene}`);
+            if (typeof window.saveTableToObs === 'function') {
+                window.saveTableToObs();
+            }
         });
 
         document.getElementById('createSceneButton').addEventListener('click', async () => {

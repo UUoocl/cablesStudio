@@ -55,60 +55,40 @@
       <i class="icon-play marker" style="display: none"></i>
     </article>
 
-    <script type="module" src="lib/slides-studio-connection.js"></script>
     <script src="lib/teleprompter.vanilla.js"></script>
-
     <script type="module">
-      // Initialize App
       window.onload = function() {
         TelePrompter.init();
       };
 
-      // Unified WebSocket listener for all plugin events
-      (async () => {
-        while (!window.ssSocket) {
-            await new Promise(r => setTimeout(r, 100));
-        }
-
-        console.log("[Teleprompter] Subscribing to custom_slidesCommands via WebSocket...");
-        const channel = window.ssSocket.subscribe('custom_slidesCommands');
-        
-        for await (let data of channel) {
-            try {
-                const eventName = data.eventName;
-                const payload = data.msgParam;
-
-                if (eventName === 'reveal-event') {
-                    if (payload.eventName === 'callback' && payload.method === 'getSlideNotes') {
-                        console.log("[Teleprompter] Received notes via WebSocket callback");
-                        document.getElementById("teleprompter").innerHTML = payload.result;
-                        TelePrompter.resetPageScroll();
-                        if (TelePrompter.isAutoScroll()) {
-                            console.log("[Teleprompter] Auto-scroll enabled, starting...");
-                            TelePrompter.start();
-                        }
-                    }
-                }
-
-                // Handle remote control requests
-                if (eventName === 'teleprompterChangeRequest') {
-                    console.log("[Teleprompter] Change request via WebSocket:", payload.functionName);
-                    if (typeof TelePrompter[payload.functionName] === 'function') {
-                        TelePrompter[payload.functionName](payload.value);
-                    }
-                }
-
-                if (eventName === 'togglePlay') {
-                    console.log("[Teleprompter] Toggle play via WebSocket");
-                    if (typeof TelePrompter[payload.functionName] === 'function') {
-                        TelePrompter[payload.functionName]();
-                    }
-                }
-            } catch (err) {
-                console.error("[Teleprompter] Error processing WebSocket message:", err);
+      window.addEventListener('message', (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          
+          if (data.namespace === 'speakerview' && data.message === 'notes') {
+            console.log("[Teleprompter] Received notes via parent message");
+            document.getElementById("teleprompter").innerHTML = data.notes;
+            TelePrompter.resetPageScroll();
+            if (TelePrompter.isAutoScroll()) {
+              TelePrompter.start();
             }
-        }
-      })();
+          }
+
+          if (data.namespace === 'speakerview' && data.message === 'control') {
+            const { eventName, payload } = data;
+            if (eventName === 'teleprompterChangeRequest') {
+              if (typeof TelePrompter[payload.functionName] === 'function') {
+                TelePrompter[payload.functionName](payload.value);
+              }
+            }
+            if (eventName === 'togglePlay') {
+              if (typeof TelePrompter[payload.functionName] === 'function') {
+                TelePrompter[payload.functionName]();
+              }
+            }
+          }
+        } catch (e) {}
+      });
     </script>
   </body>
 </html>

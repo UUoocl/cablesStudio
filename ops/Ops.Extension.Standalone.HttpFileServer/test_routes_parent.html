@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Route Tester - Iframe Wrapper</title>
+    <!-- Import Google Font "Inter" -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #060913;
+            --bg-parent-panel: #111827;
+            --bg-card: #1f2937;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: 
+                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(236, 72, 153, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-title-area h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #f9fafb, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-title-area p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .tag-parent {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* Layout Grid */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 1024px) {
+            .workspace-grid {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        /* Sidebar / Details Panel */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel-card {
+            background: var(--bg-parent-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .panel-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: var(--accent-purple);
+            border-radius: 2px;
+        }
+
+        .desc-text {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .iframe-src-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            outline: none;
+        }
+
+        .iframe-src-input:focus {
+            border-color: var(--accent-purple);
+        }
+
+        .control-btn {
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+
+        .control-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Message Logger */
+        .message-log-container {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .log-msg {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 4px;
+        }
+
+        .log-msg-time {
+            color: #6b7280;
+        }
+
+        .log-msg-origin {
+            color: #10b981;
+        }
+
+        .log-msg-payload {
+            color: #60a5fa;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        /* Main Iframe Viewport */
+        .iframe-viewport-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .viewport-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111827;
+            padding: 10px 16px;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+        }
+
+        .viewport-address-bar {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 4px 12px;
+            margin: 0 16px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .address-lock-icon {
+            color: #10b981;
+        }
+
+        .window-dot-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .window-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4b5563;
+        }
+
+        .window-dot.red { background: #ef4444; }
+        .window-dot.yellow { background: #f59e0b; }
+        .window-dot.green { background: #10b981; }
+
+        .iframe-wrapper {
+            background: #111827;
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 12px 12px;
+            padding: 2px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            height: 800px;
+            display: flex;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0 0 10px 10px;
+            background: #0b0f19;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title-area">
+            <h1>Iframe Testing Wrapper</h1>
+            <p>Simulating and analyzing API requests originating from inside child viewports</p>
+        </div>
+        <span class="tag-parent">Parent Window</span>
+    </header>
+
+    <div class="workspace-grid">
+        <!-- Sidebar Controls & Logs -->
+        <div class="sidebar">
+            <!-- Test Scenario Details -->
+            <div class="panel-card">
+                <div class="panel-card-title">Scenario Context</div>
+                <div class="desc-text">
+                    This wrapper page embeds `test_routes.html` inside an <strong>&lt;iframe&gt;</strong>. 
+                </div>
+                <div class="desc-text">
+                    In standalone Cables / reveal.js applications, client UI is frequently nested in sub-iframes. This test case validates whether <strong>fetch()</strong> requests correctly derive paths, keep headers, and pass through standalone cross-origin/sandbox configurations.
+                </div>
+            </div>
+
+            <!-- Iframe URL controller -->
+            <div class="panel-card">
+                <div class="panel-card-title">Viewport Control</div>
+                <div class="input-group">
+                    <label for="iframe-src">Iframe Source</label>
+                    <input type="text" id="iframe-src" class="iframe-src-input" value="test_routes.html">
+                </div>
+                <button class="control-btn" onclick="reloadIframe()">Reload Iframe</button>
+            </div>
+
+            <!-- postMessage Observer -->
+            <div class="panel-card">
+                <div class="panel-card-title">postMessage Monitor</div>
+                <div class="desc-text" style="font-size: 0.75rem;">
+                    Listens to any messages posted to `window.parent` by the nested page.
+                </div>
+                <div class="message-log-container" id="postmessage-logs">
+                    <div style="color: #6b7280; font-style: italic; text-align: center; margin-top: auto; margin-bottom: auto;">
+                        No messages received yet
+                    </div>
+                </div>
+                <button class="clear-btn" onclick="clearMessageLogs()" style="background: transparent; border: none; color: var(--accent-pink); font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-top: 10px; text-decoration: underline;">
+                    Clear Logs
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Viewport containing the Iframe -->
+        <div class="iframe-viewport-container">
+            <div class="viewport-header">
+                <div class="window-dot-container">
+                    <div class="window-dot red"></div>
+                    <div class="window-dot yellow"></div>
+                    <div class="window-dot green"></div>
+                </div>
+                <div class="viewport-address-bar">
+                    <span class="address-lock-icon">🔒</span>
+                    <span id="address-url">http://127.0.0.1:8080/ops/Ops.Extension.Standalone.HttpFileServer/test_routes.html</span>
+                </div>
+                <div style="width: 48px;"></div> <!-- visual spacer -->
+            </div>
+            
+            <div class="iframe-wrapper">
+                <iframe id="test-iframe" src="test_routes.html" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function reloadIframe() {
+        const iframe = document.getElementById('test-iframe');
+        const srcVal = document.getElementById('iframe-src').value.trim();
+        
+        iframe.src = srcVal;
+        document.getElementById('address-url').innerText = 'http://127.0.0.1:8080/ops/Ops.Extension.Standalone.HttpFileServer/' + srcVal;
+        
+        addLocalLog('System', `Reloaded iframe to: ${srcVal}`);
+    }
+
+    function addLocalLog(origin, message) {
+        const container = document.getElementById('postmessage-logs');
+        
+        // Remove empty placeholder
+        if (container.querySelector('div[style*="font-style: italic"]')) {
+            container.innerHTML = '';
+        }
+
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-msg';
+        
+        const time = new Date().toLocaleTimeString();
+        
+        logEntry.innerHTML = `
+            <span class="log-msg-time">[${time}]</span>
+            <span class="log-msg-origin">${origin}:</span>
+            <span class="log-msg-payload">${escapeHtml(message)}</span>
+        `;
+        
+        container.insertBefore(logEntry, container.firstChild);
+    }
+
+    function clearMessageLogs() {
+        const container = document.getElementById('postmessage-logs');
+        container.innerHTML = `
+            <div style="color: #6b7280; font-style: italic; text-align: center; margin-top: auto; margin-bottom: auto;">
+                No messages received yet
+            </div>
+        `;
+    }
+
+    function escapeHtml(text) {
+        return text
+            .toString()
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // Listen to messages from child iframe
+    window.addEventListener('message', function(event) {
+        // Log all messages received by parent
+        let msgData = event.data;
+        if (typeof msgData === 'object') {
+            msgData = JSON.stringify(msgData);
+        }
+        
+        addLocalLog(event.origin || 'Iframe Context', msgData);
+    });
+</script>
+
+</body>
+</html>
