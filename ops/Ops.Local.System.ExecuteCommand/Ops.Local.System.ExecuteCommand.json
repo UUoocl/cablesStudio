@@ -1,0 +1,97 @@
+{
+    "id": "e38a2d06-1942-469e-90a2-3ba65d1b8b55",
+    "authorName": "Gemini",
+    "created": 1736524800000,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Command"
+            },
+            {
+                "type": 5,
+                "name": "Arguments"
+            },
+            {
+                "type": 5,
+                "name": "Working Directory"
+            },
+            {
+                "type": 1,
+                "name": "Execute"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Completed"
+            },
+            {
+                "type": 5,
+                "name": "Stdout"
+            },
+            {
+                "type": 5,
+                "name": "Stderr"
+            },
+            {
+                "type": 2,
+                "name": "JSON Output"
+            },
+            {
+                "type": 0,
+                "name": "Exit Code",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Error"
+            }
+        ]
+    },
+    "summary": "Execute a shell command and capture the output (with JSON support)",
+    "docs": {
+        "ports": [
+            {
+                "name": "Command",
+                "text": "The shell command to execute."
+            },
+            {
+                "name": "Arguments",
+                "text": "Optional arguments string."
+            },
+            {
+                "name": "Working Directory",
+                "text": "The directory to execute the command in."
+            },
+            {
+                "name": "Execute",
+                "text": "Trigger this port to run the command."
+            },
+            {
+                "name": "Completed",
+                "text": "Triggered when the command finishes."
+            },
+            {
+                "name": "Stdout",
+                "text": "The standard output as a string."
+            },
+            {
+                "name": "Stderr",
+                "text": "The standard error output."
+            },
+            {
+                "name": "JSON Output",
+                "text": "If the output is valid JSON, it will be parsed and output here as an object."
+            },
+            {
+                "name": "Exit Code",
+                "text": "The exit code of the process."
+            },
+            {
+                "name": "Error",
+                "text": "Triggered if the command returns a non-zero exit code."
+            }
+        ]
+    }
+}

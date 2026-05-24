@@ -16,3 +16,10 @@ ops/Ops.Local.Osc.OscSendArguments/node_modules
 ops/Ops.Local.Fastify/node_modules
 .antigravitycli/90d5c1d9-cc18-4c7d-9180-a409875e66ba.json
 ops/Ops.Extension.Standalone.HttpFileServer/node_modules
+
+
+# Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

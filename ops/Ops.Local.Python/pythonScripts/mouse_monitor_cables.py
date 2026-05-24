@@ -41,12 +41,51 @@ def on_move(x, y):
     with event_lock:
         pending_move = {"x": int(x), "y": int(y)}
 
+_BUTTON_NAME_TO_NUM = {
+    "left": 1,
+    "right": 2,
+    "middle": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+    "thirteen": 13,
+    "fourteen": 14,
+    "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+    "twenty": 20,
+    "twenty_one": 21,
+    "twenty_two": 22,
+    "twenty_three": 23,
+    "twenty_four": 24,
+    "twenty_five": 25,
+    "twenty_six": 26,
+    "twenty_seven": 27,
+    "twenty_eight": 28,
+    "twenty_nine": 29,
+    "thirty": 30,
+    "thirty_one": 31,
+    "thirty_two": 32
+}
+
 def on_click(x, y, button, pressed):
     if not monitor_clicks: return
     btn_code = ""
-    if button == mouse.Button.left: btn_code = "MB1"
-    elif button == mouse.Button.right: btn_code = "MB2"
-    elif button == mouse.Button.middle: btn_code = "MB3"
+    btn_name = getattr(button, "name", None)
+    if btn_name in _BUTTON_NAME_TO_NUM:
+        btn_code = f"MB{_BUTTON_NAME_TO_NUM[btn_name]}"
+    elif button and hasattr(button, "value") and isinstance(button.value, tuple) and len(button.value) >= 2:
+        btn_num = button.value[1]
+        if isinstance(btn_num, int):
+            btn_code = f"MB{btn_num + 1}"
     
     if btn_code:
         with event_lock:

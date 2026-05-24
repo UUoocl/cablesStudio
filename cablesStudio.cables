@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1779542793310,
+    "updated": 1779631721702,
     "visibility": "private",
     "ops": [
         {
@@ -15,8 +15,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -447.2339401262246,
-                    "y": -2249.993010166985
+                    "x": -436.1941783667085,
+                    "y": -2302.644181635447
                 }
             },
             "portsIn": [
@@ -54,16 +54,22 @@
                             "portOut": "trigger",
                             "objIn": "n2xrt203o",
                             "objOut": "fls3at9do"
+                        },
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "oai41iz1c",
+                            "objOut": "fls3at9do"
                         }
                     ]
                 },
                 {
                     "name": "width",
-                    "value": 479
+                    "value": 327
                 },
                 {
                     "name": "height",
-                    "value": 240
+                    "value": 261
                 },
                 {
                     "name": "Pixel Density",
@@ -234,7 +240,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": true
+                    "value": false
                 }
             ]
         },
@@ -450,34 +456,7 @@
                 },
                 {
                     "name": "Error",
-                    "value": "Failed to load sketch: Failed to fetch dynamically imported module: http://127.0.0.1:8080/Ops.Local.P5/p5_example_sketch.js?v=1779542174264"
-                }
-            ]
-        },
-        {
-            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
-            "id": "r79bsmdcq",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 16.664582963195812,
-                    "y": -682.0942226660886
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Python Install Location",
-                    "value": "/usr/bin/python3"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Status",
-                    "value": "Found: Python 3.9.6"
-                },
-                {
-                    "name": "Found",
-                    "value": true
+                    "value": "Failed to load sketch: Failed to fetch dynamically imported module: http://127.0.0.1:8080/Ops.Local.P5/p5_example_sketch.js?v=1779631586153"
                 }
             ]
         },
@@ -487,18 +466,14 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 18.647040820760992,
-                    "y": -626.0442871067545
+                    "x": 33.65217383509756,
+                    "y": -703.116567610448
                 }
             },
             "portsIn": [
                 {
                     "name": "Script Location",
                     "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/pythonScripts/keyboard_monitor_cables.py"
-                },
-                {
-                    "name": "Active",
-                    "value": 1
                 }
             ],
             "portsOut": [
@@ -506,9 +481,9 @@
                     "name": "Last Single Key",
                     "links": [
                         {
-                            "portIn": "Text",
+                            "portIn": "String 0",
                             "portOut": "Last Single Key",
-                            "objIn": "2e9dklffz",
+                            "objIn": "1qqq9x2c8",
                             "objOut": "15brm56h7"
                         }
                     ]
@@ -756,8 +731,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 43.692496030658276,
-                    "y": -552.6620259517713
+                    "x": 83.40795351118985,
+                    "y": -569.6829363005705
                 }
             },
             "portsIn": [
@@ -1337,8 +1312,8 @@
                     "y": -2046.6613547968198
                 },
                 "area": {
-                    "w": 388.2521426296583,
-                    "h": 527.1589257868065,
+                    "w": 419.96825164510113,
+                    "h": 680.1605355977831,
                     "id": "lypxk7lni"
                 },
                 "comment": "File\nAPI\nSSE\nWS"
@@ -1419,7 +1394,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": -815.0903576965148,
-                    "y": -1711.9660153107704
+                    "y": -1557.9634264009007
                 }
             },
             "portsIn": [
@@ -1587,7 +1562,7 @@
                         {
                             "portIn": "WS Data",
                             "portOut": "Result",
-                            "objIn": "5xqcw1tfa",
+                            "objIn": "q76hwig9x",
                             "objOut": "ssca45u4j"
                         }
                     ]
@@ -1598,7 +1573,7 @@
                         {
                             "portIn": "WS Channel",
                             "portOut": "Request Type Output",
-                            "objIn": "5xqcw1tfa",
+                            "objIn": "q76hwig9x",
                             "objOut": "ssca45u4j"
                         }
                     ]
@@ -1609,7 +1584,7 @@
                         {
                             "portIn": "Send WS Message",
                             "portOut": "On Result",
-                            "objIn": "5xqcw1tfa",
+                            "objIn": "q76hwig9x",
                             "objOut": "ssca45u4j"
                         }
                     ]
@@ -1621,147 +1596,13 @@
             ]
         },
         {
-            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
-            "id": "5xqcw1tfa",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -804.2823854106945,
-                    "y": -1942.9690942246345
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Hostname",
-                    "value": "127.0.0.1"
-                },
-                {
-                    "name": "Port",
-                    "value": 8080
-                },
-                {
-                    "name": "Root Directory",
-                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
-                },
-                {
-                    "name": "Auto Start",
-                    "value": 1
-                },
-                {
-                    "name": "SSE Route",
-                    "value": "/sse"
-                },
-                {
-                    "name": "Enable SSE",
-                    "value": 1
-                },
-                {
-                    "name": "Enable API",
-                    "value": 1
-                },
-                {
-                    "name": "Enable WS",
-                    "value": 1
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Server Ready",
-                    "links": [
-                        {
-                            "portIn": "Reload",
-                            "portOut": "Server Ready",
-                            "objIn": "pvrzbnwek",
-                            "objOut": "5xqcw1tfa"
-                        },
-                        {
-                            "portIn": "Manual Reload",
-                            "portOut": "Server Ready",
-                            "objIn": "g1jipcdvf",
-                            "objOut": "5xqcw1tfa"
-                        }
-                    ]
-                },
-                {
-                    "name": "On HTTP Request",
-                    "links": [
-                        {
-                            "portIn": "Execute",
-                            "portOut": "On HTTP Request",
-                            "objIn": "trjigvl3q",
-                            "objOut": "5xqcw1tfa"
-                        }
-                    ]
-                },
-                {
-                    "name": "HTTP URL",
-                    "links": [
-                        {
-                            "portIn": "text",
-                            "portOut": "HTTP URL",
-                            "objIn": "s67vr37i5",
-                            "objOut": "5xqcw1tfa"
-                        },
-                        {
-                            "portIn": "String",
-                            "portOut": "HTTP URL",
-                            "objIn": "syn3s1u79",
-                            "objOut": "5xqcw1tfa"
-                        }
-                    ]
-                },
-                {
-                    "name": "HTTP Request Data",
-                    "links": [
-                        {
-                            "portIn": "x241kwb0g",
-                            "portOut": "HTTP Request Data",
-                            "objIn": "onqe934fb",
-                            "objOut": "5xqcw1tfa"
-                        }
-                    ]
-                },
-                {
-                    "name": "HTTP Response Data",
-                    "links": [
-                        {
-                            "portIn": "Response",
-                            "portOut": "HTTP Response Data",
-                            "objIn": "fodeqht1t",
-                            "objOut": "5xqcw1tfa"
-                        }
-                    ]
-                },
-                {
-                    "name": "WS Message Channel",
-                    "value": ""
-                },
-                {
-                    "name": "WS Active Clients",
-                    "value": 1
-                },
-                {
-                    "name": "Error",
-                    "value": ""
-                },
-                {
-                    "name": "Running",
-                    "value": 1
-                },
-                {
-                    "name": "Active Clients",
-                    "value": 1
-                }
-            ]
-        },
-        {
             "opId": "20ff324a-e4a5-45f9-a456-8550478197c6",
             "id": "fodeqht1t",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
                     "x": -791.0903576965148,
-                    "y": -1590.056543600947
+                    "y": -1436.0539546910773
                 }
             },
             "portsIn": [
@@ -1899,7 +1740,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": -803.0903576965148,
-                    "y": -1847.8602525770361
+                    "y": -1693.8576636671664
                 }
             },
             "portsIn": [
@@ -1969,7 +1810,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": -803.0903576965148,
-                    "y": -1778.5800994875597
+                    "y": -1624.57751057769
                 }
             },
             "portsIn": [
@@ -2002,8 +1843,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -338.81231209307384,
-                    "y": -1931.431024725214
+                    "x": -335.6479034868974,
+                    "y": -1928.883387396095
                 }
             },
             "portsOut": [
@@ -2013,7 +1854,7 @@
                         {
                             "portIn": "Trigger Request",
                             "portOut": "Next",
-                            "objIn": "6gz535fb5",
+                            "objIn": "mlj5hpolo",
                             "objOut": "syn3s1u79"
                         }
                     ]
@@ -2041,7 +1882,7 @@
                 "title": "Shortcuts Request",
                 "translate": {
                     "x": -368,
-                    "y": -2035.7812684890519
+                    "y": -2033.2336311599329
                 },
                 "area": {
                     "w": 428.21392594185045,
@@ -2062,8 +1903,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -315.00261332475304,
-                    "y": -1873.7763753110423
+                    "x": -323.6479034868974,
+                    "y": -1870.7984414477698
                 }
             },
             "portsIn": [
@@ -2091,7 +1932,7 @@
                         {
                             "portIn": "Shortcut URL",
                             "portOut": "Result",
-                            "objIn": "6gz535fb5",
+                            "objIn": "mlj5hpolo",
                             "objOut": "cdg335bf9"
                         }
                     ]
@@ -2230,8 +2071,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -179.41070281295123,
-                    "y": -1856.544362352631
+                    "x": -187.9028272433482,
+                    "y": -1853.996725023512
                 }
             },
             "portsIn": [
@@ -2278,7 +2119,7 @@
                         {
                             "portIn": "Callback URL",
                             "portOut": "String",
-                            "objIn": "6gz535fb5",
+                            "objIn": "mlj5hpolo",
                             "objOut": "6oa4j1pn9"
                         }
                     ]
@@ -2295,8 +2136,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -143.41070281295123,
-                    "y": -1909.4363455445412
+                    "x": -151.9028272433482,
+                    "y": -1906.8887082154222
                 }
             },
             "portsIn": [
@@ -2325,17 +2166,6 @@
             ]
         },
         {
-            "opId": "e0b04a99-b1d3-4a11-85b4-2cfd9a691456",
-            "id": "6gz535fb5",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -288.45683798005257,
-                    "y": -1756.403938467505
-                }
-            }
-        },
-        {
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "t9718x52s",
             "attribs": {},
@@ -2348,8 +2178,8 @@
                     "y": -1628.7640601627077
                 },
                 "area": {
-                    "w": 458.6872139106176,
-                    "h": 226.0787072011858,
+                    "w": 455.96819464753963,
+                    "h": 303.97857787232556,
                     "id": "a9os1wd5o"
                 }
             },
@@ -2369,8 +2199,8 @@
                     "version": 2
                 },
                 "translate": {
-                    "x": -298.27607386871733,
-                    "y": -1493.7248382972623
+                    "x": -282.7249979570538,
+                    "y": -1512.5542306586246
                 }
             },
             "storage": {
@@ -2397,9 +2227,9 @@
                     "title": "String",
                     "links": [
                         {
-                            "portIn": "SSE Event Name",
+                            "portIn": "Value",
                             "portOut": "wv4ht3vp3",
-                            "objIn": "5xqcw1tfa",
+                            "objIn": "fj7cstkem",
                             "objOut": "onqe934fb"
                         }
                     ]
@@ -2409,9 +2239,9 @@
                     "title": "Result",
                     "links": [
                         {
-                            "portIn": "SSE Data",
+                            "portIn": "Value",
                             "portOut": "qddih6cp8",
-                            "objIn": "5xqcw1tfa",
+                            "objIn": "g8xytanl1",
                             "objOut": "onqe934fb"
                         }
                     ]
@@ -2421,12 +2251,920 @@
                     "title": "Next",
                     "links": [
                         {
-                            "portIn": "Broadcast SSE",
+                            "portIn": "Trigger",
                             "portOut": "37wl9a84v",
-                            "objIn": "5xqcw1tfa",
+                            "objIn": "wm48t8lmj",
                             "objOut": "onqe934fb"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "q76hwig9x",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -804.2823854106945,
+                    "y": -1788.9665053147648
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Server Ready",
+                    "links": [
+                        {
+                            "portIn": "Reload",
+                            "portOut": "Server Ready",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "q76hwig9x"
+                        },
+                        {
+                            "portIn": "Manual Reload",
+                            "portOut": "Server Ready",
+                            "objIn": "g1jipcdvf",
+                            "objOut": "q76hwig9x"
+                        }
+                    ]
+                },
+                {
+                    "name": "On HTTP Request",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "On HTTP Request",
+                            "objIn": "trjigvl3q",
+                            "objOut": "q76hwig9x"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP URL",
+                    "links": [
+                        {
+                            "portIn": "text",
+                            "portOut": "HTTP URL",
+                            "objIn": "s67vr37i5",
+                            "objOut": "q76hwig9x"
+                        },
+                        {
+                            "portIn": "String",
+                            "portOut": "HTTP URL",
+                            "objIn": "syn3s1u79",
+                            "objOut": "q76hwig9x"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Request Data",
+                    "links": [
+                        {
+                            "portIn": "x241kwb0g",
+                            "portOut": "HTTP Request Data",
+                            "objIn": "onqe934fb",
+                            "objOut": "q76hwig9x"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Response Data",
+                    "links": [
+                        {
+                            "portIn": "Response",
+                            "portOut": "HTTP Response Data",
+                            "objIn": "fodeqht1t",
+                            "objOut": "q76hwig9x"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Message Channel",
+                    "value": ""
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "7b8d0c2e-4b6a-4d2a-8b8a-9c7f6e5d4a3b",
+            "id": "oai41iz1c",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -393.4133687343667,
+                    "y": -2221.5243945318107
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Source index",
+                    "value": 0
+                },
+                {
+                    "name": "Source",
+                    "value": "Presenter Display"
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 1
+                },
+                {
+                    "name": "FPS",
+                    "value": 12
+                },
+                {
+                    "name": "Requested Width",
+                    "value": 1800
+                },
+                {
+                    "name": "Requested Height",
+                    "value": 720
+                },
+                {
+                    "name": "Show HTML Element",
+                    "value": 0
+                },
+                {
+                    "name": "CSS",
+                    "value": "z-index:99999;position:absolute;"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "Texture",
+                            "objIn": "dglh7euf5",
+                            "objOut": "oai41iz1c"
+                        }
+                    ]
+                },
+                {
+                    "name": "Ratio",
+                    "value": 2.5
+                },
+                {
+                    "name": "Available",
+                    "value": 1
+                },
+                {
+                    "name": "Size Width",
+                    "value": 1800
+                },
+                {
+                    "name": "Size Height",
+                    "value": 720
+                },
+                {
+                    "name": "Error",
+                    "value": "Source \"Presenter Display\" not found."
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "dglh7euf5",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 257.2340751595684,
+                "resizable": true,
+                "translate": {
+                    "x": -195.7852808855494,
+                    "y": -2341.302288929132
+                },
+                "width": 421.73014469624206
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "e0b04a99-b1d3-4a11-85b4-2cfd9a691456",
+            "id": "mlj5hpolo",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -296.94896241044955,
+                    "y": -1753.856301138386
+                }
+            }
+        },
+        {
+            "opId": "ee0459bd-3dc1-4b32-b6c1-01f98d06eebd",
+            "id": "1qqq9x2c8",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 107.40795351118985,
+                    "y": -623.2420781616762
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "String 2",
+                    "value": ""
+                },
+                {
+                    "name": "String 3",
+                    "value": ""
+                },
+                {
+                    "name": "String 4",
+                    "value": ""
+                },
+                {
+                    "name": "String 5",
+                    "value": ""
+                },
+                {
+                    "name": "String 6",
+                    "value": ""
+                },
+                {
+                    "name": "String 7",
+                    "value": ""
+                },
+                {
+                    "name": "String 8",
+                    "value": ""
+                },
+                {
+                    "name": "String 9",
+                    "value": ""
+                },
+                {
+                    "name": "String 10",
+                    "value": ""
+                },
+                {
+                    "name": "String 11",
+                    "value": ""
+                },
+                {
+                    "name": "String 12",
+                    "value": ""
+                },
+                {
+                    "name": "String 13",
+                    "value": ""
+                },
+                {
+                    "name": "String 14",
+                    "value": ""
+                },
+                {
+                    "name": "String 15",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "Text",
+                            "portOut": "Output 0",
+                            "objIn": "2e9dklffz",
+                            "objOut": "1qqq9x2c8"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 1",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 2",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 3",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 4",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 5",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 6",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 7",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 8",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 9",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 10",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 11",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 12",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 13",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 14",
+                    "value": "s"
+                },
+                {
+                    "name": "Output 15",
+                    "value": "s"
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-2222-4444-aaaa-000000000002",
+            "id": "sdi89isec",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 300.01940063398746,
+                    "y": -693.3225552033402
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/pythonScripts/mouse_monitor_cables.py"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Click",
+                    "links": [
+                        {
+                            "portIn": "String 1",
+                            "portOut": "Click",
+                            "objIn": "1qqq9x2c8",
+                            "objOut": "sdi89isec"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos X",
+                    "value": 3070
+                },
+                {
+                    "name": "Pos Y",
+                    "value": 329
+                },
+                {
+                    "name": "Scroll Delta",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-2222-4444-aaaa-000000000003",
+            "id": "k03cs29vx",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 303.2251890632141,
+                    "y": -760.7681822359401
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/pythonScripts/mouse_controller_cables.py"
+                },
+                {
+                    "name": "Mouse Position",
+                    "value": 0
+                },
+                {
+                    "name": "Button Click",
+                    "value": 21
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Running: Mouse Controller Started"
+                },
+                {
+                    "name": "Error Message",
+                    "value": "INFO:Starting Cables GL Mouse Controller (stdin mode)...\n"
+                }
+            ]
+        },
+        {
+            "opId": "e4d31a46-bf64-42a8-be34-4cbb2bbc2600",
+            "id": "c6kr310sp",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 288,
+                    "y": -862.4891613557872
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Array length",
+                    "value": 2
+                },
+                {
+                    "name": "Mode select index",
+                    "value": 0
+                },
+                {
+                    "name": "Mode select",
+                    "value": "Number"
+                },
+                {
+                    "name": "Default Value",
+                    "value": 200
+                },
+                {
+                    "name": "Reverse",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Array length out",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
+            "id": "wm48t8lmj",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">SseTrigger",
+                "translate": {
+                    "x": -258.7249979570538,
+                    "y": -1465.454989172555
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "SseTrigger"
+                }
+            ]
+        },
+        {
+            "opId": "0816c999-f2db-466b-9777-2814573574c5",
+            "id": "g6cp6ylao",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">SseTrigger",
+                "translate": {
+                    "x": -696.2823854106945,
+                    "y": -1875.7239523645449
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "SseTrigger"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Triggered",
+                    "links": [
+                        {
+                            "portIn": "Broadcast SSE",
+                            "portOut": "Triggered",
+                            "objIn": "q76hwig9x",
+                            "objOut": "g6cp6ylao"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "fj7cstkem",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -282.7249979570538,
+                    "y": -1380.963934778512
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "VarSseEvent"
+                }
+            ]
+        },
+        {
+            "opId": "3ad08cfc-bce6-4175-9746-fef2817a3b12",
+            "id": "xvqa3l301",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": -720.2823854106945,
+                    "y": -1952.5488297486108
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "VarSseEvent"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "SSE Event Name",
+                            "portOut": "Value",
+                            "objIn": "q76hwig9x",
+                            "objOut": "xvqa3l301"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "g8xytanl1",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -270.7249979570538,
+                    "y": -1419.6981568247268
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "VarSsePayload"
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "pa22p0uh4",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": -708.2823854106945,
+                    "y": -1911.6715993589542
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "VarSsePayload"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "SSE Data",
+                            "portOut": "Value",
+                            "objIn": "q76hwig9x",
+                            "objOut": "pa22p0uh4"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
+            "id": "emxo6jbvg",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 33,
+                    "y": -883.366403353798
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Python Install Location",
+                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/Python3.12"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Found: Python 3.12.10"
+                },
+                {
+                    "name": "Found",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Found",
+                            "objIn": "v2xlzd110",
+                            "objOut": "emxo6jbvg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "98e8a6cf-1f2f-4cb8-9e33-e5189e3d70ce",
+            "id": "v2xlzd110",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 45,
+                    "y": -827.4537950661393
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number 1",
+                    "value": 0
+                },
+                {
+                    "name": "Number 2",
+                    "value": 0
+                },
+                {
+                    "name": "Number 3",
+                    "value": 0
+                },
+                {
+                    "name": "Number 4",
+                    "value": 0
+                },
+                {
+                    "name": "Number 5",
+                    "value": 0
+                },
+                {
+                    "name": "Number 6",
+                    "value": 0
+                },
+                {
+                    "name": "Number 7",
+                    "value": 0
+                },
+                {
+                    "name": "Number 8",
+                    "value": 0
+                },
+                {
+                    "name": "Number 9",
+                    "value": 0
+                },
+                {
+                    "name": "Number 10",
+                    "value": 0
+                },
+                {
+                    "name": "Number 11",
+                    "value": 0
+                },
+                {
+                    "name": "Number 12",
+                    "value": 0
+                },
+                {
+                    "name": "Number 13",
+                    "value": 0
+                },
+                {
+                    "name": "Number 14",
+                    "value": 0
+                },
+                {
+                    "name": "Number 15",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "Active",
+                            "portOut": "Output 0",
+                            "objIn": "15brm56h7",
+                            "objOut": "v2xlzd110"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 1",
+                    "links": [
+                        {
+                            "portIn": "Active",
+                            "portOut": "Output 1",
+                            "objIn": "k03cs29vx",
+                            "objOut": "v2xlzd110"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 2",
+                    "links": [
+                        {
+                            "portIn": "Active",
+                            "portOut": "Output 2",
+                            "objIn": "sdi89isec",
+                            "objOut": "v2xlzd110"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 3",
+                    "value": true
+                },
+                {
+                    "name": "Output 4",
+                    "value": true
+                },
+                {
+                    "name": "Output 5",
+                    "value": true
+                },
+                {
+                    "name": "Output 6",
+                    "value": true
+                },
+                {
+                    "name": "Output 7",
+                    "value": true
+                },
+                {
+                    "name": "Output 8",
+                    "value": true
+                },
+                {
+                    "name": "Output 9",
+                    "value": true
+                },
+                {
+                    "name": "Output 10",
+                    "value": true
+                },
+                {
+                    "name": "Output 11",
+                    "value": true
+                },
+                {
+                    "name": "Output 12",
+                    "value": true
+                },
+                {
+                    "name": "Output 13",
+                    "value": true
+                },
+                {
+                    "name": "Output 14",
+                    "value": true
+                },
+                {
+                    "name": "Output 15",
+                    "value": true
                 }
             ]
         }
@@ -2451,8 +3189,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 479,
-            "h": 240,
+            "w": 327,
+            "h": 261,
             "s": 1
         },
         "timeline": {},
@@ -2460,9 +3198,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -340.50917112131134,
-                "y": -2218.0924659902057,
-                "z": 1083.6371271447565
+                "x": 384.1631255942649,
+                "y": -805.8040782904669,
+                "z": 744.8322754872358
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -2490,9 +3228,9 @@
                 "z": 468.50553636433176
             },
             "bp2sub_onqe934fb": {
-                "x": -12.68788483552956,
-                "y": -1653.7466365999842,
-                "z": 407.51592365911125
+                "x": 150.52223981687047,
+                "y": -924.3592367692809,
+                "z": 767.7428013438243
             }
         },
         "outline": {
@@ -2513,7 +3251,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "85c670014d072542d65cb6682e1ed78c07a17802",
+    "opsHash": "17bf5865c4d94238d8af1d6ac1307077ea562c50",
     "buildInfo": {
         "updateWarning": false,
         "core": {

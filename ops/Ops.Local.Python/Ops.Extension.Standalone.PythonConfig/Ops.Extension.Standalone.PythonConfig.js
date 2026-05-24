@@ -2,6 +2,8 @@ const { exec } = op.require('child_process');
 const fs = op.require('fs');
 
 const
+    //macOS default python: /usr/bin/python3
+    //alternate path: /Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12
     inLocation = op.inString("Python Install Location", "/usr/bin/python3"),
     inStart = op.inTriggerButton("Start Engine"),
     inStop = op.inTriggerButton("Stop Engine"),
@@ -10,12 +12,14 @@ const
     outStarted = op.outTrigger("On Started"),
     outStopped = op.outTrigger("On Stopped");
 
+let checkCount = 0;
 op.patch.pythonStandaloneExecutable = inLocation.get();
 
 function checkPython() {
+    const currentCheckId = ++checkCount;
     const pyPath = inLocation.get();
     op.patch.pythonStandaloneExecutable = pyPath;
-    
+
     if (!pyPath) {
         outFound.set(false);
         outStatus.set("No path specified");
@@ -26,6 +30,8 @@ function checkPython() {
     if (fs.existsSync(pyPath)) {
         // Double check by running --version
         exec(`"${pyPath}" --version`, (error, stdout, stderr) => {
+            if (currentCheckId !== checkCount) return;
+
             if (error) {
                 outFound.set(false);
                 outStatus.set("Executable invalid: " + error.message.split('\n')[0]);
@@ -36,10 +42,13 @@ function checkPython() {
             }
         });
     } else {
-        outFound.set(false);
-        outStatus.set("Path not found");
+        if (currentCheckId === checkCount) {
+            outFound.set(false);
+            outStatus.set("Path not found");
+        }
     }
 }
+
 
 inLocation.onChange = checkPython;
 
@@ -53,5 +62,10 @@ inStop.onTriggered = () => {
     outStopped.trigger();
 };
 
+op.onLoaded = () => {
+    checkPython();
+};
+
 // Initial check
 checkPython();
+
