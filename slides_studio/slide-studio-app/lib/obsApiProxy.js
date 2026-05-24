@@ -1,130 +1,162 @@
 /**
- * ObsApiProxy (HTTP/SSE Version)
- * Unified HTTP API calls and EventSource SSE listeners.
- * Does not connect to OBS WebSocket directly.
+ * ObsApiProxy (Direct OBS WebSocket v5 Version)
+ * Wraps OBSWebSocket from obs-ws.min.js to connect directly to the OBS WebSocket server.
  */
 class ObsApiProxy {
     constructor() {
         this.connected = false;
         this.status = "disconnected";
         this.events = new Map();
-        this.eventSource = null;
+        this.obs = null;
+        this.connectionPromise = null;
+        
+        // Manual connection credentials cache
+        this.manualHost = null;
+        this.manualPort = null;
+        this.manualPassword = null;
     }
 
-    async connect(options = {}) {
-        if (this.connected) {
+    async connect() {
+        if (this.obs && this.obs.identified) {
             return { obsWebSocketVersion: '5.0.0', negotiatedRpcVersion: 1 };
         }
+        
+        if (this.connectionPromise) return this.connectionPromise;
 
-        // HTTP/SSE is connectionless for API requests
-        this.connected = true;
-        this.status = "connected";
+        this.connectionPromise = (async () => {
+            try {
+                // Fetch credentials or load from manual localStorage values
+                let host = this.manualHost || localStorage.getItem("obs_manual_host") || "localhost";
+                let port = this.manualPort || localStorage.getItem("obs_manual_port");
+                let password = this.manualPassword || localStorage.getItem("obs_manual_password");
 
-        if (!options.disableSse && !this.eventSource) {
-            const protocol = window.location.protocol;
-            const host = window.location.host;
-            const sseUrl = `${protocol}//${host}/sse`;
-            
-            console.log(`[ObsApiProxy] Connecting EventSource to ${sseUrl}...`);
-            this.eventSource = new EventSource(sseUrl);
-            
-            this.eventSource.onmessage = (event) => {
-                try {
-                    const parsed = JSON.parse(event.data);
-                    const channel = parsed.channel || parsed.type || parsed.eventName;
-                    const data = parsed.payload || parsed.data || parsed;
-                    
-                    if (!channel) return;
-                    
-                    // Normalize events for legacy compatibility
-                    if (channel === 'custom_slidesCommands') {
-                        this.emit('slidesCommands', { eventName: data.eventName, msgParam: data.msgParam });
-                    } else if (channel === 'obsEvents') {
-                        this.emit(data.eventName, data.eventData);
-                    } else {
-                        this.emit(channel, data);
+                if (!port) {
+                    try {
+                        const res = await fetch('/api/obs/credentials');
+                        if (res.ok) {
+                            const creds = await res.json();
+                            if (creds && creds.port) {
+                                port = creds.port;
+                                password = creds.password || "";
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("[ObsApiProxy] Failed to fetch credentials from /api/obs/credentials:", e);
                     }
-                } catch (e) {
-                    // Ignore heartbeats and parsing errors
                 }
-            };
 
-            this.eventSource.onerror = (err) => {
-                console.warn("[ObsApiProxy] SSE Connection lost. Auto-reconnecting...");
-            };
+                // Apply defaults if still not found
+                if (!port) port = "4455";
+                if (!password) password = "";
+
+                console.log(`[ObsApiProxy] OBS WebSocket Credentials Received: Host=${host}, Port=${port}, Password=${password ? "********" : "(empty)"}`);
+
+                if (this.obs) {
+                    await this.disconnect();
+                }
+
+                console.log(`[ObsApiProxy] Instantiating OBSWebSocket for ws://${host}:${port}...`);
+                this.obs = new OBSWebSocket();
+                
+                // Bind lifecycle event listeners
+                this.obs.on("ConnectionOpened", () => {
+                    console.log("[ObsApiProxy] ConnectionOpened");
+                    this.emit("ConnectionOpened");
+                });
+
+                this.obs.on("Identified", (data) => {
+                    console.log("[ObsApiProxy] Identified:", data);
+                    this.connected = true;
+                    this.status = "connected";
+                    this.emit("Identified", data);
+                });
+
+                this.obs.on("ConnectionClosed", (err) => {
+                    console.log("[ObsApiProxy] ConnectionClosed:", err);
+                    this.connected = false;
+                    this.status = "disconnected";
+                    this.emit("ConnectionClosed", err);
+                });
+
+                this.obs.on("ConnectionError", (err) => {
+                    console.error("[ObsApiProxy] ConnectionError:", err);
+                    this.emit("ConnectionError", err);
+                });
+
+                // Proxy native OBS events out to any general listeners
+                const originalEmit = this.obs.emit;
+                this.obs.emit = (event, data) => {
+                    if (event !== "ConnectionOpened" && event !== "Hello" && event !== "Identified" && event !== "ConnectionClosed" && event !== "ConnectionError") {
+                        this.emit(event, data);
+                    }
+                    return originalEmit.call(this.obs, event, data);
+                };
+
+                const url = `ws://${host}:${port}`;
+                await this.obs.connect(url, password);
+                
+                return { obsWebSocketVersion: '5.0.0', negotiatedRpcVersion: 1 };
+            } catch (e) {
+                console.error("[ObsApiProxy] Direct connection to OBS failed:", e);
+                this.connected = false;
+                this.status = "disconnected";
+                this.emit("ConnectionClosed", e);
+                throw e;
+            } finally {
+                this.connectionPromise = null;
+            }
+        })();
+
+        return this.connectionPromise;
+    }
+
+    async connectManual(host, port, password) {
+        this.manualHost = host;
+        this.manualPort = port;
+        this.manualPassword = password;
+        
+        localStorage.setItem("obs_manual_host", host);
+        localStorage.setItem("obs_manual_port", port);
+        localStorage.setItem("obs_manual_password", password);
+        
+        if (this.obs) {
+            await this.disconnect();
         }
-
-        // Emit legacy events for compatibility
-        this.emit('ConnectionOpened');
-        this.emit('Identified', { negotiatedRpcVersion: 1, obsWebSocketVersion: '5.0.0' });
-
-        return { obsWebSocketVersion: '5.0.0', negotiatedRpcVersion: 1 };
+        return this.connect();
     }
 
     async disconnect() {
-        if (this.eventSource) {
-            this.eventSource.close();
-            this.eventSource = null;
+        if (this.obs) {
+            try {
+                await this.obs.disconnect();
+            } catch (e) {}
+            this.obs = null;
         }
         this.connected = false;
         this.status = "disconnected";
-        this.emit('ConnectionClosed');
     }
 
     async call(requestType, requestData) {
-        return new Promise((resolve, reject) => {
-            const requestId = "req_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
-            const eventName = requestType + "Response";
-            
-            const handler = (data) => {
-                const envelope = data.responseData !== undefined ? data : { responseData: data, requestId: data.requestId, requestStatus: data.requestStatus };
-                if (envelope.requestId === requestId || !envelope.requestId) {
-                    this.off(eventName, handler);
-                    if (envelope.requestStatus && !envelope.requestStatus.result) {
-                        reject(new Error(envelope.requestStatus.comment || "OBS Request Failed"));
-                    } else {
-                        resolve(envelope.responseData);
-                    }
-                }
-            };
-            this.on(eventName, handler);
-
-            fetch('/api/obs', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'obsRequest',
-                    requestType,
-                    requestId,
-                    requestData
-                })
-            }).catch(e => {
-                this.off(eventName, handler);
-                reject(e);
-            });
-            
-            // Timeout if SSE never arrives
-            setTimeout(() => {
-                this.off(eventName, handler);
-                reject(new Error(`OBS Request Timeout: ${requestType}`));
-            }, 10000);
-        });
+        if (!this.obs || !this.obs.identified) {
+            await this.connect();
+        }
+        try {
+            return await this.obs.call(requestType, requestData);
+        } catch (e) {
+            const errMsg = e instanceof Error ? e.message : String(e);
+            if (requestType !== 'GetInputSettings') {
+                console.error(`[ObsApiProxy] OBS Request '${requestType}' failed: ${errMsg}`, { requestData });
+            }
+            throw e;
+        }
     }
 
     async callBatch(requests, options) {
+        if (!this.obs || !this.obs.identified) {
+            await this.connect();
+        }
         try {
-            const response = await fetch('/api/obs', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'obsRequest',
-                    requests,
-                    options
-                })
-            });
-            
-            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-            return await response.json();
+            return await this.obs.callBatch(requests, options);
         } catch (e) {
             console.error("[ObsApiProxy] OBS Batch Request failed:", e);
             throw e;
@@ -148,25 +180,25 @@ class ObsApiProxy {
     }
     
     async publish(channel, eventName, msgParam) {
-        try {
-            console.log(`[ObsApiProxy] Publishing to ${channel} via API:`, eventName);
-            const response = await fetch('/api/obs', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'publish',
-                    channel,
-                    data: { eventName, msgParam }
-                })
-            });
-            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-        } catch (e) {
-            console.error(`[ObsApiProxy] Publish failed to ${channel}:`, e);
+        if (this.obs && this.obs.identified) {
+            console.log(`[ObsApiProxy] Publishing to OBS browser vendor via CallVendorRequest: ${channel}/${eventName}`);
+            try {
+                await this.call('CallVendorRequest', {
+                    vendorName: 'obs-browser',
+                    requestType: 'emit_event',
+                    requestData: {
+                        event_name: 'slidesCommand',
+                        event_data: { channel, eventName, msgParam }
+                    }
+                });
+            } catch (err) {
+                console.error("[ObsApiProxy] Direct OBS Broadcast failed:", err);
+            }
         }
     }
 
     async broadcastSlidesCommand(eventName, msgParam) {
-        await this.publish('custom_slidesCommands', eventName, msgParam);
+        this.publish('custom_slidesCommands', eventName, msgParam);
     }
 
     on(event, callback) {

@@ -6,17 +6,17 @@
     "userId": "6a0a6c6666ac09df17c130eb",
     "cachedUsername": "",
     "created": 1779068006025,
-    "updated": 1779070441604,
+    "updated": 1779142346277,
     "visibility": "private",
     "ops": [
         {
             "opId": "e7154880-ee21-4884-a6e7-ee8c423e7eb3",
-            "id": "et0kjun0t",
+            "id": "rkuv6pl7f",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -168,
-                    "y": -60
+                    "x": -197.12311587584855,
+                    "y": -61.26622242938471
                 }
             },
             "portsIn": [
@@ -31,6 +31,10 @@
                 {
                     "name": "Auto Start",
                     "value": 1
+                },
+                {
+                    "name": "WS Channel",
+                    "value": ""
                 }
             ],
             "portsOut": [
@@ -78,9 +82,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -67.4153905665663,
-                "y": -13.304465209366569,
-                "z": 215.43227702371627
+                "x": 168.10575915701486,
+                "y": -15.290944188202843,
+                "z": 583.6476754691384
             }
         },
         "outline": {
@@ -101,7 +105,7 @@
     "summary": {
         "title": "FastifyTest"
     },
-    "opsHash": "1f0f3e47393ca37185538c1d9d1fa1d696e9e57c",
+    "opsHash": "8dacba69ea798c5b553961cd9efe7a93560aa3f9",
     "buildInfo": {
         "updateWarning": false,
         "core": {

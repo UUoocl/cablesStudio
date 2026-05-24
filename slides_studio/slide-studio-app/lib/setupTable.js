@@ -6,6 +6,111 @@
 let tableInstance = null;
 let isKeyPressed = false;
 
+// Drag to Fill States & Handlers
+let dragActive = false;
+let startCell = null;
+let startValue = null;
+let draggedRows = [];
+
+function startDragFill(cell) {
+    dragActive = true;
+    startCell = cell;
+    startValue = cell.getValue();
+    draggedRows = [cell.getRow()];
+    
+    document.body.classList.add('drag-fill-active');
+    cell.getElement().classList.add('drag-fill-highlight');
+}
+
+function updateDragHighlight(targetCell) {
+    if (!dragActive || !startCell) return;
+    
+    const activeRows = window.table.getRows("active");
+    const startIndex = activeRows.indexOf(startCell.getRow());
+    const targetIndex = activeRows.indexOf(targetCell.getRow());
+    
+    if (startIndex !== -1 && targetIndex !== -1) {
+        const highlighted = document.querySelectorAll('.drag-fill-highlight');
+        highlighted.forEach(el => el.classList.remove('drag-fill-highlight'));
+        
+        draggedRows = [];
+        const minIndex = Math.min(startIndex, targetIndex);
+        const maxIndex = Math.max(startIndex, targetIndex);
+        
+        for (let i = minIndex; i <= maxIndex; i++) {
+            const row = activeRows[i];
+            draggedRows.push(row);
+            const sceneCell = row.getCell("scene");
+            if (sceneCell) {
+                sceneCell.getElement().classList.add('drag-fill-highlight');
+            }
+        }
+    }
+}
+
+function endDragFill() {
+    dragActive = false;
+    document.body.classList.remove('drag-fill-active');
+    
+    const highlighted = document.querySelectorAll('.drag-fill-highlight');
+    highlighted.forEach(el => el.classList.remove('drag-fill-highlight'));
+    
+    if (draggedRows.length > 0 && startCell) {
+        const updatedRows = [];
+        draggedRows.forEach(row => {
+            const currentVal = row.getData().scene;
+            if (currentVal !== startValue) {
+                const sceneCell = row.getCell("scene");
+                if (sceneCell) {
+                    sceneCell.setValue(startValue);
+                    updatedRows.push(row);
+                }
+            }
+        });
+        
+        if (updatedRows.length > 0) {
+            // Save updated table to LocalStorage
+            if (window.slideDeckId && window.table) {
+                localStorage.setItem(window.slideDeckId, JSON.stringify(window.table.getData()));
+            }
+            
+            // Auto-save to sidecar file
+            if (typeof window.saveToSidecar === 'function') {
+                window.saveToSidecar();
+            }
+            
+            // Batch-notify parent speakerview of updated mappings
+            if (typeof window.sendMessageToParent === 'function') {
+                updatedRows.forEach(row => {
+                    const rData = row.getData();
+                    const cleanRow = Object.fromEntries(
+                        Object.entries(rData).filter(([key, value]) => {
+                            if (key === 'cameraShape' && rData.hasOwnProperty(key)) return true;
+                            return value != undefined && `${value}`.length > 0;
+                        })
+                    );
+                    window.sendMessageToParent({
+                        namespace: "studio",
+                        message: "update-mapping",
+                        data: cleanRow
+                    });
+                });
+            }
+        }
+    }
+    
+    startCell = null;
+    startValue = null;
+    draggedRows = [];
+}
+
+// Global mouseup listener for drag fill completion
+document.addEventListener('mouseup', () => {
+    if (dragActive) {
+        endDragFill();
+    }
+});
+
 // Register keyboard listeners
 document.addEventListener('keydown', function (event) {
     if (!window.table) return;
@@ -99,10 +204,17 @@ export function loadTable(options = {}, data = null) {
             dataTree: true,
             dataTreeStartExpanded: true,
             dataTreeSort: true,
-            selectableRange: 1,
+            selectableRange: true, // Enable full cell range selection
             selectableRangeClearCells: true,
             clipboard: true,
+            clipboardCopyConfig: {
+                columnHeaders: false,
+                rowHeaders: false,
+                groupHeaders: false,
+            },
             clipboardCopyRowRange: "range",
+            clipboardPasteParser: "range", // Parse pasted text as cell range
+            clipboardPasteAction: "range", // Paste data directly into selected cell range
             initialSort: [
                 { column: "slideState", dir: "asc" }
             ],
@@ -122,20 +234,76 @@ export function loadTable(options = {}, data = null) {
                     field: "scene",
                     editor: "list",
                     editorParams: { values: dropDowns.scene },
+                    formatter: function(cell, formatterParams, onRendered) {
+                        const val = cell.getValue() || "";
+                        onRendered(() => {
+                            const cellEl = cell.getElement();
+                            cellEl.style.position = "relative";
+                            if (!cellEl.querySelector('.drag-fill-handle')) {
+                                const handle = document.createElement('div');
+                                handle.className = 'drag-fill-handle';
+                                cellEl.appendChild(handle);
+                                
+                                handle.addEventListener('mousedown', (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    startDragFill(cell);
+                                });
+                            }
+                        });
+                        return val;
+                    },
                     cellEdited: (cell) => {
                         broadcastChange(cell);
                         saveTableToLocalStorage();
-                        if (typeof window.saveTableToObs === 'function') {
-                            window.saveTableToObs();
-                        }
                     }
                 },
             ],
         });
 
+        // Track mouse hover over Scene cells during drag-to-fill
+        window.table.on("cellMouseEnter", (e, cell) => {
+            if (dragActive && cell.getColumn().getField() === "scene") {
+                updateDragHighlight(cell);
+            }
+        });
+
+        window.table.on("clipboardPasted", (clipboardData, rowData, rows) => {
+            console.log("[SetupTable] Clipboard pasted. Modified rows count:", rows ? rows.length : 0);
+            
+            // Save updated table to LocalStorage
+            saveTableToLocalStorage();
+            
+            // Auto-save to sidecar file
+            if (typeof window.saveToSidecar === 'function') {
+                window.saveToSidecar();
+            }
+            
+            // Batch-notify parent speakerview of updated mappings to persist in OBS _Slide_Scene_Map
+            if (rows && rows.length > 0 && typeof window.sendMessageToParent === 'function') {
+                rows.forEach(row => {
+                    const rData = row.getData();
+                    const cleanRow = Object.fromEntries(
+                        Object.entries(rData).filter(([key, value]) => {
+                            if (key === 'cameraShape' && rData.hasOwnProperty(key)) return true;
+                            return value != undefined && `${value}`.length > 0;
+                        })
+                    );
+                    window.sendMessageToParent({
+                        namespace: "studio",
+                        message: "update-mapping",
+                        data: cleanRow
+                    });
+                });
+            }
+        });
+
         window.table.on("tableBuilt", () => {
             window.isTableBuilt = true;
             console.log("[SetupTable] Table initialized and built.");
+            if (typeof window.onTableBuilt === 'function') {
+                window.onTableBuilt();
+            }
         });
 
 

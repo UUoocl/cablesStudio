@@ -10,6 +10,10 @@ const inPort = op.inInt("Port", 8080);
 const inRootDir = op.inString("Root Directory", "");
 const inAutoStart = op.inBool("Auto Start", false);
 
+const inWsChannel = op.inString("WS Channel", "");
+const inWsData = op.inObject("WS Data");
+const inWsTrigger = op.inTriggerButton("Send WS Message");
+
 // Set default root directory to patch directory if available
 const paths = op.patch.config.paths || {};
 if (paths.patchPath && !inRootDir.get()) inRootDir.set(paths.patchPath);
@@ -35,6 +39,28 @@ const activeSockets = new Map();
 
 inStart.onTriggered = startServer;
 inStop.onTriggered = stopServer;
+
+inWsTrigger.onTriggered = () => {
+    if (!app) return;
+    
+    const channel = inWsChannel.get();
+    const data = inWsData.get();
+    
+    if (!channel) {
+        op.logWarn("No WS Channel specified");
+        return;
+    }
+    
+    const payload = JSON.stringify({ channel, data });
+    
+    for (const [id, socket] of activeSockets.entries()) {
+        try {
+            socket.send(payload);
+        } catch (e) {
+            op.logWarn("[Fastify WS] Error sending to socket " + id + ":", e);
+        }
+    }
+};
 
 op.onDelete = stopServer;
 
@@ -88,6 +114,14 @@ async function startServer() {
                     let parsed = { data: msgStr };
                     try { parsed = JSON.parse(msgStr); } catch(e) {}
                     
+                    if (parsed && parsed.type === "call" && parsed.method === "setInfo") {
+                        socket.send(JSON.stringify({
+                            type: "response",
+                            id: parsed.id,
+                            data: { status: "authenticated" }
+                        }));
+                    }
+                    
                     outWsMessageData.set({ id, ...parsed });
                     outWsMessage.trigger();
                 });
@@ -109,6 +143,20 @@ async function startServer() {
             // Only forward requests starting with /callback/
             if (request.url.startsWith('/callback/')) {
                 outHttpUrl.set(request.url);
+                if (request && !request.toJSON) {
+                    request.toJSON = () => ({
+                        "__type": "FastifyRequest",
+                        "method": request.method,
+                        "url": request.url,
+                        "headers": request.headers
+                    });
+                }
+                if (reply && !reply.toJSON) {
+                    reply.toJSON = () => ({
+                        "__type": "FastifyReply",
+                        "statusCode": reply.statusCode
+                    });
+                }
                 outHttpReqData.set(request);
                 outHttpResData.set(reply);
                 outHttpRequest.trigger();
@@ -145,7 +193,12 @@ async function startServer() {
 
         await app.listen({ port: inPort.get(), host: "127.0.0.1" });
         op.log(`[Fastify] Server listening on 127.0.0.1:${inPort.get()}`);
-        
+        if (app && !app.toJSON) {
+            app.toJSON = () => ({
+                "__type": "FastifyInstance",
+                "listening": true
+            });
+        }
         outServerInstance.set(app);
         outIsRunning.set(true);
         outError.set("");

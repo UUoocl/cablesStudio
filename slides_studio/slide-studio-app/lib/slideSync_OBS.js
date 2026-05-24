@@ -1,27 +1,30 @@
 let slideState = '';
 
-if (!window.ssSocket) {
-    console.warn("[SlideSync_OBS] ssSocket not found on window. Make sure slides-studio-connection.js is loaded.");
-} else {
-    // Subscribe specifically for general setup commands (URL, etc.)
-    const cmdChannel = window.ssSocket.subscribe('custom_slidesCommands');
-    (async () => {
-        for await (let data of cmdChannel) {
-            const { eventName, msgParam } = data;
+// Subscribe to remote changes via native OBS browser events
+window.addEventListener('slidesCommand', (event) => {
+    try {
+        const { channel, eventName, msgParam } = event.detail;
+        console.log(`[SlideSync_OBS] Received OBS browser event on channel: ${channel}, event: ${eventName}`, msgParam);
+
+        if (channel === 'custom_slidesCommands') {
             if (eventName === 'set-slides-studio-url') {
                 const url = msgParam.url;
                 if (url) updateIframeUrl(url);
+            } else if (eventName === 'CHOREOGRAPHY_UPDATE') {
+                const config = msgParam.config || {};
+                console.log("[SlideSync_OBS] Choreography Update:", config);
+                
+                if (typeof window.applySlideComponentConfig === 'function') {
+                    window.applySlideComponentConfig(config.slideComponent || null, config.moveTransition || null);
+                }
+                
+                if (config.cameraComponent) {
+                    const cameraBc = new BroadcastChannel("cameraShapes_channel");
+                    cameraBc.postMessage(config.cameraComponent);
+                    cameraBc.close();
+                }
             }
-        }
-    })();
-
-    // Subscribe to the broadcast navigation channel for RAW navigation only
-    const navChannel = window.ssSocket.subscribe('slides_navigation');
-    (async () => {
-        for await (let data of navChannel) {
-            const { eventName, msgParam } = data;
-            
-            // Only handle navigation
+        } else if (channel === 'slides_navigation') {
             if (eventName === 'slide-changed' || eventName === 'reveal-event') {
                 const revealState = msgParam.state || msgParam.slideState || msgParam;
                 
@@ -39,14 +42,7 @@ if (!window.ssSocket) {
                     }
                 }
             }
-        }
-    })();
-
-    // NEW: Subscribe to studio_to_currentSlide for indexing and direct navigation
-    const studioChannel = window.ssSocket.subscribe('studio_to_currentSlide');
-    (async () => {
-        for await (let data of studioChannel) {
-            const { eventName, msgParam } = data;
+        } else if (channel === 'studio_to_currentSlide') {
             if (eventName === 'navigate') {
                 console.log("[SlideSync_OBS] Received navigation command:", msgParam.method, msgParam.args);
                 const iframe = document.getElementById("revealIframe");
@@ -56,8 +52,10 @@ if (!window.ssSocket) {
                 }
             }
         }
-    })();
-}
+    } catch (err) {
+        console.error("[SlideSync_OBS] Error processing slidesCommand event:", err);
+    }
+});
 
 function updateIframeUrl(url) {
     const oldIframe = document.getElementById("revealIframe");
@@ -76,8 +74,40 @@ function updateIframeUrl(url) {
         newIframe.onload = () => {
             if (window.onIframeLoad) window.onIframeLoad();
         };
-        newIframe.src = url;
+
+        // Maintain and append settings parameters from window.location.search
+        try {
+            const parentParams = new URLSearchParams(window.location.search);
+            const deckUrlObj = new URL(url.startsWith('http') ? url : `${window.location.origin}/${url}`);
+            deckUrlObj.searchParams.set('postMessageEvents', 'true');
+            deckUrlObj.searchParams.set('postMessage', 'true');
+            if (parentParams.has('controls')) {
+                deckUrlObj.searchParams.set('controls', parentParams.get('controls'));
+            }
+            if (parentParams.has('progress')) {
+                deckUrlObj.searchParams.set('progress', parentParams.get('progress'));
+            }
+            newIframe.src = deckUrlObj.toString();
+        } catch (err) {
+            console.error("[SlideSync_OBS] Failed to parse URL for preservation:", url, err);
+            newIframe.src = url;
+        }
+
         parent.replaceChild(newIframe, oldIframe);
     }
 }
 
+// Message from Reveal Slides iFrame API
+window.addEventListener('message', async (event) => {
+    try {
+        let data = JSON.parse(event.data);
+        
+        if (data.namespace === 'reveal') {
+            console.log("[SlideSync_OBS] Message from Reveal iframe:", data.eventName || data.method);
+            const newState = data.state ? JSON.stringify(data.state) : null;
+            if (!newState || newState !== slideState) {
+                if (newState) slideState = newState;
+            }
+        }
+    } catch (e) { }
+});

@@ -22,6 +22,7 @@
             overflow: hidden;
         }
     </style>
+    <script src="../lib/gsap.min.js"></script>
     <script>
         window.applyTransparency = function() {
             const iframe = document.getElementById("revealIframe");
@@ -57,87 +58,155 @@
                 console.log("[SlideView] Deck loaded:", url);
             }
         }
+
+        window.applySlideComponentConfig = function(config, transitionConfig) {
+            const iframe = document.getElementById("revealIframe");
+            if (!iframe) return;
+
+            // Save the target configuration in sessionStorage for state persistence on page reload/OBS updates
+            try {
+                sessionStorage.setItem("slide_deck_active_config", JSON.stringify({ config, transitionConfig }));
+            } catch (err) {
+                console.warn("[SlideView] Failed to save config to sessionStorage", err);
+            }
+
+            // If no config is provided, reset to standard full screen layout smoothly
+            if (!config) {
+                config = { x: 0, y: 0, scaleX: 1, scaleY: 1 };
+            }
+
+            const { x = 0, y = 0, scaleX = 1, scaleY = 1, style = {} } = config;
+
+            // Determine target width and height (defaulting to 100% if not specified in config)
+            let targetWidth = "100%";
+            let targetHeight = "100%";
+            if (config.width !== undefined) {
+                targetWidth = typeof config.width === 'number' ? `${config.width}px` : config.width;
+            }
+            if (config.height !== undefined) {
+                targetHeight = typeof config.height === 'number' ? `${config.height}px` : config.height;
+            }
+
+            // Ensure initial inline spatial values exist so GSAP has a starting point for smooth interpolation
+            if (!iframe.style.left) iframe.style.left = "0px";
+            if (!iframe.style.top) iframe.style.top = "0px";
+            if (!iframe.style.width) iframe.style.width = "100%";
+            if (!iframe.style.height) iframe.style.height = "100%";
+            if (!iframe.style.transform) {
+                gsap.set(iframe, { scaleX: 1, scaleY: 1 });
+            }
+
+            // Ensure initial visual inline styles exist
+            if (!iframe.style.border) iframe.style.border = "0px solid transparent";
+            if (!iframe.style.borderRadius) iframe.style.borderRadius = "0px";
+            if (!iframe.style.boxShadow) iframe.style.boxShadow = "none";
+            if (!iframe.style.filter) iframe.style.filter = "none";
+            if (!iframe.style.opacity) iframe.style.opacity = "1";
+
+            // Retrieve transition parameters
+            const duration = transitionConfig && typeof transitionConfig.duration === 'number' ? transitionConfig.duration / 1000 : 0.5; // milliseconds to seconds
+            const easeName = transitionConfig && transitionConfig.ease ? transitionConfig.ease : 'ease-out';
+            const delay = transitionConfig && typeof transitionConfig.delay === 'number' ? transitionConfig.delay / 1000 : 0; // milliseconds to seconds
+
+            // Map OBS transition easing strings to GSAP easing functions
+            const easeMap = {
+                'linear': 'none',
+                'ease-in': 'power2.in',
+                'ease-out': 'power2.out',
+                'bounce': 'bounce.out'
+            };
+            const ease = easeMap[easeName] || 'power2.out';
+
+            console.log(`[SlideView] Animating iframe with GSAP: left: ${x}px, top: ${y}px, width: ${targetWidth}, height: ${targetHeight}, scale: (${scaleX}, ${scaleY}), duration: ${duration}s, ease: ${ease}, delay: ${delay}s`);
+
+            // Kill any currently active tweens on the iframe
+            gsap.killTweensOf(iframe);
+
+            // Construct GSAP animation properties
+            const tweenProps = {
+                left: `${x}px`,
+                top: `${y}px`,
+                scaleX: scaleX,
+                scaleY: scaleY,
+                width: targetWidth,
+                height: targetHeight,
+                duration: duration,
+                ease: ease,
+                delay: delay,
+                transformOrigin: "top left"
+            };
+
+            // Define default visual styles for a smooth, unified transition
+            const defaultStyles = {
+                border: "0px solid transparent",
+                borderRadius: "0px",
+                boxShadow: "none",
+                filter: "none",
+                opacity: "1"
+            };
+
+            // Merge incoming styles with defaults
+            const mergedStyles = { ...defaultStyles, ...style };
+
+            // Apply all merged visual styles through the GSAP tween for a beautiful, smooth transition
+            Object.keys(mergedStyles).forEach(key => {
+                tweenProps[key] = mergedStyles[key];
+            });
+
+            // Keep the iframe class clean but retain core layout rules
+            iframe.className = "slide-position";
+
+            // Trigger the high-performance GSAP tween
+            gsap.to(iframe, tweenProps);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const deckUrl = urlParams.get('deck');
+            
+            // Check for persistent layout state saved in sessionStorage
+            const cachedConfigStr = sessionStorage.getItem("slide_deck_active_config");
+            if (cachedConfigStr) {
+                try {
+                    const cached = JSON.parse(cachedConfigStr);
+                    console.log("[SlideView] Restoring cached layout on load:", cached);
+                    // Apply immediately with duration 0 to prevent a single frame of layout snapping
+                    window.applySlideComponentConfig(cached.config, { duration: 0 });
+                } catch (err) {
+                    console.warn("[SlideView] Failed to restore cached layout on load", err);
+                }
+            }
+
+            if (deckUrl) {
+                console.log("[SlideView] Found deck URL in query parameter:", deckUrl);
+                const iframe = document.getElementById("revealIframe");
+                if (iframe) {
+                    try {
+                        const deckUrlObj = new URL(deckUrl.startsWith('http') ? deckUrl : `${window.location.origin}/${deckUrl}`);
+                        deckUrlObj.searchParams.set('postMessageEvents', 'true');
+                        deckUrlObj.searchParams.set('postMessage', 'true');
+                        if (urlParams.has('controls')) {
+                            deckUrlObj.searchParams.set('controls', urlParams.get('controls'));
+                        }
+                        if (urlParams.has('progress')) {
+                            deckUrlObj.searchParams.set('progress', urlParams.get('progress'));
+                        }
+                        iframe.src = deckUrlObj.toString();
+                    } catch (err) {
+                        console.error("[SlideView] Failed to parse deck URL:", deckUrl, err);
+                        iframe.src = deckUrl;
+                    }
+                }
+            }
+        });
     </script>
 </head>
 <body>
     <div class="container">
-        <iframe id="revealIframe" class="slide-position full-screen" src="about:blank" onload="onIframeLoad()" onerror="onIframeError()" allow="autoplay; fullscreen"></iframe>
+        <iframe id="revealIframe" class="slide-position full-screen" src="about:blank" onload="onIframeLoad()" allow="autoplay; fullscreen"></iframe>
     </div>
     
-    <!-- WebSocket Scripts -->
-    <script type="module" src="../lib/slides-studio-connection.js"></script>
+    <!-- Sync Script (receives events via OBS browser API) -->
     <script type="module" src="../lib/slideSync_OBS.js"></script>
-
-    <script type="module">
-        const broadcastChannels = {}; 
-
-        (() => {
-            if (!window.ssSocket) {
-                console.warn("[SlideView] ssSocket not found on window. Make sure slides-studio-connection.js is loaded.");
-                return;
-            }
-
-            // Connection listener loop
-            (async () => {
-                for await (let event of window.ssSocket.listener('connect')) {
-                    // Connected
-                }
-            })();
-
-            // Disconnection listener loop
-            (async () => {
-                for await (let event of window.ssSocket.listener('disconnect')) {
-                    // Disconnected
-                }
-            })();
-
-            // Subscribe specifically to the choreography command channel
-            const cmdChannel = window.ssSocket.subscribe('custom_slidesCommands');
-
-            // Listener for modern Choreography updates
-            (async () => {
-                for await (let data of cmdChannel) {
-                    if (data.eventName === 'CHOREOGRAPHY_UPDATE') {
-                        const { config } = data.msgParam;
-                        console.log("[SlideView] Choreography Update:", config);
-                        
-                        if (config.slideComponent) {
-                            applySlideComponentConfig(config.slideComponent);
-                        }
-                        
-                        if (config.cameraComponent && broadcastChannels.cameraShapes) {
-                            broadcastChannels.cameraShapes.postMessage(config.cameraComponent);
-                        }
-                    }
-                }
-            })();
-        })();
-
-        window.addEventListener('DOMContentLoaded', () => {
-            broadcastChannels.cameraShapes = new BroadcastChannel("cameraShapes_channel");
-        });
-        
-        function applySlideComponentConfig(config) {
-            const iframe = document.getElementById("revealIframe");
-            if (!iframe) return;
-
-            // Apply direct transform and scaling from Editor
-            const { x, y, scaleX, scaleY, style } = config;
-            iframe.style.left = `${x}px`;
-            iframe.style.top = `${y}px`;
-            iframe.style.width = "100%"; // Base width
-            iframe.style.height = "100%"; // Base height
-            iframe.style.transform = `scale(${scaleX || 1}, ${scaleY || 1})`;
-            iframe.style.transformOrigin = "top left";
-            
-            // Apply arbitrary CSS styles (filters, borders, etc.)
-            if (style && typeof style === 'object') {
-                Object.assign(iframe.style, style);
-            }
-
-            // Remove all classes, only use inline styles for dynamic positioning
-            iframe.className = "slide-position"; 
-        }
-    </script>
 </body>
 </html>

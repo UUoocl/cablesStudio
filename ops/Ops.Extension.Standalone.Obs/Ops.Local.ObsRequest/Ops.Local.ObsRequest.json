@@ -10,8 +10,9 @@
                 "objType": "obsConnection"
             },
             {
-                "type": 5,
-                "name": "Request Type"
+                "type": 0,
+                "name": "Request Rate (Hz)",
+                "subType": "number"
             },
             {
                 "type": 2,

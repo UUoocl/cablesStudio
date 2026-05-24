@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 
-// Mock window, global, fetch, and EventSource objects
+// Mock window and global objects for top-level code in obsApiProxy.js
 const mockWindow = {
     location: {
         hostname: 'localhost',
@@ -16,20 +16,26 @@ global.location = mockWindow.location;
 vi.stubGlobal('window', mockWindow);
 vi.stubGlobal('location', mockWindow.location);
 
-// Mock global fetch and EventSource
-const mockFetch = vi.fn().mockResolvedValue({
-    ok: true,
-    json: async () => ({})
-});
-vi.stubGlobal('fetch', mockFetch);
-
-class MockEventSource {
-    constructor(url) {
-        this.url = url;
-    }
-    close() {}
-}
-vi.stubGlobal('EventSource', MockEventSource);
+// Mock socketcluster-client
+vi.mock('./socketcluster-client.min.js', () => ({
+    create: vi.fn(() => ({
+        listener: vi.fn((name) => ({
+            [Symbol.asyncIterator]: async function* () {
+                if (name === 'connect') yield { id: 'test-id' };
+                await new Promise(r => setTimeout(r, 10));
+            }
+        })),
+        state: 'open',
+        subscribe: vi.fn(() => ({
+            [Symbol.asyncIterator]: async function* () {
+                await new Promise(r => setTimeout(r, 10));
+            }
+        })),
+        invoke: vi.fn().mockResolvedValue({}),
+        transmitPublish: vi.fn(),
+        disconnect: vi.fn()
+    }))
+}));
 
 describe('ObsApiProxy', () => {
     let proxy;
@@ -48,42 +54,22 @@ describe('ObsApiProxy', () => {
         expect(window.obsWss).toBe(proxy);
     });
 
-    it('should connect and set status', async () => {
-        const openedSpy = vi.fn();
-        const identifiedSpy = vi.fn();
-        
-        proxy.on('ConnectionOpened', openedSpy);
-        proxy.on('Identified', identifiedSpy);
-
-        await proxy.connect({ disableSse: true });
-        
+    it('should connect and set info', async () => {
+        await proxy.connect();
         expect(proxy.connected).toBe(true);
-        expect(proxy.status).toBe('connected');
-        expect(openedSpy).toHaveBeenCalled();
-        expect(identifiedSpy).toHaveBeenCalledWith({
-            negotiatedRpcVersion: 1,
-            obsWebSocketVersion: '5.0.0'
-        });
+        expect(proxy.socket.invoke).toHaveBeenCalledWith('setInfo', expect.any(Object));
     });
 
-    it('should publish messages via fetch API POST', async () => {
+    it('should publish messages', async () => {
         const channel = 'test-channel';
         const eventName = 'test-event';
         const payload = { data: 'test' };
         
         await proxy.publish(channel, eventName, payload);
         
-        expect(mockFetch).toHaveBeenCalledWith('/api/obs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                type: 'publish',
-                channel,
-                data: {
-                    eventName,
-                    msgParam: payload
-                }
-            })
+        expect(proxy.socket.transmitPublish).toHaveBeenCalledWith(channel, {
+            eventName,
+            msgParam: payload
         });
     });
 
@@ -93,36 +79,20 @@ describe('ObsApiProxy', () => {
         
         await proxy.broadcastSlidesCommand(eventName, payload);
         
-        expect(mockFetch).toHaveBeenCalledWith('/api/obs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                type: 'publish',
-                channel: 'custom_slidesCommands',
-                data: {
-                    eventName,
-                    msgParam: payload
-                }
-            })
+        expect(proxy.socket.transmitPublish).toHaveBeenCalledWith('custom_slidesCommands', {
+            eventName,
+            msgParam: payload
         });
     });
 
-    it('should handle OBS requests via direct fetch API POST', async () => {
-        mockFetch.mockResolvedValueOnce({
-            ok: true,
-            json: async () => ({ some: 'data' })
-        });
+    it('should handle OBS requests via invoke', async () => {
+        proxy.socket.invoke.mockResolvedValue({ some: 'data' });
         
         const result = await proxy.call('GetVersion');
         
-        expect(mockFetch).toHaveBeenCalledWith('/api/obs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                type: 'obsRequest',
-                requestType: 'GetVersion',
-                requestData: undefined
-            })
+        expect(proxy.socket.invoke).toHaveBeenCalledWith('obsRequest', {
+            requestType: 'GetVersion',
+            requestData: undefined
         });
         expect(result).toEqual({ some: 'data' });
     });

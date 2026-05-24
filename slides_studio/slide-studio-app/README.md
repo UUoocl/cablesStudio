@@ -59,27 +59,97 @@ Slides Studio uses a **Sidecar Persistence** model. When you configure slide-to-
 
 ## SceneConfig Schema
 
-Scene-specific layouts are defined using JSON stored in OBS Text Sources named `SceneConfig-{SceneName}`.
+Scene-specific layouts are defined using JSON stored in OBS Text Sources named `SceneConfig-{SceneName}` (or `sceneConfig-{SceneName}`).
 
 ### Schema Structure
+
 ```json
 {
   "slideComponent": {
-    "x": number,          // Horizontal offset (px)
-    "y": number,          // Vertical offset (px)
-    "scaleX": number,     // Horizontal scale (1.0 = 100%)
-    "scaleY": number,     // Vertical scale
-    "style": object       // Optional: Arbitrary CSS properties (filter, border, etc.)
+    "x": number,            // Horizontal offset (px from top-left)
+    "y": number,            // Vertical offset (px from top-left)
+    "scaleX": number,       // Horizontal scale multiplier (e.g. 1.0 = 100%, 0.5 = 50%)
+    "scaleY": number,       // Vertical scale multiplier
+    "width": number|string, // Optional: Custom explicit width (e.g. 960, "50%", "960px"). Defaults to "100%"
+    "height": number|string,// Optional: Custom explicit height (e.g. 1080, "100%", "1080px"). Defaults to "100%"
+    "style": {              // Optional: Custom CSS visual properties smoothly blended via GSAP
+      "border": "string",
+      "borderRadius": "string",
+      "boxShadow": "string",
+      "filter": "string",
+      "opacity": "string"
+    }
   },
   "cameraComponent": {
-    "path": string,       // SVG path, CSS shape (circle, polygon), or legacy class
-    "style": object       // Optional: Arbitrary CSS properties
+    "path": "string",       // Mask shape (e.g. "circle", "pulsating-circle", standard CSS clip-path or SVG path commands)
+    "style": {              // Optional: Custom CSS properties (backgroundColor, filter, border, etc.)
+      "backgroundColor": "string",
+      "filter": "string"
+    }
+  },
+  "moveTransition": {
+    "sources": ["string"],  // Array of OBS source names to animate concurrently (e.g. ["Main Camera"])
+    "duration": number,     // Transition duration in milliseconds (default: 500)
+    "ease": "string",       // Easing curve: "linear", "ease-in", "ease-out" (recommended), "bounce"
+    "steps": number,        // Number of interpolation steps for OBS transforms (default: 15)
+    "delay": number         // Delay in milliseconds before starting transition (default: 0)
   }
 }
 ```
 
+### Complete Settings Reference
+
+#### 1. Slide Component (`slideComponent`)
+Manages the positioning, dimensions, and styling of the slide deck overlay iframe inside the full-screen (1920x1080) canvas. All spatial and visual properties undergo high-performance, 60fps interpolation via GSAP.
+
+* **`x`** (Number): Absolute horizontal pixel offset from top-left corner. Default: `0`.
+* **`y`** (Number): Absolute vertical pixel offset from top-left corner. Default: `0`.
+* **`scaleX`** (Number): Horizontal scaling multiplier. Default: `1.0` (100% scale).
+* **`scaleY`** (Number): Vertical scaling multiplier. Default: `1.0` (100% scale).
+* **`width`** (Number | String): Dynamic spatial width override. Can be an integer pixel value (e.g., `960` maps to `"960px"`) or a CSS-valid string (e.g. `"50%"`). If omitted, defaults to `"100%"`.
+* **`height`** (Number | String): Dynamic spatial height override. Can be an integer pixel value (e.g., `1080` maps to `"1080px"`) or a CSS-valid string. If omitted, defaults to `"100%"`.
+* **`style`** (Object): Dynamic visual attributes. The system automatically merges incoming visual properties with standard defaults to guarantee perfectly smooth, flicker-free transitions. Supported parameters include:
+  * **`borderRadius`** (String): Smoothly blends rounded corners (e.g., `"24px"`, `"50%"`). Defaults to `"0px"` when omitted or when transitioning back to unconfigured scenes.
+  * **`boxShadow`** (String): Blends dropshadow elevations (e.g., `"0 20px 50px rgba(0,0,0,0.5)"`). Defaults to `"none"` when unconfigured.
+  * **`border`** (String): Dynamic borders around the slide iframe (e.g., `"2px solid rgba(255,255,255,0.2)"`). Defaults to `"0px solid transparent"`.
+  * **`opacity`** (String | Number): Blends transparency values (e.g., `"0.8"`). Defaults to `"1"`.
+  * **`filter`** (String): Graphical filter effects (e.g., `"brightness(1.1) blur(0px)"`). Defaults to `"none"`.
+
+> [!NOTE]
+> If a scene has no configured JSON block or slideComponent settings, the engine automatically triggers a graceful fullscreen animation fallback (`x: 0, y: 0, scaleX: 1, scaleY: 1`, with visual styles smoothly transitioning back to their clean defaults).
+
+#### 2. Camera Component (`cameraComponent`)
+Configures the presenter's camera overlay masking shape and styling properties. The orchestrator synchronizes these values instantly via a low-latency `BroadcastChannel` (`cameraShapes_channel`).
+
+* **`path`** (String): Defines the clipping mask shape path. It handles multiple formatting systems:
+  * **Pre-defined Shape Classes**: `"circle"`, `"square"`, `"pulsating-circle"`, `"pulsating-square"` (sourced from `camera-shapes.css`).
+  * **CSS Clip-Path Shapes**: Standard shape functions such as `"circle(50% at 50% 50%)"`, `"polygon(50% 0%, 0% 100%, 100% 100%)"` (triangle), or `"polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)"` (trapezoid).
+  * **SVG Path Commands**: Standard SVG path data strings. Any string containing coordinate symbols but omitting CSS functional prefixes is automatically wrapped in `path("...")`.
+  * **Reset Fallback**: `"none"` or empty string resets the clipping path, displaying the full rectangular camera view.
+* **`style`** (Object): Arbitrary CSS attributes applied directly to the camera container. Highly used parameters:
+  * **`filter`** (String): Graphic filters for color correction or shadows (e.g., `"contrast(1.1) brightness(1.1) drop-shadow(0 0 10px white)"`).
+  * **`backgroundColor`** (String): Background fill color, particularly used when resetting clip-paths (e.g., `"white"`, `"transparent"`).
+
+#### 3. Move Transition (`moveTransition`)
+Orchestrates smooth movement transitions for OBS sources concurrently with scene changes. If a `slideComponent` change is triggered, the system automatically runs the layout animations alongside these OBS transitions.
+
+* **`sources`** (Array of Strings): Identifies the exact list of OBS source names to animate (e.g., `["Main Camera"]`).
+  > [!IMPORTANT]
+  > The synchronization engine automatically excludes `"Slide_deck"` from OBS-side movement commands to ensure it remains a static full-screen canvas in OBS. All slide deck movements are instead animated client-side via high-performance GSAP inside the browser source overlay.
+* **`duration`** (Number): Transition duration in milliseconds. Defaults to `500` if omitted.
+* **`ease`** (String): Acceleration easing curve. Supported values:
+  * `"ease-out"`: Fast beginning, smooth deceleration at destination. (Highly recommended for premium broadcast production).
+  * `"ease-in"`: Slow start, rapid acceleration.
+  * `"linear"`: Constant speed.
+  * `"bounce"`: Bounces elastically on arrival at target coordinate bounds.
+* **`steps`** (Number): The density of interpolation steps calculated during the movement loop. Defaults to `15` steps.
+* **`delay`** (Number): Delay in milliseconds before starting the transition. Defaults to `0`.
+
+---
+
 ### Production Example
-**Scene: "Over The Shoulder"**
+
+**Scene Config JSON** (e.g. stored in `SceneConfig-Over The Shoulder`):
 ```json
 {
   "slideComponent": {
@@ -87,6 +157,8 @@ Scene-specific layouts are defined using JSON stored in OBS Text Sources named `
     "y": 108,
     "scaleX": 0.4,
     "scaleY": 0.4,
+    "width": "100%",
+    "height": "100%",
     "style": {
       "borderRadius": "24px",
       "boxShadow": "0 20px 50px rgba(0,0,0,0.5)",
@@ -94,13 +166,22 @@ Scene-specific layouts are defined using JSON stored in OBS Text Sources named `
     }
   },
   "cameraComponent": {
-    "path": "circle(50% at 50% 50%)",
+    "path": "pulsating-circle",
     "style": {
-      "filter": "contrast(1.1) brightness(1.1)"
+      "filter": "contrast(1.1) brightness(1.1) drop-shadow(0 0 10px rgba(255,255,255,0.3))"
     }
+  },
+  "moveTransition": {
+    "sources": ["Main Camera"],
+    "duration": 600,
+    "ease": "ease-out",
+    "steps": 18,
+    "delay": 0
   }
 }
 ```
+
+---
 
 ## Legacy CSS Migration
 
@@ -121,12 +202,26 @@ If you are migrating from `iframe_positions.css`, use the following pixel-perfec
 
 ## Recent Production Improvements
 
-### Transparent Slide Overlays
+### 🚀 Reload-Resilient Layout State
+To prevent the slide deck overlay from resetting or snapping during OBS browser source updates, active scene positions and transitions are now cached in `sessionStorage` in the Slide View context.
+- **Instant Restore**: Page reloads or browser source resets query the cache immediately during `DOMContentLoaded` and snap to the last known position with `duration: 0` before rendering, eliminating any layout snapping.
+- **Zero Flickering**: The system survives active OBS scene updates and manual refreshes without flashing back to standard fullscreen coordinates.
+
+### 🎥 Seamless Camera Transformation Glide
+The presenter camera transformation system has been refactored for a premium, continuous on-air presence:
+- **Continuous Visibility**: Removed legacy behaviors that hid or scaled the camera source to zero during transitions to cover coordinate jumps.
+- **Pre-Snapped Transitions**: Camera sources are pre-snapped to their previous coordinates *before* the new scene activates. They glide concurrently and seamlessly from their exact starting points to their new destinations.
+- **Concurrent Execution**: Slide navigation transitions and spatial layout animations trigger simultaneously, delivering synchronized animations across all layers.
+
+### ⚡ Performance Tuning & Rendering Anti-Stuttering
+Native CSS transitions have been removed from `iframe_positions.css` to prevent calculations from fighting with GSAP's 60fps high-frequency rendering loop. This guarantees stutter-free, hardware-accelerated fluid movements.
+
+### 🍃 Transparent Slide Overlays
 The Slide View now supports transparency injection. It automatically removes the default Reveal.js backgrounds, allowing you to layer slides directly over your camera in OBS. 
 - Individual slide backgrounds (images/colors) are preserved.
 - Enable by adding the Slide View as a Browser Source with "Shutdown source when not visible" disabled for best performance.
 
-### Vanilla Teleprompter
+### 📋 Vanilla Teleprompter
 The built-in teleprompter has been completely refactored to Vanilla JS for 2026 standards:
 - **Zero Dependencies**: Removed jQuery and jQuery UI.
 - **Auto-Scroll**: A new toggle allows the prompter to start scrolling automatically as soon as you switch slides.

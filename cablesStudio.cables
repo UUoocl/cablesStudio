@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1779067114586,
+    "updated": 1779542793310,
     "visibility": "private",
     "ops": [
         {
@@ -15,8 +15,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -355.69116416465175,
-                    "y": -1262.0585563028467
+                    "x": -447.2339401262246,
+                    "y": -2249.993010166985
                 }
             },
             "portsIn": [
@@ -77,8 +77,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -320.63164475778353,
-                    "y": -319.4197730871809
+                    "x": -333.7193510302444,
+                    "y": -404.9932371763484
                 }
             },
             "portsIn": [
@@ -94,8 +94,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -595.492750670548,
-                    "y": -524.0320965505357
+                    "x": -608.5804569430089,
+                    "y": -609.6055606397032
                 }
             },
             "portsIn": [
@@ -179,8 +179,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -399.842918933147,
-                    "y": -584.0320965505357
+                    "x": -415.3476722859762,
+                    "y": -690.5533020028948
                 }
             },
             "portsIn": [
@@ -244,8 +244,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -355.21606241133935,
-                    "y": -382.06821975259186
+                    "x": -368.30376868380023,
+                    "y": -467.64168384175935
                 }
             },
             "portsIn": [
@@ -386,8 +386,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -449.11661193036775,
-                    "y": -444.05919161359316
+                    "x": -485.2643084498446,
+                    "y": -534.9541919136104
                 }
             },
             "portsIn": [
@@ -450,7 +450,7 @@
                 },
                 {
                     "name": "Error",
-                    "value": "Failed to load sketch: Failed to fetch dynamically imported module: http://127.0.0.1:8080/Ops.Local.P5/p5_example_sketch.js?v=1779027478194"
+                    "value": "Failed to load sketch: Failed to fetch dynamically imported module: http://127.0.0.1:8080/Ops.Local.P5/p5_example_sketch.js?v=1779542174264"
                 }
             ]
         },
@@ -515,7 +515,7 @@
                 },
                 {
                     "name": "Last Key Combination",
-                    "value": "n"
+                    "value": "cmd + s"
                 }
             ]
         },
@@ -663,8 +663,8 @@
                 "height": 222.73205330582715,
                 "resizable": true,
                 "translate": {
-                    "x": -568.2703365033726,
-                    "y": -333.82913151571245
+                    "x": -581.3580427758335,
+                    "y": -419.40259560487993
                 },
                 "width": 222.3109724123627
             },
@@ -1258,33 +1258,6 @@
             ]
         },
         {
-            "opId": "f8a9b0c1-d2e3-4f4a-b5c6-d7e8f9a0b1c2",
-            "id": "s1b8dgfrh",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1030,
-                    "y": -151.99489914637323
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Request Rate (Hz)",
-                    "value": 10
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Success",
-                    "value": 0
-                },
-                {
-                    "name": "Error",
-                    "value": ""
-                }
-            ]
-        },
-        {
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "49hqvfv0x",
             "attribs": {},
@@ -1293,8 +1266,8 @@
                 "comment_title": "MediaPipe ",
                 "title": "MediaPipe ",
                 "translate": {
-                    "x": -635.1031630464577,
-                    "y": -707.4451416912219
+                    "x": -648.1908693189185,
+                    "y": -793.0186057803894
                 },
                 "area": {
                     "w": 429.8506937368552,
@@ -1315,21 +1288,22 @@
             "attribs": {},
             "uiAttribs": {
                 "hasArea": true,
-                "comment_title": " ",
+                "comment_title": "OBS WebSocket",
+                "title": "OBS WebSocket",
                 "translate": {
-                    "x": -1310,
-                    "y": -362.81060241536323
+                    "x": -1082.6293069943654,
+                    "y": -790.4263639646095
                 },
                 "area": {
-                    "w": 611.8912200434188,
-                    "h": 654.929098176364,
+                    "w": 370.88889676368944,
+                    "h": 295.90814891603384,
                     "id": "bnk6uayfk"
                 }
             },
             "portsIn": [
                 {
                     "name": "Title",
-                    "value": ""
+                    "value": "OBS WebSocket"
                 }
             ]
         },
@@ -1351,27 +1325,6 @@
             ]
         },
         {
-            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
-            "id": "aj9h011a5",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 1045.2015273830866,
-                "width": 574.953291403333,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": -2141.5258906608915,
-                    "y": -2549.276157272393
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Number",
-                    "value": 0
-                }
-            ]
-        },
-        {
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "tfylidedg",
             "attribs": {},
@@ -1380,15 +1333,15 @@
                 "comment_title": "HTTP Server",
                 "title": "HTTP Server",
                 "translate": {
-                    "x": -806.8978790819405,
-                    "y": -1245.601519556691
+                    "x": -851.8809653271902,
+                    "y": -2046.6613547968198
                 },
                 "area": {
-                    "w": 463.15731690805114,
-                    "h": 372.41422752181495,
+                    "w": 388.2521426296583,
+                    "h": 527.1589257868065,
                     "id": "lypxk7lni"
                 },
-                "comment": "File\nWeb\nSSE"
+                "comment": "File\nAPI\nSSE\nWS"
             },
             "portsIn": [
                 {
@@ -1403,8 +1356,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -1310,
-                    "y": -268.5790958917392
+                    "x": -1061.7358173058456,
+                    "y": -694.6487391103655
                 }
             },
             "portsIn": [
@@ -1418,7 +1371,7 @@
                 },
                 {
                     "name": "Collection",
-                    "value": "Untitled"
+                    "value": "slide-studio-V2"
                 },
                 {
                     "name": "Debug Port",
@@ -1430,13 +1383,13 @@
                 },
                 {
                     "name": "WSS Password",
-                    "value": "1d520770-f861-418f-a907-1da118eb2377"
+                    "value": "91fc0855-d5b6-49f2-b695-8c57a46ce9e3"
                 }
             ],
             "portsOut": [
                 {
                     "name": "Success",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "OBS Port",
@@ -1444,7 +1397,14 @@
                 },
                 {
                     "name": "Password",
-                    "value": "1d520770-f861-418f-a907-1da118eb2377"
+                    "links": [
+                        {
+                            "portIn": "Password",
+                            "portOut": "Password",
+                            "objIn": "npty46ytr",
+                            "objOut": "xcg6rcngg"
+                        }
+                    ]
                 },
                 {
                     "name": "Error",
@@ -1453,407 +1413,27 @@
             ]
         },
         {
-            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
-            "id": "v344rau5c",
+            "opId": "13bdac27-5da7-4311-890b-6a7e49d72040",
+            "id": "trjigvl3q",
             "attribs": {},
             "uiAttribs": {
-                "height": 1097.583172029526,
-                "width": 2189.094198391032,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
                 "translate": {
-                    "x": -1318.7462990049894,
-                    "y": 46.802945271628914
+                    "x": -815.0903576965148,
+                    "y": -1711.9660153107704
                 }
             },
             "portsIn": [
                 {
-                    "name": "Number",
-                    "value": 0
-                }
-            ]
-        },
-        {
-            "opId": "eff161f2-6fe2-43a5-a884-af7e7a19a523",
-            "id": "l32e6l8e5",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 100,
-                "width": 250,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "title": "HTTP URL",
-                "translate": {
-                    "x": -1492.47208160202,
-                    "y": -1091.4716503670277
-                },
-                "extendTitle": ""
-            },
-            "portsIn": [
-                {
-                    "name": "value",
-                    "value": ""
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "String",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "opId": "625418c2-dcbc-4eea-9ec6-6c3033e6630b",
-            "id": "fnx9c3e79",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1144.9681803695385,
-                    "y": -917.6670104617109
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Default",
-                    "value": "100"
+                    "name": "String 0",
+                    "value": "/api/obs/credentials"
                 },
                 {
                     "name": "String 1",
-                    "value": "/callback"
-                },
-                {
-                    "name": "Result String 1",
-                    "value": "0"
+                    "value": "/api/run-shortcut"
                 },
                 {
                     "name": "String 2",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Result String 2",
-                    "value": "1"
-                },
-                {
-                    "name": "String 3",
-                    "value": "/api"
-                },
-                {
-                    "name": "Result String 3",
-                    "value": "4"
-                },
-                {
-                    "name": "String 4",
-                    "value": "/api/second"
-                },
-                {
-                    "name": "Result String 4",
-                    "value": "2"
-                },
-                {
-                    "name": "String 5",
-                    "value": "/api/third/route"
-                },
-                {
-                    "name": "Result String 5",
-                    "value": "3"
-                },
-                {
-                    "name": "String 6",
-                    "value": "/six"
-                },
-                {
-                    "name": "Result String 6",
-                    "value": 6
-                },
-                {
-                    "name": "String 7",
-                    "value": "/seven"
-                },
-                {
-                    "name": "Result String 7",
-                    "value": 7
-                },
-                {
-                    "name": "String 8",
-                    "value": "/eight"
-                },
-                {
-                    "name": "Result String 8",
-                    "value": 8
-                },
-                {
-                    "name": "String 9",
-                    "value": "/nine"
-                },
-                {
-                    "name": "Result String 9",
-                    "value": 9
-                },
-                {
-                    "name": "String 10",
-                    "value": "ten"
-                },
-                {
-                    "name": "Result String 10",
-                    "value": 10
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Result",
-                    "links": [
-                        {
-                            "portIn": "String",
-                            "portOut": "Result",
-                            "objIn": "x2nmb87z6",
-                            "objOut": "fnx9c3e79"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "opId": "c80437f0-f0e1-465c-9cea-8a044aa2feaa",
-            "id": "zf9wfe41w",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1087.472372978445,
-                    "y": -780.642559195677
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "min",
-                    "value": 0
-                },
-                {
-                    "name": "max",
-                    "value": 2
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "then",
-                    "links": [
-                        {
-                            "portIn": "Trigger",
-                            "portOut": "then",
-                            "objIn": "i4has3syi",
-                            "objOut": "zf9wfe41w"
-                        }
-                    ]
-                },
-                {
-                    "name": "bs between",
-                    "value": 1
-                }
-            ]
-        },
-        {
-            "opId": "fa36a56b-a64d-4269-9a9e-addc16493006",
-            "id": "x2nmb87z6",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1121.2598074797843,
-                    "y": -879.016681488495
-                }
-            },
-            "portsOut": [
-                {
-                    "name": "Number",
-                    "links": [
-                        {
-                            "portIn": "number",
-                            "portOut": "Number",
-                            "objIn": "zf9wfe41w",
-                            "objOut": "x2nmb87z6"
-                        }
-                    ]
-                },
-                {
-                    "name": "Not a number",
-                    "value": 0
-                }
-            ]
-        },
-        {
-            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
-            "id": "9ajeeqpsm",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 529.6003795727726,
-                "width": 288.42973207475234,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": -1702.5823554474882,
-                    "y": -780.1010374820484
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Number",
-                    "value": 0
-                },
-                {
-                    "name": "String",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "opId": "e437c074-190f-4adb-8265-3fddea27fe33",
-            "id": "i4has3syi",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1087.472372978445,
-                    "y": -485.6622123198272
-                }
-            },
-            "portsOut": [
-                {
-                    "name": "Next",
-                    "links": [
-                        {
-                            "portIn": "Trigger",
-                            "portOut": "Next",
-                            "objIn": "41l6n2t4r",
-                            "objOut": "i4has3syi"
-                        }
-                    ]
-                },
-                {
-                    "name": "Result",
-                    "links": [
-                        {
-                            "portIn": "Object",
-                            "portOut": "Result",
-                            "objIn": "zrk7ntnu5",
-                            "objOut": "i4has3syi"
-                        },
-                        {
-                            "portIn": "Request Data",
-                            "portOut": "Result",
-                            "objIn": "ld6jp0mwn",
-                            "objOut": "i4has3syi"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "opId": "3f5167c5-5875-4a73-9e4b-443219c48c43",
-            "id": "zrk7ntnu5",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1075.472372978445,
-                    "y": -360.6053994444729
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Path",
-                    "value": "body.requestType"
-                },
-                {
-                    "name": "Output path if missing",
-                    "value": 0
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Output",
-                    "links": [
-                        {
-                            "portIn": "String",
-                            "portOut": "Output",
-                            "objIn": "41l6n2t4r",
-                            "objOut": "zrk7ntnu5"
-                        }
-                    ]
-                },
-                {
-                    "name": "Found",
-                    "value": 1
-                }
-            ]
-        },
-        {
-            "opId": "217482b8-2ee6-4609-b7ad-4550e6aaa371",
-            "id": "41l6n2t4r",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1143.4325904276752,
-                    "y": -291.9276274182898
-                }
-            },
-            "portsOut": [
-                {
-                    "name": "Next",
-                    "links": [
-                        {
-                            "portIn": "Send Request",
-                            "portOut": "Next",
-                            "objIn": "ld6jp0mwn",
-                            "objOut": "41l6n2t4r"
-                        }
-                    ]
-                },
-                {
-                    "name": "Result",
-                    "links": [
-                        {
-                            "portIn": "Request Type",
-                            "portOut": "Result",
-                            "objIn": "ld6jp0mwn",
-                            "objOut": "41l6n2t4r"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "opId": "217482b8-2ee6-4609-b7ad-4550e6aaa371",
-            "id": "cv7ajb00y",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1263.8369394580689,
-                    "y": -337.618162917383
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "String",
-                    "value": "hi"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Result",
-                    "value": "hi"
-                }
-            ]
-        },
-        {
-            "opId": "ee0459bd-3dc1-4b32-b6c1-01f98d06eebd",
-            "id": "gdje81nib",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1156.9681803695385,
-                    "y": -981.932149569478
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "String 2",
-                    "value": ""
+                    "value": "/api/callback"
                 },
                 {
                     "name": "String 3",
@@ -1906,173 +1486,299 @@
                 {
                     "name": "String 15",
                     "value": ""
+                },
+                {
+                    "name": "String 16",
+                    "value": ""
+                },
+                {
+                    "name": "String 17",
+                    "value": ""
+                },
+                {
+                    "name": "String 18",
+                    "value": ""
+                },
+                {
+                    "name": "String 19",
+                    "value": ""
+                },
+                {
+                    "name": "String 20",
+                    "value": ""
+                },
+                {
+                    "name": "String 21",
+                    "value": ""
+                },
+                {
+                    "name": "String 22",
+                    "value": ""
+                },
+                {
+                    "name": "String 23",
+                    "value": ""
                 }
             ],
             "portsOut": [
                 {
-                    "name": "Output 0",
+                    "name": "Switched Index",
+                    "value": 2
+                },
+                {
+                    "name": "Trigger 0",
                     "links": [
                         {
-                            "portIn": "String",
-                            "portOut": "Output 0",
-                            "objIn": "aj9h011a5",
-                            "objOut": "gdje81nib"
+                            "portIn": "Trigger",
+                            "portOut": "Trigger 0",
+                            "objIn": "fodeqht1t",
+                            "objOut": "trjigvl3q"
                         }
                     ]
                 },
                 {
-                    "name": "Output 1",
+                    "name": "Trigger 1",
                     "links": [
                         {
-                            "portIn": "String",
-                            "portOut": "Output 1",
-                            "objIn": "fnx9c3e79",
-                            "objOut": "gdje81nib"
+                            "portIn": "Trigger",
+                            "portOut": "Trigger 1",
+                            "objIn": "syn3s1u79",
+                            "objOut": "trjigvl3q"
                         }
                     ]
                 },
                 {
-                    "name": "Output 2",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 3",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 4",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 5",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 6",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 7",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 8",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 9",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 10",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 11",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 12",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 13",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 14",
-                    "value": "/api/obs"
-                },
-                {
-                    "name": "Output 15",
-                    "value": "/api/obs"
+                    "name": "Trigger 2",
+                    "links": [
+                        {
+                            "portIn": "byr2xk3rv",
+                            "portOut": "Trigger 2",
+                            "objIn": "onqe934fb",
+                            "objOut": "trjigvl3q"
+                        }
+                    ]
                 }
             ]
         },
         {
-            "opId": "e7f8a9b0-c1d2-4e3f-a4b5-c6d7e8f9a0b1",
-            "id": "hyzyyk3wt",
+            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+            "id": "ssca45u4j",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -1327.662946332354,
-                    "y": -137.2109329362797
-                }
-            },
-            "portsOut": [
-                {
-                    "name": "Event Type",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
-            "id": "mbhean1y2",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 200,
-                "width": 400,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": -1741.1399536793342,
-                    "y": -19.120146059005798
+                    "x": -964.260669025208,
+                    "y": -558.7913842056821
                 }
             },
             "portsIn": [
                 {
-                    "name": "Number",
+                    "name": "Request Rate (Hz)",
                     "value": 0
-                },
-                {
-                    "name": "String",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "opId": "89fc70ea-2350-4a0e-9a24-4efca10cced6",
-            "id": "v2ll6u81d",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -1209.5370857530424,
-                    "y": -60.69867534229196
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Beautify",
-                    "value": 1
                 }
             ],
             "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 1
+                },
                 {
                     "name": "Result",
                     "links": [
                         {
-                            "portIn": "String",
+                            "portIn": "WS Data",
                             "portOut": "Result",
-                            "objIn": "v344rau5c",
-                            "objOut": "v2ll6u81d"
+                            "objIn": "5xqcw1tfa",
+                            "objOut": "ssca45u4j"
+                        }
+                    ]
+                },
+                {
+                    "name": "Request Type Output",
+                    "links": [
+                        {
+                            "portIn": "WS Channel",
+                            "portOut": "Request Type Output",
+                            "objIn": "5xqcw1tfa",
+                            "objOut": "ssca45u4j"
+                        }
+                    ]
+                },
+                {
+                    "name": "On Result",
+                    "links": [
+                        {
+                            "portIn": "Send WS Message",
+                            "portOut": "On Result",
+                            "objIn": "5xqcw1tfa",
+                            "objOut": "ssca45u4j"
                         }
                     ]
                 },
                 {
                     "name": "Error",
-                    "value": 0
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "5xqcw1tfa",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -804.2823854106945,
+                    "y": -1942.9690942246345
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Server Ready",
+                    "links": [
+                        {
+                            "portIn": "Reload",
+                            "portOut": "Server Ready",
+                            "objIn": "pvrzbnwek",
+                            "objOut": "5xqcw1tfa"
+                        },
+                        {
+                            "portIn": "Manual Reload",
+                            "portOut": "Server Ready",
+                            "objIn": "g1jipcdvf",
+                            "objOut": "5xqcw1tfa"
+                        }
+                    ]
+                },
+                {
+                    "name": "On HTTP Request",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "On HTTP Request",
+                            "objIn": "trjigvl3q",
+                            "objOut": "5xqcw1tfa"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP URL",
+                    "links": [
+                        {
+                            "portIn": "text",
+                            "portOut": "HTTP URL",
+                            "objIn": "s67vr37i5",
+                            "objOut": "5xqcw1tfa"
+                        },
+                        {
+                            "portIn": "String",
+                            "portOut": "HTTP URL",
+                            "objIn": "syn3s1u79",
+                            "objOut": "5xqcw1tfa"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Request Data",
+                    "links": [
+                        {
+                            "portIn": "x241kwb0g",
+                            "portOut": "HTTP Request Data",
+                            "objIn": "onqe934fb",
+                            "objOut": "5xqcw1tfa"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Response Data",
+                    "links": [
+                        {
+                            "portIn": "Response",
+                            "portOut": "HTTP Response Data",
+                            "objIn": "fodeqht1t",
+                            "objOut": "5xqcw1tfa"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Message Channel",
+                    "value": ""
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 1
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "20ff324a-e4a5-45f9-a456-8550478197c6",
+            "id": "fodeqht1t",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -791.0903576965148,
+                    "y": -1590.056543600947
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Body",
+                    "value": ""
                 }
             ]
         },
         {
             "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
-            "id": "1vl0sesjs",
+            "id": "npty46ytr",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -1321.9540167598127,
-                    "y": -212.03225852602935
+                    "x": -1018.4110613959936,
+                    "y": -640.2898280685123
                 }
             },
             "portsIn": [
@@ -2083,10 +1789,6 @@
                 {
                     "name": "Port",
                     "value": 4455
-                },
-                {
-                    "name": "Password",
-                    "value": "1Jogi2chsgTSH49X"
                 },
                 {
                     "name": "Auto Start",
@@ -2168,8 +1870,19 @@
                         {
                             "portIn": "obsConnection",
                             "portOut": "obsConnection",
-                            "objIn": "ld6jp0mwn",
-                            "objOut": "1vl0sesjs"
+                            "objIn": "ssca45u4j",
+                            "objOut": "npty46ytr"
+                        }
+                    ]
+                },
+                {
+                    "name": "obsCredentials",
+                    "links": [
+                        {
+                            "portIn": "Body Object",
+                            "portOut": "obsCredentials",
+                            "objIn": "fodeqht1t",
+                            "objOut": "npty46ytr"
                         }
                     ]
                 },
@@ -2180,152 +1893,540 @@
             ]
         },
         {
-            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
-            "id": "ld6jp0mwn",
+            "opId": "9c660fea-f0a9-4791-a2fc-02a12a6b8b45",
+            "id": "s67vr37i5",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -1166.7371824586141,
-                    "y": -159.63293226668037
+                    "x": -803.0903576965148,
+                    "y": -1847.8602525770361
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Separator index",
+                    "value": 4
+                },
+                {
+                    "name": "Separator",
+                    "value": "Custom"
+                },
+                {
+                    "name": "Custom Separator",
+                    "value": "?"
+                },
+                {
+                    "name": "Line Breaks index",
+                    "value": 1
+                },
+                {
+                    "name": "Line Breaks",
+                    "value": "Ignore"
+                },
+                {
+                    "name": "Type index",
+                    "value": 2
+                },
+                {
+                    "name": "Type",
+                    "value": "Strings"
+                },
+                {
+                    "name": "Trim",
+                    "value": 1
+                },
+                {
+                    "name": "Replace Nan",
+                    "value": 1
+                },
+                {
+                    "name": "Replace Nan Value",
+                    "value": -1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "array",
+                    "links": [
+                        {
+                            "portIn": "Array",
+                            "portOut": "array",
+                            "objIn": "yi773fbia",
+                            "objOut": "s67vr37i5"
+                        }
+                    ]
+                },
+                {
+                    "name": "length",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "5199b608-e895-420f-9391-da8e10370b2e",
+            "id": "yi773fbia",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -803.0903576965148,
+                    "y": -1778.5800994875597
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Index",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Switch Value",
+                            "portOut": "Result",
+                            "objIn": "trjigvl3q",
+                            "objOut": "yi773fbia"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "217482b8-2ee6-4609-b7ad-4550e6aaa371",
+            "id": "syn3s1u79",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -338.81231209307384,
+                    "y": -1931.431024725214
                 }
             },
             "portsOut": [
                 {
-                    "name": "Success",
-                    "value": 1
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Trigger Request",
+                            "portOut": "Next",
+                            "objIn": "6gz535fb5",
+                            "objOut": "syn3s1u79"
+                        }
+                    ]
                 },
                 {
                     "name": "Result",
                     "links": [
                         {
-                            "portIn": "Object",
+                            "portIn": "String",
                             "portOut": "Result",
-                            "objIn": "v2ll6u81d",
-                            "objOut": "ld6jp0mwn"
-                        },
-                        {
-                            "portIn": "SSE Data",
-                            "portOut": "Result",
-                            "objIn": "8dj5ks2qz",
-                            "objOut": "ld6jp0mwn"
+                            "objIn": "cdg335bf9",
+                            "objOut": "syn3s1u79"
                         }
                     ]
-                },
-                {
-                    "name": "Request Type Output",
-                    "links": [
-                        {
-                            "portIn": "SSE Event Name",
-                            "portOut": "Request Type Output",
-                            "objIn": "8dj5ks2qz",
-                            "objOut": "ld6jp0mwn"
-                        }
-                    ]
-                },
-                {
-                    "name": "On Result",
-                    "links": [
-                        {
-                            "portIn": "Broadcast SSE",
-                            "portOut": "On Result",
-                            "objIn": "8dj5ks2qz",
-                            "objOut": "ld6jp0mwn"
-                        }
-                    ]
-                },
-                {
-                    "name": "Error",
-                    "value": ""
                 }
             ]
         },
         {
-            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
-            "id": "8dj5ks2qz",
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "jzxn3rqdf",
             "attribs": {},
             "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Shortcuts Request",
+                "title": "Shortcuts Request",
                 "translate": {
-                    "x": -750.000536349511,
-                    "y": -1114.2487334580264
+                    "x": -368,
+                    "y": -2035.7812684890519
+                },
+                "area": {
+                    "w": 428.21392594185045,
+                    "h": 354.321762628068,
+                    "id": "zpsprw765"
                 }
             },
             "portsIn": [
                 {
-                    "name": "Hostname",
-                    "value": "127.0.0.1"
+                    "name": "Title",
+                    "value": "Shortcuts Request"
+                }
+            ]
+        },
+        {
+            "opId": "4a053e7a-6b00-4e71-bd51-90cdb190994c",
+            "id": "cdg335bf9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -315.00261332475304,
+                    "y": -1873.7763753110423
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Search For",
+                    "value": "/api/"
                 },
                 {
-                    "name": "Port",
-                    "value": 8080
+                    "name": "Replace",
+                    "value": "shortcuts://"
                 },
                 {
-                    "name": "Root Directory",
-                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                    "name": "Replace What index",
+                    "value": 0
                 },
                 {
-                    "name": "Auto Start",
-                    "value": 1
-                },
-                {
-                    "name": "SSE Route",
-                    "value": "/sse"
-                },
-                {
-                    "name": "HTTP Response Code",
-                    "value": 200
+                    "name": "Replace What",
+                    "value": "All"
                 }
             ],
             "portsOut": [
                 {
-                    "name": "On HTTP Request",
+                    "name": "Result",
                     "links": [
                         {
-                            "portIn": "exe",
-                            "portOut": "On HTTP Request",
-                            "objIn": "zf9wfe41w",
-                            "objOut": "8dj5ks2qz"
+                            "portIn": "Shortcut URL",
+                            "portOut": "Result",
+                            "objIn": "6gz535fb5",
+                            "objOut": "cdg335bf9"
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "sd1emyq3g",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -1551.5548121423285,
+                    "y": -1854.9664569727076
+                }
+            },
+            "portsIn": [
                 {
-                    "name": "HTTP URL",
+                    "name": "Variable",
+                    "value": "varIP"
+                }
+            ]
+        },
+        {
+            "opId": "eff161f2-6fe2-43a5-a884-af7e7a19a523",
+            "id": "ma3wobjbr",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 74.56836510046924,
+                "width": 88.72087215640363,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -1551.5548121423285,
+                    "y": -1959.336237793767
+                },
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": "127.0.0.1"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String",
                     "links": [
                         {
-                            "portIn": "String 0",
-                            "portOut": "HTTP URL",
-                            "objIn": "gdje81nib",
-                            "objOut": "8dj5ks2qz"
-                        },
-                        {
-                            "portIn": "String 1",
-                            "portOut": "HTTP URL",
-                            "objIn": "gdje81nib",
-                            "objOut": "8dj5ks2qz"
+                            "portIn": "Value",
+                            "portOut": "String",
+                            "objIn": "sd1emyq3g",
+                            "objOut": "ma3wobjbr"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "rzeuvksgv",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Variables",
+                "title": "Variables",
+                "translate": {
+                    "x": -1587.5366155648953,
+                    "y": -2050.2530772380724
                 },
+                "area": {
+                    "w": 345.47102961086216,
+                    "h": 400.6334801251314,
+                    "id": "1sz28n9ku"
+                }
+            },
+            "portsIn": [
                 {
-                    "name": "HTTP Request Data",
+                    "name": "Title",
+                    "value": "Variables"
+                }
+            ]
+        },
+        {
+            "opId": "8fb2bb5d-665a-4d0a-8079-12710ae453be",
+            "id": "t0mc5kre9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -1393.9401392362763,
+                    "y": -1952.0151165347095
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": 8080
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
                     "links": [
                         {
-                            "portIn": "Object",
-                            "portOut": "HTTP Request Data",
-                            "objIn": "i4has3syi",
-                            "objOut": "8dj5ks2qz"
+                            "portIn": "Value",
+                            "portOut": "result",
+                            "objIn": "4hgu9s2e7",
+                            "objOut": "t0mc5kre9"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "opId": "b5249226-6095-4828-8a1c-080654e192fa",
+            "id": "4hgu9s2e7",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -1393.9401392362763,
+                    "y": -1856.404864919184
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "varPort"
+                }
+            ]
+        },
+        {
+            "opId": "f44bfe36-c44a-45f3-a2e7-a71399c22733",
+            "id": "6oa4j1pn9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -179.41070281295123,
+                    "y": -1856.544362352631
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Strings",
+                    "multiPortNum": 6,
+                    "multiPortManual": true
                 },
                 {
-                    "name": "Error",
-                    "value": ""
-                },
-                {
-                    "name": "Running",
-                    "value": 1
-                },
-                {
-                    "name": "Active Clients",
+                    "name": "Seperator index",
                     "value": 0
+                },
+                {
+                    "name": "Seperator",
+                    "value": "None"
+                },
+                {
+                    "name": "Strings_0",
+                    "value": "http://"
+                },
+                {
+                    "name": "Strings_1",
+                    "value": "127.0.0.1",
+                    "useVariable": "varIP"
+                },
+                {
+                    "name": "Strings_2",
+                    "value": ":"
+                },
+                {
+                    "name": "Strings_4",
+                    "value": "/api/callback"
+                },
+                {
+                    "name": "Strings_5",
+                    "value": "",
+                    "title": "add port"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String",
+                    "links": [
+                        {
+                            "portIn": "Callback URL",
+                            "portOut": "String",
+                            "objIn": "6gz535fb5",
+                            "objOut": "6oa4j1pn9"
+                        }
+                    ]
+                },
+                {
+                    "name": "Num Strings",
+                    "value": 5
+                }
+            ]
+        },
+        {
+            "opId": "5c6d375a-82db-4366-8013-93f56b4061a9",
+            "id": "yc67nh7z4",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -143.41070281295123,
+                    "y": -1909.4363455445412
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 8080,
+                    "useVariable": "varPort"
+                },
+                {
+                    "name": "Decimal Places",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Strings_3",
+                            "portOut": "Result",
+                            "objIn": "6oa4j1pn9",
+                            "objOut": "yc67nh7z4"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e0b04a99-b1d3-4a11-85b4-2cfd9a691456",
+            "id": "6gz535fb5",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -288.45683798005257,
+                    "y": -1756.403938467505
+                }
+            }
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "t9718x52s",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Shortcuts Response",
+                "title": "Shortcuts Response",
+                "translate": {
+                    "x": -368,
+                    "y": -1628.7640601627077
+                },
+                "area": {
+                    "w": 458.6872139106176,
+                    "h": 226.0787072011858,
+                    "id": "a9os1wd5o"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Shortcuts Response"
+                }
+            ]
+        },
+        {
+            "opId": "bf1730b2-b173-468d-9126-a1cb40341312",
+            "id": "onqe934fb",
+            "attribs": {},
+            "uiAttribs": {
+                "subPatchOp": {
+                    "version": 2
+                },
+                "translate": {
+                    "x": -298.27607386871733,
+                    "y": -1493.7248382972623
+                }
+            },
+            "storage": {
+                "blueprintVer": 2,
+                "subPatchVer": 2
+            },
+            "portsIn": [
+                {
+                    "name": "x241kwb0g",
+                    "title": "Object"
+                },
+                {
+                    "name": "byr2xk3rv",
+                    "title": "Trigger"
+                },
+                {
+                    "name": "patchId",
+                    "value": "bp2sub_onqe934fb"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "wv4ht3vp3",
+                    "title": "String",
+                    "links": [
+                        {
+                            "portIn": "SSE Event Name",
+                            "portOut": "wv4ht3vp3",
+                            "objIn": "5xqcw1tfa",
+                            "objOut": "onqe934fb"
+                        }
+                    ]
+                },
+                {
+                    "name": "qddih6cp8",
+                    "title": "Result",
+                    "links": [
+                        {
+                            "portIn": "SSE Data",
+                            "portOut": "qddih6cp8",
+                            "objIn": "5xqcw1tfa",
+                            "objOut": "onqe934fb"
+                        }
+                    ]
+                },
+                {
+                    "name": "37wl9a84v",
+                    "title": "Next",
+                    "links": [
+                        {
+                            "portIn": "Broadcast SSE",
+                            "portOut": "37wl9a84v",
+                            "objIn": "5xqcw1tfa",
+                            "objOut": "onqe934fb"
+                        }
+                    ]
                 }
             ]
         }
@@ -2359,9 +2460,39 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -827.2994444543028,
-                "y": 45.420356640667706,
-                "z": 1470.4452517380291
+                "x": -340.50917112131134,
+                "y": -2218.0924659902057,
+                "z": 1083.6371271447565
+            },
+            "bp2sub_zo3pph3oi": {
+                "x": 249.81233643504618,
+                "y": -1340.3793087794247,
+                "z": 724.1629511994679
+            },
+            "bp2sub_jzdrmiiuq": {
+                "x": 186.54444096028192,
+                "y": -1438.8807026103682,
+                "z": 594.6667213240219
+            },
+            "bp2sub_ybugbstp3": {
+                "x": 129.9163527370796,
+                "y": -1454.7176990661312,
+                "z": 539.915124493818
+            },
+            "bp2sub_wwpmx0xij": {
+                "x": 122.78172839464492,
+                "y": -1464.77803492068,
+                "z": 468.785208218585
+            },
+            "bp2sub_trppwv5dg": {
+                "x": 154.98074562301053,
+                "y": -1627.008986941314,
+                "z": 468.50553636433176
+            },
+            "bp2sub_onqe934fb": {
+                "x": -12.68788483552956,
+                "y": -1653.7466365999842,
+                "z": 407.51592365911125
             }
         },
         "outline": {
@@ -2382,7 +2513,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "0161fa0aaf13df9b01c75a11eb6a6389ee912573",
+    "opsHash": "85c670014d072542d65cb6682e1ed78c07a17802",
     "buildInfo": {
         "updateWarning": false,
         "core": {

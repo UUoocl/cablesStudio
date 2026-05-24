@@ -1,23 +1,15 @@
 const
-    inHttpTrigger = op.inTrigger("On HTTP Request"),
-    inHttpData = op.inObject("HTTP Request Data"),
+    inHttpTrigger = op.inTrigger("Trigger"),
+    inHttpData = op.inObject("Object"),
     
-    outCommand = op.outTrigger("On Command"),
-    outPayload = op.outObject("Payload"),
-    outType = op.outString("Command Type");
+    outCommand = op.outTrigger("Next"),
+    outPayload = op.outObject("Result");
 
 inHttpTrigger.onTriggered = () => {
     const req = inHttpData.get();
-    if (!req || !req.body) return;
+    if (!req) return;
     
-    const data = req.body;
-    
-    // Route based on type
-    if (data.type) outType.set(data.type);
-    
-    outPayload.set(data);
+    // Pass the entire request object so nested Object Parsers (e.g. zrk7ntnu5 reading body.requestType) function correctly
+    outPayload.set(req);
     outCommand.trigger();
-    
-    // If the request has a response object, we could potentially use it
-    // but the HttpFileServer already sends a default response after 100ms.
 };

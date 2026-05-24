@@ -85,6 +85,7 @@ const TelePrompter = (function() {
 
         elm.teleprompter.addEventListener('keyup', updateTeleprompterText);
         window.addEventListener('keydown', navigate);
+        window.addEventListener('resize', handleResize);
     }
 
     /**
@@ -211,6 +212,12 @@ const TelePrompter = (function() {
 
     function resetClock() {
         startClock();
+    }
+
+    function handleResize() {
+        if (elm.teleprompter && elm.header) {
+            elm.teleprompter.style.paddingBottom = Math.ceil(window.innerHeight - elm.header.offsetHeight) + 'px';
+        }
     }
 
     /**
@@ -341,10 +348,15 @@ const TelePrompter = (function() {
         updateDimUI();
     }
 
-    function handleReset() {
+    function handleReset(instant = false) {
         stop();
         resetClock();
-        elm.article.scrollTo({ top: config.flipY ? elm.teleprompter.offsetHeight + 100 : 0, behavior: 'smooth' });
+        const targetTop = config.flipY ? elm.teleprompter.offsetHeight + 100 : 0;
+        if (instant === true) {
+            elm.article.scrollTop = targetTop;
+        } else {
+            elm.article.scrollTo({ top: targetTop, behavior: 'smooth' });
+        }
     }
 
     function pageScroll() {

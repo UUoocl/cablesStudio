@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Diagnostic Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0a0b10;
+            --bg-card: #12131e;
+            --bg-input: #1a1c2d;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-primary: #6366f1;
+            --accent-primary-hover: #4f46e5;
+            --accent-success: #10b981;
+            --accent-danger: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 880px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 1.2fr 1.8fr;
+            }
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .connection-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-danger);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .connection-badge.connected {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-success);
+        }
+
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .input-control {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+            width: 100%;
+        }
+
+        .input-control:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .input-control[textarea] {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent-primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            background: var(--accent-primary-hover);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-danger {
+            background: var(--accent-danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .log-panel {
+            display: flex;
+            flex-direction: column;
+            height: 480px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .log-container {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            scroll-behavior: smooth;
+        }
+
+        .log-entry {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            animation: slideIn 0.2s cubic-bezier(0, 0, 0.2, 1) forwards;
+        }
+
+        .log-entry.inbound {
+            background: rgba(16, 185, 129, 0.06);
+            border-left: 3px solid var(--accent-success);
+        }
+
+        .log-entry.outbound {
+            background: rgba(99, 102, 241, 0.06);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .log-entry.info {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--text-muted);
+            color: var(--text-muted);
+        }
+
+        .log-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .log-payload {
+            font-family: 'JetBrains Mono', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-top: 0.25rem;
+            color: #e5e7eb;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>WS Diagnostic Hub</h1>
+        <div id="connection-status" class="connection-badge">
+            <span class="connection-dot"></span>
+            <span id="connection-text">Disconnected</span>
+        </div>
+    </div>
+
+    <!-- Left Column: Controls -->
+    <div class="control-panel">
+        <div class="input-group">
+            <label for="ws-url">WebSocket URL</label>
+            <input type="text" id="ws-url" class="input-control" value="ws://127.0.0.1:8080">
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+            <button id="connect-btn" class="btn" style="flex: 1;">Connect</button>
+            <button id="disconnect-btn" class="btn btn-danger" style="display: none; flex: 1;">Disconnect</button>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 0.5rem;">
+            <h2 class="section-title">Listen Filter</h2>
+            <div class="input-group">
+                <label for="listen-channel">Listen Channel</label>
+                <input type="text" id="listen-channel" class="input-control" value="*">
+                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                    Filter incoming logs to show only this channel. Use <code>*</code> to show all.
+                </span>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 0.5rem;">
+            <h2 class="section-title">Publish Event</h2>
+            <div class="input-group" style="margin-bottom: 1rem;">
+                <label for="pub-channel">Channel / Event</label>
+                <input type="text" id="pub-channel" class="input-control" value="slidesCommands">
+            </div>
+            <div class="input-group" style="margin-bottom: 1.25rem;">
+                <label for="pub-data">JSON Payload</label>
+                <textarea id="pub-data" class="input-control" textarea>{\n  "eventName": "slidechanged",\n  "state": {\n    "indexh": 1,\n    "indexv": 0\n  }\n}</textarea>
+            </div>
+            <button id="send-btn" class="btn" style="width: 100%;">Send Message</button>
+        </div>
+    </div>
+
+    <!-- Right Column: Logs -->
+    <div class="log-panel">
+        <div class="log-header">
+            <h2 class="section-title" style="margin: 0; font-size: 0.95rem;">Activity Log</h2>
+            <button id="clear-log-btn" class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; border-radius: 6px;">Clear</button>
+        </div>
+        <div id="log-container" class="log-container">
+            <div class="log-entry info">
+                <div class="log-meta">
+                    <span>System</span>
+                    <span>Ready</span>
+                </div>
+                <div class="log-payload">Ready to connect. Set the WebSocket URL and click Connect.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const wsUrlInput = document.getElementById('ws-url');
+    const connectBtn = document.getElementById('connect-btn');
+    const disconnectBtn = document.getElementById('disconnect-btn');
+    const connectionStatus = document.getElementById('connection-status');
+    const connectionText = document.getElementById('connection-text');
+    const pubChannel = document.getElementById('pub-channel');
+    const pubData = document.getElementById('pub-data');
+    const sendBtn = document.getElementById('send-btn');
+    const logContainer = document.getElementById('log-container');
+    const clearLogBtn = document.getElementById('clear-log-btn');
+    const listenChannelInput = document.getElementById('listen-channel');
+
+    let socket = null;
+
+    function addLog(type, title, content) {
+        const timeStr = new Date().toLocaleTimeString();
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${type}`;
+        
+        const payloadHtml = typeof content === 'object' 
+            ? JSON.stringify(content, null, 2) 
+            : String(content);
+
+        entry.innerHTML = `
+            <div class="log-meta">
+                <span>${title}</span>
+                <span>${timeStr}</span>
+            </div>
+            <div class="log-payload">${payloadHtml}</div>
+        `;
+        
+        logContainer.appendChild(entry);
+        logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    function updateStatus(connected, text) {
+        if (connected) {
+            connectionStatus.classList.add('connected');
+            connectBtn.style.display = 'none';
+            disconnectBtn.style.display = 'inline-flex';
+        } else {
+            connectionStatus.classList.remove('connected');
+            connectBtn.style.display = 'inline-flex';
+            disconnectBtn.style.display = 'none';
+        }
+        connectionText.textContent = text;
+    }
+
+    connectBtn.addEventListener('click', () => {
+        const url = wsUrlInput.value.trim();
+        addLog('info', 'System', `Attempting connection to ${url}...`);
+        
+        try {
+            socket = new WebSocket(url);
+            
+            socket.onopen = () => {
+                updateStatus(true, 'Connected');
+                addLog('info', 'System', 'WebSocket connection established.');
+            };
+            
+            socket.onmessage = (event) => {
+                let parsed = event.data;
+                try {
+                    parsed = JSON.parse(event.data);
+                } catch(e) {}
+                
+                const listenFilter = listenChannelInput.value.trim();
+                if (listenFilter && listenFilter !== "*") {
+                    if (parsed && typeof parsed === "object" && parsed.channel !== listenFilter) {
+                        return;
+                    }
+                }
+                
+                const displayTitle = parsed && typeof parsed === 'object' && parsed.channel 
+                    ? `Received: ${parsed.channel}` 
+                    : 'Received Message';
+                
+                addLog('inbound', displayTitle, parsed);
+            };
+            
+            socket.onclose = () => {
+                updateStatus(false, 'Disconnected');
+                addLog('info', 'System', 'WebSocket connection closed.');
+                socket = null;
+            };
+            
+            socket.onerror = (err) => {
+                addLog('info', 'Error', 'WebSocket encountered an error.');
+                console.error(err);
+            };
+            
+        } catch (e) {
+            addLog('info', 'Error', `Failed to construct WebSocket: ${e.message}`);
+        }
+    });
+
+    disconnectBtn.addEventListener('click', () => {
+        if (socket) {
+            addLog('info', 'System', 'Closing WebSocket connection manually...');
+            socket.close();
+        }
+    });
+
+    sendBtn.addEventListener('click', () => {
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
+            alert('Please connect the WebSocket first!');
+            return;
+        }
+
+        const channel = pubChannel.value.trim();
+        let rawData = pubData.value.trim();
+        let dataPayload = rawData;
+
+        try {
+            dataPayload = JSON.parse(rawData);
+        } catch (e) {
+            // Send as raw text if JSON parsing fails
+        }
+
+        const messageEnvelope = {
+            channel: channel,
+            data: dataPayload
+        };
+
+        try {
+            socket.send(JSON.stringify(messageEnvelope));
+            addLog('outbound', `Sent on Channel: ${channel}`, dataPayload);
+        } catch (e) {
+            addLog('info', 'Error', `Failed to send message: ${e.message}`);
+        }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const wsParam = urlParams.get('ws');
+    if (wsParam) {
+        wsUrlInput.value = wsParam;
+    }
+
+    clearLogBtn.addEventListener('click', () => {
+        logContainer.innerHTML = '';
+        addLog('info', 'System', 'Logs cleared.');
+    });
+</script>
+</body>
+</html>

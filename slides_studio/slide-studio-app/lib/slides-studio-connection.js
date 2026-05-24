@@ -1,12 +1,13 @@
-import { create } from './slides-studio-api.js';
+import { create } from './slides-studio-client.js';
 
 /**
- * Shared API Connection Helper for Slide Studio App (HTTP Version)
+ * Shared WebSocket Connection Helper for Slide Studio App (Native WebSockets)
  */
 window.ssSocket = create({
     hostname: window.location.hostname,
-    port: window.location.port,
-    path: '/api/slides/command'
+    port: window.location.port || (window.location.protocol === 'https:' ? 443 : 80),
+    path: '/websocket/',
+    authToken: { name: 'Slide-Studio-App' }
 });
 
 (async () => {

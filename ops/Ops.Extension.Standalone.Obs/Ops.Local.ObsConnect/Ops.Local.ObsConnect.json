@@ -138,6 +138,10 @@
             },
             {
                 "type": 2,
+                "name": "obsCredentials"
+            },
+            {
+                "type": 2,
                 "name": "Obs event"
             },
             {

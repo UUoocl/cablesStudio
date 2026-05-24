@@ -56,38 +56,42 @@
     </article>
 
     <script src="lib/teleprompter.vanilla.js"></script>
+
     <script type="module">
+      // Initialize App
       window.onload = function() {
         TelePrompter.init();
       };
 
+      // Unified message listener for parent-to-iframe communication
       window.addEventListener('message', (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          
-          if (data.namespace === 'speakerview' && data.message === 'notes') {
-            console.log("[Teleprompter] Received notes via parent message");
-            document.getElementById("teleprompter").innerHTML = data.notes;
-            TelePrompter.resetPageScroll();
-            if (TelePrompter.isAutoScroll()) {
-              TelePrompter.start();
-            }
-          }
+          try {
+              const data = JSON.parse(event.data);
+              if (data.method === 'getSlideNotes') {
+                  console.log("[Teleprompter] Received notes via postMessage");
+                  document.getElementById("teleprompter").innerHTML = data.result;
+                  TelePrompter.resetPageScroll(true);
+                  console.log("[Teleprompter] Automatically starting scroll for new slide notes...");
+                  TelePrompter.start();
+              }
 
-          if (data.namespace === 'speakerview' && data.message === 'control') {
-            const { eventName, payload } = data;
-            if (eventName === 'teleprompterChangeRequest') {
-              if (typeof TelePrompter[payload.functionName] === 'function') {
-                TelePrompter[payload.functionName](payload.value);
+              // Handle remote control requests
+              if (data.method === 'teleprompterChangeRequest') {
+                  console.log("[Teleprompter] Change request via postMessage:", data.functionName);
+                  if (typeof TelePrompter[data.functionName] === 'function') {
+                      TelePrompter[data.functionName](data.value);
+                  }
               }
-            }
-            if (eventName === 'togglePlay') {
-              if (typeof TelePrompter[payload.functionName] === 'function') {
-                TelePrompter[payload.functionName]();
+
+              if (data.method === 'togglePlay') {
+                  console.log("[Teleprompter] Toggle play via postMessage");
+                  if (typeof TelePrompter[data.functionName] === 'function') {
+                      TelePrompter[data.functionName]();
+                  }
               }
-            }
+          } catch (err) {
+              // Ignore non-JSON or other messages
           }
-        } catch (e) {}
       });
     </script>
   </body>

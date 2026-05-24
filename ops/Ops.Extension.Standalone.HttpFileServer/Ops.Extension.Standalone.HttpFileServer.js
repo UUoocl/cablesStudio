@@ -2,6 +2,8 @@ const http = op.require("http");
 const fs = op.require("fs");
 const path = op.require("path");
 const url = op.require("url");
+const WebSocket = op.require("ws");
+const WebSocketServer = WebSocket.WebSocketServer || WebSocket.Server || WebSocket;
 
 const
     inHost = op.inString("Hostname", "127.0.0.1"),
@@ -16,9 +18,13 @@ const
     inSseData = op.inObject("SSE Data"),
     inSseBroadcast = op.inTrigger("Broadcast SSE"),
 
-    inHttpResponseCode = op.inInt("HTTP Response Code", 200),
-    inHttpResponseData = op.inObject("HTTP Response Data Input"),
-    inHttpResponseTrigger = op.inTriggerButton("Send HTTP Response"),
+    inEnableSse = op.inBool("Enable SSE", true),
+    inEnableApi = op.inBool("Enable API", true),
+    inEnableWs = op.inBool("Enable WS", true),
+
+    inWsChannel = op.inString("WS Channel", "message"),
+    inWsData = op.inObject("WS Data"),
+    inWsTrigger = op.inTriggerButton("Send WS Message"),
 
     outStarted = op.outTrigger("Server Started"),
     outStopped = op.outTrigger("Server Stopped"),
@@ -29,26 +35,24 @@ const
     outHttpReqData = op.outObject("HTTP Request Data"),
     outHttpResData = op.outObject("HTTP Response Data"),
 
+    outWsMessage = op.outTrigger("On WS Message"),
+    outWsChannel = op.outString("WS Message Channel"),
+    outWsMessageData = op.outObject("WS Message Data"),
+    outWsActiveClients = op.outNumber("WS Active Clients", 0),
+
     outError = op.outString("Error"),
     outRunning = op.outBoolNum("Running", false),
     outServerInstance = op.outObject("Server Instance"),
     outActiveClients = op.outNumber("Active Clients", 0);
 
+outHttpResData.ignoreValueSerialize = true;
+outServerInstance.ignoreValueSerialize = true;
+
 let server = null;
 const sseClientsByRoute = new Map();
+let wss = null;
+const wsClients = new Set();
 let lastApiRes = null;
-
-inHttpResponseTrigger.onTriggered = () => {
-    if (lastApiRes && !lastApiRes.headersSent) {
-        lastApiRes.statusCode = inHttpResponseCode.get();
-        lastApiRes.setHeader("Content-Type", "application/json");
-        let data = inHttpResponseData.get();
-        if (typeof data !== "string") {
-            try { data = JSON.stringify(data); } catch(e) { data = "{}"; }
-        }
-        lastApiRes.end(data);
-    }
-};
 
 const mimeTypes = {
     ".html": "text/html",
@@ -112,6 +116,12 @@ function start()
         // SSE route
         if (pathname === "/sse" || pathname.startsWith("/sse/"))
         {
+            if (!inEnableSse.get())
+            {
+                res.statusCode = 403;
+                res.end("SSE is disabled");
+                return;
+            }
             setupSse(req, res, pathname);
             return;
         }
@@ -119,6 +129,12 @@ function start()
         // Generic API route
         if (pathname === "/api" || pathname.startsWith("/api/"))
         {
+            if (!inEnableApi.get())
+            {
+                res.statusCode = 403;
+                res.end("API is disabled");
+                return;
+            }
             handleApiRequest(req, res, pathname);
             return;
         }
@@ -176,7 +192,82 @@ function start()
             else
             {
                 outRunning.set(true);
+                if (server && !server.toJSON)
+                {
+                    server.toJSON = () => ({
+                        "__type": "HttpServer",
+                        "listening": server.listening
+                    });
+                }
                 outServerInstance.set(server);
+                
+                // Initialize integrated WebSocket Server
+                try
+                {
+                    wss = new WebSocketServer({ "server": server });
+                    
+                    wss.on("connection", (ws) =>
+                    {
+                        if (!inEnableWs.get())
+                        {
+                            ws.close(1008, "WebSocket is disabled");
+                            return;
+                        }
+                        wsClients.add(ws);
+                        outWsActiveClients.set(wsClients.size);
+                        
+                        ws.on("message", (message) =>
+                        {
+                            let parsed = message;
+                            let channelName = "";
+                            try
+                            {
+                                if (Buffer.isBuffer(message)) {
+                                    message = message.toString();
+                                }
+                                parsed = JSON.parse(message);
+                                if (parsed && typeof parsed === "object")
+                                {
+                                    if (parsed.type === "call" && parsed.method === "setInfo")
+                                    {
+                                        ws.send(JSON.stringify({
+                                            "type": "response",
+                                            "id": parsed.id,
+                                            "data": { "status": "authenticated" }
+                                        }));
+                                    }
+                                    if (typeof parsed.channel === "string")
+                                    {
+                                        channelName = parsed.channel;
+                                    }
+                                }
+                            }
+                            catch (err) {}
+                            
+                            outWsChannel.set(channelName);
+                            outWsMessageData.set(parsed);
+                            outWsMessage.trigger();
+                        });
+                        
+                        ws.on("close", () =>
+                        {
+                            wsClients.delete(ws);
+                            outWsActiveClients.set(wsClients.size);
+                        });
+                        
+                        ws.on("error", (err) =>
+                        {
+                            op.logWarn("[HttpFileServer WS] Client error:", err);
+                            wsClients.delete(ws);
+                            outWsActiveClients.set(wsClients.size);
+                        });
+                    });
+                }
+                catch (wsErr)
+                {
+                    op.logError("[HttpFileServer WS] Failed to start WebSocket server:", wsErr);
+                }
+
                 outError.set("");
                 outStarted.trigger();
 
@@ -212,6 +303,14 @@ function start()
 function handleApiRequest(req, res, pathname)
 {
     outHttpUrl.set(req.url);
+    if (res && !res.toJSON)
+    {
+        res.toJSON = () => ({
+            "__type": "ServerResponse",
+            "statusCode": res.statusCode,
+            "headersSent": res.headersSent
+        });
+    }
     outHttpResData.set(res);
     lastApiRes = res;
 
@@ -250,7 +349,7 @@ function handleApiRequest(req, res, pathname)
                     res.setHeader("Content-Type", "application/json");
                     res.end(JSON.stringify({ "status": "received", "path": pathname, "note": "handled by timeout" }));
                 }
-            }, 50); // Small timeout to quickly resolve the HTTP POST and avoid connection blocking
+            }, 1000); // 1-second timeout to allow Cables patch triggers to resolve and respond
         });
     }
     else
@@ -271,18 +370,21 @@ function handleApiRequest(req, res, pathname)
             "query": queryParams
         }, queryParams);
 
+        op.log("[HttpFileServer] GET request received. pathname:", pathname);
         outHttpReqData.set(reqInfo);
         outHttpRequest.trigger();
 
         setTimeout(() =>
         {
+            op.log("[HttpFileServer] Timeout evaluated. res.headersSent:", res.headersSent);
             if (!res.headersSent)
             {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
                 res.end(JSON.stringify({ "status": "ok", "path": pathname, "note": "handled by timeout" }));
+                op.log("[HttpFileServer] Sent timeout fallback response for path:", pathname);
             }
-        }, 50); // Small timeout to quickly resolve the HTTP POST and avoid connection blocking
+        }, 1000); // 1-second timeout to allow Cables patch triggers to resolve and respond
     }
 }
 
@@ -355,7 +457,12 @@ inSseBroadcast.onTriggered = () =>
         "data": data
     };
 
-    const message = `data: ${JSON.stringify(payload)}\n\n`;
+    let message = "";
+    if (eventName)
+    {
+        message += `event: ${eventName}\n`;
+    }
+    message += `data: ${JSON.stringify(payload)}\n\n`;
 
     clients.forEach((client) =>
     {
@@ -382,6 +489,14 @@ inSseBroadcast.onTriggered = () =>
 
 function stop()
 {
+    if (wss)
+    {
+        try { wss.close(); } catch (e) {}
+        wss = null;
+    }
+    wsClients.clear();
+    outWsActiveClients.set(0);
+
     if (server)
     {
         server.close();
@@ -405,6 +520,35 @@ function stop()
 
 inStart.onTriggered = start;
 inStop.onTriggered = stop;
+
+inWsTrigger.onTriggered = () =>
+{
+    if (!wss) return;
+    
+    const channel = inWsChannel.get();
+    const data = inWsData.get();
+    
+    const payload = JSON.stringify({
+        "channel": channel,
+        "data": data
+    });
+    
+    wsClients.forEach((client) =>
+    {
+        const openState = WebSocket.OPEN !== undefined ? WebSocket.OPEN : 1;
+        if (client.readyState === openState)
+        {
+            try
+            {
+                client.send(payload);
+            }
+            catch (e)
+            {
+                op.logWarn("[HttpFileServer WS] Failed to send to client:", e);
+            }
+        }
+    });
+};
 
 function restart()
 {

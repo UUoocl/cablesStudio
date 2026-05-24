@@ -3054,6 +3054,7 @@ const
 
     outConnected = op.outBoolNum("Connected", false),
     outObs = op.outObject("obsConnection", null, "obsConnection"),
+    outCredentials = op.outObject("obsCredentials", null),
     outEvent = op.outObject("Obs event", null),
     outError = op.outString("Error", "");
 
@@ -3141,7 +3142,17 @@ async function doDisconnect() {
 inConnect.onTriggered = doConnect;
 inDisconnect.onTriggered = doDisconnect;
 
+function updateCredentials() {
+    const creds = { port: inPort.get(), password: inPass.get() };
+    outCredentials.set(creds);
+    op.log("[ObsConnect] Updated credentials port value:", JSON.stringify(creds));
+}
+
+inPort.onChange = updateCredentials;
+inPass.onChange = updateCredentials;
+
 op.onLoaded = () => {
+    updateCredentials();
     if (inAutoStart.get() && inPort.get() && inPass.get()) {
         op.log("[ObsConnect] Auto Start is enabled, attempting connection to OBS...");
         doConnect();

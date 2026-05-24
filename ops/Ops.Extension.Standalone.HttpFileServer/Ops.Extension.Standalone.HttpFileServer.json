@@ -63,16 +63,30 @@
             },
             {
                 "type": 0,
-                "name": "HTTP Response Code",
-                "subType": "integer"
+                "name": "Enable SSE",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Enable API",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Enable WS",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "WS Channel"
             },
             {
                 "type": 2,
-                "name": "HTTP Response Data Input"
+                "name": "WS Data"
             },
             {
                 "type": 1,
-                "name": "Send HTTP Response"
+                "name": "Send WS Message"
             }
         ],
         "portsOut": [
@@ -103,6 +117,23 @@
             {
                 "type": 2,
                 "name": "HTTP Response Data"
+            },
+            {
+                "type": 1,
+                "name": "On WS Message"
+            },
+            {
+                "type": 5,
+                "name": "WS Message Channel"
+            },
+            {
+                "type": 2,
+                "name": "WS Message Data"
+            },
+            {
+                "type": 0,
+                "name": "WS Active Clients",
+                "subType": "number"
             },
             {
                 "type": 5,
@@ -167,6 +198,18 @@
                 "text": "Trigger to send the event to all connected SSE clients."
             },
             {
+                "name": "Enable SSE",
+                "text": "If true, SSE streaming route (/sse) is active. Default true."
+            },
+            {
+                "name": "Enable API",
+                "text": "If true, custom API route (/api) is active. Default true."
+            },
+            {
+                "name": "Enable WS",
+                "text": "If true, integrated WebSocket connections are active. Default true."
+            },
+            {
                 "name": "Server Started",
                 "text": "Fires when the server has successfully started."
             },
@@ -212,5 +255,11 @@
             }
         ]
     },
-    "isReleased": true
+    "isReleased": true,
+    "dependencies": [
+        {
+            "src": "ws",
+            "type": "npm"
+        }
+    ]
 }

@@ -45,6 +45,18 @@
                 "type": 0,
                 "name": "Auto Start",
                 "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "WS Channel"
+            },
+            {
+                "type": 2,
+                "name": "WS Data"
+            },
+            {
+                "type": 1,
+                "name": "Send WS Message"
             }
         ],
         "portsOut": [
