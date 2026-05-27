@@ -1,0 +1,44 @@
+{
+    "id": "bc942b08-9df2-4217-bfd1-213fb25a1e2f",
+    "authorName": "Antigravity",
+    "description": "An operator that controls Keynote using JavaScript for Automation (JXA).",
+    "category": "local",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Trigger"
+            },
+            {
+                "type": 5,
+                "name": "Request"
+            },
+            {
+                "type": 2,
+                "name": "Response"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Result"
+            },
+            {
+                "type": 1,
+                "name": "Error Trigger"
+            },
+            {
+                "type": 5,
+                "name": "Error Message"
+            },
+            {
+                "type": 5,
+                "name": "SSE Event Name"
+            }
+        ]
+    }
+}

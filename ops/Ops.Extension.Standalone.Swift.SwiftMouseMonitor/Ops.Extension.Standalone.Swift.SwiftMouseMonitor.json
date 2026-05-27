@@ -1,0 +1,121 @@
+{
+    "id": "e0ca4f5a-c600-47bf-939e-8184088fb7cf",
+    "created": 1778466100000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Swift-backed global mouse telemetry",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1778466100000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Hostname"
+            },
+            {
+                "type": 0,
+                "name": "Port",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "PPS Limit",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Update"
+            },
+            {
+                "type": 0,
+                "name": "Pos X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Pos Y",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Click"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Streams high-frequency real-time global mouse telemetry (position, clicks, scrolls) via WebSockets from the native macOS backend daemon.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Enable or disable global mouse telemetry listening."
+            },
+            {
+                "name": "Hostname",
+                "text": "Interface where the Swift server is running (default 127.0.0.1)."
+            },
+            {
+                "name": "Port",
+                "text": "Port where the Swift server is listening (default 8080)."
+            },
+            {
+                "name": "On Update",
+                "text": "Fires when any telemetry event (move, click, or scroll) is received."
+            },
+            {
+                "name": "Pos X",
+                "text": "Absolute X coordinate of the cursor on the primary display."
+            },
+            {
+                "name": "Pos Y",
+                "text": "Absolute Y coordinate of the cursor on the primary display."
+            },
+            {
+                "name": "Click",
+                "text": "Mouse button state string (e.g. 'MB1 down', 'MB2 up')."
+            },
+            {
+                "name": "Scroll Delta X",
+                "text": "Horizontal mouse wheel scroll delta value."
+            },
+            {
+                "name": "Scroll Delta Y",
+                "text": "Vertical mouse wheel scroll delta value."
+            }
+        ]
+    },
+    "isReleased": true
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.cables.SwiftSpeechToText</string>
+    <key>CFBundleName</key>
+    <string>SwiftSpeechToText</string>
+    <key>CFBundleVersion</key>
+    <string>1.0</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This operator requires microphone access to transcribe speech audio in real-time.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>This operator requires speech recognition authorization to transcribe speech to text.</string>
+</dict>
+</plist>

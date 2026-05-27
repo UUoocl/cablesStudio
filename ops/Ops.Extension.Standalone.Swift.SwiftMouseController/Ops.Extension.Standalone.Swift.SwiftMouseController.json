@@ -1,0 +1,87 @@
+{
+    "id": "8e6c71c4-54c7-4560-be87-5481d6d63428",
+    "created": 1778466600000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created to control global macOS mouse cursor position, clicks, drags, and scrolling using a native background sidecar process",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1778466600000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Emit"
+            },
+            {
+                "type": 3,
+                "name": "Mouse Object"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 3,
+                "name": "Emitted Mouse"
+            },
+            {
+                "type": 1,
+                "name": "On Emitted"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Controls mouse movement, absolute positioning, clicks, drags, and scrolling globally on macOS using a native background sidecar process.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Starts or stops the native Swift MouseController sidecar process and its WebSocket listener."
+            },
+            {
+                "name": "Emit",
+                "text": "Fires a trigger to synthesize and emit the virtual mouse actions globally."
+            },
+            {
+                "name": "Mouse Object",
+                "text": "An object containing optional properties: 'x' (coordinate), 'y' (coordinate), 'button' ('left', 'right', 'middle'), 'action' ('click', 'down', 'up', 'move', 'drag'), 'scrollX' (horiz scroll), and 'scrollY' (vert scroll)."
+            },
+            {
+                "name": "Emitted Mouse",
+                "text": "An object echoing the last successfully emitted mouse state configuration."
+            },
+            {
+                "name": "On Emitted",
+                "text": "Fires a trigger every time a virtual mouse event is successfully emitted globally."
+            },
+            {
+                "name": "Running",
+                "text": "True if the native mouse control sidecar process is running."
+            },
+            {
+                "name": "Status",
+                "text": "Human-readable status of the Swift sidecar process."
+            }
+        ]
+    },
+    "isReleased": true
+}

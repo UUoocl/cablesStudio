@@ -1,0 +1,108 @@
+{
+    "id": "c6ca4f5a-c600-47bf-939e-8184088fb7cf",
+    "created": 1778466130000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for high-performance Swift-backed Apple Vision person segmentation",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1778466130000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Quality Level index",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Segmentation Mask",
+                "objType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "On Mask Ready"
+            },
+            {
+                "type": 0,
+                "name": "Mask Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Mask Height",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Isolates a person in video/images and creates a segmentation mask in real-time using Apple's Vision framework and a native background sidecar process.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Render",
+                "text": "Trigger input to send the input texture frame to the Vision sidecar for segmentation."
+            },
+            {
+                "name": "Texture",
+                "text": "The WebGL input camera feed or video texture you wish to segment."
+            },
+            {
+                "name": "Segmentation Mask",
+                "text": "The output WebGL texture containing the resulting grayscale person segmentation mask."
+            },
+            {
+                "name": "On Mask Ready",
+                "text": "Trigger fired when a new segmentation mask frame is processed and ready."
+            },
+            {
+                "name": "Mask Width",
+                "text": "Width of the segmentation mask."
+            },
+            {
+                "name": "Mask Height",
+                "text": "Height of the segmentation mask."
+            },
+            {
+                "name": "Running",
+                "text": "True if the native sidecar process is running."
+            },
+            {
+                "name": "Status",
+                "text": "Human-readable status of the sidecar daemon."
+            }
+        ]
+    },
+    "isReleased": true
+}

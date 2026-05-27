@@ -1,0 +1,48 @@
+{
+    "id": "e9c12345-d8e7-4a7b-b003-888888888801",
+    "name": "Ops.Extension.Standalone.Swift.SwiftUvcGetDevices",
+    "summary": "Returns available UVC devices on macOS using a native Swift sidecar daemon.",
+    "authorName": "Antigravity",
+    "created": 1714204800000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Refresh Devices"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Devices"
+            },
+            {
+                "type": 2,
+                "name": "Device Names"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Out"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    }
+}

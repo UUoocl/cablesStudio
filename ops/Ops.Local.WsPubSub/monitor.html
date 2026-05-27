@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WsPubSub Telemetry Hub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #06070a;
+            --bg-grid: radial-gradient(circle at 50% 50%, #111422 0%, #06070a 100%);
+            --bg-card: rgba(13, 16, 27, 0.7);
+            --bg-card-hover: rgba(19, 23, 38, 0.85);
+            --bg-input: rgba(7, 9, 15, 0.8);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-color-hover: rgba(99, 102, 241, 0.35);
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-dark: #6b7280;
+            
+            --accent-primary: #6366f1;
+            --accent-primary-glow: rgba(99, 102, 241, 0.4);
+            --accent-success: #10b981;
+            --accent-success-glow: rgba(16, 185, 129, 0.3);
+            --accent-warning: #f59e0b;
+            --accent-warning-glow: rgba(245, 158, 11, 0.3);
+            --accent-danger: #ef4444;
+            --accent-danger-glow: rgba(239, 68, 68, 0.3);
+            
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-main);
+            background-image: var(--bg-grid);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            padding: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+        }
+
+        /* Beautiful Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: 380px minmax(0, 1fr);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 14px currentColor; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Glassmorphic Cards */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow-premium);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 1.75rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header banner */
+        .dashboard-header {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .brand-section h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-section p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+            font-weight: 400;
+        }
+
+        /* Connection Widget */
+        .connection-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ws-input {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            width: 240px;
+            transition: var(--transition-smooth);
+        }
+
+        .ws-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px var(--accent-primary-glow);
+        }
+
+        .btn {
+            background: var(--accent-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #4f46e5;
+            box-shadow: 0 0 12px var(--accent-primary-glow);
+        }
+
+        .btn-danger {
+            background: var(--accent-danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            box-shadow: 0 0 12px var(--accent-danger-glow);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(239, 68, 68, 0.08);
+            color: var(--accent-danger);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            transition: var(--transition-smooth);
+        }
+
+        .status-badge.connected {
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--accent-success);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        /* Sidebar Control Panel */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-subtitle {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Interactive publisher and tester form */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-primary-hover);
+        }
+
+        .form-control-textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        /* Tab Switcher */
+        .tab-switcher {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.25rem;
+            gap: 1rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.5rem 0.25rem 0.75rem 0.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 99px;
+            box-shadow: 0 0 8px var(--accent-primary-glow);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Connection / Client Nodes */
+        .client-list, .channel-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .client-node {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .client-node:hover {
+            border-color: var(--border-color-hover);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .client-node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .client-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .client-uptime {
+            font-size: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        .channel-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .channel-tag {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(99, 102, 241, 0.12);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .channel-tag.wildcard {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .channel-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border-color);
+        }
+
+        .channel-row-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-main);
+        }
+
+        .channel-row-count {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 2rem 0;
+            font-style: italic;
+        }
+
+        /* Right Column Dashboard Layout */
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        /* Logs console */
+        .terminal-panel {
+            display: flex;
+            flex-direction: column;
+            height: 580px;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .terminal-viewport {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            padding-right: 0.25rem;
+            min-width: 0;
+        }
+
+        /* Log lines */
+        .terminal-row {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.15);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            min-width: 0;
+        }
+
+        .terminal-row:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .terminal-row-summary {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+            min-width: 0;
+        }
+
+        .log-time {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            min-width: 75px;
+        }
+
+        .log-direction {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .log-direction.inbound {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-success);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .log-direction.outbound {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+        }
+
+        .log-direction.system {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-warning);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        .log-channel {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+
+        .log-preview {
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            font-size: 0.8rem;
+            min-width: 0;
+        }
+
+        /* Detail inspector */
+        .terminal-row-detail {
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.35);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .terminal-row.expanded .terminal-row-detail {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .detail-body {
+            padding: 1.25rem;
+        }
+
+        .detail-body pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #e5e7eb;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Quick Correlation tracker for RPC tester */
+        .correlation-tracker {
+            background: rgba(99, 102, 241, 0.04);
+            border: 1px dashed rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .correlation-tracker.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .correlation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .correlation-id {
+            font-family: 'JetBrains Mono', monospace;
+            color: #ffffff;
+        }
+
+        .correlation-status {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+        }
+
+        .correlation-status.waiting {
+            color: var(--accent-warning);
+        }
+
+        .correlation-status.resolved {
+            color: var(--accent-success);
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    
+    <!-- HEADER -->
+    <header class="dashboard-header">
+        <div class="brand-section">
+            <h1>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #818cf8;"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                WsPubSub Telemetry
+            </h1>
+            <p>Real-time visual diagnostic hub for Cables WebSocket pub/sub server</p>
+        </div>
+
+        <div class="connection-controls">
+            <input type="text" id="ws-url" class="ws-input" value="ws://127.0.0.1:8080/websocket" placeholder="ws://127.0.0.1:8080/websocket">
+            <button id="connect-btn" class="btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/></svg>
+                Connect
+            </button>
+            <button id="disconnect-btn" class="btn btn-danger" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>
+                Disconnect
+            </button>
+            <div id="connection-status" class="status-badge">
+                <span class="status-dot"></span>
+                <span id="connection-text">Disconnected</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- LEFT COLUMN: Status Panels & Interactors -->
+    <div class="sidebar">
+        
+        <!-- Live Counters -->
+        <div class="glass-card">
+            <h2 class="panel-title">Server Telemetry</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div id="stat-clients" class="stat-val">0</div>
+                    <div class="stat-label">Active Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div id="stat-channels" class="stat-val">0</div>
+                    <div class="stat-label">Active Channels</div>
+                </div>
+            </div>
+            
+            <h3 class="panel-subtitle">Diagnostics</h3>
+            
+            <div class="tab-switcher">
+                <button class="tab-btn active" onclick="switchTab('clients-tab')">Clients</button>
+                <button class="tab-btn" onclick="switchTab('channels-tab')">Channels</button>
+            </div>
+            
+            <!-- Clients Container -->
+            <div id="clients-tab" class="tab-content active">
+                <div id="client-list-container" class="client-list">
+                    <div class="empty-state">No clients connected.</div>
+                </div>
+            </div>
+            
+            <!-- Channels Container -->
+            <div id="channels-tab" class="tab-content">
+                <div id="channel-list-container" class="channel-list">
+                    <div class="empty-state">No active channels.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Tester & RPC Publisher -->
+        <div class="glass-card">
+            <h2 class="panel-title">Interactive Tester</h2>
+            
+            <div class="tab-switcher">
+                <button id="tab-btn-pub" class="tab-btn active" onclick="switchTesterTab('pub')">Publish Event</button>
+                <button id="tab-btn-rpc" class="tab-btn" onclick="switchTesterTab('rpc')">Call RPC Method</button>
+            </div>
+
+            <!-- Publish Tab -->
+            <div id="tester-pub-content" class="tab-content active">
+                <div class="form-group">
+                    <label for="pub-channel-input">Channel Name</label>
+                    <input type="text" id="pub-channel-input" class="form-control" value="obsEvents" placeholder="e.g. obsEvents">
+                </div>
+                <div class="form-group">
+                    <label for="pub-payload-input">JSON Message Payload</label>
+                    <textarea id="pub-payload-input" class="form-control form-control-textarea" placeholder="Enter JSON payload">{\n  "eventName": "slidechanged",\n  "state": {\n    "indexh": 1,\n    "indexv": 0\n  }\n}</textarea>
+                </div>
+                <button id="btn-execute-publish" class="btn" style="width: 100%; justify-content: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Publish Message
+                </button>
+            </div>
+
+            <!-- Call RPC Tab -->
+            <div id="tester-rpc-content" class="tab-content">
+                <div class="form-group">
+                    <label for="rpc-method-input">Method Name</label>
+                    <input type="text" id="rpc-method-input" class="form-control" value="obsRequest" placeholder="e.g. obsRequest">
+                </div>
+                <div class="form-group">
+                    <label for="rpc-payload-input">JSON Argument Payload</label>
+                    <textarea id="rpc-payload-input" class="form-control form-control-textarea" placeholder="Enter JSON parameters">{\n  "requestType": "GetSceneList",\n  "requestData": {}\n}</textarea>
+                </div>
+                <button id="btn-execute-rpc" class="btn" style="width: 100%; justify-content: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Invoke RPC Call
+                </button>
+
+                <!-- Correlation Response Tracker -->
+                <div id="rpc-correlation-card" class="correlation-tracker">
+                    <div class="correlation-header">
+                        <span>Asynchronous Correlation</span>
+                        <span id="corr-status-badge" class="correlation-status waiting">
+                            <span class="status-dot" style="animation-duration: 1s;"></span>
+                            <span id="corr-status-text">Pending</span>
+                        </span>
+                    </div>
+                    <div style="font-size: 0.8rem; margin-bottom: 0.5rem;">
+                        <strong>ID:</strong> <span id="corr-request-id" class="correlation-id">-</span>
+                    </div>
+                    <div id="corr-response-panel" style="display: none;">
+                        <div class="panel-subtitle" style="margin-top: 0.5rem; margin-bottom: 0.25rem;">Response Payload</div>
+                        <pre id="corr-response-pre" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: rgba(0,0,0,0.4); padding: 0.5rem; border-radius: 6px; overflow-x: auto; color: var(--accent-success);"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Scrolling Console log -->
+    <div class="workspace">
+        
+        <div class="glass-card terminal-panel">
+            
+            <div class="terminal-header">
+                <h2 class="panel-title" style="margin-bottom: 0;">Live Activity Stream</h2>
+                
+                <div class="filter-controls">
+                    <input type="text" id="filter-search" class="form-control" placeholder="Search logs..." style="width: 180px; padding: 0.4rem 0.75rem; font-size: 0.8rem;">
+                    
+                    <select id="filter-type" class="form-control" style="width: 120px; padding: 0.4rem 0.75rem; font-size: 0.8rem;">
+                        <option value="all">All Logs</option>
+                        <option value="inbound">Inbound</option>
+                        <option value="outbound">Outbound</option>
+                        <option value="system">System</option>
+                    </select>
+
+                    <button id="clear-btn" class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;">
+                        Clear Logs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Terminal output stream viewport -->
+            <div id="terminal-stream" class="terminal-viewport">
+                <div class="terminal-row" style="cursor: default; border-style: dashed;">
+                    <div class="terminal-row-summary" style="color: var(--text-dark);">
+                        <span class="log-time">SYSTEM</span>
+                        <span class="log-direction system">INFO</span>
+                        <span class="log-preview">Awaiting WebSocket connection. Check settings and press Connect above.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // Elements Selector
+    const wsUrlInput = document.getElementById('ws-url');
+    const connectBtn = document.getElementById('connect-btn');
+    const disconnectBtn = document.getElementById('disconnect-btn');
+    const connectionStatusBadge = document.getElementById('connection-status');
+    const connectionStatusText = document.getElementById('connection-text');
+    
+    const statClients = document.getElementById('stat-clients');
+    const statChannels = document.getElementById('stat-channels');
+    
+    const clientListContainer = document.getElementById('client-list-container');
+    const channelListContainer = document.getElementById('channel-list-container');
+    
+    const btnExecutePublish = document.getElementById('btn-execute-publish');
+    const pubChannelInput = document.getElementById('pub-channel-input');
+    const pubPayloadInput = document.getElementById('pub-payload-input');
+    
+    const btnExecuteRpc = document.getElementById('btn-execute-rpc');
+    const rpcMethodInput = document.getElementById('rpc-method-input');
+    const rpcPayloadInput = document.getElementById('rpc-payload-input');
+    
+    const rpcCorrelationCard = document.getElementById('rpc-correlation-card');
+    const corrRequestId = document.getElementById('corr-request-id');
+    const corrStatusBadge = document.getElementById('corr-status-badge');
+    const corrStatusText = document.getElementById('corr-status-text');
+    const corrResponsePanel = document.getElementById('corr-response-panel');
+    const corrResponsePre = document.getElementById('corr-response-pre');
+    
+    const terminalStream = document.getElementById('terminal-stream');
+    const clearBtn = document.getElementById('clear-btn');
+    const filterSearch = document.getElementById('filter-search');
+    const filterType = document.getElementById('filter-type');
+
+    let socket = null;
+    let pendingCalls = new Map(); // requestId -> correlation object
+    let clientsMap = new Map(); // clientId -> object
+    let activeTesterTab = 'pub';
+    let localClientMock = "monitor_" + Math.random().toString(36).substring(2, 6);
+
+    // Initial connection based on URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const wsParam = urlParams.get('ws');
+    if (wsParam) {
+        wsUrlInput.value = wsParam;
+    }
+
+    // Connect trigger
+    connectBtn.addEventListener('click', connectSocket);
+    disconnectBtn.addEventListener('click', disconnectSocket);
+    clearBtn.addEventListener('click', clearLogs);
+
+    function connectSocket() {
+        const url = wsUrlInput.value.trim();
+        logRow('system', 'SYSTEM', `Opening WebSocket link to: ${url}`);
+        
+        try {
+            socket = new WebSocket(url);
+            
+            socket.onopen = () => {
+                updateConnectionState(true);
+                logRow('system', 'SYSTEM', `Successfully connected to server.`);
+                
+                // 1. Subscribe to wildcard * channel to receive all standard publishes
+                subscribeToChannel('*');
+                
+                // 2. Subscribe to internal $system channel to capture live connection changes
+                subscribeToChannel('$system');
+                
+                // 3. Request initial state from server using custom RPC method
+                fetchServerState();
+            };
+            
+            socket.onmessage = (event) => {
+                let parsed = null;
+                try {
+                    parsed = JSON.parse(event.data);
+                } catch(e) {
+                    logRow('inbound', 'RAW MSG', event.data);
+                    return;
+                }
+                
+                handleIncomingMessage(parsed);
+            };
+            
+            socket.onclose = () => {
+                updateConnectionState(false);
+                logRow('system', 'SYSTEM', 'WebSocket session terminated.');
+                socket = null;
+                clearServerState();
+            };
+            
+            socket.onerror = (err) => {
+                logRow('system', 'ERROR', 'WebSocket error encountered.');
+                console.error(err);
+            };
+            
+        } catch (e) {
+            logRow('system', 'ERROR', `Failed to construct WebSocket client: ${e.message}`);
+        }
+    }
+
+    function disconnectSocket() {
+        if (socket) {
+            logRow('system', 'SYSTEM', 'Disconnecting manually...');
+            socket.close();
+        }
+    }
+
+    function subscribeToChannel(channel) {
+        if (!socket || socket.readyState !== WebSocket.OPEN) return;
+        const msg = {
+            type: 'subscribe',
+            channel: channel
+        };
+        socket.send(JSON.stringify(msg));
+        logRow('outbound', 'SUBSCRIBE', msg);
+    }
+
+    function fetchServerState() {
+        invokeRPC('getSystemState', {}, (err, responseData) => {
+            if (err) {
+                logRow('system', 'ERROR', `Failed to retrieve server telemetry: ${err}`);
+                return;
+            }
+            renderServerState(responseData);
+        });
+    }
+
+    function handleIncomingMessage(msg) {
+        const { type, channel, data, id, error } = msg;
+        
+        if (type === 'event') {
+            // Handle System telemetry channel events
+            if (channel === '$system' && data) {
+                handleSystemEvent(data);
+                logRow('system', `SYS: ${data.event}`, msg);
+                return;
+            }
+            
+            logRow('inbound', `EVENT: ${channel}`, msg);
+            return;
+        }
+        
+        if (type === 'response') {
+            logRow('inbound', `REPLY: ${id}`, msg);
+            
+            // Check pending RPC correlations
+            if (pendingCalls.has(id)) {
+                const handler = pendingCalls.get(id);
+                handler(error, data);
+                pendingCalls.delete(id);
+            }
+            return;
+        }
+
+        logRow('inbound', 'WS MESSAGE', msg);
+    }
+
+    function handleSystemEvent(systemMsg) {
+        // Real-time delta updates to avoid full fetching if possible
+        const { event, data } = systemMsg;
+        
+        if (event === 'client_connect') {
+            logRow('system', 'CONNECT', `New client connected: ${data.clientId}`);
+        } else if (event === 'client_disconnect') {
+            logRow('system', 'DISCONNECT', `Client disconnected: ${data.clientId}`);
+        } else if (event === 'subscribe') {
+            logRow('system', 'SUBSCRIBE', `Client ${data.clientId} joined ${data.channel}`);
+        } else if (event === 'unsubscribe') {
+            logRow('system', 'UNSUBSCRIBE', `Client ${data.clientId} left ${data.channel}`);
+        }
+        
+        // Fetch fresh state to keep in sync
+        fetchServerState();
+    }
+
+    function invokeRPC(method, params, callback) {
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
+            alert('Cannot execute: WebSocket not connected.');
+            return;
+        }
+        
+        const requestId = "call_" + Math.random().toString(36).substring(2, 9);
+        const msg = {
+            type: 'call',
+            id: requestId,
+            method: method,
+            data: params
+        };
+        
+        pendingCalls.set(requestId, callback);
+        socket.send(JSON.stringify(msg));
+        logRow('outbound', `CALL: ${method}`, msg);
+        
+        return requestId;
+    }
+
+    // Render server telemetry state lists
+    function renderServerState(state) {
+        const { clients = [], channels = [] } = state;
+        
+        statClients.textContent = clients.length;
+        // Filter out wildcard * and system channel from absolute user counts
+        const userChannels = channels.filter(ch => ch.channel !== '*' && ch.channel !== '$system');
+        statChannels.textContent = userChannels.length;
+        
+        // Clients view
+        if (clients.length === 0) {
+            clientListContainer.innerHTML = '<div class="empty-state">No clients connected.</div>';
+        } else {
+            clientListContainer.innerHTML = clients.map(client => {
+                const connectedDuration = formatDuration(Date.now() - client.connectedAt);
+                const isMonitor = client.subscribedChannels.includes('$system') || client.subscribedChannels.includes('*');
+                
+                const tags = client.subscribedChannels.map(ch => {
+                    const isSystem = ch.startsWith('$') || ch === '*';
+                    return `<span class="channel-tag ${isSystem ? 'wildcard' : ''}">${ch}</span>`;
+                }).join('');
+
+                return `
+                    <div class="client-node">
+                        <div class="client-node-header">
+                            <span class="client-id">${client.clientId} ${isMonitor ? '<span style="color:var(--accent-primary); font-size:0.75rem;">(Monitor)</span>' : ''}</span>
+                            <span class="client-uptime">${connectedDuration}</span>
+                        </div>
+                        <div class="channel-tags">
+                            ${tags || '<span style="color:var(--text-dark); font-size:0.75rem; font-style:italic;">No active channel subscriptions</span>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Channels view
+        const displayedChannels = channels.filter(ch => ch.channel !== '$system'); // Hide internal system list
+        if (displayedChannels.length === 0) {
+            channelListContainer.innerHTML = '<div class="empty-state">No active channels.</div>';
+        } else {
+            channelListContainer.innerHTML = displayedChannels.map(ch => {
+                const isWild = ch.channel === '*';
+                return `
+                    <div class="channel-row">
+                        <span class="channel-row-name" style="${isWild ? 'color: var(--accent-warning); font-weight:700;' : ''}">
+                            ${ch.channel} ${isWild ? '(Wildcard)' : ''}
+                        </span>
+                        <span class="channel-row-count">${ch.subscriberCount} subs</span>
+                    </div>
+                `;
+            }).join('');
+        }
+    }
+
+    function clearServerState() {
+        statClients.textContent = '0';
+        statChannels.textContent = '0';
+        clientListContainer.innerHTML = '<div class="empty-state">No clients connected.</div>';
+        channelListContainer.innerHTML = '<div class="empty-state">No active channels.</div>';
+    }
+
+    function updateConnectionState(isConnected) {
+        if (isConnected) {
+            connectionStatusBadge.classList.add('connected');
+            connectionStatusText.textContent = 'Connected';
+            connectBtn.style.display = 'none';
+            disconnectBtn.style.display = 'inline-flex';
+        } else {
+            connectionStatusBadge.classList.remove('connected');
+            connectionStatusText.textContent = 'Disconnected';
+            connectBtn.style.display = 'inline-flex';
+            disconnectBtn.style.display = 'none';
+        }
+    }
+
+    // Logger
+    function logRow(direction, channel, dataPayload) {
+        const timeStr = new Date().toLocaleTimeString();
+        const row = document.createElement('div');
+        row.className = 'terminal-row';
+        
+        let typeClass = 'system';
+        if (direction === 'inbound') typeClass = 'inbound';
+        if (direction === 'outbound') typeClass = 'outbound';
+        
+        const previewText = typeof dataPayload === 'object'
+            ? JSON.stringify(dataPayload)
+            : String(dataPayload);
+            
+        row.innerHTML = `
+            <div class="terminal-row-summary">
+                <span class="log-time">${timeStr}</span>
+                <span class="log-direction ${typeClass}">${direction}</span>
+                <span class="log-channel">${channel}</span>
+                <span class="log-preview">${escapeHtml(previewText)}</span>
+            </div>
+            <div class="terminal-row-detail">
+                <div class="detail-body">
+                    <pre>${escapeHtml(JSON.stringify(dataPayload, null, 2))}</pre>
+                </div>
+            </div>
+        `;
+        
+        row.addEventListener('click', () => {
+            row.classList.toggle('expanded');
+            // If expanding pushes viewport, maintain scroll position or adjust
+        });
+        
+        // Check if user is scrolled near the bottom before appending (tolerance 60px)
+        // Also always scroll on initial few elements
+        const isAtBottom = (terminalStream.scrollHeight - terminalStream.scrollTop - terminalStream.clientHeight <= 60) || (terminalStream.children.length <= 2);
+
+        terminalStream.appendChild(row);
+        
+        // Apply immediate filter check
+        applyFiltersToRow(row);
+
+        // Auto-scroll to bottom if they were already at the bottom
+        if (isAtBottom) {
+            requestAnimationFrame(() => {
+                terminalStream.scrollTop = terminalStream.scrollHeight;
+            });
+        }
+    }
+
+    function clearLogs() {
+        terminalStream.innerHTML = '';
+        logRow('system', 'SYSTEM', 'Logs cleared.');
+    }
+
+    // Filter Logic
+    filterSearch.addEventListener('input', applyLogsFilters);
+    filterType.addEventListener('change', applyLogsFilters);
+
+    function applyLogsFilters() {
+        const rows = terminalStream.querySelectorAll('.terminal-row');
+        rows.forEach(applyFiltersToRow);
+    }
+
+    function applyFiltersToRow(row) {
+        const typeFilter = filterType.value;
+        const searchVal = filterSearch.value.trim().toLowerCase();
+        
+        const summaryElement = row.querySelector('.terminal-row-summary');
+        if (!summaryElement) return;
+
+        const directionElement = summaryElement.querySelector('.log-direction');
+        const directionText = directionElement.textContent.toLowerCase();
+        const rowContent = row.textContent.toLowerCase();
+
+        let typeMatch = true;
+        if (typeFilter !== 'all') {
+            if (typeFilter === 'inbound' && !directionElement.classList.contains('inbound')) typeMatch = false;
+            if (typeFilter === 'outbound' && !directionElement.classList.contains('outbound')) typeMatch = false;
+            if (typeFilter === 'system' && !directionElement.classList.contains('system')) typeMatch = false;
+        }
+
+        let searchMatch = true;
+        if (searchVal) {
+            searchMatch = rowContent.includes(searchVal);
+        }
+
+        if (typeMatch && searchMatch) {
+            row.style.display = 'flex';
+        } else {
+            row.style.display = 'none';
+        }
+    }
+
+    // Exec publishers
+    btnExecutePublish.addEventListener('click', () => {
+        if (!socket || socket.readyState !== WebSocket.OPEN) {
+            alert('WebSocket is not connected.');
+            return;
+        }
+        
+        const channelName = pubChannelInput.value.trim();
+        const rawPayload = pubPayloadInput.value.trim();
+        
+        if (!channelName) {
+            alert('Please specify a valid channel name.');
+            return;
+        }
+        
+        let data = rawPayload;
+        try {
+            data = JSON.parse(rawPayload);
+        } catch(e) {
+            // Keep as string if parsing fails
+        }
+        
+        const msg = {
+            type: 'publish',
+            channel: channelName,
+            data: data
+        };
+        
+        socket.send(JSON.stringify(msg));
+        logRow('outbound', `PUB: ${channelName}`, msg);
+    });
+
+    btnExecuteRpc.addEventListener('click', () => {
+        const methodName = rpcMethodInput.value.trim();
+        const rawPayload = rpcPayloadInput.value.trim();
+        
+        if (!methodName) {
+            alert('Please specify an RPC method name.');
+            return;
+        }
+        
+        let params = {};
+        try {
+            params = JSON.parse(rawPayload);
+        } catch(e) {
+            alert(`Payload error: Failed to parse parameters as JSON. ${e.message}`);
+            return;
+        }
+        
+        // Show Correlation Tracker UI
+        rpcCorrelationCard.classList.add('active');
+        corrStatusBadge.className = 'correlation-status waiting';
+        corrStatusText.textContent = 'Waiting for Reply...';
+        corrResponsePanel.style.display = 'none';
+        corrResponsePre.textContent = '';
+        
+        const id = invokeRPC(methodName, params, (err, responseData) => {
+            if (err) {
+                corrStatusBadge.className = 'correlation-status';
+                corrStatusBadge.style.color = 'var(--accent-danger)';
+                corrStatusText.textContent = 'FAILED';
+                
+                corrResponsePanel.style.display = 'block';
+                corrResponsePre.style.color = 'var(--accent-danger)';
+                corrResponsePre.textContent = `Error details:\n${err}`;
+            } else {
+                corrStatusBadge.className = 'correlation-status resolved';
+                corrStatusText.textContent = 'RESOLVED';
+                
+                corrResponsePanel.style.display = 'block';
+                corrResponsePre.style.color = '#10b981';
+                corrResponsePre.textContent = JSON.stringify(responseData, null, 2);
+            }
+        });
+        
+        corrRequestId.textContent = id;
+    });
+
+    // Utilities
+    function switchTab(tabId) {
+        const tabs = document.querySelectorAll('.tab-switcher')[0].querySelectorAll('.tab-btn');
+        tabs.forEach(t => t.classList.remove('active'));
+        
+        const clickedTab = Array.from(tabs).find(t => t.textContent.toLowerCase() === tabId.split('-')[0]);
+        if (clickedTab) clickedTab.classList.add('active');
+        
+        document.getElementById('clients-tab').classList.remove('active');
+        document.getElementById('channels-tab').classList.remove('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    function switchTesterTab(mode) {
+        activeTesterTab = mode;
+        const btnPub = document.getElementById('tab-btn-pub');
+        const btnRpc = document.getElementById('tab-btn-rpc');
+        const contentPub = document.getElementById('tester-pub-content');
+        const contentRpc = document.getElementById('tester-rpc-content');
+        
+        if (mode === 'pub') {
+            btnPub.classList.add('active');
+            btnRpc.classList.remove('active');
+            contentPub.classList.add('active');
+            contentRpc.classList.remove('active');
+        } else {
+            btnPub.classList.remove('active');
+            btnRpc.classList.add('active');
+            contentPub.classList.remove('active');
+            contentRpc.classList.add('active');
+        }
+    }
+
+    function formatDuration(ms) {
+        if (ms < 1000) return `${ms}ms`;
+        const sec = Math.floor(ms / 1000);
+        if (sec < 60) return `${sec}s`;
+        const min = Math.floor(sec / 60);
+        const remSec = sec % 60;
+        return `${min}m ${remSec}s`;
+    }
+
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+</body>
+</html>

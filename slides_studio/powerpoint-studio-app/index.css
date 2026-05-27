@@ -1,0 +1,687 @@
+/* ==========================================================================
+   Keynote Studio Premium Design System (Zinc Dark Mode & Glassmorphism)
+   ========================================================================== */
+
+:root {
+    --bg-main: #09090b; /* zinc-950 */
+    --bg-card: rgba(20, 20, 23, 0.6); /* Zinc dark frosted */
+    --bg-hover: rgba(39, 39, 42, 0.6); /* zinc-800 */
+    --border-color: rgba(63, 63, 70, 0.35); /* zinc-700 */
+    --border-glow: rgba(59, 130, 246, 0.4); /* blue accent glow */
+    
+    --text-primary: #f4f4f5; /* zinc-100 */
+    --text-muted: #a1a1aa; /* zinc-400 */
+    --text-accent: #60a5fa; /* zinc-300 / blue */
+    
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-emerald: #10b981;
+    --accent-red: #ef4444;
+    
+    --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-stack);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(82, 82, 91, 0.4); /* zinc-600 */
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(113, 113, 122, 0.6); /* zinc-500 */
+}
+
+/* ==========================================================================
+   Header Component
+   ========================================================================== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 24px;
+    background: rgba(9, 9, 11, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 100;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-glow {
+    width: 10px;
+    height: 10px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent-blue);
+    animation: pulse 2s infinite alternate;
+}
+
+h1 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #ffffff 30%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.active-slide-title {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-left: 1px solid var(--border-color);
+    padding-left: 16px;
+}
+
+.status-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    background: rgba(39, 39, 42, 0.4);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.status-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    box-shadow: 0 0 8px var(--accent-red);
+}
+
+.status-badge.connected .status-indicator {
+    background: var(--accent-emerald);
+    box-shadow: 0 0 8px var(--accent-emerald);
+}
+
+.layout-selector {
+    background: rgba(20, 20, 23, 0.8);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.layout-selector:hover, .layout-selector:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
+}
+
+/* ==========================================================================
+   Main Grid Layout
+   ========================================================================== */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+    height: calc(100vh - 64px);
+    position: relative;
+}
+
+.view-section {
+    display: none;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.view-section.active {
+    display: flex;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* ==========================================================================
+   Studio View Layout
+   ========================================================================== */
+.studio-grid {
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+.top-panes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    height: 40%;
+    min-height: 240px;
+}
+
+.pane {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pane.active-pane {
+    border-color: var(--border-glow);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+.pane-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(9, 9, 11, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--border-color);
+    z-index: 10;
+}
+
+.pane-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+.pane-placeholder {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.bottom-panes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    height: 60%;
+}
+
+.table-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.table-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    background: rgba(39, 39, 42, 0.8);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--text-muted);
+}
+
+.btn-primary {
+    background: var(--accent-blue);
+    border-color: transparent;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+.btn-danger {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.4);
+}
+
+/* Customizing Tabulator for sleek dark mode */
+.tabulator-custom {
+    flex: 1;
+    overflow: hidden;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px;
+    background: #09090b !important;
+}
+
+.tabulator {
+    background: #09090b !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.tabulator-header {
+    background: #18181b !important;
+    border-bottom: 2px solid var(--border-color) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tabulator-col {
+    background: #18181b !important;
+    border-right: 1px solid var(--border-color) !important;
+    color: #ffffff !important;
+}
+
+.tabulator-col-title {
+    color: #ffffff !important;
+}
+
+.tabulator-row {
+    background: #09090b !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: #f4f4f5 !important;
+    font-size: 0.875rem !important;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tabulator-cell {
+    border-right: 1px solid rgba(63, 63, 70, 0.3) !important;
+    padding: 12px 8px !important;
+    color: #f4f4f5 !important;
+}
+
+.tabulator-row:hover {
+    background-color: #27272a !important;
+    color: #ffffff !important;
+}
+
+.tabulator-row.tabulator-selected {
+    background-color: rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.tabulator-row.tabulator-selected .tabulator-cell {
+    color: #ffffff !important;
+}
+
+/* Ensure editor inputs in cells are perfectly high-contrast */
+.tabulator-cell input {
+    background: #18181b !important;
+    color: #ffffff !important;
+    border: 1px solid var(--accent-blue) !important;
+    border-radius: 4px;
+    padding: 4px 8px !important;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+}
+
+/* Table placeholder / empty state */
+.tabulator-placeholder {
+    background: #09090b !important;
+}
+
+.tabulator-placeholder span {
+    color: #a1a1aa !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Selected Slide Metadata Editor Panel */
+.editor-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.editor-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.form-input {
+    width: 100%;
+    background: rgba(9, 9, 11, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: var(--accent-blue);
+    background: rgba(9, 9, 11, 0.8);
+}
+
+.editor-notes-preview {
+    background: rgba(9, 9, 11, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    min-height: 80px;
+    max-height: 140px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+/* ==========================================================================
+   Teleprompter View Layout
+   ========================================================================== */
+.teleprompter-grid {
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.prompter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+}
+
+.prompter-settings-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.prompter-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.prompter-slider {
+    width: 120px;
+    accent-color: var(--accent-blue);
+    cursor: pointer;
+}
+
+.prompter-color {
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.prompter-body {
+    flex: 1;
+    background: #141414;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.prompter-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 60px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.prompter-overlay.top {
+    top: 0;
+    background: linear-gradient(to bottom, #141414 10%, transparent 100%);
+}
+
+.prompter-overlay.bottom {
+    bottom: 0;
+    background: linear-gradient(to top, #141414 10%, transparent 100%);
+}
+
+.prompter-text-container {
+    height: 100%;
+    overflow-y: auto;
+    padding: 60px 40px;
+    text-align: center;
+    scroll-behavior: smooth;
+}
+
+.prompter-text {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #ffffff;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    padding-bottom: 100vh;
+}
+
+.prompter-reading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 80px;
+    transform: translateY(-50%);
+    border-top: 1px dashed rgba(255, 255, 255, 0.15);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.02);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ==========================================================================
+   OBS Settings Layout
+   ========================================================================== */
+.settings-grid {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 40px;
+}
+
+.settings-grid.active {
+    display: grid;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.settings-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ==========================================================================
+   Utility Animations & States
+   ========================================================================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    from { opacity: 0.6; box-shadow: 0 0 8px var(--accent-blue); }
+    to { opacity: 1; box-shadow: 0 0 16px var(--accent-blue); }
+}
+
+/* ==========================================================================
+   Toast Notification System
+   ========================================================================== */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 9999;
+}
+
+.toast {
+    background: rgba(20, 20, 23, 0.95);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    min-width: 250px;
+}
+
+.toast.success {
+    border-left: 3px solid var(--accent-emerald);
+}
+
+.toast.error {
+    border-left: 3px solid var(--accent-red);
+}
+
+.toast.info {
+    border-left: 3px solid var(--accent-blue);
+}
+
+@keyframes toastIn {
+    from { transform: translateX(100%) translateY(0); opacity: 0; }
+    to { transform: translateX(0) translateY(0); opacity: 1; }
+}

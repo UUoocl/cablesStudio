@@ -65,3 +65,89 @@ To connect the generic `WsPubSub` operator to handle OBS requests and events:
 5. Connect `ObsEvent`'s **`Received`** trigger output to `WsPubSub`'s **`Publish`** trigger input.
 
 This completes the real-time event pipeline entirely inside your Cables visual patch!
+
+---
+
+## Telemetry & Monitoring Dashboard
+
+The **WsPubSub** operator comes equipped with a built-in premium visual diagnostic dashboard, allowing real-time tracking of active clients, channel subscription registries, publishes, and RPC correlate transactions.
+
+### Accessing the Dashboard
+
+When the Cables HTTP File Server (or Fastify server) is active:
+1. Navigate your web browser to the server root: `http://127.0.0.1:8080/` (or your custom host/port combination).
+2. Click **WsPubSub Telemetry Hub** (or go directly to `http://127.0.0.1:8080/Ops.Local.WsPubSub/monitor.html`).
+3. Set your WebSocket path (e.g. `ws://127.0.0.1:8080/websocket`) and click **Connect**.
+
+---
+
+## Advanced Developer Instrumentation
+
+To support advanced monitoring, the WebSocket server includes generic telemetry APIs:
+
+### 1. Wildcard Subscriptions (`*`)
+Clients can subscribe to the wildcard channel `"*"` to receive a real-time copy of every single message published across **all** channels on the server.
+
+```json
+{
+  "type": "subscribe",
+  "channel": "*"
+}
+```
+
+### 2. Live System Events (`$system`)
+The server publishes connections and subscription state alterations on the `"$system"` channel. Telemetry hubs can subscribe to `"$system"` to receive instantaneous updates:
+
+*   **Client Connected**:
+    ```json
+    {
+      "type": "event",
+      "channel": "$system",
+      "data": {
+        "event": "client_connect",
+        "timestamp": 1716712345678,
+        "data": { "clientId": "client_abc123", "connectedAt": 1716712345678 }
+      }
+    }
+    ```
+*   **Client Subscribed**:
+    ```json
+    {
+      "type": "event",
+      "channel": "$system",
+      "data": {
+        "event": "subscribe",
+        "timestamp": 1716712350000,
+        "data": { "clientId": "client_abc123", "channel": "obsEvents" }
+      }
+    }
+    ```
+
+### 3. Server State Querying (`getSystemState`)
+Clients can query the current active connections and channels on-demand by invoking the `getSystemState` RPC method:
+
+*   **Request**:
+    ```json
+    {
+      "type": "call",
+      "id": "my_req_id",
+      "method": "getSystemState",
+      "data": {}
+    }
+    ```
+*   **Response**:
+    ```json
+    {
+      "type": "response",
+      "id": "my_req_id",
+      "data": {
+        "clients": [
+          { "clientId": "client_abc123", "connectedAt": 1716712345678, "subscribedChannels": ["obsEvents"] }
+        ],
+        "channels": [
+          { "channel": "obsEvents", "subscriberCount": 1 }
+        ]
+      }
+    }
+    ```
+

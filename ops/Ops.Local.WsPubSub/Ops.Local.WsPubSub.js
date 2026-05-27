@@ -23,6 +23,7 @@ const pendingCalls = new Map(); // requestId -> ws client
 let server = null;
 let wss = null;
 let currentOnUpgrade = null;
+let wsConnectionHandler = null;
 const clients = new Set();
 const subscriptions = new Map(); // channelName -> Set of ws clients
 
@@ -48,23 +49,38 @@ function setup() {
     if (!server) return;
 
     try {
-        wss = new WebSocketServer({ noServer: true });
+        let isShared = false;
+        if (server.wss) {
+            wss = server.wss;
+            isShared = true;
+            op.log("[WsPubSub] Sharing WebSocket Server instance from HTTP Server");
+        } else {
+            wss = new WebSocketServer({ noServer: true });
+            currentOnUpgrade = (request, socket, head) => {
+                const pathname = url.parse(request.url).pathname;
+                if (pathname === '/websocket' || pathname === '/websocket/') {
+                    wss.handleUpgrade(request, socket, head, (wsConnection) => {
+                        wss.emit('connection', wsConnection, request);
+                    });
+                }
+            };
+            server.on('upgrade', currentOnUpgrade);
+            op.log("[WsPubSub] Created custom standalone WebSocket Server");
+        }
 
-        currentOnUpgrade = (request, socket, head) => {
-            const pathname = url.parse(request.url).pathname;
-            if (pathname === '/websocket' || pathname === '/websocket/') {
-                wss.handleUpgrade(request, socket, head, (wsConnection) => {
-                    wss.emit('connection', wsConnection, request);
-                });
-            }
-        };
+        wsConnectionHandler = (ws) => {
+            if (clients.has(ws)) return; // Prevent double registration
 
-        server.on('upgrade', currentOnUpgrade);
-
-        wss.on('connection', (ws) => {
             clients.add(ws);
+            ws.clientId = "client_" + Math.random().toString(36).substring(2, 9);
+            ws.connectedAt = Date.now();
             ws.subscribedChannels = new Set();
             updateClientsCount();
+
+            broadcastSystemEvent("client_connect", {
+                clientId: ws.clientId,
+                connectedAt: ws.connectedAt
+            });
 
             ws.on('message', (rawMsg) => {
                 let msg = null;
@@ -82,60 +98,70 @@ function setup() {
 
                 const { type, channel, data, id, method } = msg;
 
-                switch (type) {
-                    case 'subscribe':
-                        if (channel) {
-                            ws.subscribedChannels.add(channel);
-                            if (!subscriptions.has(channel)) {
-                                subscriptions.set(channel, new Set());
-                            }
-                            subscriptions.get(channel).add(ws);
-                            op.log("[WsPubSub] Client subscribed to channel:", channel);
+                // Handle Subscriptions & Calls
+                if (type === 'subscribe') {
+                    if (channel) {
+                        ws.subscribedChannels.add(channel);
+                        if (!subscriptions.has(channel)) {
+                            subscriptions.set(channel, new Set());
                         }
-                        break;
+                        subscriptions.get(channel).add(ws);
+                        op.log("[WsPubSub] Client subscribed to channel:", channel);
 
-                    case 'unsubscribe':
-                        if (channel) {
-                            ws.subscribedChannels.delete(channel);
-                            if (subscriptions.has(channel)) {
-                                subscriptions.get(channel).delete(ws);
-                                if (subscriptions.get(channel).size === 0) {
-                                    subscriptions.delete(channel);
-                                }
-                            }
-                            op.log("[WsPubSub] Client unsubscribed from channel:", channel);
-                        }
-                        break;
+                        broadcastSystemEvent("subscribe", {
+                            clientId: ws.clientId,
+                            channel: channel
+                        });
+                    }
+                    return;
+                }
 
-                    case 'publish':
-                        if (channel) {
-                            // Forward message to all other subscribers of the channel
-                            broadcastToChannel(channel, data, ws);
-
-                            // Output to Cables
-                            outReceivedChannel.set(channel);
-                            outReceivedData.set(data);
-                            outMessageReceived.trigger();
-
-                            // Also route obsRequests channel publishes to Request/Response in patch
-                            if (channel === 'obsRequests' && data) {
-                                const reqEnvelope = {
-                                    requestId: "channel_" + Math.random().toString(36).substring(2, 9),
-                                    requestType: data.requestType || "RequestBatch",
-                                    requestData: data.requestData || data.requests || data
-                                };
-                                outRequestData.set(reqEnvelope);
-                                outOnRequest.trigger();
+                if (type === 'unsubscribe') {
+                    if (channel) {
+                        ws.subscribedChannels.delete(channel);
+                        if (subscriptions.has(channel)) {
+                            subscriptions.get(channel).delete(ws);
+                            if (subscriptions.get(channel).size === 0) {
+                                subscriptions.delete(channel);
                             }
                         }
-                        break;
+                        op.log("[WsPubSub] Client unsubscribed from channel:", channel);
 
-                    case 'call':
-                        handleClientCall(ws, id, method, data);
-                        break;
+                        broadcastSystemEvent("unsubscribe", {
+                            clientId: ws.clientId,
+                            channel: channel
+                        });
+                    }
+                    return;
+                }
 
-                    default:
-                        op.logWarn("[WsPubSub] Unknown message type:", type);
+                if (type === 'call') {
+                    handleClientCall(ws, id, method, data);
+                    return;
+                }
+
+                // If it has channel, treat as a publish event (optimized for HttpFileServer flat protocol)
+                if (channel) {
+                    const payloadData = data !== undefined ? data : msg.data;
+
+                    // Forward message to all other subscribers of the channel
+                    broadcastToChannel(channel, payloadData, ws);
+
+                    // Output to Cables
+                    outReceivedChannel.set(channel);
+                    outReceivedData.set(payloadData);
+                    outMessageReceived.trigger();
+
+                    // Also route obsRequests channel publishes to Request/Response in patch
+                    if (channel === 'obsRequests' && payloadData) {
+                        const reqEnvelope = {
+                            requestId: "channel_" + Math.random().toString(36).substring(2, 9),
+                            requestType: payloadData.requestType || "RequestBatch",
+                            requestData: payloadData.requestData || payloadData.requests || payloadData
+                        };
+                        outRequestData.set(reqEnvelope);
+                        outOnRequest.trigger();
+                    }
                 }
             });
 
@@ -147,16 +173,47 @@ function setup() {
                 op.logWarn("[WsPubSub] Client error:", err);
                 removeClient(ws);
             });
-        });
+        };
+
+        wss.on('connection', wsConnectionHandler);
+
+        // Retroactively capture and register any clients already connected to the HttpFileServer
+        if (isShared && server.wsClients && server.wsClients.size > 0) {
+            server.wsClients.forEach(ws => {
+                wsConnectionHandler(ws);
+            });
+        }
 
     } catch (err) {
         op.logError("[WsPubSub] Error setting up WebSocket Server:", err);
     }
 }
 
+function broadcastSystemEvent(eventType, eventData) {
+    const data = {
+        event: eventType,
+        timestamp: Date.now(),
+        data: eventData
+    };
+    broadcastToChannel("$system", data, null);
+}
+
 function broadcastToChannel(channel, data, excludeWs) {
-    const subscribers = subscriptions.get(channel);
-    if (!subscribers || subscribers.size === 0) return;
+    const subscribers = new Set();
+    
+    // Add subscribers of the specific channel
+    const directSubs = subscriptions.get(channel);
+    if (directSubs) {
+        directSubs.forEach(ws => subscribers.add(ws));
+    }
+    
+    // Also include any wildcard subscribers listening to ALL channels
+    const wildcardSubs = subscriptions.get("*");
+    if (wildcardSubs) {
+        wildcardSubs.forEach(ws => subscribers.add(ws));
+    }
+
+    if (subscribers.size === 0) return;
 
     const payload = JSON.stringify({
         type: 'event',
@@ -216,6 +273,29 @@ function handleClientCall(ws, id, method, data) {
         return;
     }
 
+    if (method === 'getSystemState') {
+        const clientList = Array.from(clients).map(c => ({
+            clientId: c.clientId,
+            connectedAt: c.connectedAt,
+            subscribedChannels: Array.from(c.subscribedChannels || [])
+        }));
+        
+        const channelList = Array.from(subscriptions.keys()).map(channel => ({
+            channel: channel,
+            subscriberCount: subscriptions.get(channel).size
+        }));
+
+        ws.send(JSON.stringify({
+            type: 'response',
+            id: id,
+            data: {
+                clients: clientList,
+                channels: channelList
+            }
+        }));
+        return;
+    }
+
 
     if (method === 'obsRequest') {
         if (data && (data.requestType || data.requests)) {
@@ -262,6 +342,9 @@ function removeClient(ws) {
         });
     }
     updateClientsCount();
+    broadcastSystemEvent("client_disconnect", {
+        clientId: ws.clientId
+    });
 }
 
 function updateClientsCount() {
@@ -276,12 +359,21 @@ function cleanup() {
         currentOnUpgrade = null;
     }
 
-    if (wss) {
+    if (wss && wsConnectionHandler) {
+        try {
+            wss.off('connection', wsConnectionHandler);
+        } catch(e) {}
+    }
+
+    // Only close if we created it (not shared with HttpFileServer)
+    if (wss && (!server || wss !== server.wss)) {
         try {
             wss.close();
         } catch(e) {}
-        wss = null;
     }
+
+    wss = null;
+    wsConnectionHandler = null;
 
     clients.clear();
     subscriptions.clear();

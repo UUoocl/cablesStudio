@@ -1,0 +1,327 @@
+import Foundation
+import Metal
+import CoreGraphics
+
+typealias ServerInitFunc = @convention(c) (AnyObject, Selector, NSString?, AnyObject, NSDictionary?) -> AnyObject?
+typealias PublishFrameTextureFunc = @convention(c) (AnyObject, Selector, AnyObject, AnyObject, NSRect, Bool) -> Void
+typealias ServerStopFunc = @convention(c) (AnyObject, Selector) -> Void
+
+final class WebSocketClient: @unchecked Sendable {
+    private let url: URL
+    private var webSocketTask: URLSessionWebSocketTask?
+    private var isConnected = false
+    private let lock = NSLock()
+    private var reconnectTimer: Task<Void, Never>?
+    private let onMessage: @Sendable (String) -> Void
+    private let onBinaryMessage: @Sendable (Data) -> Void
+    
+    init(url: URL, onMessage: @escaping @Sendable (String) -> Void, onBinaryMessage: @escaping @Sendable (Data) -> Void) {
+        self.url = url
+        self.onMessage = onMessage
+        self.onBinaryMessage = onBinaryMessage
+    }
+    
+    func connect() {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        guard !isConnected else { return }
+        let session = URLSession(configuration: .default)
+        let task = session.webSocketTask(with: url)
+        self.webSocketTask = task
+        self.isConnected = true
+        task.resume()
+        print("🔌 Connecting to local Cables Standalone WebSocket server at \(url.absoluteString)...")
+        listenForMessages(task: task)
+    }
+    
+    func disconnect() {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        reconnectTimer?.cancel()
+        reconnectTimer = nil
+        webSocketTask?.cancel(with: .goingAway, reason: nil)
+        webSocketTask = nil
+        isConnected = false
+        print("🛑 WebSocket disconnected.")
+    }
+    
+    func send(message: String) {
+        lock.lock()
+        let activeTask = webSocketTask
+        let connected = isConnected
+        lock.unlock()
+        
+        guard connected, let task = activeTask else { return }
+        let wsMessage = URLSessionWebSocketTask.Message.string(message)
+        task.send(wsMessage) { error in
+            if let error = error {
+                print("❌ WebSocket Send Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func listenForMessages(task: URLSessionWebSocketTask) {
+        task.receive { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let message):
+                switch message {
+                case .string(let text):
+                    self.onMessage(text)
+                case .data(let data):
+                    self.onBinaryMessage(data)
+                @unknown default:
+                    break
+                }
+                self.listenForMessages(task: task)
+            case .failure(let error):
+                print("⚠️ WebSocket Connection lost/closed: \(error.localizedDescription)")
+                self.handleDisconnect()
+            }
+        }
+    }
+    
+    private func handleDisconnect() {
+        lock.lock()
+        self.isConnected = false
+        self.webSocketTask = nil
+        reconnectTimer?.cancel()
+        reconnectTimer = Task {
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            guard !Task.isCancelled else { return }
+            print("🔄 Attempting automatic reconnection to Cables server...")
+            self.connect()
+        }
+        lock.unlock()
+    }
+}
+
+final class SyphonServerManager: @unchecked Sendable {
+    private var currentServer: AnyObject?
+    private var currentName: String?
+    private let device: MTLDevice
+    private let commandQueue: MTLCommandQueue
+    private let lock = NSLock()
+    
+    private var serverClass: AnyClass?
+    private var publishFunc: (@convention(c) (AnyObject, Selector, AnyObject, AnyObject, NSRect, Bool) -> Void)?
+    private var stopFunc: (@convention(c) (AnyObject, Selector) -> Void)?
+    
+    init(device: MTLDevice) {
+        self.device = device
+        self.commandQueue = device.makeCommandQueue()!
+        
+        if let serverClass = NSClassFromString("SyphonMetalServer") {
+            self.serverClass = serverClass
+            
+            if let publishMethod = class_getInstanceMethod(serverClass, Selector(("publishFrameTexture:onCommandBuffer:imageRegion:flipped:"))) {
+                self.publishFunc = unsafeBitCast(method_getImplementation(publishMethod), to: PublishFrameTextureFunc.self)
+            }
+            
+            if let stopMethod = class_getInstanceMethod(serverClass, Selector(("stop"))) {
+                self.stopFunc = unsafeBitCast(method_getImplementation(stopMethod), to: ServerStopFunc.self)
+            }
+        }
+    }
+    
+    func updateServer(name: String) {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        if currentServer != nil && currentName == name {
+            return // Name hasn't changed, reuse server
+        }
+        
+        // Stop current server if any
+        if let server = currentServer, let stop = stopFunc {
+            stop(server, Selector(("stop")))
+            currentServer = nil
+            print("Stopped previous Syphon server.")
+        }
+        
+        guard let serverClass = serverClass else {
+            print("SyphonMetalServer class not loaded.")
+            return
+        }
+        
+        guard let method = class_getInstanceMethod(serverClass, Selector(("initWithName:device:options:"))) else {
+            print("Could not find initWithName:device:options: method.")
+            return
+        }
+        
+        let initFunc = unsafeBitCast(method_getImplementation(method), to: ServerInitFunc.self)
+        let allocatedServer = serverClass.alloc()
+        
+        guard let server = initFunc(allocatedServer, Selector(("initWithName:device:options:")), name as NSString, self.device, nil) else {
+            print("Failed to initialize SyphonMetalServer.")
+            return
+        }
+        
+        self.currentServer = server
+        self.currentName = name
+        print("🚀 Successfully started Syphon server: \(name)")
+    }
+    
+    func publishFrame(data: Data) {
+        lock.lock()
+        let server = currentServer
+        let publish = publishFunc
+        lock.unlock()
+        
+        guard let server = server, let publish = publish else { return }
+        
+        // binary data package:
+        // Bytes 0-3: width (UInt32 little endian)
+        // Bytes 4-7: height (UInt32 little endian)
+        // Bytes 8...: raw RGBA pixels
+        guard data.count > 8 else { return }
+        
+        let width = data.subdata(in: 0..<4).withUnsafeBytes { $0.load(as: UInt32.self) }
+        let height = data.subdata(in: 4..<8).withUnsafeBytes { $0.load(as: UInt32.self) }
+        
+        let w = Int(width)
+        let h = Int(height)
+        
+        guard w > 0, h > 0, data.count >= 8 + w * h * 4 else { return }
+        
+        // Read raw RGBA bytes
+        let pixelBytes = [UInt8](data.subdata(in: 8..<8 + w * h * 4))
+        
+        // Create MTLTexture descriptor
+        let descriptor = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .rgba8Unorm,
+            width: w,
+            height: h,
+            mipmapped: false
+        )
+        descriptor.usage = [.shaderRead, .shaderWrite]
+        
+        guard let texture = device.makeTexture(descriptor: descriptor) else {
+            print("❌ Failed to create MTLTexture.")
+            return
+        }
+        
+        let region = MTLRegionMake2D(0, 0, w, h)
+        texture.replace(region: region, mipmapLevel: 0, withBytes: pixelBytes, bytesPerRow: w * 4)
+        
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+            print("❌ Failed to create MTLCommandBuffer.")
+            return
+        }
+        
+        let rect = NSRect(x: 0, y: 0, width: CGFloat(w), height: CGFloat(h))
+        
+        // Syphon coordinates are standard, WebGL reads pixels bottom-to-top, so we flip if necessary.
+        // We set flipped to true so that it appears oriented correctly in standard Syphon clients!
+        publish(server, Selector(("publishFrameTexture:onCommandBuffer:imageRegion:flipped:")), texture, commandBuffer, rect, true)
+        commandBuffer.commit()
+    }
+}
+
+final class Session: @unchecked Sendable {
+    var wsClient: WebSocketClient?
+    var serverManager: SyphonServerManager?
+    
+    func start(host: String, port: Int, device: MTLDevice) {
+        let serverUrl = URL(string: "ws://\(host):\(port)")!
+        
+        self.serverManager = SyphonServerManager(device: device)
+        
+        let ws = WebSocketClient(url: serverUrl, onMessage: { [weak self] jsonStr in
+            guard let self = self,
+                  let data = jsonStr.data(using: .utf8),
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let type = json["type"] as? String else {
+                return
+            }
+            
+            if type == "serverName" {
+                let name = json["name"] as? String ?? "Cables_Output"
+                self.serverManager?.updateServer(name: name)
+            }
+        }, onBinaryMessage: { [weak self] binaryData in
+            self?.serverManager?.publishFrame(data: binaryData)
+        })
+        
+        self.wsClient = ws
+        ws.connect()
+    }
+}
+
+func loadSyphonFramework() -> Bool {
+    let parentDir = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent()
+    
+    let paths = [
+        parentDir.appendingPathComponent("Frameworks/Syphon.framework").path,
+        parentDir.appendingPathComponent("../Frameworks/Syphon.framework").path,
+        "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Syphon/Ops.Extension.Standalone.SyphonIn/node_modules/node-syphon/dist/Frameworks/Syphon.framework",
+        "/Library/Frameworks/Syphon.framework",
+        NSHomeDirectory() + "/Library/Frameworks/Syphon.framework"
+    ]
+    
+    for path in paths {
+        if FileManager.default.fileExists(atPath: path) {
+            if let bundle = Bundle(path: path), bundle.load() {
+                print("✅ Successfully loaded Syphon.framework from \(path)")
+                return true
+            }
+        }
+    }
+    return false
+}
+
+// ----------------------------------------------------
+// Executable Entry Point
+// ----------------------------------------------------
+
+let arguments = CommandLine.arguments
+var host = "127.0.0.1"
+var port = 8080
+
+var i = 1
+while i < arguments.count {
+    if arguments[i] == "--host" || arguments[i] == "-h", i + 1 < arguments.count {
+        host = arguments[i + 1]
+        i += 1
+    } else if arguments[i] == "--port" || arguments[i] == "-p", i + 1 < arguments.count {
+        if let parsedPort = Int(arguments[i + 1]) {
+            port = parsedPort
+        }
+        i += 1
+    }
+    i += 1
+}
+
+// 1. Dynamic Framework Loading
+guard loadSyphonFramework() else {
+    print("❌ Failed to load Syphon.framework from any standard search path.")
+    exit(1)
+}
+
+// 2. Metal Setup
+guard let device = MTLCreateSystemDefaultDevice() else {
+    print("❌ Failed to create system default Metal Device.")
+    exit(1)
+}
+
+// 3. Start Session
+let session = Session()
+session.start(host: host, port: port, device: device)
+
+// 4. Parent Lifecycle Tracking (Prevent Orphan Processes)
+Task {
+    while true {
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        if getppid() == 1 {
+            print("💀 Parent process exited (adopted by PID 1). Self-terminating...")
+            exit(0)
+        }
+    }
+}
+
+print("💡 Activating Swift Syphon Server sidecar process, waiting for events...")
+
+// Run loop keep-alive
+try await Task.sleep(nanoseconds: UInt64.max)

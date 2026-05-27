@@ -205,6 +205,8 @@ function start()
                 try
                 {
                     wss = new WebSocketServer({ "server": server });
+                    server.wss = wss;
+                    server.wsClients = wsClients;
                     
                     wss.on("connection", (ws) =>
                     {
@@ -499,6 +501,8 @@ function stop()
 
     if (server)
     {
+        server.wss = null;
+        server.wsClients = null;
         server.close();
         server = null;
         outServerInstance.set(null);

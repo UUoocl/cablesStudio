@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keynote Studio</title>
+    <!-- Tabulator and Local Stylesheets -->
+    <link rel="stylesheet" href="css/tabulator.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header>
+        <div class="brand-section">
+            <div class="logo-glow"></div>
+            <h1>Keynote Studio</h1>
+            <div class="active-slide-title" id="active-slide-name">No active slide</div>
+        </div>
+        
+        <div class="status-group">
+            <div class="status-badge" id="cables-status">
+                <div class="status-indicator"></div>
+                Cables Standalone
+            </div>
+            
+            <div class="status-badge" id="obs-status">
+                <div class="status-indicator"></div>
+                OBS WebSocket
+            </div>
+            
+            <select class="layout-selector" id="layout-select">
+                <option value="studio">Studio Grid</option>
+                <option value="teleprompter">Teleprompter</option>
+                <option value="settings">OBS Settings</option>
+            </select>
+        </div>
+    </header>
+
+    <main>
+        <!-- STUDIO VIEW -->
+        <div class="view-section studio-grid active" id="studio-view">
+            <!-- Top Half Previews from OBS -->
+            <div class="top-panes">
+                <div class="pane active-pane" id="current-pane">
+                    <div class="pane-label">CURRENT SLIDE</div>
+                    <img id="current-slide-img" class="pane-preview" style="display:none;" />
+                    <div class="pane-placeholder" id="current-placeholder">
+                        <span>Waiting for OBS stream...</span>
+                    </div>
+                </div>
+                <div class="pane" id="next-pane">
+                    <div class="pane-label">UPCOMING SLIDE</div>
+                    <img id="next-slide-img" class="pane-preview" style="display:none;" />
+                    <div class="pane-placeholder" id="next-placeholder">
+                        <span>Waiting for OBS stream...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Half Table and Editor -->
+            <div class="bottom-panes">
+                <!-- Slides Table -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Slide Index & Scene Mappings</div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" id="btn-sync-keynote">
+                                <span>🔄 Sync Keynote</span>
+                            </button>
+                            <button class="btn" id="btn-set-scene" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #a7f3d0;">
+                                <span>🎬 Set Scene</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="slides-table" class="tabulator-custom"></div>
+                </div>
+                
+
+            </div>
+        </div>
+
+        <!-- TELEPROMPTER VIEW -->
+        <div class="view-section teleprompter-grid" id="teleprompter-view" style="padding: 0; margin: 0; height: 100%; overflow: hidden;">
+            <iframe id="prompter-iframe" src="../slide-studio-app/teleprompter.html" style="width: 100%; height: 100%; border: none; background: #141414;"></iframe>
+        </div>
+
+        <!-- OBS SETTINGS VIEW -->
+        <div class="view-section settings-grid" id="settings-view">
+            <!-- Connection Card -->
+            <div class="settings-card">
+                <div class="settings-title">📡 OBS WebSocket Connection</div>
+                
+                <div class="form-group">
+                    <label class="form-label">WebSocket URL</label>
+                    <input type="text" class="form-input" id="obs-ip" value="127.0.0.1:4455" placeholder="e.g. 127.0.0.1:4455">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">WebSocket Password</label>
+                    <input type="password" class="form-input" id="obs-password" placeholder="Leave empty if none">
+                </div>
+                
+                <button class="btn btn-primary" id="btn-connect-obs" style="margin-top: 10px; padding: 12px; justify-content: center;">
+                    <span>Connect to OBS WebSocket</span>
+                </button>
+            </div>
+            
+            <!-- Snapshot Capture Config Card -->
+            <div class="settings-card">
+                <div class="settings-title">📸 Real-Time Screenshot Capture</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Current Slide Source Name</label>
+                    <input type="text" class="form-input" id="obs-source-current" value="Keynote Presentation" placeholder="Source name capturing keynote slides">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Next Slide Source Name</label>
+                    <input type="text" class="form-input" id="obs-source-next" value="Keynote Presenter Notes" placeholder="Source name capturing presenter preview">
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label class="form-label">Screenshot Width (px)</label>
+                        <input type="number" class="form-input" id="obs-screenshot-width" value="256" min="64" max="1024">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Frequency (seconds)</label>
+                        <input type="number" class="form-input" id="obs-screenshot-freq" value="0.5" min="0.1" max="5.0" step="0.1">
+                    </div>
+                </div>
+                
+                <button class="btn" id="btn-save-settings" style="margin-top: 10px; padding: 12px; justify-content: center; background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #93c5fd;">
+                    <span>Apply Capture Settings</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Vendor Libraries and Client Controller Script -->
+    <script src="lib/obs-ws.min.js"></script>
+    <script src="lib/tabulator.min.js"></script>
+    <script src="app_osa.js"></script>
+</body>
+</html>
