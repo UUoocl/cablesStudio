@@ -9,13 +9,8 @@
                 "name": "Channel Name"
             },
             {
-                "type": 5,
-                "name": "Text"
-            },
-            {
-                "type": 0,
-                "name": "Value",
-                "subType": "number"
+                "type": 2,
+                "name": "data"
             }
         ],
         "portsOut": [

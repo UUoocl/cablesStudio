@@ -1,7 +1,7 @@
 const { spawn } = op.require('child_process');
 
 const
-    inScriptLocation = op.inString("Script Location", "pythonScripts/keyboard_monitor_cables.py"),
+    inScriptLocation = op.inString("Script Location", `${op.patch.config.prefixAssetPath}ops/Ops.Local.Python/Ops.Extension.Standalone.PythonGlobalKeyboardMonitor/python_script/keyboard_monitor_cables.py`),
     inActive = op.inBool("Active", false),
     outTrigger = op.outTrigger("Trigger"),
     outLastSingle = op.outString("Last Single Key", ""),

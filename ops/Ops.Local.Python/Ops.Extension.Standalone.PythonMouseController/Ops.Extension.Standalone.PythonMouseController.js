@@ -1,7 +1,7 @@
 const { spawn } = op.require('child_process');
 
 const
-    inScriptLocation = op.inString("Script Location", "pythonScripts/mouse_controller_cables.py"),
+    inScriptLocation = op.inString("Script Location", `${op.patch.config.prefixAssetPath}ops/Ops.Local.Python/Ops.Extension.Standalone.PythonMouseController/python_script/mouse_controller_cables.py`),
     inActive = op.inBool("Active", false),
     inTrigger = op.inTriggerButton("Trigger"),
     inPosition = op.inArray("Mouse Position"),

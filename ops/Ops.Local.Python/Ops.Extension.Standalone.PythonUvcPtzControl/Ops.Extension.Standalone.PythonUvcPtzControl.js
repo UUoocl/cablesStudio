@@ -1,7 +1,7 @@
 const { spawn } = op.require('child_process');
 
 const
-    inScriptLocation = op.inString("Script Location", "pythonScripts/uvc_util_bridge_cables.py"),
+    inScriptLocation = op.inString("Script Location", `${op.patch.config.prefixAssetPath}ops/Ops.Local.Python/Ops.Extension.Standalone.PythonUvcPtzControl/python_script/uvc_util_bridge_cables.py`),
     inRefresh = op.inTriggerButton("Refresh Devices"),
     inActive = op.inBool("Active", true),
     inCameraTarget = op.inString("UVC Camera Target", "default"),

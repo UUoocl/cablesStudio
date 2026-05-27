@@ -13,13 +13,13 @@ It also includes a **Python Config** Op to verify and configure the local Python
 ## Usage
 1. Open the `python_standalone.cables` patch within the Cables GL standalone editor.
 2. The patch relies on a local Python 3 installation. The **Python Config** Op defaults the path to `/usr/bin/python3`. *(Note: On macOS, if you installed Python via the official installer, your path is likely `/Library/Frameworks/Python.framework/Versions/3.12/bin/python3`)*
-3. The custom Ops automatically spawn their associated background Python scripts (located in the `pythonScripts/` directory) when the patch loads or their `Active` ports are triggered.
+3. The custom Ops automatically spawn their associated background Python scripts (located in the `python_script/` subdirectories inside each op) when the patch loads or their `Active` ports are triggered.
 4. **UVC Camera Control**: Wait for the op to initialize, and then select your connected camera from the dynamic dropdown in the `UVC Camera Target` port. The Op fetches available devices automatically upon initialization or when the `Refresh Devices` button is clicked.
 
 ### Important: macOS Gatekeeper & UVC Library (Unquarantine)
 If the UVC PTZ Control fails to locate your camera or throws an error indicating `library load disallowed by system policy`, macOS Gatekeeper is likely blocking the `libuvcutil.dylib` C-library due to quarantine flags.
 
-To resolve this, open your terminal, navigate to the `pythonScripts/` directory, and run the following commands to remove the quarantine flag and locally sign the library:
+To resolve this, open your terminal, navigate to the `Ops.Extension.Standalone.PythonUvcPtzControl/python_script/` directory, and run the following commands to remove the quarantine flag and locally sign the library:
 
 ```bash
 xattr -d com.apple.quarantine libuvcutil.dylib

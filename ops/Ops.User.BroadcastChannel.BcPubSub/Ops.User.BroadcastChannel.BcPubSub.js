@@ -1,8 +1,6 @@
 const
     channelName = op.inString("Channel Name", "defaultChannel"),
-    // Add your input ports here:
-    inText = op.inString("Text", "Hello World"),
-    inValue = op.inValue("Value", 0),
+    inData = op.inObject("data"),
 
     outDraw = op.outTrigger("On Draw"),
     outReady = op.outTrigger("On Ready"),
@@ -42,14 +40,8 @@ channelName.onChange = initChannels;
 function broadcastData() {
     if (!subChannel) return;
 
-    const payload = {};
-    const allPorts = op.portsIn;
-    
-    for (let i = 0; i < allPorts.length; i++) {
-        const p = allPorts[i];
-        if (p.name === "Channel Name") continue;
-        payload[p.name] = p.get();
-    }
+    const payload = inData.get();
+    if (!payload) return;
 
     try {
         subChannel.postMessage(payload);
@@ -58,29 +50,7 @@ function broadcastData() {
     }
 }
 
-// Bind broadcast to all input ports except Channel Name
-op.onPortAdded = (p) => {
-    if (p.name !== "Channel Name") {
-        p.onChange = broadcastData;
-    }
-};
-
-op.portsIn.forEach(p => {
-    if (p.name !== "Channel Name") {
-        p.onChange = broadcastData;
-    }
-});
-
-initChannels();
-
-op.onDelete = () => {
-    if (pubChannel) pubChannel.close();
-    if (subChannel) subChannel.close();
-};
-
-
-
-
+inData.onChange = broadcastData;
 
 initChannels();
 
