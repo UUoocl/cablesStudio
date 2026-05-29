@@ -1,36 +1,13 @@
 {
-    "id": "807a0e2a-283a-42f2-89e9-c8cfcc9e6170",
-    "created": 1778579188732,
+    "id": "e53810a6-322a-4700-8e48-3273cdbbf35d",
+    "created": 1780016066832,
     "license": "MIT",
     "authorName": "",
     "coreLibs": [
         "subpatchop"
     ],
     "layout": {
-        "portsIn": [
-            {
-                "type": 2,
-                "name": "gadwiczy9",
-                "uititle": "obsConnection",
-                "objType": "obsConnection"
-            },
-            {
-                "type": 5,
-                "name": "kgwmapwhz",
-                "uititle": "text",
-                "values": [
-                    ""
-                ]
-            },
-            {
-                "type": 5,
-                "name": "kgwmapwha",
-                "uititle": "text2",
-                "values": [
-                    ""
-                ]
-            }
-        ],
+        "portsIn": [],
         "portsOut": []
     }
 }

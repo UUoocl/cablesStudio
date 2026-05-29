@@ -1,0 +1,110 @@
+{
+    "id": "67241a32-fa02-4f19-9044-84f9df26314b",
+    "created": 1779928400522,
+    "license": "MIT",
+    "authorName": "",
+    "coreLibs": [
+        "subpatchop"
+    ],
+    "layout": {
+        "portsIn": [],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "k34eraw82",
+                "uititle": "result",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "koari3xf1",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "1jcvc372y",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "2ia02g9u6",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "3ozvem006",
+                "uititle": "result",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "9souzynhe",
+                "uititle": "result",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "qsj6v0hdq",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "irfulx4rp",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "oj1yi38md",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "g8xzp5kw1",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "0xe9zkqvy",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "zryz68zkm",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "6j1rjmzp3",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "wpyb3aqjm",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "hwbhyqjtg",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "fdvwts4bo",
+                "uititle": "CC Value Out",
+                "subType": "number"
+            }
+        ]
+    }
+}

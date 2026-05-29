@@ -25,7 +25,12 @@
             {
                 "type": 2,
                 "name": "Message Received"
+            },
+            {
+                "type": 1,
+                "name": "On Message"
             }
         ]
-    }
+    },
+    "license": "MIT"
 }

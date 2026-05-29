@@ -1,0 +1,21 @@
+{
+    "ports": [
+        {
+            "id": "9ct2eefiy",
+            "title": "JSON String",
+            "dir": 0,
+            "type": 5,
+            "uiDisplay": "editor",
+            "value": "{}",
+            "order": 0
+        },
+        {
+            "id": "lkmmkuzbf",
+            "title": "Result",
+            "dir": 1,
+            "type": 2,
+            "objType": null,
+            "order": 1001
+        }
+    ]
+}

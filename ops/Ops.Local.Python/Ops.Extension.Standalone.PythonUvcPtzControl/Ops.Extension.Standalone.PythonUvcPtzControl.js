@@ -162,8 +162,27 @@ inTrigger.onTriggered = () => {
     }
 };
 
+// Ensure process is killed on parent exit
+const handleProcessExit = () => {
+    stopProcess();
+};
+
+const hasProcess = typeof process !== "undefined";
+if (hasProcess) {
+    process.on("exit", handleProcessExit);
+    process.on("SIGINT", handleProcessExit);
+    process.on("SIGTERM", handleProcessExit);
+}
+
 op.onDelete = () => {
     stopProcess();
+    if (hasProcess) {
+        try {
+            process.off("exit", handleProcessExit);
+            process.off("SIGINT", handleProcessExit);
+            process.off("SIGTERM", handleProcessExit);
+        } catch (e) {}
+    }
 };
 
 // Autostart to populate devices

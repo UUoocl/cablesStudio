@@ -1,0 +1,484 @@
+{
+  "ops": [
+    {
+      "opId": "484b3a00-41b7-4e3f-8a99-a1b32a764eff",
+      "id": "qdrpuparr",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -459.6636224551215,
+          "y": 1452.143558642472
+        },
+        "extendTitle": "VMX8 Bluetooth",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Device index",
+          "value": 0
+        },
+        {
+          "name": "Device",
+          "value": "VMX8 Bluetooth"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC",
+          "links": [
+            {
+              "portIn": "Data",
+              "portOut": "CC",
+              "objIn": "buam3c53u",
+              "objOut": "qdrpuparr"
+            },
+            {
+              "portIn": "Data",
+              "portOut": "CC",
+              "objIn": "jklzg897q",
+              "objOut": "qdrpuparr"
+            },
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "CC",
+              "objIn": "hz6zytwu9",
+              "objOut": "qdrpuparr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "hz6zytwu9",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -435.6636224551215,
+          "y": 1647.8643067414325
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "eqtoajd9h",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel",
+          "value": "1"
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "Number",
+              "portOut": "CC Value Out",
+              "objIn": "ed2o5purf",
+              "objOut": "hz6zytwu9"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "links": [
+            {
+              "portIn": "value",
+              "portOut": "CC Index Out",
+              "objIn": "i56ckrshs",
+              "objOut": "hz6zytwu9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "c4e4e933-136e-479e-8de8-0b35b75d9217",
+      "id": "grjct5rl7",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -282.9713979237172,
+          "y": 1359.2651672467707
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {}
+    },
+    {
+      "opId": "02d45073-7936-4830-81ad-59a162febf1f",
+      "id": "n1xer9bq5",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -341.60189982857554,
+          "y": 2013.926700045241
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "innerIn_coe42k77c",
+          "title": "Result"
+        }
+      ]
+    },
+    {
+      "opId": "a7335e79-046e-40da-9e9c-db779b0a5e53",
+      "id": "buam3c53u",
+      "attribs": {},
+      "uiAttribs": {
+        "extendTitlePort": "Key",
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -338.8504458332363,
+          "y": 1501.9290118832428
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Key",
+          "value": "index"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Result",
+          "links": [
+            {
+              "portIn": "CC Index",
+              "portOut": "Result",
+              "objIn": "hz6zytwu9",
+              "objOut": "buam3c53u"
+            }
+          ]
+        },
+        {
+          "name": "Found",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "opId": "a7335e79-046e-40da-9e9c-db779b0a5e53",
+      "id": "jklzg897q",
+      "attribs": {},
+      "uiAttribs": {
+        "extendTitlePort": "Key",
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -358.1791792097888,
+          "y": 1554.640044312856
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Key",
+          "value": "channel"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Result",
+          "links": [
+            {
+              "portIn": "MIDI Channel index",
+              "portOut": "Result",
+              "objIn": "hz6zytwu9",
+              "objOut": "jklzg897q"
+            }
+          ]
+        },
+        {
+          "name": "Found",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "opId": "20f7bcab-ed71-45d1-9fae-d89aacf3961b",
+      "id": "ed2o5purf",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -434,
+          "y": 1864.1356984820643
+        },
+        "extendTitle": "ribbonCount",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "Result Object",
+          "links": [
+            {
+              "portIn": "Object",
+              "portOut": "Result Object",
+              "objIn": "bzu060j3h",
+              "objOut": "ed2o5purf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "d618f2e1-4e60-4ac4-91aa-218bab2a6742",
+      "id": "bzu060j3h",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -434,
+          "y": 1930.6753360959892
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "Result",
+          "links": [
+            {
+              "portIn": "innerIn_coe42k77c",
+              "portOut": "Result",
+              "objIn": "n1xer9bq5",
+              "objOut": "bzu060j3h"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
+      "id": "i56ckrshs",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -399.6636224551215,
+          "y": 1708.4994862212
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "old min",
+          "value": 40
+        },
+        {
+          "name": "old max",
+          "value": 47
+        },
+        {
+          "name": "new min",
+          "value": 0
+        },
+        {
+          "name": "new max",
+          "value": 8
+        },
+        {
+          "name": "Easing index",
+          "value": 0
+        },
+        {
+          "name": "Easing",
+          "value": "Linear"
+        },
+        {
+          "name": "Clamp",
+          "value": 1
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "result",
+          "links": [
+            {
+              "portIn": "number",
+              "portOut": "result",
+              "objIn": "wkim1zgr2",
+              "objOut": "i56ckrshs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "1a1ef636-6d02-42ba-ae1e-627b917d0d2b",
+      "id": "wkim1zgr2",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -399.6636224551215,
+          "y": 1757.5346479719865
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Decimal Places",
+          "value": 0
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "result",
+          "links": [
+            {
+              "portIn": "Index",
+              "portOut": "result",
+              "objIn": "rbmk5jod1",
+              "objOut": "wkim1zgr2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "ac62cd52-169a-4fdd-bb62-1a559e5c73da",
+      "id": "rbmk5jod1",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "eqtoajd9h",
+        "translate": {
+          "x": -341.9764636628784,
+          "y": 1810.4960210962
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Strings",
+          "multiPortNum": 17,
+          "multiPortManual": true
+        },
+        {
+          "name": "Strings_0",
+          "value": "ribbonCount"
+        },
+        {
+          "name": "Strings_1",
+          "value": ""
+        },
+        {
+          "name": "Strings_2",
+          "value": ""
+        },
+        {
+          "name": "Strings_3",
+          "value": ""
+        },
+        {
+          "name": "Strings_4",
+          "value": ""
+        },
+        {
+          "name": "Strings_5",
+          "value": ""
+        },
+        {
+          "name": "Strings_6",
+          "value": ""
+        },
+        {
+          "name": "Strings_7",
+          "value": ""
+        },
+        {
+          "name": "Strings_8",
+          "value": ""
+        },
+        {
+          "name": "Strings_9",
+          "value": ""
+        },
+        {
+          "name": "Strings_10",
+          "value": ""
+        },
+        {
+          "name": "Strings_11",
+          "value": ""
+        },
+        {
+          "name": "Strings_12",
+          "value": ""
+        },
+        {
+          "name": "Strings_13",
+          "value": ""
+        },
+        {
+          "name": "Strings_14",
+          "value": ""
+        },
+        {
+          "name": "Strings_15",
+          "value": ""
+        },
+        {
+          "name": "Strings_16",
+          "value": "",
+          "title": "add port"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "String",
+          "links": [
+            {
+              "portIn": "Key",
+              "portOut": "String",
+              "objIn": "ed2o5purf",
+              "objOut": "rbmk5jod1"
+            }
+          ]
+        },
+        {
+          "name": "Num Values",
+          "value": 16
+        }
+      ]
+    }
+  ]
+}

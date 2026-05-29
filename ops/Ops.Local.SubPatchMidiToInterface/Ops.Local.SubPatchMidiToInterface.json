@@ -1,0 +1,25 @@
+{
+    "id": "9e940685-ee54-4d3b-991f-9edbf2067afd",
+    "created": 1780016522741,
+    "license": "MIT",
+    "authorName": "",
+    "coreLibs": [
+        "subpatchop"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "9ct2eefiy",
+                "uititle": "JSON String"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "lkmmkuzbf",
+                "uititle": "Result"
+            }
+        ]
+    }
+}

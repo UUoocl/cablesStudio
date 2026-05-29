@@ -38,6 +38,15 @@ var bkgdStrokeColor;
 var inp1, inp2, inp3, inp4, inp5, inp6;
 var inpNumber = 1;
 
+// CLEAR AND HIDE
+var clearTextDelay = 0;
+var clearMethod = "all at once";
+var seqInterval = 100;
+var hideNoText = false;
+var lastTextTime = 0;
+var isClearing = false;
+var lastRemoveTime = 0;
+
 // DIAGNOSTICS
 var lastMessageStr = "";
 var messageTimestamp = 0;
@@ -80,69 +89,52 @@ function reSetting() {
     bkgdColor = color(255);
     bkgdStrokeColor = color(235);
     strkColor = color(0);
+
+    clearTextDelay = 0;
+    clearMethod = "all at once";
+    seqInterval = 100;
+    hideNoText = false;
+    lastTextTime = millis();
+    isClearing = false;
+    lastRemoveTime = 0;
 }
 
-function simpleSet() {
+function applyCustomPreset(settings) {
+    if (!settings) return;
+    
     reSetting();
-    radius = 185; stackNum = 8; rRotate = -10; rOffset = 0.2; 
-    rWaveSpeed = 75; rWave = 41; xRotTweak = 24; yRotTweak = 27; xRotCamera = 20;
-}
-
-function jellyfishSet() {
-    reSetting();
-    radius = 200; stackNum = 6; rOffset = 0.15; rWaveCount = 3; 
-    rWaveSpeed = 100; rLong = 80; strecherXsize = 23; 
-    typeX = 13; typeY = 64; typeStroke = 0.5; xRotCamera = 25;
-    strkColor = color(255); bkgdColor = color(0); bkgdStrokeColor = color(25);
-}
-
-function crownSet() {
-    reSetting();
-    stackNum = 3; rRotate = -5; rWaveCount = 4; rWaveSpeed = 50;
-    rZaxis = 21; strecherYsize = 76; typeX = 30; typeStroke = 3;
-    strecherXsize = -25; zoomCamera = -500;
-}
-
-function complexSet() {
-    reSetting();
-    radius = 178; stackNum = 11; rRotate = 0; rOffset = 0.16; 
-    rWaveCount = 6; rWaveSpeed = 75; rWave = 10; rLong = 31; 
-    typeX = 16; typeY = 40; typeStroke = 2; xRotTweak = 15; 
-    yRotTweak = 35; zRotTweak = 0; xRotCamera = -34; yRotCamera = 10; zRotCamera = 25;
-    bkgdColor = color(0); bkgdStrokeColor = color(25);
-}
-
-function weaveSet() {
-    reSetting();
-    stackHeightAdjust = 30; radius = 110; stackNum = 7; rRotate = 15; 
-    rOffset = 0.62; rWaveCount = 5; rWaveSpeed = 30; rZaxis = 15; 
-    typeX = 12; typeY = 19; typeStroke = 1; zRotTweak = 33;
-    xRotCamera = 15; yRotCamera = 0; zRotCamera = 0; zoomCamera = 0;
-}
-
-function zebraSet() {
-    reSetting();
-    stackHeightAdjust = 10; radius = 110; stackNum = 7; rRotate = 20; 
-    rOffset = 0.3; rWaveCount = 2; rWaveSpeed = 30; rWave = 15; rZaxis = 15; 
-    strecherYsize = 33; typeX = 12; typeY = 19; typeStroke = 1;
-    xRotTweak = 9; yRotTweak = 24; zRotTweak = 22;
-    xRotCamera = 15; yRotCamera = 0; zRotCamera = 0; zoomCamera = 0;
-    bkgdColor = color(0); bkgdStrokeColor = color(25);
-}
-
-function hoopsSet() {
-    reSetting();
-    stackHeightAdjust = 30; radius = 110; stackNum = 7; rRotate = 15; 
-    rOffset = 0.62; rWaveCount = 1; rWaveSpeed = 100; rZaxis = 58; 
-    typeX = 12; typeY = 19; typeStroke = 1.5; zRotTweak = 28; xRotCamera = -10;
-    bkgdColor = color(0); bkgdStrokeColor = color(25);
-}
-
-function prideSet() {
-    stackNum = 6;
-    inpNumber = 6;
-    inp1 = color('#e70000'); inp2 = color('#ff8c00'); inp3 = color('#ffef00'); 
-    inp4 = color('#00811f'); inp5 = color('#0044ff'); inp6 = color('#760089');
+    
+    if (settings.radius !== undefined) radius = settings.radius;
+    if (settings.stackNum !== undefined) stackNum = settings.stackNum;
+    if (settings.rRotate !== undefined) rRotate = settings.rRotate;
+    if (settings.rOffset !== undefined) rOffset = settings.rOffset;
+    if (settings.rWaveCount !== undefined) rWaveCount = settings.rWaveCount;
+    if (settings.rWaveSpeed !== undefined) rWaveSpeed = settings.rWaveSpeed;
+    if (settings.rWave !== undefined) rWave = settings.rWave;
+    if (settings.rZaxis !== undefined) rZaxis = settings.rZaxis;
+    if (settings.rLong !== undefined) rLong = settings.rLong;
+    if (settings.strecherX !== undefined) strecherXsize = settings.strecherX;
+    if (settings.strecherY !== undefined) strecherYsize = settings.strecherY;
+    if (settings.typeX !== undefined) typeX = settings.typeX;
+    if (settings.typeY !== undefined) typeY = settings.typeY;
+    if (settings.typeStroke !== undefined) typeStroke = settings.typeStroke;
+    if (settings.xRotCamera !== undefined) xRotCamera = settings.xRotCamera;
+    if (settings.yRotCamera !== undefined) yRotCamera = settings.yRotCamera;
+    if (settings.zRotCamera !== undefined) zRotCamera = settings.zRotCamera;
+    if (settings.zoomCamera !== undefined) zoomCamera = settings.zoomCamera;
+    if (settings.xRotTweak !== undefined) xRotTweak = settings.xRotTweak;
+    if (settings.yRotTweak !== undefined) yRotTweak = settings.yRotTweak;
+    if (settings.zRotTweak !== undefined) zRotTweak = settings.zRotTweak;
+    if (settings.stackHeightAdjust !== undefined) stackHeightAdjust = settings.stackHeightAdjust;
+    
+    if (settings.bkgdColor !== undefined) bkgdColor = color(settings.bkgdColor);
+    if (settings.color1 !== undefined) { inp1 = color(settings.color1); inpNumber = 1; }
+    if (settings.color2 !== undefined) { inp2 = color(settings.color2); }
+    if (settings.color3 !== undefined) { inp3 = color(settings.color3); }
+    if (settings.color4 !== undefined) { inp4 = color(settings.color4); }
+    if (settings.color5 !== undefined) { inp5 = color(settings.color5); }
+    if (settings.color6 !== undefined) { inp6 = color(settings.color6); }
+    if (settings.inpNumber !== undefined) inpNumber = settings.inpNumber;
 }
 
 // REMOTE CONTROL HANDLER
@@ -156,20 +148,32 @@ function updateSettings(data) {
     // Process preset first
     if (data.preset) {
         const p = data.preset.toLowerCase();
-        if (p === 'simple') simpleSet();
-        else if (p === 'jellyfish') jellyfishSet();
-        else if (p === 'crown') crownSet();
-        else if (p === 'complex') complexSet();
-        else if (p === 'weave') weaveSet();
-        else if (p === 'zebra') zebraSet();
-        else if (p === 'hoops') hoopsSet();
-        else if (p === 'pride') prideSet();
-        else if (p === 'reset') reSetting();
+        let loaded = false;
+        
+        if (typeof customPresets !== 'undefined') {
+            const matchedKey = Object.keys(customPresets).find(k => k.toLowerCase() === p);
+            if (matchedKey) {
+                applyCustomPreset(customPresets[matchedKey]);
+                loaded = true;
+            }
+        }
+        
+        if (!loaded && p === 'reset') {
+            reSetting();
+        }
     }
 
     // Apply overrides
-    if (data.text !== undefined) inpText = String(data.text);
-    else if (data.string !== undefined) inpText = String(data.string); // Alias for default port name
+    if (data.text !== undefined || data.string !== undefined) {
+        inpText = data.text !== undefined ? String(data.text) : String(data.string);
+        lastTextTime = millis();
+        isClearing = false;
+    }
+    if (data.clearTextDelay !== undefined) clearTextDelay = Number(data.clearTextDelay);
+    if (data.clearMethod !== undefined) clearMethod = String(data.clearMethod);
+    if (data.seqInterval !== undefined) seqInterval = Number(data.seqInterval);
+    if (data.hideNoText !== undefined) hideNoText = Boolean(data.hideNoText) || data.hideNoText === 'true';
+
     if (data.radius !== undefined) radius = data.radius;
     if (data.stackNum !== undefined) stackNum = data.stackNum;
     if (data.rRotate !== undefined) rRotate = data.rRotate;
@@ -196,9 +200,88 @@ function updateSettings(data) {
         inp1 = color(data.color1);
         inpNumber = 1; // Switch back to single color mode if color1 is sent
     }
+
+    // Handle save request
+    if (data.action === "savePreset") {
+        const payload = {
+            type: "savePreset",
+            iframeSrc: window.location.href,
+            name: data.name || "custom_preset",
+            settings: {
+                radius: radius,
+                stackNum: stackNum,
+                rRotate: rRotate,
+                rOffset: rOffset,
+                rWaveCount: rWaveCount,
+                rWaveSpeed: rWaveSpeed,
+                rWave: rWave,
+                rZaxis: rZaxis,
+                strecherX: strecherXsize,
+                strecherY: strecherYsize,
+                typeX: typeX,
+                typeY: typeY,
+                typeStroke: typeStroke,
+                xRotCamera: xRotCamera,
+                yRotCamera: yRotCamera,
+                zRotCamera: zRotCamera,
+                zoomCamera: zoomCamera,
+                xRotTweak: xRotTweak,
+                yRotTweak: yRotTweak,
+                zRotTweak: zRotTweak,
+                stackHeightAdjust: stackHeightAdjust,
+                inpNumber: inpNumber,
+                bkgdColor: bkgdColor.toString(),
+                color1: inp1.toString(),
+                color2: inp2 ? inp2.toString() : undefined,
+                color3: inp3 ? inp3.toString() : undefined,
+                color4: inp4 ? inp4.toString() : undefined,
+                color5: inp5 ? inp5.toString() : undefined,
+                color6: inp6 ? inp6.toString() : undefined
+            }
+        };
+        pubChannel.postMessage(payload);
+    }
 }
 
 function draw() {
+  // --- TIMING AND CLEARING LOGIC ---
+  if (clearTextDelay > 0 && !isClearing && inpText !== "") {
+    if (millis() - lastTextTime >= clearTextDelay) {
+      isClearing = true;
+      lastRemoveTime = millis();
+    }
+  }
+
+  if (isClearing && inpText !== "") {
+    if (clearMethod === "all at once") {
+      inpText = "";
+      isClearing = false;
+    } else if (clearMethod === "sequential") {
+      if (millis() - lastRemoveTime >= seqInterval) {
+        inpText = inpText.substring(1);
+        lastRemoveTime = millis();
+        if (inpText === "") {
+          isClearing = false;
+        }
+      }
+    } else if (clearMethod === "reverseSeq") {
+      if (millis() - lastRemoveTime >= seqInterval) {
+        inpText = inpText.substring(0, inpText.length - 1);
+        lastRemoveTime = millis();
+        if (inpText === "") {
+          isClearing = false;
+        }
+      }
+    }
+  }
+
+  // --- CANVASES HIDING / EMPTY LOGIC ---
+  if ((hideNoText && (!inpText || inpText.trim() === "")) || !inpText || inpText === "") {
+    clear();
+    if (typeof captureFrame === 'function') captureFrame();
+    return;
+  }
+
   background(bkgdColor);
 
   stackHeight = (typeY + strecherYsize / 2) + 5 + stackHeightAdjust;

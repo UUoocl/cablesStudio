@@ -34,6 +34,15 @@ var strkColor;
 var inp1, inp2, inp3, inp4, inp5, inp6;
 var inpNumber = 3;
 
+// CLEAR AND HIDE
+var clearTextDelay = 0;
+var clearMethod = "all at once";
+var seqInterval = 100;
+var hideNoText = false;
+var lastTextTime = 0;
+var isClearing = false;
+var lastRemoveTime = 0;
+
 var font;
 
 function preload() {
@@ -52,6 +61,7 @@ function setup() {
   reSetting();
 
   if (typeof signalReady === 'function') signalReady();
+  //frameRate(30);
 }
 
 function reSetting() {
@@ -69,122 +79,44 @@ function reSetting() {
 
   inpNumber = 3;
   inpText = "SPACE TYPE GENERATOR _V.STRIPES";
+
+  clearTextDelay = 0;
+  clearMethod = "all at once";
+  seqInterval = 100;
+  hideNoText = false;
+  lastTextTime = millis();
+  isClearing = false;
+  lastRemoveTime = 0;
 }
 
-function marqueeSet() {
+function applyCustomPreset(settings) {
+  if (!settings) return;
+
   reSetting();
-  typeX = 15; typeY = 25; typeStroke = 3; tracking = 30;
-  ribbonCount = 11; ribbonSpaceX = 43; ribbonSpaceY = 57; ribbonSize = 45; ribbonOffset = 0.4;
-  yWave = 41; speed = 0.025; offset = PI; slope = 2;
-  inp1 = color('#ff0000'); inp2 = color('#ffffff'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "gHoEoLdLbOy?e";
-  inpNumber = 5;
-  bkgdColor = color('#ffff00');
-}
 
-function subwaySet() {
-  reSetting();
-  typeX = 20; typeY = 12; typeStroke = 2; tracking = 7;
-  ribbonCount = 20; ribbonSpaceX = -10; ribbonSpaceY = 35; ribbonSize = 18; ribbonOffset = 2.4;
-  yWave = 60; speed = 0.02; offset = 0.27; slope = 4;
-  inp1 = color('#ff0000'); inp2 = color('#ffffff'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "Time moves in one direction, memory in another.";
-  inpNumber = 4;
-  bkgdColor = color('#000000');
-}
+  if (settings.typeX !== undefined) typeX = settings.typeX;
+  if (settings.typeY !== undefined) typeY = settings.typeY;
+  if (settings.typeStroke !== undefined) typeStroke = settings.typeStroke;
+  if (settings.tracking !== undefined) tracking = settings.tracking;
+  if (settings.ribbonCount !== undefined) ribbonCount = settings.ribbonCount;
+  if (settings.ribbonSpaceX !== undefined) ribbonSpaceX = settings.ribbonSpaceX;
+  if (settings.ribbonSpaceY !== undefined) ribbonSpaceY = settings.ribbonSpaceY;
+  if (settings.ribbonSize !== undefined) ribbonSize = settings.ribbonSize;
+  if (settings.ribbonOffset !== undefined) ribbonOffset = settings.ribbonOffset;
+  if (settings.yWave !== undefined) yWave = settings.yWave;
+  if (settings.speed !== undefined) speed = settings.speed;
+  if (settings.offset !== undefined) offset = settings.offset;
+  if (settings.slope !== undefined) slope = settings.slope;
 
-function simpleWaveSet() {
-  reSetting();
-  typeX = 12; typeY = 19; typeStroke = 2; tracking = 9;
-  ribbonCount = 8; ribbonSpaceX = 0; ribbonSpaceY = 0; ribbonSize = 23; ribbonOffset = 0.5;
-  yWave = 100; speed = 0.01; offset = 0.2; slope = 1;
-  inp1 = color('#ff0000'); inp2 = color('#ffff00'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "STG_v.Stripes*STG_v.Stripes*STG_v.Stripes*";
-  inpNumber = 3;
-  bkgdColor = color('#FFFFFF');
-}
-
-function oldSeaSet() {
-  reSetting();
-  typeX = 9; typeY = 74; typeStroke = 2; tracking = 18;
-  ribbonCount = 18; ribbonSpaceX = -2; ribbonSpaceY = 60; ribbonSize = 26; ribbonOffset = 0.8;
-  yWave = 44; speed = 0.3; offset = 0.22; slope = 1;
-  inp1 = color('#000000'); inp2 = color('#4d4d4d'); inp3 = color('#808080'); inp4 = color('#b3b3b3'); inp5 = color('#f2f2f2');
-  inpText = "LEIK*COMENNT*SUSCRIBE*LIKE*COMENT*SUBCRIBE*IKE*COMMNT*SUBSCRIB";
-  inpNumber = 5;
-  bkgdColor = color('#FFFFFF');
-}
-
-function colorSeaSet() {
-  reSetting();
-  typeX = 20; typeY = 46; typeStroke = 2; tracking = 11;
-  ribbonCount = 33; ribbonSpaceX = 5; ribbonSpaceY = 37; ribbonSize = 35; ribbonOffset = 3.1;
-  yWave = 45; speed = 0.03; offset = 0.42; slope = 1;
-  inp1 = color('#ff0000'); inp2 = color('#FFFFFF'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "To be whole is to be part; true voyage is return.";
-  inpNumber = 5;
-  bkgdColor = color('#000000');
-}
-
-function wowSet() {
-  reSetting();
-  typeX = 20; typeY = 40; typeStroke = 2; tracking = 40;
-  ribbonCount = 14; ribbonSpaceX = -38; ribbonSpaceY = 47; ribbonSize = 49; ribbonOffset = 0;
-  yWave = 100; speed = 0.05; offset = 2.96; slope = 1;
-  inp1 = color('#ff0000'); inp2 = color('#FFFFFF'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "*W*O*W* *W*O*W* *W*O*W* *W*O*W* *W*O*W* *W*O*W* *W*O*W* *W*O*W* ";
-  inpNumber = 5;
-  bkgdColor = color('#0000ff');
-}
-
-function stacksSet() {
-  reSetting();
-  typeX = 10; typeY = 100; typeStroke = 3; tracking = 10;
-  ribbonCount = 34; ribbonSpaceX = -2; ribbonSpaceY = -2; ribbonSize = 57; ribbonOffset = 0.1;
-  yWave = 34; speed = 0.06; offset = 0.2; slope = 1;
-  inp1 = color('#ff0000'); inp2 = color('#FFFFFF'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "Stacks on Stacks";
-  inpNumber = 5;
-  bkgdColor = color('#ff0000');
-}
-
-function notSoWeirdSet() {
-  reSetting();
-  typeX = 11; typeY = 100; typeStroke = 2; tracking = 10;
-  ribbonCount = 23; ribbonSpaceX = -5; ribbonSpaceY = 16; ribbonSize = 81; ribbonOffset = 2.9;
-  yWave = 22; speed = 0.03; offset = 0.31; slope = 1;
-  inp1 = color('#ff0000'); inp2 = color('#FFFFFF'); inp3 = color('#0000ff'); inp4 = color('#ffff00'); inp5 = color('#000000');
-  inpText = "I'M NOT SO WEIRD TO ME.";
-  inpNumber = 5;
-  bkgdColor = color('#FFFFFF');
-}
-
-function racerSet() {
-  reSetting();
-  typeX = 35; typeY = 15; typeStroke = 2; tracking = 2;
-  ribbonCount = 20; ribbonSpaceX = 3; ribbonSpaceY = -15; ribbonSize = 32; ribbonOffset = 0.4;
-  yWave = 100; speed = 0.02; offset = 0.18; slope = 0.6;
-  inp1 = color('#ffff00'); inp2 = color('#0000ff'); inp3 = color('#ffffff'); inp4 = color('#0000ff'); inp5 = color('#ff0000');
-  inpText = "GO GO SPEED RACER GO GO SPEED RACER!";
-  inpNumber = 5;
-  bkgdColor = color('#ffff00');
-}
-
-function simpleWave2Set() {
-  reSetting();
-  typeX = 7; typeY = 42; typeStroke = 2; tracking = 11;
-  ribbonCount = 34; ribbonSpaceX = -4; ribbonSpaceY = 20; ribbonSize = 22; ribbonOffset = 0.2;
-  yWave = 98; speed = 0.02; offset = 0.14; slope = 1;
-  inp1 = color('#ffff00'); inp2 = color('#0000ff'); inp3 = color('#ffffff'); inp4 = color('#0000ff'); inp5 = color('#ff0000');
-  inpText = "A word after a word after a word is power";
-  inpNumber = 5;
-  bkgdColor = color('#000000');
-}
-
-function prideSet() {
-  inpNumber = 6;
-  inp1 = color('#e70000'); inp2 = color('#ff8c00'); inp3 = color('#ffef00'); inp4 = color('#00811f'); inp5 = color('#0044ff'); inp6 = color('#760089');
-  bkgdColor = color('#ffffff');
+  if (settings.bkgdColor !== undefined) bkgdColor = color(settings.bkgdColor);
+  if (settings.color1 !== undefined) { inp1 = color(settings.color1); }
+  if (settings.color2 !== undefined) { inp2 = color(settings.color2); }
+  if (settings.color3 !== undefined) { inp3 = color(settings.color3); }
+  if (settings.color4 !== undefined) { inp4 = color(settings.color4); }
+  if (settings.color5 !== undefined) { inp5 = color(settings.color5); }
+  if (settings.color6 !== undefined) { inp6 = color(settings.color6); }
+  if (settings.inpNumber !== undefined) inpNumber = settings.inpNumber;
+  if (settings.text !== undefined) inpText = String(settings.text);
 }
 
 function updateSettings(data) {
@@ -192,22 +124,28 @@ function updateSettings(data) {
 
   if (data.preset) {
     const p = data.preset.toLowerCase();
-    if (p === 'marquee') marqueeSet();
-    else if (p === 'subway') subwaySet();
-    else if (p === 'simplewave') simpleWaveSet();
-    else if (p === 'oldsea') oldSeaSet();
-    else if (p === 'colorsea') colorSeaSet();
-    else if (p === 'wow') wowSet();
-    else if (p === 'stacks') stacksSet();
-    else if (p === 'notsoweird') notSoWeirdSet();
-    else if (p === 'racer') racerSet();
-    else if (p === 'simplewave2') simpleWave2Set();
-    else if (p === 'pride') prideSet();
-    else if (p === 'reset') reSetting();
+    let loaded = false;
+    if (typeof customPresets !== 'undefined') {
+      const matchedKey = Object.keys(customPresets).find(k => k.toLowerCase() === p);
+      if (matchedKey) {
+        applyCustomPreset(customPresets[matchedKey]);
+        loaded = true;
+      }
+    }
+    if (!loaded && p === 'reset') {
+      reSetting();
+    }
   }
 
-  if (data.text !== undefined) inpText = String(data.text);
-  else if (data.string !== undefined) inpText = String(data.string);
+  if (data.text !== undefined || data.string !== undefined) {
+    inpText = data.text !== undefined ? String(data.text) : String(data.string);
+    lastTextTime = millis();
+    isClearing = false;
+  }
+  if (data.clearTextDelay !== undefined) clearTextDelay = Number(data.clearTextDelay);
+  if (data.clearMethod !== undefined) clearMethod = String(data.clearMethod);
+  if (data.seqInterval !== undefined) seqInterval = Number(data.seqInterval);
+  if (data.hideNoText !== undefined) hideNoText = Boolean(data.hideNoText) || data.hideNoText === 'true';
 
   if (data.typeX !== undefined) typeX = data.typeX;
   if (data.typeY !== undefined) typeY = data.typeY;
@@ -232,9 +170,84 @@ function updateSettings(data) {
   if (data.color4 !== undefined) { inp4 = color(data.color4); inpNumber = 4; }
   if (data.color5 !== undefined) { inp5 = color(data.color5); inpNumber = 5; }
   if (data.color6 !== undefined) { inp6 = color(data.color6); inpNumber = 6; }
+  if (data.inpNumber !== undefined) inpNumber = data.inpNumber;
+
+  // Handle save request
+  if (data.action === "savePreset") {
+    const payload = {
+      type: "savePreset",
+      iframeSrc: window.location.href,
+      name: data.name || "custom_preset",
+      settings: {
+        typeX: typeX,
+        typeY: typeY,
+        typeStroke: typeStroke,
+        tracking: tracking,
+        ribbonCount: ribbonCount,
+        ribbonSpaceX: ribbonSpaceX,
+        ribbonSpaceY: ribbonSpaceY,
+        ribbonSize: ribbonSize,
+        ribbonOffset: ribbonOffset,
+        yWave: yWave,
+        speed: speed,
+        offset: offset,
+        slope: slope,
+        inpNumber: inpNumber,
+        bkgdColor: bkgdColor.toString(),
+        color1: inp1.toString(),
+        color2: inp2 ? inp2.toString() : undefined,
+        color3: inp3 ? inp3.toString() : undefined,
+        color4: inp4 ? inp4.toString() : undefined,
+        color5: inp5 ? inp5.toString() : undefined,
+        color6: inp6 ? inp6.toString() : undefined,
+        text: inpText
+      }
+    };
+    if (typeof pubChannel !== 'undefined') {
+      pubChannel.postMessage(payload);
+    }
+  }
 }
 
 function draw() {
+  // --- TIMING AND CLEARING LOGIC ---
+  if (clearTextDelay > 0 && !isClearing && inpText !== "") {
+    if (millis() - lastTextTime >= clearTextDelay) {
+      isClearing = true;
+      lastRemoveTime = millis();
+    }
+  }
+
+  if (isClearing && inpText !== "") {
+    if (clearMethod === "all at once") {
+      inpText = "";
+      isClearing = false;
+    } else if (clearMethod === "sequential") {
+      if (millis() - lastRemoveTime >= seqInterval) {
+        inpText = inpText.substring(1);
+        lastRemoveTime = millis();
+        if (inpText === "") {
+          isClearing = false;
+        }
+      }
+    } else if (clearMethod === "reverseSeq") {
+      if (millis() - lastRemoveTime >= seqInterval) {
+        inpText = inpText.substring(0, inpText.length - 1);
+        lastRemoveTime = millis();
+        if (inpText === "") {
+          isClearing = false;
+        }
+      }
+    }
+  }
+
+  // --- CANVASES HIDING / EMPTY LOGIC ---
+  if ((hideNoText && (!inpText || inpText.trim() === "")) || !inpText || inpText === "") {
+    clear();
+    if (typeof captureFrame === 'function') captureFrame();
+    return;
+  }
+
   clear();
   background(bkgdColor);
 

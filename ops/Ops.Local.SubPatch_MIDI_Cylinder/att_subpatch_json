@@ -1,0 +1,1567 @@
+{
+  "ops": [
+    {
+      "opId": "484b3a00-41b7-4e3f-8a99-a1b32a764eff",
+      "id": "7dmtz9q8k",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "ff5akwmmu",
+        "translate": {
+          "x": -760.1125395883253,
+          "y": 495.1307576145846
+        },
+        "extendTitle": "VMX8 Bluetooth",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Device index",
+          "value": 2
+        },
+        {
+          "name": "Device",
+          "value": "VMX8 Bluetooth"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "Object",
+              "portOut": "Event",
+              "objIn": "pwam8asan",
+              "objOut": "7dmtz9q8k"
+            }
+          ]
+        },
+        {
+          "name": "CC",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "CC",
+              "objIn": "4s9wjt6sf",
+              "objOut": "7dmtz9q8k"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+      "id": "pwam8asan",
+      "attribs": {},
+      "uiAttribs": {
+        "height": 365.23268664661987,
+        "width": 450.4413539739362,
+        "resizable": true,
+        "vizLayerMaxZoom": 3500,
+        "subPatch": "ff5akwmmu",
+        "translate": {
+          "x": -116.46642627937015,
+          "y": 550.9831650411172
+        },
+        "extendTitle": "Event (null)",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "ZoomText",
+          "value": 0
+        },
+        {
+          "name": "Line Numbers",
+          "value": 0
+        },
+        {
+          "name": "Sort Keys",
+          "value": 0
+        },
+        {
+          "name": "Hide Array Data",
+          "value": 1
+        },
+        {
+          "name": "Font Size",
+          "value": 10
+        },
+        {
+          "name": "Scroll",
+          "value": 0
+        },
+        {
+          "name": "Search",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "4s9wjt6sf",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -736.1125395883253,
+          "y": 570.2449379099818
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 40
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "value",
+              "portOut": "CC Value Out",
+              "objIn": "rit5takpu",
+              "objOut": "4s9wjt6sf"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "0ha3ao83v",
+              "objOut": "4s9wjt6sf"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 40
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "0ha3ao83v",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -724.1125395883253,
+          "y": 643.78750970436
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 41
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_koari3xf1",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "0ha3ao83v"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "ol42nzzxq",
+              "objOut": "0ha3ao83v"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 41
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "ol42nzzxq",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -712.1125395883253,
+          "y": 710.3619526930511
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 42
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_1jcvc372y",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "ol42nzzxq"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "doc4ohqza",
+              "objOut": "ol42nzzxq"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 42
+        }
+      ]
+    },
+    {
+      "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
+      "id": "rit5takpu",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "ff5akwmmu",
+        "translate": {
+          "x": -541.4361586521187,
+          "y": 708.8536496932064
+        },
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "old min",
+          "value": 0
+        },
+        {
+          "name": "old max",
+          "value": 127
+        },
+        {
+          "name": "new min",
+          "value": 1
+        },
+        {
+          "name": "new max",
+          "value": 500
+        },
+        {
+          "name": "Easing index",
+          "value": 0
+        },
+        {
+          "name": "Easing",
+          "value": "Linear"
+        },
+        {
+          "name": "Clamp",
+          "value": 1
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "result",
+          "links": [
+            {
+              "portIn": "innerIn_k34eraw82",
+              "portOut": "result",
+              "objIn": "wzneq9uw4",
+              "objOut": "rit5takpu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "doc4ohqza",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -700.1125395883253,
+          "y": 778.0768034727831
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 43
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_2ia02g9u6",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "doc4ohqza"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "dwws5xeo4",
+              "objOut": "doc4ohqza"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 43
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "dwws5xeo4",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -688.1125395883253,
+          "y": 840.6419657553595
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 44
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_3ozvem006",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "dwws5xeo4"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "684xafr7e",
+              "objOut": "dwws5xeo4"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 44
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "684xafr7e",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -676.1125395883253,
+          "y": 908.0608248603429
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 45
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_9souzynhe",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "684xafr7e"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "49nkuecvn",
+              "objOut": "684xafr7e"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 45
+        }
+      ]
+    },
+    {
+      "opId": "afff634a-b581-4449-b6f7-9ec7863c5d4d",
+      "id": "h2mvbxmot",
+      "attribs": {},
+      "uiAttribs": {
+        "display": "reroute",
+        "translate": {
+          "x": -841.3082053810699,
+          "y": 696.7984537791807
+        },
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "value",
+          "value": 0
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "result",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "opId": "afff634a-b581-4449-b6f7-9ec7863c5d4d",
+      "id": "n2mretuaj",
+      "attribs": {},
+      "uiAttribs": {
+        "display": "reroute",
+        "translate": {
+          "x": -853.7368351615772,
+          "y": 689.5290350687792
+        },
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "value",
+          "value": 0
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "result",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "49nkuecvn",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -656.8417116130004,
+          "y": 989.0558403158848
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 46
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_qsj6v0hdq",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "49nkuecvn"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "4il0p5khm",
+              "objOut": "49nkuecvn"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 46
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "4il0p5khm",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -644.8417116130004,
+          "y": 1046.5545059007065
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 47
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_irfulx4rp",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "4il0p5khm"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "5zets1ot2",
+              "objOut": "4il0p5khm"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 47
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "5zets1ot2",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -632.8417116130004,
+          "y": 1124.1622493452833
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 40
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_oj1yi38md",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "5zets1ot2"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "510zk2xuz",
+              "objOut": "5zets1ot2"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 40
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "510zk2xuz",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -620.8417116130004,
+          "y": 1197.7048211396614
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 41
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_g8xzp5kw1",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "510zk2xuz"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "54915al97",
+              "objOut": "510zk2xuz"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 41
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "54915al97",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -608.8417116130004,
+          "y": 1264.2792641283522
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 42
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_0xe9zkqvy",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "54915al97"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "q6xbxz4iz",
+              "objOut": "54915al97"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 42
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "q6xbxz4iz",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -596.8417116130004,
+          "y": 1331.9941149080846
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 43
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_zryz68zkm",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "q6xbxz4iz"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "wo3l2w1g8",
+              "objOut": "q6xbxz4iz"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 43
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "wo3l2w1g8",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -584.8417116130004,
+          "y": 1394.5592771906609
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 44
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_6j1rjmzp3",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "wo3l2w1g8"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "pyc58gc5i",
+              "objOut": "wo3l2w1g8"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 44
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "pyc58gc5i",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -572.8417116130004,
+          "y": 1461.9781362956442
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 45
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_wpyb3aqjm",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "pyc58gc5i"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "g2h2bogz7",
+              "objOut": "pyc58gc5i"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 45
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "g2h2bogz7",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -560.8417116130004,
+          "y": 1542.973151751186
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 46
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_hwbhyqjtg",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "g2h2bogz7"
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "links": [
+            {
+              "portIn": "MIDI Event In",
+              "portOut": "Event",
+              "objIn": "ii0250rtp",
+              "objOut": "g2h2bogz7"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 46
+        }
+      ]
+    },
+    {
+      "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+      "id": "ii0250rtp",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -548.8417116130004,
+          "y": 1600.471817336008
+        },
+        "notWorkingMsg": null,
+        "color": "#5dc0fd",
+        "subPatch": "ff5akwmmu",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "MIDI Channel index",
+          "value": 0
+        },
+        {
+          "name": "MIDI Channel",
+          "value": 1
+        },
+        {
+          "name": "CC Index",
+          "value": 47
+        },
+        {
+          "name": "Speed",
+          "value": 1
+        },
+        {
+          "name": "Normalize index",
+          "value": 0
+        },
+        {
+          "name": "Normalize",
+          "value": "none"
+        },
+        {
+          "name": "Trigger On index",
+          "value": 0
+        },
+        {
+          "name": "Trigger On",
+          "value": "Both"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "CC Value Out",
+          "links": [
+            {
+              "portIn": "innerIn_fdvwts4bo",
+              "portOut": "CC Value Out",
+              "objIn": "wzneq9uw4",
+              "objOut": "ii0250rtp"
+            }
+          ]
+        },
+        {
+          "name": "CC Index Out",
+          "value": 47
+        }
+      ]
+    },
+    {
+      "opId": "c4e4e933-136e-479e-8de8-0b35b75d9217",
+      "id": "rhda0iice",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "ff5akwmmu",
+        "translate": {
+          "x": 0,
+          "y": 0
+        },
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {}
+    },
+    {
+      "opId": "02d45073-7936-4830-81ad-59a162febf1f",
+      "id": "wzneq9uw4",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "ff5akwmmu",
+        "translate": {
+          "x": -422.88665146916804,
+          "y": 959.7065622693173
+        },
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "innerIn_k34eraw82",
+          "title": "result"
+        },
+        {
+          "name": "innerIn_koari3xf1",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_1jcvc372y",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_2ia02g9u6",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_3ozvem006",
+          "title": "result"
+        },
+        {
+          "name": "innerIn_9souzynhe",
+          "title": "result"
+        },
+        {
+          "name": "innerIn_qsj6v0hdq",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_irfulx4rp",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_oj1yi38md",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_g8xzp5kw1",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_0xe9zkqvy",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_zryz68zkm",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_6j1rjmzp3",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_wpyb3aqjm",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_hwbhyqjtg",
+          "title": "CC Value Out"
+        },
+        {
+          "name": "innerIn_fdvwts4bo",
+          "title": "CC Value Out"
+        }
+      ]
+    }
+  ]
+}

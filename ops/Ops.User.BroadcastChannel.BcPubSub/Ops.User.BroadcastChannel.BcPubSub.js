@@ -4,7 +4,8 @@ const
 
     outDraw = op.outTrigger("On Draw"),
     outReady = op.outTrigger("On Ready"),
-    outMessage = op.outObject("Message Received");
+    outMessage = op.outObject("Message Received"),
+    outMessageTrigger = op.outTrigger("On Message");
 
 let pubChannel = null;
 let subChannel = null;
@@ -27,11 +28,14 @@ function initChannels() {
     pubChannel.onmessage = (event) => {
         if (event.data && event.data.type === 'draw') {
             outDraw.trigger();
+            return;
         }
         if (event.data && event.data.type === 'ready') {
             outReady.trigger();
+            return;
         }
         outMessage.setRef(event.data);
+        outMessageTrigger.trigger();
     };
 }
 
