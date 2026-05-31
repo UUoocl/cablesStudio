@@ -1,3 +1,6 @@
+const port_8t5n3wjjc=op.inObject("8t5n3wjjc");
+port_8t5n3wjjc.setUiAttribs({title:"Event",});
+
 const port_k34eraw82=op.outNumber("k34eraw82");
 port_k34eraw82.setUiAttribs({title:"result",});
 
@@ -52,6 +55,10 @@ op.initInnerPorts=function(addedOps)
   {
     if(addedOps[i].innerInput)
     {
+const innerOut_8t5n3wjjc = addedOps[i].outObject("innerOut_8t5n3wjjc");
+innerOut_8t5n3wjjc.setUiAttribs({title:"Event"});
+port_8t5n3wjjc.on("change", (a,v) => { innerOut_8t5n3wjjc.setRef(a); });
+
     }
 if(addedOps[i].innerOutput)
 {

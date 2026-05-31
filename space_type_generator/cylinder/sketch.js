@@ -47,10 +47,6 @@ var lastTextTime = 0;
 var isClearing = false;
 var lastRemoveTime = 0;
 
-// DIAGNOSTICS
-var lastMessageStr = "";
-var messageTimestamp = 0;
-
 function preload() {
   font = loadFont('../assets/IBMPlexMono-Regular.otf');
 }
@@ -76,171 +72,168 @@ function setup() {
 // --- PRESET DEFINITIONS ---
 
 function reSetting() {
-    stackHeightAdjust = 0;
-    radius = 250; stackNum = 1; rRotate = -5; rOffset = 0; 
-    rWaveCount = 2; rWaveSpeed = 0; rWave = 0; rLong = 0; 
-    rZaxis = 0; strecherXsize = 0; strecherYsize = 0; 
-    typeX = 20; typeY = 40; typeStroke = 2;
-    xRotTweak = 0; yRotTweak = 0; zRotTweak = 0;
-    xRotCamera = 15; yRotCamera = 0; zRotCamera = 0; zoomCamera = 0;
-    
-    inpNumber = 1;
-    inp1 = color(0);
-    bkgdColor = color(255);
-    bkgdStrokeColor = color(235);
-    strkColor = color(0);
+  stackHeightAdjust = 0;
+  radius = 250; stackNum = 1; rRotate = -5; rOffset = 0;
+  rWaveCount = 2; rWaveSpeed = 0; rWave = 0; rLong = 0;
+  rZaxis = 0; strecherXsize = 0; strecherYsize = 0;
+  typeX = 20; typeY = 40; typeStroke = 2;
+  xRotTweak = 0; yRotTweak = 0; zRotTweak = 0;
+  xRotCamera = 15; yRotCamera = 0; zRotCamera = 0; zoomCamera = 0;
 
-    clearTextDelay = 0;
-    clearMethod = "all at once";
-    seqInterval = 100;
-    hideNoText = false;
-    lastTextTime = millis();
-    isClearing = false;
-    lastRemoveTime = 0;
+  inpNumber = 1;
+  inp1 = color(0);
+  bkgdColor = color(255);
+  bkgdStrokeColor = color(235);
+  strkColor = color(0);
+
+  clearTextDelay = 0;
+  clearMethod = "all at once";
+  seqInterval = 100;
+  hideNoText = false;
+  lastTextTime = millis();
+  isClearing = false;
+  lastRemoveTime = 0;
 }
 
 function applyCustomPreset(settings) {
-    if (!settings) return;
-    
-    reSetting();
-    
-    if (settings.radius !== undefined) radius = settings.radius;
-    if (settings.stackNum !== undefined) stackNum = settings.stackNum;
-    if (settings.rRotate !== undefined) rRotate = settings.rRotate;
-    if (settings.rOffset !== undefined) rOffset = settings.rOffset;
-    if (settings.rWaveCount !== undefined) rWaveCount = settings.rWaveCount;
-    if (settings.rWaveSpeed !== undefined) rWaveSpeed = settings.rWaveSpeed;
-    if (settings.rWave !== undefined) rWave = settings.rWave;
-    if (settings.rZaxis !== undefined) rZaxis = settings.rZaxis;
-    if (settings.rLong !== undefined) rLong = settings.rLong;
-    if (settings.strecherX !== undefined) strecherXsize = settings.strecherX;
-    if (settings.strecherY !== undefined) strecherYsize = settings.strecherY;
-    if (settings.typeX !== undefined) typeX = settings.typeX;
-    if (settings.typeY !== undefined) typeY = settings.typeY;
-    if (settings.typeStroke !== undefined) typeStroke = settings.typeStroke;
-    if (settings.xRotCamera !== undefined) xRotCamera = settings.xRotCamera;
-    if (settings.yRotCamera !== undefined) yRotCamera = settings.yRotCamera;
-    if (settings.zRotCamera !== undefined) zRotCamera = settings.zRotCamera;
-    if (settings.zoomCamera !== undefined) zoomCamera = settings.zoomCamera;
-    if (settings.xRotTweak !== undefined) xRotTweak = settings.xRotTweak;
-    if (settings.yRotTweak !== undefined) yRotTweak = settings.yRotTweak;
-    if (settings.zRotTweak !== undefined) zRotTweak = settings.zRotTweak;
-    if (settings.stackHeightAdjust !== undefined) stackHeightAdjust = settings.stackHeightAdjust;
-    
-    if (settings.bkgdColor !== undefined) bkgdColor = color(settings.bkgdColor);
-    if (settings.color1 !== undefined) { inp1 = color(settings.color1); inpNumber = 1; }
-    if (settings.color2 !== undefined) { inp2 = color(settings.color2); }
-    if (settings.color3 !== undefined) { inp3 = color(settings.color3); }
-    if (settings.color4 !== undefined) { inp4 = color(settings.color4); }
-    if (settings.color5 !== undefined) { inp5 = color(settings.color5); }
-    if (settings.color6 !== undefined) { inp6 = color(settings.color6); }
-    if (settings.inpNumber !== undefined) inpNumber = settings.inpNumber;
+  if (!settings) return;
+
+  reSetting();
+
+  if (settings.radius !== undefined) radius = settings.radius;
+  if (settings.stackNum !== undefined) stackNum = settings.stackNum;
+  if (settings.rRotate !== undefined) rRotate = settings.rRotate;
+  if (settings.rOffset !== undefined) rOffset = settings.rOffset;
+  if (settings.rWaveCount !== undefined) rWaveCount = settings.rWaveCount;
+  if (settings.rWaveSpeed !== undefined) rWaveSpeed = settings.rWaveSpeed;
+  if (settings.rWave !== undefined) rWave = settings.rWave;
+  if (settings.rZaxis !== undefined) rZaxis = settings.rZaxis;
+  if (settings.rLong !== undefined) rLong = settings.rLong;
+  if (settings.strecherX !== undefined) strecherXsize = settings.strecherX;
+  if (settings.strecherY !== undefined) strecherYsize = settings.strecherY;
+  if (settings.typeX !== undefined) typeX = settings.typeX;
+  if (settings.typeY !== undefined) typeY = settings.typeY;
+  if (settings.typeStroke !== undefined) typeStroke = settings.typeStroke;
+  if (settings.xRotCamera !== undefined) xRotCamera = settings.xRotCamera;
+  if (settings.yRotCamera !== undefined) yRotCamera = settings.yRotCamera;
+  if (settings.zRotCamera !== undefined) zRotCamera = settings.zRotCamera;
+  if (settings.zoomCamera !== undefined) zoomCamera = settings.zoomCamera;
+  if (settings.xRotTweak !== undefined) xRotTweak = settings.xRotTweak;
+  if (settings.yRotTweak !== undefined) yRotTweak = settings.yRotTweak;
+  if (settings.zRotTweak !== undefined) zRotTweak = settings.zRotTweak;
+  if (settings.stackHeightAdjust !== undefined) stackHeightAdjust = settings.stackHeightAdjust;
+
+  if (settings.bkgdColor !== undefined) bkgdColor = color(settings.bkgdColor);
+  if (settings.color1 !== undefined) { inp1 = color(settings.color1); inpNumber = 1; }
+  if (settings.color2 !== undefined) { inp2 = color(settings.color2); }
+  if (settings.color3 !== undefined) { inp3 = color(settings.color3); }
+  if (settings.color4 !== undefined) { inp4 = color(settings.color4); }
+  if (settings.color5 !== undefined) { inp5 = color(settings.color5); }
+  if (settings.color6 !== undefined) { inp6 = color(settings.color6); }
+  if (settings.inpNumber !== undefined) inpNumber = settings.inpNumber;
 }
 
 // REMOTE CONTROL HANDLER
 function updateSettings(data) {
-    if (!data) return;
-    
-    // Set diagnostic message
-    lastMessageStr = "RECV: " + Object.keys(data).join(", ");
-    messageTimestamp = millis();
+  if (!data) return;
 
-    // Process preset first
-    if (data.preset) {
-        const p = data.preset.toLowerCase();
-        let loaded = false;
-        
-        if (typeof customPresets !== 'undefined') {
-            const matchedKey = Object.keys(customPresets).find(k => k.toLowerCase() === p);
-            if (matchedKey) {
-                applyCustomPreset(customPresets[matchedKey]);
-                loaded = true;
-            }
-        }
-        
-        if (!loaded && p === 'reset') {
-            reSetting();
-        }
+
+  // Process preset first
+  if (data.preset) {
+    const p = data.preset.toLowerCase();
+    let loaded = false;
+
+    if (typeof customPresets !== 'undefined') {
+      const matchedKey = Object.keys(customPresets).find(k => k.toLowerCase() === p);
+      if (matchedKey) {
+        applyCustomPreset(customPresets[matchedKey]);
+        loaded = true;
+      }
     }
 
-    // Apply overrides
-    if (data.text !== undefined || data.string !== undefined) {
-        inpText = data.text !== undefined ? String(data.text) : String(data.string);
-        lastTextTime = millis();
-        isClearing = false;
+    if (!loaded && p === 'reset') {
+      reSetting();
     }
-    if (data.clearTextDelay !== undefined) clearTextDelay = Number(data.clearTextDelay);
-    if (data.clearMethod !== undefined) clearMethod = String(data.clearMethod);
-    if (data.seqInterval !== undefined) seqInterval = Number(data.seqInterval);
-    if (data.hideNoText !== undefined) hideNoText = Boolean(data.hideNoText) || data.hideNoText === 'true';
+  }
 
-    if (data.radius !== undefined) radius = data.radius;
-    if (data.stackNum !== undefined) stackNum = data.stackNum;
-    if (data.rRotate !== undefined) rRotate = data.rRotate;
-    if (data.rOffset !== undefined) rOffset = data.rOffset;
-    if (data.rWaveCount !== undefined) rWaveCount = data.rWaveCount;
-    if (data.rWaveSpeed !== undefined) rWaveSpeed = data.rWaveSpeed;
-    if (data.rWave !== undefined) rWave = data.rWave;
-    if (data.rZaxis !== undefined) rZaxis = data.rZaxis;
-    if (data.strecherX !== undefined) strecherXsize = data.strecherX;
-    if (data.strecherY !== undefined) strecherYsize = data.strecherY;
-    if (data.typeX !== undefined) typeX = data.typeX;
-    if (data.typeY !== undefined) typeY = data.typeY;
-    if (data.typeStroke !== undefined) typeStroke = data.typeStroke;
-    if (data.xRotCamera !== undefined) xRotCamera = data.xRotCamera;
-    if (data.yRotCamera !== undefined) yRotCamera = data.yRotCamera;
-    if (data.zRotCamera !== undefined) zRotCamera = data.zRotCamera;
-    if (data.zoomCamera !== undefined) zoomCamera = data.zoomCamera;
-    if (data.xRotTweak !== undefined) xRotTweak = data.xRotTweak;
-    if (data.yRotTweak !== undefined) yRotTweak = data.yRotTweak;
-    if (data.zRotTweak !== undefined) zRotTweak = data.zRotTweak;
-    
-    if (data.bkgdColor !== undefined) bkgdColor = color(data.bkgdColor);
-    if (data.color1 !== undefined) {
-        inp1 = color(data.color1);
-        inpNumber = 1; // Switch back to single color mode if color1 is sent
-    }
+  // Apply overrides
+  if (data.text !== undefined || data.string !== undefined) {
+    inpText = data.text !== undefined ? String(data.text) : String(data.string);
+    lastTextTime = millis();
+    isClearing = false;
+  }
+  if (data.clearTextDelay !== undefined) clearTextDelay = Number(data.clearTextDelay);
+  if (data.clearMethod !== undefined) clearMethod = String(data.clearMethod);
+  if (data.seqInterval !== undefined) seqInterval = Number(data.seqInterval);
+  if (data.hideNoText !== undefined) hideNoText = Boolean(data.hideNoText) || data.hideNoText === 'true';
 
-    // Handle save request
-    if (data.action === "savePreset") {
-        const payload = {
-            type: "savePreset",
-            iframeSrc: window.location.href,
-            name: data.name || "custom_preset",
-            settings: {
-                radius: radius,
-                stackNum: stackNum,
-                rRotate: rRotate,
-                rOffset: rOffset,
-                rWaveCount: rWaveCount,
-                rWaveSpeed: rWaveSpeed,
-                rWave: rWave,
-                rZaxis: rZaxis,
-                strecherX: strecherXsize,
-                strecherY: strecherYsize,
-                typeX: typeX,
-                typeY: typeY,
-                typeStroke: typeStroke,
-                xRotCamera: xRotCamera,
-                yRotCamera: yRotCamera,
-                zRotCamera: zRotCamera,
-                zoomCamera: zoomCamera,
-                xRotTweak: xRotTweak,
-                yRotTweak: yRotTweak,
-                zRotTweak: zRotTweak,
-                stackHeightAdjust: stackHeightAdjust,
-                inpNumber: inpNumber,
-                bkgdColor: bkgdColor.toString(),
-                color1: inp1.toString(),
-                color2: inp2 ? inp2.toString() : undefined,
-                color3: inp3 ? inp3.toString() : undefined,
-                color4: inp4 ? inp4.toString() : undefined,
-                color5: inp5 ? inp5.toString() : undefined,
-                color6: inp6 ? inp6.toString() : undefined
-            }
-        };
-        pubChannel.postMessage(payload);
-    }
+  if (data.radius !== undefined) radius = data.radius;
+  if (data.stackNum !== undefined) stackNum = data.stackNum;
+  if (data.rRotate !== undefined) rRotate = data.rRotate;
+  if (data.rOffset !== undefined) rOffset = data.rOffset;
+  if (data.rWaveCount !== undefined) rWaveCount = data.rWaveCount;
+  if (data.rWaveSpeed !== undefined) rWaveSpeed = data.rWaveSpeed;
+  if (data.rWave !== undefined) rWave = data.rWave;
+  if (data.rZaxis !== undefined) rZaxis = data.rZaxis;
+  if (data.strecherX !== undefined) strecherXsize = data.strecherX;
+  if (data.strecherY !== undefined) strecherYsize = data.strecherY;
+  if (data.typeX !== undefined) typeX = data.typeX;
+  if (data.typeY !== undefined) typeY = data.typeY;
+  if (data.typeStroke !== undefined) typeStroke = data.typeStroke;
+  if (data.xRotCamera !== undefined) xRotCamera = data.xRotCamera;
+  if (data.yRotCamera !== undefined) yRotCamera = data.yRotCamera;
+  if (data.zRotCamera !== undefined) zRotCamera = data.zRotCamera;
+  if (data.zoomCamera !== undefined) zoomCamera = data.zoomCamera;
+  if (data.xRotTweak !== undefined) xRotTweak = data.xRotTweak;
+  if (data.yRotTweak !== undefined) yRotTweak = data.yRotTweak;
+  if (data.zRotTweak !== undefined) zRotTweak = data.zRotTweak;
+
+  if (data.bkgdColor !== undefined) bkgdColor = color(data.bkgdColor);
+  if (data.color1 !== undefined) {
+    inp1 = color(data.color1);
+    inpNumber = 1; // Switch back to single color mode if color1 is sent
+  }
+
+  // Handle save request
+  if (data.action === "savePreset") {
+    const payload = {
+      type: "savePreset",
+      iframeSrc: window.location.href,
+      name: data.name || "custom_preset",
+      settings: {
+        radius: radius,
+        stackNum: stackNum,
+        rRotate: rRotate,
+        rOffset: rOffset,
+        rWaveCount: rWaveCount,
+        rWaveSpeed: rWaveSpeed,
+        rWave: rWave,
+        rZaxis: rZaxis,
+        strecherX: strecherXsize,
+        strecherY: strecherYsize,
+        typeX: typeX,
+        typeY: typeY,
+        typeStroke: typeStroke,
+        xRotCamera: xRotCamera,
+        yRotCamera: yRotCamera,
+        zRotCamera: zRotCamera,
+        zoomCamera: zoomCamera,
+        xRotTweak: xRotTweak,
+        yRotTweak: yRotTweak,
+        zRotTweak: zRotTweak,
+        stackHeightAdjust: stackHeightAdjust,
+        inpNumber: inpNumber,
+        bkgdColor: bkgdColor.toString(),
+        color1: inp1.toString(),
+        color2: inp2 ? inp2.toString() : undefined,
+        color3: inp3 ? inp3.toString() : undefined,
+        color4: inp4 ? inp4.toString() : undefined,
+        color5: inp5 ? inp5.toString() : undefined,
+        color6: inp6 ? inp6.toString() : undefined
+      }
+    };
+    pubChannel.postMessage(payload);
+  }
 }
 
 function draw() {
@@ -373,19 +366,7 @@ function draw() {
   }
   pop();
 
-  // Draw diagnostic message overlay
-  if (millis() - messageTimestamp < 3000) {
-      push();
-      // Move to top left of WEBGL canvas
-      translate(-width/2 + 10, -height/2 + 20, 100); 
-      fill(255, 0, 0);
-      noStroke();
-      textSize(14);
-      textAlign(LEFT);
-      text(lastMessageStr, 0, 0);
-      pop();
-  }
-  
+
   if (typeof captureFrame === 'function') captureFrame();
 }
 
@@ -417,5 +398,5 @@ function setTextColor(switcher) {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, windowHeight);
 }

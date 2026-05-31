@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slides Studio STT Transcriber</title>
+    <style>
+        body {
+            background: #111;
+            color: #00ffcc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background: #222;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 { margin-bottom: 20px; font-size: 24px; color: #fff; }
+        .setup-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        label { font-size: 14px; color: #888; }
+        input {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .start-btn { background: #00ffcc; color: #111; }
+        .start-btn:hover { background: #00e6b8; }
+        .start-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .status-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            border-left: 4px solid #444;
+            text-align: left;
+        }
+        .status-area.active { border-left-color: #00ffcc; }
+        .status-text { font-size: 12px; color: #888; margin-bottom: 10px; }
+        .transcript-preview {
+            font-size: 20px;
+            color: #eee;
+            min-height: 1.5em;
+            word-wrap: break-word;
+        }
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: #00ffcc;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 255, 204, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); }
+        }
+        #download-btn {
+            margin-top: 10px; background: #ffaa00; color: #111;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>STT Transcriber</h1>
+        
+        <div id="setup-ui" class="setup-section">
+            <label>Event Name (matches plugin settings)</label>
+            <input type="text" id="event-name" placeholder="e.g. vocals" value="vocals">
+
+            <button id="start-btn" class="btn start-btn">Start Transcribing</button>
+        </div>
+
+        <div id="action-container"></div>
+
+        <div id="status-area" class="status-area">
+            <div id="status-msg" class="status-text">Ready to start</div>
+            <div id="transcript" class="transcript-preview">...</div>
+        </div>
+    </div>
+
+    <script>
+        const eventInput = document.getElementById('event-name');
+        const startBtn = document.getElementById('start-btn');
+        const statusMsg = document.getElementById('status-msg');
+        const transcriptEl = document.getElementById('transcript');
+        const actionContainer = document.getElementById('action-container');
+        const statusArea = document.getElementById('status-area');
+
+        // Get channel from URL
+        const params = new URLSearchParams(window.location.search);
+        const channelParam = params.get('channel');
+        if (channelParam) {
+            eventInput.value = channelParam;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            statusMsg.textContent = "Error: Web Speech API not supported.";
+            startBtn.disabled = true;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = navigator.language || 'en-US';
+        recognition.processLocally = true;
+
+        let currentEventName = '';
+        let isTranscribing = false;
+
+        recognition.onresult = (event) => {
+            let result = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                result += event.results[i][0].transcript;
+            }
+            
+            if (result) {
+                transcriptEl.textContent = result;
+                sendResult(currentEventName, result);
+            }
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Recognition error:", event.error);
+            if (event.error === 'no-speech' || event.error === 'aborted') return;
+            statusMsg.textContent = "Error: " + event.error;
+            
+            if (event.error === 'network') {
+                statusMsg.innerHTML += "<br><small>Chrome on-device processing failed. Check chrome://settings/accessibility</small>";
+            }
+        };
+
+        recognition.onend = () => {
+            if (isTranscribing) {
+                setTimeout(() => {
+                    try { recognition.start(); } catch (e) {}
+                }, 300);
+            }
+        };
+
+        startBtn.onclick = async () => {
+            currentEventName = eventInput.value.trim();
+            if (!currentEventName) {
+                alert("Please enter an event name.");
+                return;
+            }
+
+            const lang = recognition.lang;
+
+            if (SpeechRecognition.available) {
+                statusMsg.textContent = "Checking for on-device language support...";
+                const result = await SpeechRecognition.available({ langs: [lang], processLocally: true });
+                
+                if (result === "available") {
+                    start();
+                } else if (result === "unavailable") {
+                    statusMsg.textContent = `Language pack ${lang} not available for download.`;
+                } else {
+                    statusMsg.textContent = "Language pack download required.";
+                    showDownloadButton(lang);
+                }
+            } else {
+                start();
+            }
+        };
+
+        function showDownloadButton(lang) {
+            const btn = document.createElement('button');
+            btn.id = 'download-btn';
+            btn.className = 'btn';
+            btn.textContent = "Download language pack";
+            btn.onclick = async () => {
+                btn.remove();
+                statusMsg.textContent = "Downloading...";
+                try {
+                    const success = await SpeechRecognition.install({ langs: [lang], processLocally: true });
+                    if (success) {
+                        start();
+                    } else {
+                        statusMsg.textContent = "Download failed.";
+                    }
+                } catch (e) {
+                    statusMsg.textContent = "Install error: " + e.message;
+                }
+            };
+            actionContainer.appendChild(btn);
+        }
+
+        function start() {
+            isTranscribing = true;
+            startBtn.disabled = true;
+            eventInput.disabled = true;
+            statusArea.classList.add('active');
+            statusMsg.innerHTML = `<span class="pulse"></span> Transcribing: <b>${currentEventName}</b>`;
+            
+            try {
+                recognition.start();
+            } catch (e) {
+                console.error("Start failed:", e);
+                statusMsg.textContent = "Start failed: " + e.message;
+                isTranscribing = false;
+                startBtn.disabled = false;
+                eventInput.disabled = false;
+            }
+        }
+
+        async function sendResult(device, transcript) {
+            try {
+                await fetch('/api/stt/result', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        results: [{ device, transcript }]
+                    })
+                });
+            } catch (err) {
+                console.warn("Plugin sync failed:", err);
+            }
+        }
+    </script>
+</body>
+</html>

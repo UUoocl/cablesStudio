@@ -55,7 +55,7 @@ This custom operator refactors the legacy Node.js/NPM-based Syphon publishing cl
 
 To compile the Swift binary, run:
 ```bash
-cd ops/Ops.Extension.Standalone.Syphon/Ops.Extension.Standalone.Swift.SwiftSyphonOut
+cd ops/Ops.Extension.Standalone.Swift.SwiftSyphonOut
 swift build -c release
 mkdir -p swift_bin
 cp .build/release/SwiftSyphonOut swift_bin/SwiftSyphonOut

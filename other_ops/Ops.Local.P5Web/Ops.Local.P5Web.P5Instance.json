@@ -1,0 +1,70 @@
+{
+    "id": "c7a8b9f0-d1e2-3f4a-5b6c-7d8e9f0a1b2c",
+    "created": 1780000000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "category": "local",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Canvas Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Canvas Height",
+                "subType": "integer"
+            },
+            {
+                "type": 2,
+                "name": "Input Data"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 1,
+                "name": "Manual Reload"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Rendered Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 2,
+                "name": "Canvas"
+            },
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 0,
+                "name": "Output Data",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "summary": "Run a P5.js sketch in instance mode in the cables.gl web environment using pre-loaded p5Module and p5Sketch scope objects",
+    "docs": {
+        "ports": []
+    },
+    "isReleased": true
+}

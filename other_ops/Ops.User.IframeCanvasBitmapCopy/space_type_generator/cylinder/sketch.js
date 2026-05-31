@@ -38,9 +38,7 @@ var bkgdStrokeColor;
 var inp1, inp2, inp3, inp4, inp5, inp6;
 var inpNumber = 1;
 
-// DIAGNOSTICS
-var lastMessageStr = "";
-var messageTimestamp = 0;
+
 
 function preload() {
   font = loadFont('../assets/IBMPlexMono-Regular.otf');
@@ -141,9 +139,7 @@ function prideSet() {
 function updateSettings(data) {
     if (!data) return;
     
-    // Set diagnostic message
-    lastMessageStr = "RECV: " + Object.keys(data).join(", ");
-    messageTimestamp = millis();
+
 
     // Process preset first
     if (data.preset) {
@@ -282,18 +278,7 @@ function draw() {
   }
   pop();
 
-  // Draw diagnostic message overlay
-  if (millis() - messageTimestamp < 3000) {
-      push();
-      // Move to top left of WEBGL canvas
-      translate(-width/2 + 10, -height/2 + 20, 100); 
-      fill(255, 0, 0);
-      noStroke();
-      textSize(14);
-      textAlign(LEFT);
-      text(lastMessageStr, 0, 0);
-      pop();
-  }
+
   
   if (typeof captureFrame === 'function') captureFrame();
 }

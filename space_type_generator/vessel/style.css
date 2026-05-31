@@ -1,0 +1,29 @@
+body { padding: 0; margin: 0; background: transparent; overflow: hidden; }
+canvas { vertical-align: top; }
+.p5_container { display: none !important; }
+
+/* Local File CORS Fallback Font Declarations */
+@font-face {
+  font-family: 'IBMPlexMono-Regular';
+  src: url('../assets/IBMPlexMono-Regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'IBMPlexMono-BoldItalic';
+  src: url('../assets/IBMPlexMono-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Roboto-Thin';
+  src: url('../assets/Roboto-Thin.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'RobotoCondensed-Bold';
+  src: url('../assets/RobotoCondensed-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'IBMPlexMono-ExtraLightItalic';
+  src: url('../assets/IBMPlexMono-ExtraLightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cairo-Black';
+  src: url('../assets/Cairo-Black.ttf') format('truetype');
+}

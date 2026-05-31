@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-Mic STT Transcriber</title>
+    <style>
+        body {
+            background: #111;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        .mic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 20px;
+        }
+        .mic-card {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .mic-card.active {
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+        select, input {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        select { flex: 2; }
+        input { flex: 1; }
+        
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .add-btn { background: #007bff; color: white; }
+        .start-btn { background: #00ffcc; color: #111; flex: 1; }
+        .stop-btn { background: #dc3545; color: white; flex: 1; }
+        
+        .transcript {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 6px;
+            min-height: 80px;
+            font-size: 18px;
+            line-height: 1.4;
+            color: #00ffcc;
+            word-wrap: break-word;
+        }
+        .log {
+            font-family: monospace;
+            font-size: 11px;
+            color: #888;
+            margin-top: 10px;
+            max-height: 60px;
+            overflow-y: auto;
+        }
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: #00ffcc;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 1; }
+            70% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Multi-Mic STT Transcriber</h1>
+            <button class="add-btn" onclick="addMicCard()">+ Add Microphone Instance</button>
+        </div>
+        <div id="mic-grid" class="mic-grid">
+            <!-- Mic cards will be added here -->
+        </div>
+    </div>
+
+    <script>
+        let availableDevices = [];
+        let micCounter = 0;
+        let resultBuffer = [];
+        let flushTimer = null;
+
+        async function getDevices() {
+            try {
+                // Request permission first to get labels
+                const tempStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                tempStream.getTracks().forEach(t => t.stop());
+                
+                availableDevices = devices.filter(d => d.kind === 'audioinput');
+                console.log("Devices found:", availableDevices);
+            } catch (err) {
+                console.error("Could not list devices:", err);
+                alert("Please grant microphone permissions to test multiple devices.");
+            }
+        }
+
+        function addMicCard() {
+            micCounter++;
+            const id = `mic-${micCounter}`;
+            const grid = document.getElementById('mic-grid');
+            
+            const card = document.createElement('div');
+            card.className = 'mic-card';
+            card.id = id;
+            
+            let options = availableDevices.map(d => `<option value="${d.deviceId}">${d.label || 'Unknown Mic'}</option>`).join('');
+            
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="margin:0">Instance #${micCounter}</h3>
+                    <span id="status-icon-${id}"></span>
+                </div>
+                <div class="controls">
+                    <div class="input-row">
+                        <select id="select-${id}">
+                            ${options}
+                        </select>
+                        <input type="text" id="name-${id}" placeholder="SSE Name" value="mic${micCounter}">
+                    </div>
+                    <div class="btn-row">
+                        <button class="start-btn" id="start-${id}" onclick="startSTT('${id}')">Start</button>
+                        <button class="stop-btn" id="stop-${id}" onclick="stopSTT('${id}')" disabled>Stop</button>
+                    </div>
+                </div>
+                <div class="transcript" id="transcript-${id}">Waiting...</div>
+                <div class="log" id="log-${id}"></div>
+            `;
+            
+            grid.appendChild(card);
+        }
+
+        const activeRecognitions = new Map(); // id -> { recognition, stream, eventName }
+
+        async function startSTT(id) {
+            const select = document.getElementById(`select-${id}`);
+            const nameInput = document.getElementById(`name-${id}`);
+            const startBtn = document.getElementById(`start-${id}`);
+            const stopBtn = document.getElementById(`stop-${id}`);
+            const transcriptEl = document.getElementById(`transcript-${id}`);
+            const logEl = document.getElementById(`log-${id}`);
+            const statusIcon = document.getElementById(`status-icon-${id}`);
+            const card = document.getElementById(id);
+            
+            const deviceId = select.value;
+            const eventName = nameInput.value.trim() || `mic${id.split('-')[1]}`;
+
+            function log(msg) {
+                const div = document.createElement('div');
+                div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+                logEl.prepend(div);
+            }
+
+            try {
+                log(`Starting STT for: ${eventName}`);
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: { deviceId: { exact: deviceId } }
+                });
+                
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    throw new Error("SpeechRecognition not supported");
+                }
+
+                const recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.processLocally = true;
+                recognition.lang = navigator.language || 'en-US';
+
+                recognition.onresult = (event) => {
+                    let result = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        result += event.results[i][0].transcript;
+                    }
+                    
+                    if (result) {
+                        transcriptEl.textContent = result;
+                        queueResult(eventName, result);
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    log(`Error: ${event.error}`);
+                };
+
+                recognition.onend = () => {
+                    log("Session ended");
+                    const currentData = activeRecognitions.get(id);
+                    if (currentData) {
+                        log("Restarting...");
+                        setTimeout(() => {
+                            try { 
+                                const track = currentData.stream.getAudioTracks()[0];
+                                if (track && track.readyState === 'live') {
+                                    recognition.start(track); 
+                                }
+                            } catch(e) {
+                                log(`Restart failed: ${e.message}`);
+                            }
+                        }, 300);
+                    }
+                };
+
+                const audioTrack = stream.getAudioTracks()[0];
+                if (!audioTrack) throw new Error("No audio track found");
+
+                recognition.start(audioTrack);
+                
+                activeRecognitions.set(id, { recognition, stream, eventName });
+                
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                select.disabled = true;
+                nameInput.disabled = true;
+                card.classList.add('active');
+                statusIcon.innerHTML = '<span class="pulse"></span>';
+                transcriptEl.textContent = "Listening...";
+
+            } catch (err) {
+                log(`FAILED: ${err.message}`);
+                console.error(err);
+            }
+        }
+
+        function stopSTT(id) {
+            const data = activeRecognitions.get(id);
+            if (data) {
+                data.recognition.onend = null;
+                data.recognition.stop();
+                data.stream.getTracks().forEach(t => t.stop());
+                activeRecognitions.delete(id);
+            }
+            
+            document.getElementById(`start-${id}`).disabled = false;
+            document.getElementById(`stop-${id}`).disabled = true;
+            document.getElementById(`select-${id}`).disabled = false;
+            document.getElementById(`name-${id}`).disabled = false;
+            document.getElementById(`status-icon-${id}`).innerHTML = '';
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function queueResult(device, transcript) {
+            // Update or add to buffer
+            const existing = resultBuffer.find(r => r.device === device);
+            if (existing) {
+                existing.transcript = transcript;
+            } else {
+                resultBuffer.push({ device, transcript });
+            }
+
+            if (!flushTimer) {
+                flushTimer = setTimeout(flushResults, 500);
+            }
+        }
+
+        async function flushResults() {
+            if (resultBuffer.length === 0) return;
+
+            const payload = { results: [...resultBuffer] };
+            resultBuffer = [];
+            flushTimer = null;
+
+            try {
+                await fetch('/api/stt/result', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) {
+                console.error("Failed to send bundled results:", err);
+            }
+        }
+
+        // Initialize
+        getDevices().then(() => {
+            addMicCard();
+        });
+    </script>
+</body>
+</html>

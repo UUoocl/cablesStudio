@@ -10,12 +10,28 @@
             "order": 0
         },
         {
+            "id": "ur1wxkxb8",
+            "title": "Event",
+            "dir": 0,
+            "type": 2,
+            "objType": null,
+            "order": 1
+        },
+        {
             "id": "lkmmkuzbf",
             "title": "Result",
             "dir": 1,
             "type": 2,
             "objType": null,
-            "order": 1001
+            "order": 1002
+        },
+        {
+            "id": "ol6752epc",
+            "title": "Event",
+            "dir": 1,
+            "type": 2,
+            "objType": null,
+            "order": 1003
         }
     ]
 }

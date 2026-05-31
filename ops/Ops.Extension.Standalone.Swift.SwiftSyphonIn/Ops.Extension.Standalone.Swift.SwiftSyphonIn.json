@@ -20,13 +20,17 @@
             },
             {
                 "type": 5,
-                "name": "Server"
+                "name": "Server",
+                "values": [
+                    "None"
+                ]
             }
         ],
         "portsOut": [
             {
                 "type": 2,
-                "name": "Texture"
+                "name": "Texture",
+                "objType": "texture"
             },
             {
                 "type": 1,

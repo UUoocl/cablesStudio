@@ -39,6 +39,13 @@ Facilitates real-time video sharing between Cables and other macOS creative soft
 - **SyphonIn**: Ingests video streams from external applications like Resolume, MadMapper, or OBS.
 - **SyphonOut**: Publishes the Cables GL viewport or textures to the local Syphon server for external use.
 
+### 6. Headless Space Type Generator (STG)
+Offline, standalone, transparent, and remote-controlled implementations of the 16 Kiel Mutschelknaus kinetic typography generators.
+- **Headless & Standalone**: Stripped of local DOM sliders and pickers, running entirely on a transparent canvas inside isolated iframe contexts.
+- **BroadcastChannel Sync**: Integrates a bi-directional messaging bridge (`pub-[channel]` and `sub-[channel]`) enabling remote control of sizes, counts, speeds, styles, and custom presets directly from Cables GL.
+- **Frame-Accurate Texture Capture**: Notifies the host operator on every single frame draw loop (`captureFrame`) to achieve seamless real-time WebGL rendering and frame-accurate capturing.
+- **Automated Text Erasure**: Built-in standardized timings (`clearTextDelay`, `seqInterval`) and erasure patterns (`all at once`, `sequential`, `reverseSeq`) directly inside the sketch drawing loop.
+
 ---
 
 *AI Disclaimer: This project and its documentation were developed with the assistance of AI tools to ensure compatibility and maintain rigorous architectural standards across the standalone ecosystem.*

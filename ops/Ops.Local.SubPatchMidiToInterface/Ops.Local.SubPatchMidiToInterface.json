@@ -12,6 +12,11 @@
                 "type": 5,
                 "name": "9ct2eefiy",
                 "uititle": "JSON String"
+            },
+            {
+                "type": 2,
+                "name": "ur1wxkxb8",
+                "uititle": "Event"
             }
         ],
         "portsOut": [
@@ -19,6 +24,11 @@
                 "type": 2,
                 "name": "lkmmkuzbf",
                 "uititle": "Result"
+            },
+            {
+                "type": 2,
+                "name": "ol6752epc",
+                "uititle": "Event"
             }
         ]
     }

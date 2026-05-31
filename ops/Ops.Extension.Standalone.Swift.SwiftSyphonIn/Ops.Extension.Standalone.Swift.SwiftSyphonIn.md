@@ -53,7 +53,7 @@ This custom operator refactors the legacy Node.js/NPM-based Syphon capture clien
 
 To compile the Swift binary, run:
 ```bash
-cd ops/Ops.Extension.Standalone.Syphon/Ops.Extension.Standalone.Swift.SwiftSyphonIn
+cd ops/Ops.Extension.Standalone.Swift.SwiftSyphonIn
 swift build -c release
 mkdir -p swift_bin
 cp .build/release/SwiftSyphonIn swift_bin/SwiftSyphonIn

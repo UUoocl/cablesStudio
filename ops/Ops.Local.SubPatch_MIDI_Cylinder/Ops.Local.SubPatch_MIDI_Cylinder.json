@@ -7,7 +7,13 @@
         "subpatchop"
     ],
     "layout": {
-        "portsIn": [],
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "8t5n3wjjc",
+                "uititle": "Event"
+            }
+        ],
         "portsOut": [
             {
                 "type": 0,

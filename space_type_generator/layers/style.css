@@ -1,0 +1,3 @@
+body { padding: 0; margin: 0; background: transparent; overflow: hidden; }
+canvas { vertical-align: top; }
+.p5_container { display: none !important; }

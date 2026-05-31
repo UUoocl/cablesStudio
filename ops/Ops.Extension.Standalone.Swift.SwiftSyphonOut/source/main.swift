@@ -256,7 +256,7 @@ func loadSyphonFramework() -> Bool {
     let paths = [
         parentDir.appendingPathComponent("Frameworks/Syphon.framework").path,
         parentDir.appendingPathComponent("../Frameworks/Syphon.framework").path,
-        "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Syphon/Ops.Extension.Standalone.SyphonIn/node_modules/node-syphon/dist/Frameworks/Syphon.framework",
+        "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.NodeSyphon/Ops.Extension.Standalone.SyphonIn/node_modules/node-syphon/dist/Frameworks/Syphon.framework",
         "/Library/Frameworks/Syphon.framework",
         NSHomeDirectory() + "/Library/Frameworks/Syphon.framework"
     ]

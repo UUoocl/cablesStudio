@@ -82,7 +82,7 @@ function startServerAndProcess() {
 }
 
 function launchProcess(port) {
-    let binaryPath = `${op.patch.config.prefixAssetPath}ops/Ops.Extension.Standalone.Syphon/Ops.Extension.Standalone.Swift.SwiftSyphonOut/swift_bin/SwiftSyphonOut`;
+    let binaryPath = `${op.patch.config.prefixAssetPath}ops/Ops.Extension.Standalone.Swift.SwiftSyphonOut/swift_bin/SwiftSyphonOut`;
     if (op.patch && typeof op.patch.filePath === "function") {
         binaryPath = op.patch.filePath(binaryPath);
     }
