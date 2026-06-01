@@ -1,0 +1,90 @@
+{
+    "summary": "Standalone Microphone input op with transient activation protection and device ID mapping",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Audio Input index",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "group": "Volume Settings",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Mute",
+                "group": "Volume Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Start"
+            },
+            {
+                "type": 1,
+                "name": "Stop"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Audio Out",
+                "objType": "audioNode"
+            },
+            {
+                "type": 0,
+                "name": "Listening",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "List of Input Devices"
+            }
+        ]
+    },
+    "id": "e3b4c5d6-e7f8-4901-b2c3-d4e5f6a7b8c9",
+    "created": 1780264931000,
+    "docs": {
+        "ports": [
+            {
+                "name": "Start",
+                "text": "Trigger in to request permission and start microphone capture"
+            },
+            {
+                "name": "Stop",
+                "text": "Trigger in to stop microphone capture and release the device"
+            },
+            {
+                "name": "Audio Input",
+                "text": "Selected audio input device"
+            },
+            {
+                "name": "Volume",
+                "text": "Gain level for the audio output node"
+            },
+            {
+                "name": "Mute",
+                "text": "Mutes the output audio node"
+            },
+            {
+                "name": "Audio Out",
+                "text": "Web Audio API AudioNode output"
+            },
+            {
+                "name": "Listening",
+                "text": "True when microphone streaming is active"
+            },
+            {
+                "name": "List of Input Devices",
+                "text": "List of all discovered input devices"
+            }
+        ]
+    },
+    "coreLibs": [
+        "webaudio"
+    ],
+    "isReleased": true
+}

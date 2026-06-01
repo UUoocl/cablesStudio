@@ -1,0 +1,44 @@
+{
+    "id": "d4aa5fc4-4172-4b7c-9725-5956564530bf",
+    "created": 1780282661372,
+    "license": "MIT",
+    "authorName": "",
+    "coreLibs": [
+        "subpatchop"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "7zx8tb75j",
+                "uititle": "Execute"
+            },
+            {
+                "type": 2,
+                "name": "mz4vjy3lu",
+                "uititle": "Response"
+            },
+            {
+                "type": 5,
+                "name": "czh4oftwg",
+                "uititle": "String 0"
+            },
+            {
+                "type": 1,
+                "name": "cgcgw3kyf",
+                "uititle": "Trigger"
+            },
+            {
+                "type": 2,
+                "name": "t96yukjuq",
+                "uititle": "Value"
+            },
+            {
+                "type": 2,
+                "name": "r9guwazcz",
+                "uititle": "Value"
+            }
+        ],
+        "portsOut": []
+    }
+}
