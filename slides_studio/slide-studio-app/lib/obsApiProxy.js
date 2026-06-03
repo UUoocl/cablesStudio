@@ -25,19 +25,19 @@ class ObsApiProxy {
 
         this.connectionPromise = (async () => {
             try {
-                // Fetch credentials or load from manual localStorage values
                 let host = this.manualHost || localStorage.getItem("obs_manual_host") || "localhost";
                 let port = this.manualPort || localStorage.getItem("obs_manual_port");
                 let password = this.manualPassword || localStorage.getItem("obs_manual_password");
 
-                if (!port) {
+                // Fetch dynamic credentials if port is missing, or if password is empty and we are not in an explicit manual connection session
+                if (!port || (!password && !this.manualPort)) {
                     try {
                         const res = await fetch('/api/obs/credentials');
                         if (res.ok) {
                             const creds = await res.json();
-                            if (creds && creds.port) {
-                                port = creds.port;
-                                password = creds.password || "";
+                            if (creds) {
+                                if (!port && creds.port) port = creds.port;
+                                if (!password && creds.password) password = creds.password;
                             }
                         }
                     } catch (e) {

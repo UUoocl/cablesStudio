@@ -356,6 +356,12 @@
                         resultEl.style.color = "#4ade80";
                         resultEl.textContent = `Success!\nPort: ${creds.port}\nPassword: ${creds.password ? "******** (Length: " + creds.password.length + ")" : "(empty)"}`;
                         console.log("[TestCredentials] Successfully received credentials:", creds);
+
+                        // Populate UI inputs automatically so the user can easily view or click Connect
+                        const portInput = document.getElementById("obs-port");
+                        const passwordInput = document.getElementById("obs-password");
+                        if (portInput && creds.port) portInput.value = creds.port;
+                        if (passwordInput && creds.password) passwordInput.value = creds.password || "";
                     } else {
                         resultEl.style.color = "#f87171";
                         resultEl.textContent = `Error: HTTP ${res.status} ${res.statusText}`;

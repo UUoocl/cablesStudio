@@ -31,6 +31,10 @@
                 "type": 0,
                 "name": "PPS Limit",
                 "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "Channel Name"
             }
         ],
         "portsOut": [

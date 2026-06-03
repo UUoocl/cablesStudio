@@ -1,0 +1,362 @@
+{
+  "ops": [
+    {
+      "opId": "0816c999-f2db-466b-9777-2814573574c5",
+      "id": "apte3al05",
+      "attribs": {},
+      "uiAttribs": {
+        "title": ">SseTrigger",
+        "translate": {
+          "x": -545.094697143943,
+          "y": -1470.4188270036461
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Named Trigger",
+          "value": "SseTrigger"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Triggered",
+          "links": [
+            {
+              "portIn": "innerIn_lwl5v2d6d",
+              "portOut": "Triggered",
+              "objIn": "j80rtsfma",
+              "objOut": "apte3al05"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "3ad08cfc-bce6-4175-9746-fef2817a3b12",
+      "id": "c2md2kmxp",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -569.094697143943,
+          "y": -1544.425974746925
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "extendTitle": "#VarSseEvent",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "VarSseEvent"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "innerIn_ityt6yfh1",
+              "portOut": "Value",
+              "objIn": "j80rtsfma",
+              "objOut": "c2md2kmxp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+      "id": "g762hx77c",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -557.094697143943,
+          "y": -1508.2449604252467
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "extendTitle": "#VarSsePayload",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "VarSsePayload"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "innerIn_b19mk5ioa",
+              "portOut": "Value",
+              "objIn": "j80rtsfma",
+              "objOut": "g762hx77c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "3ad08cfc-bce6-4175-9746-fef2817a3b12",
+      "id": "hzp5ix6du",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -757.4245068267627,
+          "y": -1527.426667630376
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "extendTitle": "#varIP",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "varIP"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "innerIn_asukhwvr7",
+              "portOut": "Value",
+              "objIn": "j80rtsfma",
+              "objOut": "hzp5ix6du"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "421f5b52-c0fa-47c4-8b7a-012b9e1c864a",
+      "id": "5iwcp7gp6",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -722.2309493062869,
+          "y": -1493.469243912473
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "extendTitle": "#varPort",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "varPort"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "innerIn_06etkpjjh",
+              "portOut": "Value",
+              "objIn": "j80rtsfma",
+              "objOut": "5iwcp7gp6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "3ad08cfc-bce6-4175-9746-fef2817a3b12",
+      "id": "8cgw6ri62",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -301.9261968885076,
+          "y": -1545.5474686575506
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "extendTitle": "#HttpFileServer_WS_Channel_In",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "HttpFileServer_WS_Channel_In"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "innerIn_szj6wo9ax",
+              "portOut": "Value",
+              "objIn": "j80rtsfma",
+              "objOut": "8cgw6ri62"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+      "id": "wzlp9p8vc",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -275.22555855560455,
+          "y": -1508.5921119224297
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "extendTitle": "#HttpFileServer_WS_Data_In",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "HttpFileServer_WS_Data_In"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "innerIn_k8qcjk6qb",
+              "portOut": "Value",
+              "objIn": "j80rtsfma",
+              "objOut": "wzlp9p8vc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "0816c999-f2db-466b-9777-2814573574c5",
+      "id": "p36i4f0d4",
+      "attribs": {},
+      "uiAttribs": {
+        "title": ">HttpFileServer_WS_Send_In",
+        "translate": {
+          "x": -233.17118005453895,
+          "y": -1471.628974499824
+        },
+        "color": "#07F78C",
+        "subPatch": "yl9fdo2k5",
+        "tempSubOldOpId": null,
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Named Trigger",
+          "value": "HttpFileServer_WS_Send_In"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Triggered",
+          "links": [
+            {
+              "portIn": "innerIn_dvem0uete",
+              "portOut": "Triggered",
+              "objIn": "j80rtsfma",
+              "objOut": "p36i4f0d4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "c4e4e933-136e-479e-8de8-0b35b75d9217",
+      "id": "7ilco1qfp",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "yl9fdo2k5",
+        "translate": {
+          "x": -13.587180054538976,
+          "y": -1625.5474686575506
+        },
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {}
+    },
+    {
+      "opId": "02d45073-7936-4830-81ad-59a162febf1f",
+      "id": "j80rtsfma",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "yl9fdo2k5",
+        "translate": {
+          "x": -13.587180054538976,
+          "y": 40
+        },
+        "blueprintSubpatch2": true,
+        "tempSubOldOpId": null
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "innerIn_lwl5v2d6d",
+          "title": "Triggered"
+        },
+        {
+          "name": "innerIn_ityt6yfh1",
+          "title": "Value"
+        },
+        {
+          "name": "innerIn_b19mk5ioa",
+          "title": "Value"
+        },
+        {
+          "name": "innerIn_asukhwvr7",
+          "title": "Value"
+        },
+        {
+          "name": "innerIn_06etkpjjh",
+          "title": "Value"
+        },
+        {
+          "name": "innerIn_szj6wo9ax",
+          "title": "Value"
+        },
+        {
+          "name": "innerIn_k8qcjk6qb",
+          "title": "Value"
+        },
+        {
+          "name": "innerIn_dvem0uete",
+          "title": "Triggered"
+        }
+      ]
+    }
+  ]
+}

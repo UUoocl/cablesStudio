@@ -6,6 +6,7 @@
  */
 const { spawn } = op.require("child_process");
 const fs = op.require("fs");
+const WebSocket = op.require("ws");
 console.log("Patch Asset folder",op.patch.config.prefixAssetPath)
 
 const
@@ -23,8 +24,8 @@ const
     outRunning = op.outBool("Running", false),
     outStatus = op.outString("Status", "Stopped");
 
-let ws = null;
-let reconnectTimeout = null;
+let wss = null;
+let currentWs = null;
 let cp = null;
 
 function killProcess() {
@@ -36,10 +37,9 @@ function killProcess() {
         cp = null;
     }
     outRunning.set(false);
-    outStatus.set("Stopped");
 }
 
-function launchProcess() {
+function launchProcess(port) {
     killProcess();
     if (!inActive.get()) return;
 
@@ -60,8 +60,7 @@ function launchProcess() {
         op.logWarn("[SwiftKeyboardMonitor] Warning setting execute permissions: " + String(e));
     }
 
-    const host = inHost.get() || "127.0.0.1";
-    const port = inPort.get() || 8080;
+    const host = "127.0.0.1";
     const channel = inChannel.get() || "keyboardEvents";
     const args = [
         "--host", host,
@@ -94,7 +93,7 @@ function launchProcess() {
         cp.on("error", (err) => {
             op.logError("[SwiftKeyboardMonitor] Process error: " + err.message);
             outStatus.set("Error: " + err.message);
-            killProcess();
+            stopServerAndProcess();
         });
 
         cp.on("exit", (code, signal) => {
@@ -107,137 +106,116 @@ function launchProcess() {
     } catch (e) {
         op.logError("[SwiftKeyboardMonitor] Failed to spawn: " + String(e));
         outStatus.set("Spawn Failed");
-        killProcess();
+        stopServerAndProcess();
     }
 }
 
-function closeSocket() {
-    if (reconnectTimeout) {
-        clearTimeout(reconnectTimeout);
-        reconnectTimeout = null;
-    }
-    if (ws) {
-        op.log("[SwiftKeyboardMonitor] Closing WebSocket connection.");
+function stopServerAndProcess() {
+    killProcess();
+    currentWs = null;
+    if (wss) {
+        op.log("[SwiftKeyboardMonitor] Closing private WebSocket Server...");
         try {
-            ws.onopen = null;
-            ws.onmessage = null;
-            ws.onerror = null;
-            ws.onclose = null;
-            ws.close();
+            wss.close();
         } catch (e) {}
-        ws = null;
+        wss = null;
     }
+    outStatus.set("Stopped");
 }
 
-function connectSocket() {
-    closeSocket();
+function startServerAndProcess() {
+    stopServerAndProcess();
     if (!inActive.get()) return;
 
-    const host = inHost.get() || "127.0.0.1";
-    const port = inPort.get() || 8080;
-    const url = `ws://${host}:${port}/events`;
-
-    op.log(`[SwiftKeyboardMonitor] Connecting to WebSocket at ${url}...`);
-
     try {
-        ws = new WebSocket(url);
+        wss = new WebSocket.Server({ port: 0, host: "127.0.0.1" });
+        
+        wss.on("listening", () => {
+            const port = wss.address().port;
+            op.log("[SwiftKeyboardMonitor] Private WebSocket Server listening on port " + port);
+            launchProcess(port);
+        });
 
-        ws.onopen = () => {
-            op.log("[SwiftKeyboardMonitor] WebSocket connection established.");
-            
-            // Subscribe to the custom channel
-            const channel = inChannel.get() || "keyboardEvents";
-            try {
-                ws.send(JSON.stringify({
-                    type: "subscribe",
-                    channel: channel
-                }));
-                op.log(`[SwiftKeyboardMonitor] Subscribed to WebSocket channel: ${channel}`);
-            } catch (e) {
-                op.logWarn("[SwiftKeyboardMonitor] Failed to send subscription payload: " + String(e));
-            }
-        };
+        wss.on("connection", (ws) => {
+            op.log("[SwiftKeyboardMonitor] Swift sidecar connected!");
+            currentWs = ws;
 
-        ws.onmessage = (event) => {
-            if (!event || !event.data) return;
+            // Send "setInfo" message immediately to complete handshaking
             try {
-                const envelope = JSON.parse(event.data);
-                
-                // standard flat pub/sub messages wrap payload inside the .data field
-                const msg = envelope.type === "event" ? envelope.data : envelope;
-                
-                // Support both flat format from Swift (msg.event) and nested format (msg.type)
-                const eventType = msg.type || msg.event;
-                const dataObj = msg.data || msg;
-                
-                if (eventType === "keyboardPress" || eventType === "press") {
-                    outCombo.set(dataObj.combo || "");
-                    outKey.set(dataObj.key || "");
-                    outModifiers.set(dataObj.modifiers || "");
-                    outPress.trigger();
-                } else if (eventType === "keyboardRelease" || eventType === "release") {
-                    outCombo.set(dataObj.combo || "");
-                    outKey.set(dataObj.key || "");
-                    outModifiers.set(dataObj.modifiers || "");
-                    outRelease.trigger();
-                }
+                ws.send(JSON.stringify({ type: "setInfo" }));
             } catch (e) {}
-        };
 
-        ws.onerror = (err) => {
-            op.logWarn("[SwiftKeyboardMonitor] WebSocket error encountered.");
-        };
+            ws.on("message", (message, isBinary) => {
+                let text = "";
+                if (!isBinary && typeof message === "string") {
+                    text = message;
+                } else if (message instanceof Buffer || (Buffer && Buffer.isBuffer(message))) {
+                    text = message.toString();
+                } else {
+                    text = message.toString();
+                }
+                handleTextMessage(text);
+            });
 
-        ws.onclose = (event) => {
-            op.log("[SwiftKeyboardMonitor] WebSocket connection closed.");
-            ws = null;
-            if (inActive.get()) {
-                reconnectTimeout = setTimeout(() => { connectSocket(); }, 2000);
-            }
-        };
+            ws.on("close", () => {
+                op.log("[SwiftKeyboardMonitor] Swift sidecar disconnected.");
+                if (currentWs === ws) currentWs = null;
+            });
+
+            ws.on("error", (err) => {
+                op.logError("[SwiftKeyboardMonitor] Sidecar connection error: " + err.message);
+            });
+        });
 
     } catch (e) {
-        op.logError("[SwiftKeyboardMonitor] Failed to instantiate WebSocket: " + String(e));
-        if (inActive.get()) {
-            reconnectTimeout = setTimeout(() => { connectSocket(); }, 3000);
-        }
+        op.logError("[SwiftKeyboardMonitor] Failed to start private server: " + String(e));
+        outStatus.set("Server Setup Failed");
     }
+}
+
+function handleTextMessage(str) {
+    if (!str) return;
+    try {
+        const envelope = JSON.parse(str);
+        
+        // Handle both pub/sub wrappers (envelope.type === "event" or "publish") and raw data
+        const msg = envelope.type === "event" || envelope.type === "publish" ? envelope.data : envelope;
+        
+        // Support both flat format from Swift (msg.event) and nested format (msg.type)
+        const eventType = msg.type || msg.event;
+        const dataObj = msg.data || msg;
+        
+        if (eventType === "keyboardPress" || eventType === "press") {
+            outCombo.set(dataObj.combo || "");
+            outKey.set(dataObj.key || "");
+            outModifiers.set(dataObj.modifiers || "");
+            outPress.trigger();
+        } else if (eventType === "keyboardRelease" || eventType === "release") {
+            outCombo.set(dataObj.combo || "");
+            outKey.set(dataObj.key || "");
+            outModifiers.set(dataObj.modifiers || "");
+            outRelease.trigger();
+        }
+    } catch (e) {}
 }
 
 inActive.onChange = () => {
     if (inActive.get()) {
-        launchProcess();
-        setTimeout(connectSocket, 100);
+        startServerAndProcess();
     } else {
-        closeSocket();
-        killProcess();
+        stopServerAndProcess();
     }
 };
 
-inHost.onChange = () => {
+inHost.onChange = inPort.onChange = inChannel.onChange = () => {
     if (inActive.get()) {
-        launchProcess();
-        setTimeout(connectSocket, 100);
-    }
-};
-
-inPort.onChange = () => {
-    if (inActive.get()) {
-        launchProcess();
-        setTimeout(connectSocket, 100);
-    }
-};
-
-inChannel.onChange = () => {
-    if (inActive.get()) {
-        launchProcess();
-        setTimeout(connectSocket, 100);
+        startServerAndProcess();
     }
 };
 
 // Ensure process is killed on parent exit
 const handleProcessExit = () => {
-    killProcess();
+    stopServerAndProcess();
 };
 
 const hasProcess = typeof process !== "undefined";
@@ -248,8 +226,7 @@ if (hasProcess) {
 }
 
 op.onDelete = () => {
-    closeSocket();
-    killProcess();
+    stopServerAndProcess();
     if (hasProcess) {
         try {
             process.off("exit", handleProcessExit);

@@ -1,0 +1,29 @@
+{
+    "id": "3f066c04-2645-4767-9da2-32dd9e2acc62",
+    "created": 1780316791103,
+    "license": "MIT",
+    "authorName": "",
+    "coreLibs": [
+        "subpatchop"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "2vhblem9m",
+                "uititle": "On WS Message"
+            },
+            {
+                "type": 5,
+                "name": "17tmc9dky",
+                "uititle": "WS Message Channel"
+            },
+            {
+                "type": 2,
+                "name": "g7p4r0m7k",
+                "uititle": "WS Message Data"
+            }
+        ],
+        "portsOut": []
+    }
+}

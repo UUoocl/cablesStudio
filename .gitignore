@@ -28,3 +28,6 @@ __pycache__/
 # Swift binaries
 **/.build
 micAudioTest.cables
+
+
+desktopAudioCables

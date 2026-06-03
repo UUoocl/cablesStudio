@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>STG Vessel Headless</title>
@@ -32,7 +33,7 @@
 
             subChannel.onmessage = (event) => {
                 if (!event.data) return;
-                console.log("[STG Iframe] Received settings via BroadcastChannel:", event.data);
+                //console.log("[STG Iframe] Received settings via BroadcastChannel:", event.data);
                 if (typeof updateSettings === 'function') {
                     updateSettings(event.data);
                 }
@@ -50,7 +51,7 @@
             const wsHost = window.location.host || '127.0.0.1:8080';
             const wsUrl = `${wsProtocol}//${wsHost}`;
             console.log("[STG Iframe] Connecting to WebSocket:", wsUrl);
-            
+
             const ws = new WebSocket(wsUrl);
             wsInstance = ws;
 
@@ -68,12 +69,12 @@
                     }
                 }
             };
-            
+
             ws.onopen = () => {
                 console.log("[STG Iframe] WebSocket connected!");
                 ws.send(JSON.stringify({ type: 'ready' }));
             };
-            
+
             ws.onclose = () => {
                 console.log("[STG Iframe] WebSocket disconnected, reconnecting in 3 seconds...");
                 setTimeout(startWebSocket, 3000);
@@ -121,7 +122,9 @@
         }
     </script>
 </head>
+
 <body>
     <!-- Canvas injected by p5.js -->
 </body>
+
 </html>

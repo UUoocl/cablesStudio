@@ -1,0 +1,318 @@
+{
+  "ops": [
+    {
+      "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+      "id": "p3o4lon4m",
+      "attribs": {},
+      "uiAttribs": {
+        "height": 223.5424527655407,
+        "width": 224.42365734169522,
+        "resizable": true,
+        "vizLayerMaxZoom": 3500,
+        "translate": {
+          "x": -826.2379731820029,
+          "y": -730.8723179348834
+        },
+        "subPatch": "lxgempauc",
+        "extendTitle": "Received Data (null)",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "ZoomText",
+          "value": 0
+        },
+        {
+          "name": "Line Numbers",
+          "value": 0
+        },
+        {
+          "name": "Sort Keys",
+          "value": 0
+        },
+        {
+          "name": "Hide Array Data",
+          "value": 1
+        },
+        {
+          "name": "Font Size",
+          "value": 10
+        },
+        {
+          "name": "Scroll",
+          "value": 0
+        },
+        {
+          "name": "Search",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "opId": "C0FFEE12-3456-7890-ABCD-EF1234567890",
+      "id": "yt5mqsd5y",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -889.5543709208172,
+          "y": -787.331060697072
+        },
+        "subPatch": "lxgempauc",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Channel"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Received Channel",
+          "links": [
+            {
+              "portIn": "String",
+              "portOut": "Received Channel",
+              "objIn": "xm47xk0in",
+              "objOut": "yt5mqsd5y"
+            }
+          ]
+        },
+        {
+          "name": "Received Data",
+          "links": [
+            {
+              "portIn": "Object",
+              "portOut": "Received Data",
+              "objIn": "p3o4lon4m",
+              "objOut": "yt5mqsd5y"
+            }
+          ]
+        },
+        {
+          "name": "Active Clients",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "opId": "e437c074-190f-4adb-8265-3fddea27fe33",
+      "id": "khu5htsc3",
+      "attribs": {},
+      "uiAttribs": {
+        "translate": {
+          "x": -933.7683489929541,
+          "y": -850.6812293614494
+        },
+        "subPatch": "lxgempauc",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "Result",
+          "links": [
+            {
+              "portIn": "Server Instance",
+              "portOut": "Result",
+              "objIn": "yt5mqsd5y",
+              "objOut": "khu5htsc3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "b4c93fde-85c6-4c7e-9962-a6463a84838b",
+      "id": "xm47xk0in",
+      "attribs": {},
+      "uiAttribs": {
+        "height": 108.4074602699227,
+        "width": 198.144,
+        "resizable": true,
+        "vizLayerMaxZoom": 3500,
+        "translate": {
+          "x": -1140.3819509566015,
+          "y": -676.2938536995703
+        },
+        "subPatch": "lxgempauc",
+        "extendTitle": "Received Channel",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "ZoomText",
+          "value": 0
+        },
+        {
+          "name": "Line Numbers",
+          "value": 0
+        },
+        {
+          "name": "Whitespace",
+          "value": 0
+        },
+        {
+          "name": "Wrap lines",
+          "value": 1
+        },
+        {
+          "name": "Syntax index",
+          "value": 0
+        },
+        {
+          "name": "Syntax",
+          "value": "text"
+        },
+        {
+          "name": "Font Size",
+          "value": 10
+        },
+        {
+          "name": "Scroll",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+      "id": "lc8vb8l68",
+      "attribs": {},
+      "uiAttribs": {
+        "hasArea": true,
+        "comment_title": "Websocket PubSub",
+        "title": "Websocket PubSub",
+        "translate": {
+          "x": -1229.1613183429163,
+          "y": -1085.3573388794991
+        },
+        "area": {
+          "w": 782.2622267596116,
+          "h": 558.0028300035756,
+          "id": "iiue577zv"
+        },
+        "subPatch": "lxgempauc",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Title",
+          "value": "Websocket PubSub"
+        }
+      ]
+    },
+    {
+      "opId": "0816c999-f2db-466b-9777-2814573574c5",
+      "id": "hnjl7cun9",
+      "attribs": {},
+      "uiAttribs": {
+        "title": ">HttpFileServer Ready",
+        "translate": {
+          "x": -970.513368814648,
+          "y": -996.3247122647192
+        },
+        "color": "#07F78C",
+        "subPatch": "lxgempauc",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Named Trigger",
+          "value": "HttpFileServer Ready"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Triggered",
+          "links": [
+            {
+              "portIn": "Trigger",
+              "portOut": "Triggered",
+              "objIn": "khu5htsc3",
+              "objOut": "hnjl7cun9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+      "id": "sppf8r3nj",
+      "attribs": {},
+      "uiAttribs": {
+        "title": "var get",
+        "translate": {
+          "x": -921.7683489929541,
+          "y": -927.4508874831444
+        },
+        "color": "#07F78C",
+        "subPatch": "lxgempauc",
+        "extendTitle": "#HttpFileServer_Instance",
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "HttpFileServer_Instance"
+        }
+      ],
+      "portsOut": [
+        {
+          "name": "Value",
+          "links": [
+            {
+              "portIn": "Object",
+              "portOut": "Value",
+              "objIn": "khu5htsc3",
+              "objOut": "sppf8r3nj"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "opId": "c4e4e933-136e-479e-8de8-0b35b75d9217",
+      "id": "07ggslry0",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "lxgempauc",
+        "translate": {
+          "x": -788.2875533018856,
+          "y": -1180.008042718377
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {},
+      "portsOut": [
+        {
+          "name": "innerOut_17tmc9dky",
+          "value": "mouseEvents",
+          "title": "WS Message Channel"
+        },
+        {
+          "name": "innerOut_g7p4r0m7k",
+          "title": "WS Message Data"
+        }
+      ]
+    },
+    {
+      "opId": "02d45073-7936-4830-81ad-59a162febf1f",
+      "id": "vkz4hf3b7",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "lxgempauc",
+        "translate": {
+          "x": 0,
+          "y": 40
+        },
+        "blueprintSubpatch2": true
+      },
+      "storage": {}
+    }
+  ]
+}
