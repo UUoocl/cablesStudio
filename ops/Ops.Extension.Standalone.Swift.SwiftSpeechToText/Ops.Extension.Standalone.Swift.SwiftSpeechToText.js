@@ -11,6 +11,7 @@ const
     inLocale = op.inString("Language Locale", "en-US"),
     inAudioDevice = op.inString("Audio Input Device", "Default System Microphone"),
     inOutputMode = op.inString("Output Mode", "Full Transcript"),
+    inSilenceDuration = op.inValueSlider("Silence Duration (s)", 1.5),
     inReset = op.inTriggerButton("Reset Text"),
     
     outText = op.outString("Transcribed Text", ""),
@@ -22,7 +23,13 @@ const
 
 inOutputMode.setUiAttribs({
     "display": "dropdown",
-    "values": ["Full Transcript", "New Words Only"]
+    "values": ["Full Transcript", "New Words Only", "Chunk"]
+});
+
+inSilenceDuration.setUiAttribs({
+    "min": 0.1,
+    "max": 10.0,
+    "step": 0.1
 });
 
 inLocale.setUiAttribs({
@@ -109,6 +116,9 @@ function startServerAndProcess() {
 
             // 2. Configure the active audio input device
             sendAudioDeviceConfig();
+
+            // 2.5 Configure the silence duration
+            sendSilenceDurationConfig();
             
             // 3. Begin listening
             sendStartCommand();
@@ -192,7 +202,8 @@ function handleTextMessage(str) {
             const text = payload.text || "";
             outIsFinal.set(!!payload.isFinal);
             
-            if (inOutputMode.get() === "New Words Only") {
+            const mode = inOutputMode.get();
+            if (mode === "New Words Only") {
                 const prevWords = lastEmittedText.trim().split(/\s+/).filter(Boolean);
                 const currWords = text.trim().split(/\s+/).filter(Boolean);
                 
@@ -221,6 +232,11 @@ function handleTextMessage(str) {
                     }
                 }
                 lastEmittedText = text;
+            } else if (mode === "Chunk") {
+                if (payload.isFinal) {
+                    outText.set(text);
+                    outTrigger.trigger();
+                }
             } else {
                 outText.set(text);
                 outTrigger.trigger();
@@ -279,6 +295,19 @@ function sendAudioDeviceConfig() {
     }
 }
 
+function sendSilenceDurationConfig() {
+    if (!currentWs) return;
+    const duration = parseFloat(inSilenceDuration.get()) || 1.5;
+    try {
+        currentWs.send(JSON.stringify({
+            type: "silenceDuration",
+            value: duration
+        }));
+    } catch (e) {
+        op.logWarn("[SwiftSpeechToText] Failed to send silence duration: " + String(e));
+    }
+}
+
 function sendStartCommand() {
     if (!currentWs) return;
     try {
@@ -311,6 +340,7 @@ inActive.onChange = () => {
 
 inLocale.onChange = sendLocaleConfig;
 inAudioDevice.onChange = sendAudioDeviceConfig;
+inSilenceDuration.onChange = sendSilenceDurationConfig;
 
 inReset.onTriggered = () => {
     outText.set("");

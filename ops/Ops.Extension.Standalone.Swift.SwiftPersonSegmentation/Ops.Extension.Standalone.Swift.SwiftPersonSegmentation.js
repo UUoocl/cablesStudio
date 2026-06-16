@@ -4,8 +4,10 @@
  * outputting a high-quality person segmentation mask in real-time.
  */
 const WebSocket = op.require("ws");
-const { spawn } = op.require("child_process");
+const { spawn, execSync } = op.require("child_process");
 const fs = op.require("fs");
+const os = op.require("os");
+const path = op.require("path");
 
 const
     render = op.inTrigger("Render"),
@@ -40,6 +42,28 @@ let wss = null;
 let cp = null;
 let currentWs = null;
 let texture = null;
+let inFilePath = null;
+let outFilePath = null;
+
+function getRamDiskPath() {
+    let ramDiskPath = "/Volumes/CablesRAMDisk";
+    if (os.platform() === "darwin") {
+        if (!fs.existsSync(ramDiskPath)) {
+            try {
+                op.log("[RAM Disk] Creating a 256MB RAM Disk at /Volumes/CablesRAMDisk...");
+                const dev = execSync("hdiutil attach -nomount ram://524288").toString().trim();
+                execSync(`diskutil erasevolume HFS+ "CablesRAMDisk" ${dev}`);
+                op.log("[RAM Disk] RAM Disk successfully mounted.");
+            } catch (e) {
+                op.logWarn("[RAM Disk] Failed to mount RAM disk, falling back to temp dir: " + String(e));
+                ramDiskPath = os.tmpdir();
+            }
+        }
+    } else {
+        ramDiskPath = os.tmpdir();
+    }
+    return ramDiskPath;
+}
 
 function killProcess() {
     if (cp) {
@@ -63,17 +87,33 @@ function stopServerAndProcess() {
         } catch (e) {}
         wss = null;
     }
+    if (inFilePath) {
+        try {
+            if (fs.existsSync(inFilePath)) fs.unlinkSync(inFilePath);
+        } catch (e) {}
+        inFilePath = null;
+    }
+    if (outFilePath) {
+        try {
+            if (fs.existsSync(outFilePath)) fs.unlinkSync(outFilePath);
+        } catch (e) {}
+        outFilePath = null;
+    }
     outStatus.set("Stopped");
 }
 
 function startServerAndProcess() {
     stopServerAndProcess();
+    if (!inActive.get()) return;
 
     try {
         wss = new WebSocket.Server({ port: 0, host: "127.0.0.1" });
         
         wss.on("listening", () => {
             const port = wss.address().port;
+            const ramDiskPath = getRamDiskPath();
+            inFilePath = path.join(ramDiskPath, "seg_in_" + port + ".raw");
+            outFilePath = path.join(ramDiskPath, "seg_out_" + port + ".raw");
             op.log("[SwiftPersonSegmentation] Private WebSocket Server listening on port " + port);
             launchProcess(port);
         });
@@ -82,10 +122,8 @@ function startServerAndProcess() {
             op.log("[SwiftPersonSegmentation] Swift sidecar connected!");
             currentWs = ws;
 
-            ws.on("message", (message, isBinary) => {
-                if (isBinary || message instanceof Buffer || (Buffer && Buffer.isBuffer(message))) {
-                    handleBinaryFrame(message);
-                }
+            ws.on("message", (message) => {
+                handleTextMessage(message.toString());
             });
 
             ws.on("close", () => {
@@ -251,40 +289,44 @@ render.onTriggered = () => {
 
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
-        // 9. Pack binary envelope
-        const byteLength = 8 + op._pixelBuffer.length;
-        const binaryPkg = new Uint8Array(byteLength);
-        const view = new DataView(binaryPkg.buffer);
-
-        view.setUint32(0, targetW, true);
-        view.setUint32(4, targetH, true);
-        binaryPkg.set(op._pixelBuffer, 8);
-
-        // Send binary buffer to Swift sidecar
-        try {
-            isProcessing = true;
-            currentWs.send(binaryPkg);
-        } catch (e) {
-            isProcessing = false;
-            op.logWarn("[SwiftPersonSegmentation] Failed to stream frame: " + String(e));
+        if (inFilePath) {
+            try {
+                isProcessing = true;
+                fs.writeFileSync(inFilePath, op._pixelBuffer);
+                currentWs.send(JSON.stringify({
+                    type: "frame",
+                    width: targetW,
+                    height: targetH
+                }));
+            } catch (e) {
+                isProcessing = false;
+                op.logWarn("[SwiftPersonSegmentation] Failed to stream frame: " + String(e));
+            }
         }
     }
 };
 
-function handleBinaryFrame(data) {
+function handleTextMessage(str) {
+    try {
+        const payload = JSON.parse(str);
+        if (payload.type === "mask") {
+            const maskW = payload.width;
+            const maskH = payload.height;
+            if (maskW === 0 || maskH === 0) return;
+            handleFileMask(maskW, maskH);
+        }
+    } catch (e) {
+        op.logWarn("[SwiftPersonSegmentation] Error parsing text message: " + String(e));
+    }
+}
+
+function handleFileMask(maskW, maskH) {
     isProcessing = false; // Release backpressure flag
 
+    if (!outFilePath) return;
     try {
-        const buffer = data.buffer || data;
-        const byteOffset = data.byteOffset || 0;
-        const byteLength = data.byteLength || data.length;
-        
-        const view = new DataView(buffer, byteOffset, byteLength);
-        
-        const maskW = view.getUint32(0, true);
-        const maskH = view.getUint32(4, true);
-        
-        if (maskW === 0 || maskH === 0) return;
+        if (!fs.existsSync(outFilePath)) return;
+        const pixelData = fs.readFileSync(outFilePath);
 
         const gl = op.patch.cgl.gl;
 
@@ -299,7 +341,6 @@ function handleBinaryFrame(data) {
         }
 
         gl.bindTexture(gl.TEXTURE_2D, op._maskSmallTex.tex);
-        const pixelData = new Uint8Array(buffer, byteOffset + 8, byteLength - 8);
         gl.texImage2D(
             gl.TEXTURE_2D,
             0,

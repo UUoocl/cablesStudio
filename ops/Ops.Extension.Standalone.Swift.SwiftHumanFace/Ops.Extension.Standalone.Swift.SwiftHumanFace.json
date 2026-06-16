@@ -23,8 +23,9 @@
                 "name": "Render"
             },
             {
-                "type": 5,
-                "name": "Texture"
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
             }
         ],
         "portsOut": [
@@ -35,7 +36,7 @@
             {
                 "type": 0,
                 "name": "Detected Faces",
-                "subType": "integer"
+                "subType": "number"
             },
             {
                 "type": 1,

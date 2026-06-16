@@ -1,0 +1,618 @@
+{
+    "_id": "6a28c9d03d3c63fead0a64c5",
+    "shortId": "nuRt6m",
+    "name": "pynput_keyboard_mouse_monitor_control",
+    "description": "",
+    "userId": "6a28c9d056616fed8d30aeb3",
+    "cachedUsername": "",
+    "created": 1781058000394,
+    "updated": 1781058305344,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "a1b2c3d4-3333-4444-aaaa-000000000003",
+            "id": "lh7xrqv5q",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -102.05408482469102,
+                    "y": 227.77739410450863
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/Ops.Extension.Standalone.PythonGlobalKeyboardMonitor/python_script/keyboard_monitor_cables.py"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Last Single Key",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Last Single Key",
+                            "objIn": "9myztsmd3",
+                            "objOut": "lh7xrqv5q"
+                        }
+                    ]
+                },
+                {
+                    "name": "Last Key Combination",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Last Key Combination",
+                            "objIn": "9wz7ugnc7",
+                            "objOut": "lh7xrqv5q"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-2222-4444-aaaa-000000000002",
+            "id": "mu9ceqh0i",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 198.9026821341406,
+                    "y": 221.1589723964036
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/Ops.Extension.Standalone.PythonGlobalMouseMonitor/python_script/mouse_monitor_cables.py"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Click",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Click",
+                            "objIn": "4ec8497hc",
+                            "objOut": "mu9ceqh0i"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos X",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Pos X",
+                            "objIn": "icy6rxjp5",
+                            "objOut": "mu9ceqh0i"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos Y",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Pos Y",
+                            "objIn": "arhfk5zw5",
+                            "objOut": "mu9ceqh0i"
+                        }
+                    ]
+                },
+                {
+                    "name": "Scroll Delta",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Scroll Delta",
+                            "objIn": "7n0he0242",
+                            "objOut": "mu9ceqh0i"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "krvia2h7s",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Keyboard and Mouse Monitor",
+                "title": "Keyboard and Mouse Monitor",
+                "translate": {
+                    "x": -153.75,
+                    "y": -18.125
+                },
+                "area": {
+                    "w": 854.7933226445007,
+                    "h": 1013.4589984450841,
+                    "id": "kswusiulf"
+                },
+                "comment": "Python scripts to monitor\nand control keyboard \nand mouse"
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Keyboard and Mouse Monitor"
+                }
+            ]
+        },
+        {
+            "opId": "98e8a6cf-1f2f-4cb8-9e33-e5189e3d70ce",
+            "id": "9j6ylvneb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 36.85660477170859,
+                    "y": 144.46743732072355
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number 1",
+                    "value": 0
+                },
+                {
+                    "name": "Number 2",
+                    "value": 0
+                },
+                {
+                    "name": "Number 3",
+                    "value": 0
+                },
+                {
+                    "name": "Number 4",
+                    "value": 0
+                },
+                {
+                    "name": "Number 5",
+                    "value": 0
+                },
+                {
+                    "name": "Number 6",
+                    "value": 0
+                },
+                {
+                    "name": "Number 7",
+                    "value": 0
+                },
+                {
+                    "name": "Number 8",
+                    "value": 0
+                },
+                {
+                    "name": "Number 9",
+                    "value": 0
+                },
+                {
+                    "name": "Number 10",
+                    "value": 0
+                },
+                {
+                    "name": "Number 11",
+                    "value": 0
+                },
+                {
+                    "name": "Number 12",
+                    "value": 0
+                },
+                {
+                    "name": "Number 13",
+                    "value": 0
+                },
+                {
+                    "name": "Number 14",
+                    "value": 0
+                },
+                {
+                    "name": "Number 15",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "value": true
+                },
+                {
+                    "name": "Output 1",
+                    "value": true
+                },
+                {
+                    "name": "Output 2",
+                    "value": true
+                },
+                {
+                    "name": "Output 3",
+                    "value": true
+                },
+                {
+                    "name": "Output 4",
+                    "value": true
+                },
+                {
+                    "name": "Output 5",
+                    "value": true
+                },
+                {
+                    "name": "Output 6",
+                    "value": true
+                },
+                {
+                    "name": "Output 7",
+                    "value": true
+                },
+                {
+                    "name": "Output 8",
+                    "value": true
+                },
+                {
+                    "name": "Output 9",
+                    "value": true
+                },
+                {
+                    "name": "Output 10",
+                    "value": true
+                },
+                {
+                    "name": "Output 11",
+                    "value": true
+                },
+                {
+                    "name": "Output 12",
+                    "value": true
+                },
+                {
+                    "name": "Output 13",
+                    "value": true
+                },
+                {
+                    "name": "Output 14",
+                    "value": true
+                },
+                {
+                    "name": "Output 15",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
+            "id": "mtnk75zy9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 24.85660477170859,
+                    "y": 99.0304446656221
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Python Install Location",
+                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/Python3.12"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Found: Python 3.12.10"
+                },
+                {
+                    "name": "Found",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Found",
+                            "objIn": "9j6ylvneb",
+                            "objOut": "mtnk75zy9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b4c93fde-85c6-4c7e-9962-a6463a84838b",
+            "id": "4ec8497hc",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 66.70857424433729,
+                "width": 114.456,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 210.9026821341406,
+                    "y": 294.6929982622452
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Whitespace",
+                    "value": 0
+                },
+                {
+                    "name": "Wrap lines",
+                    "value": 1
+                },
+                {
+                    "name": "Syntax index",
+                    "value": 0
+                },
+                {
+                    "name": "Syntax",
+                    "value": "text"
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "icy6rxjp5",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": 222.9026821341406,
+                    "y": 373.17302930550363
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 595
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "arhfk5zw5",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": 234.9026821341406,
+                    "y": 415.89221144612367
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 324
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "7n0he0242",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": 246.9026821341406,
+                    "y": 460.2720435244051
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "b4c93fde-85c6-4c7e-9962-a6463a84838b",
+            "id": "9myztsmd3",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 84.43143676635344,
+                "width": 276.7921534816586,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -90.05408482469102,
+                    "y": 282.28809407607423
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Whitespace",
+                    "value": 0
+                },
+                {
+                    "name": "Wrap lines",
+                    "value": 1
+                },
+                {
+                    "name": "Syntax index",
+                    "value": 0
+                },
+                {
+                    "name": "Syntax",
+                    "value": "text"
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "b4c93fde-85c6-4c7e-9962-a6463a84838b",
+            "id": "9wz7ugnc7",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 69.84782496125604,
+                "width": 290.1215845115646,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -78.05408482469102,
+                    "y": 371.3248819387741
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Whitespace",
+                    "value": 0
+                },
+                {
+                    "name": "Wrap lines",
+                    "value": 1
+                },
+                {
+                    "name": "Syntax index",
+                    "value": 0
+                },
+                {
+                    "name": "Syntax",
+                    "value": "text"
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a28c9d056616fed8d30aeb3",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1781058000394
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 215.5766218579179,
+                "y": 605.2966259850525,
+                "z": 780.9263351046411
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "pynput_keyboard_mouse_monitor_control"
+    },
+    "opsHash": "61c52b75f23e61dd5e84c28ff033064665447114",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1777913765733,
+            "created": "2026-05-04T16:56:05.733Z",
+            "git": {
+                "branch": "develop",
+                "commit": "f99328394cb5173850c8e1e44dbb3873ab1e252c",
+                "date": "1777911286",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1777913784349,
+            "created": "2026-05-04T16:56:24.349Z",
+            "git": {
+                "branch": "develop",
+                "commit": "ce073c5313c86cee733c84039a36efcd603a920b",
+                "date": "1777910715",
+                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+            }
+        },
+        "api": {
+            "timestamp": 1777913803958,
+            "created": "2026-05-04T16:56:43.958Z",
+            "git": {
+                "branch": "develop",
+                "commit": "d6c646b8f9459fe6ce60f09a5137e3763ca45d79",
+                "date": "1777533606",
+                "message": "toggleMaximizeCanvas -> toggleMaximized"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.7"
+        }
+    },
+    "updatedByUser": ""
+}

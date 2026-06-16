@@ -9,6 +9,7 @@ let slidesTable = null;
 let slidesData = [];
 let activeSlideIndex = null;
 let selectedSlideIndex = null;
+let absoluteToSequentialMap = {};
 
 let pollInterval = null;
 let currentOBSScene = "";
@@ -235,10 +236,7 @@ function connectCablesSSE() {
     // Listen to standard slides-update and custom KeynoteApi responses
     sseSource.addEventListener('slides-update', handleSseResponse);
     sseSource.addEventListener('getslidesresponse', handleSseResponse);
-    sseSource.addEventListener('gotoresponse', handleSseResponse);
-    sseSource.addEventListener('nextresponse', handleSseResponse);
-    sseSource.addEventListener('prevresponse', handleSseResponse);
-    sseSource.addEventListener('previousresponse', handleSseResponse);
+    sseSource.addEventListener('getactiveindexresponse', handleGetActiveIndexSseResponse);
     sseSource.addEventListener('playresponse', handleSseResponse);
     sseSource.addEventListener('setsceneresponse', handleSseResponse);
 }
@@ -404,17 +402,24 @@ function initTabulator() {
 
 function handleSlidesUpdate(payload) {
     const slides = payload.Slides || payload.slides || [];
-    activeSlideIndex = payload.ActiveIndex || payload.activeIndex || null;
+    let rawActiveIndex = payload.ActiveIndex || payload.activeIndex || null;
 
     if (slides.length > 0) {
-        // Assign missing UUIDs immediately in the client context
+        // Build absolute-to-sequential index map
+        absoluteToSequentialMap = {};
         slidesData = slides.map(slide => {
             if (!slide.Id) {
                 slide.Id = self.crypto.randomUUID();
                 console.log(`[Client] Assigned fresh UUID ${slide.Id} to Slide ${slide.Index}`);
             }
+            if (slide.AbsoluteIndex !== undefined) {
+                absoluteToSequentialMap[slide.AbsoluteIndex] = slide.Index;
+            }
             return slide;
         });
+
+        // Map raw active index
+        activeSlideIndex = rawActiveIndex !== null ? (absoluteToSequentialMap[rawActiveIndex] || rawActiveIndex) : null;
 
         // Load data into Tabulator
         slidesTable.setData(slidesData).then(() => {
@@ -424,21 +429,30 @@ function handleSlidesUpdate(payload) {
                 const activeRow = rows.find(r => r.getData().Index === activeSlideIndex);
 
                 if (activeRow) {
-                    slidesTable.deselectRow();
-                    activeRow.select();
-                    activeRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    const selected = slidesTable.getSelectedRows()[0];
+                    if (!selected || selected.getData().Index !== activeSlideIndex) {
+                        slidesTable.deselectRow();
+                        activeRow.select();
+                        activeRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
             }
         });
-    } else if (activeSlideIndex !== null && slidesTable) {
+    } else if (rawActiveIndex !== null && slidesTable) {
+        // Map raw active index
+        activeSlideIndex = absoluteToSequentialMap[rawActiveIndex] || rawActiveIndex;
+
         // If only active index is updated (e.g. goto, next, prev)
         const rows = slidesTable.getRows();
         const activeRow = rows.find(r => r.getData().Index === activeSlideIndex);
 
         if (activeRow) {
-            slidesTable.deselectRow();
-            activeRow.select();
-            activeRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const selected = slidesTable.getSelectedRows()[0];
+            if (!selected || selected.getData().Index !== activeSlideIndex) {
+                slidesTable.deselectRow();
+                activeRow.select();
+                activeRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
     }
 }
@@ -540,61 +554,64 @@ function handleKeyNavigation(e) {
         return;
     }
 
+    // Ignore keyboard repeat triggers
+    if (e.repeat) {
+        return;
+    }
+
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
         e.preventDefault();
-        if (!slidesTable) return;
-        
-        const selectedRows = slidesTable.getSelectedRows();
-        if (selectedRows.length > 0) {
-            const nextRow = selectedRows[0].getNextRow();
-            if (nextRow) {
-                slidesTable.deselectRow();
-                nextRow.select();
-                nextRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                
-                const data = nextRow.getData();
-                showToast(`Navigating to Slide ${data.Index}...`, 'info');
-                triggerKeynoteApi('goto', { slide: data.Index });
-            } else {
-                showToast('Already at the last slide', 'warning');
-            }
-        } else {
-            // If no row is selected, select the first one
-            const firstRow = slidesTable.getRows()[0];
-            if (firstRow) {
-                firstRow.select();
-                firstRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                const data = firstRow.getData();
-                triggerKeynoteApi('goto', { slide: data.Index });
-            }
-        }
+        navigateOptimistically('next');
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
         e.preventDefault();
-        if (!slidesTable) return;
+        navigateOptimistically('prev');
+    }
+}
+
+function navigateOptimistically(direction) {
+    if (!slidesTable) return;
+
+    const selectedRows = slidesTable.getSelectedRows();
+    let currentRow = selectedRows[0];
+    if (!currentRow && activeSlideIndex !== null) {
+        currentRow = slidesTable.getRows().find(r => r.getData().Index === activeSlideIndex);
+    }
+
+    if (!currentRow) {
+        // Fallback to first row
+        const rows = slidesTable.getRows();
+        if (rows.length > 0) {
+            rows[0].select();
+        }
+        return;
+    }
+
+    const currentData = currentRow.getData();
+    const currentIndex = currentData.Index; // Sequential index
+
+    let targetRow = null;
+    if (direction === 'next') {
+        targetRow = slidesTable.getRows().find(r => r.getData().Index === currentIndex + 1);
+    } else if (direction === 'prev') {
+        targetRow = slidesTable.getRows().find(r => r.getData().Index === currentIndex - 1);
+    }
+
+    if (targetRow) {
+        slidesTable.deselectRow();
+        targetRow.select();
+        targetRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         
-        const selectedRows = slidesTable.getSelectedRows();
-        if (selectedRows.length > 0) {
-            const prevRow = selectedRows[0].getPrevRow();
-            if (prevRow) {
-                slidesTable.deselectRow();
-                prevRow.select();
-                prevRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                
-                const data = prevRow.getData();
-                showToast(`Navigating to Slide ${data.Index}...`, 'info');
-                triggerKeynoteApi('goto', { slide: data.Index });
-            } else {
-                showToast('Already at the first slide', 'warning');
-            }
+        // Trigger presentation navigation
+        if (direction === 'next') {
+            triggerKeynoteApi('next');
         } else {
-            // If no row is selected, select the first one
-            const firstRow = slidesTable.getRows()[0];
-            if (firstRow) {
-                firstRow.select();
-                firstRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                const data = firstRow.getData();
-                triggerKeynoteApi('goto', { slide: data.Index });
-            }
+            triggerKeynoteApi('prev');
+        }
+    } else {
+        if (direction === 'next') {
+            showToast('Already at the last slide', 'warning');
+        } else {
+            showToast('Already at the first slide', 'warning');
         }
     }
 }
@@ -865,6 +882,66 @@ function resetPrompterScroll(autoStart = false) {
             document.getElementById('btn-prompter-toggle').innerHTML = '⏸️ Pause';
             startPrompterScroll();
         }, 500); // short delay to let notes be read comfortably
+    }
+}
+
+let pendingNavigation = null; // 'next' or 'prev'
+
+function handleGetActiveIndexSseResponse(event) {
+    try {
+        const parsed = JSON.parse(event.data);
+        const data = parsed.data?.body || parsed.data || parsed;
+
+        if (data.error) {
+            console.warn("[SSE] getactiveindex error:", data.error);
+            pendingNavigation = null;
+            return;
+        }
+
+        const confirmedIndex = data.activeIndex;
+        if (confirmedIndex !== undefined && confirmedIndex !== null) {
+            console.log(`[SSE] Confirmed active index (absolute): ${confirmedIndex}, pending: ${pendingNavigation}`);
+
+            const mappedIndex = absoluteToSequentialMap[confirmedIndex] || confirmedIndex;
+
+            if (pendingNavigation === 'next') {
+                pendingNavigation = null;
+                if (slidesTable) {
+                    const rows = slidesTable.getRows();
+                    const nextRow = rows.find(r => r.getData().Index === mappedIndex + 1);
+                    if (nextRow) {
+                        slidesTable.deselectRow();
+                        nextRow.select();
+                        nextRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        triggerKeynoteApi('next');
+                    } else {
+                        showToast('Already at the last slide', 'warning');
+                    }
+                }
+            } else if (pendingNavigation === 'prev') {
+                pendingNavigation = null;
+                if (slidesTable) {
+                    const rows = slidesTable.getRows();
+                    const prevRow = rows.find(r => r.getData().Index === mappedIndex - 1);
+                    if (prevRow) {
+                        slidesTable.deselectRow();
+                        prevRow.select();
+                        prevRow.getElement().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        triggerKeynoteApi('prev');
+                    } else {
+                        showToast('Already at the first slide', 'warning');
+                    }
+                }
+            } else {
+                // Background or passive update
+                if (activeSlideIndex !== mappedIndex) {
+                    handleSlidesUpdate({ activeIndex: confirmedIndex });
+                }
+            }
+        }
+    } catch (e) {
+        console.error("[SSE] Failed to parse getactiveindexresponse:", e);
+        pendingNavigation = null;
     }
 }
 

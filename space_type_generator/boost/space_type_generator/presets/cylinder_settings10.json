@@ -1,0 +1,62 @@
+{
+  "filename": "cylinder",
+  "inpText": "ten",
+  "radius": 178,
+  "stackNum": 11,
+  "rRotate": 0,
+  "rOffset": 0.16,
+  "rWaveCount": 6,
+  "rWaveSpeed": 75,
+  "rWave": 10,
+  "rZaxis": 0,
+  "strecherYsize": 0,
+  "strecherXsize": 0,
+  "rLong": 31,
+  "typeX": 16,
+  "typeY": 40,
+  "typeStroke": 2,
+  "xRotCamera": -93,
+  "yRotCamera": -107,
+  "zRotCamera": -20,
+  "xRotTweak": 15,
+  "yRotTweak": 35,
+  "zRotTweak": 0,
+  "zoomCamera": 0,
+  "bkgdColor": {
+    "mode": "rgb",
+    "maxes": {
+      "rgb": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "hsb": [
+        360,
+        100,
+        100,
+        1
+      ],
+      "hsl": [
+        360,
+        100,
+        100,
+        1
+      ]
+    },
+    "_array": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "levels": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "hsla": null,
+    "hsba": null
+  }
+}

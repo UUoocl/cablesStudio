@@ -115,14 +115,24 @@ final class SyphonManager: @unchecked Sendable {
     private let device: MTLDevice
     private let wsClient: WebSocketClient
     private let lock = NSLock()
+    private var tempFilePath: String = ""
     
     private var clientClass: AnyClass?
     private var newFrameImageFunc: (@convention(c) (AnyObject, Selector) -> MTLTexture?)?
     private var stopFunc: (@convention(c) (AnyObject, Selector) -> Void)?
     
-    init(device: MTLDevice, wsClient: WebSocketClient) {
+    init(device: MTLDevice, wsClient: WebSocketClient, port: Int) {
         self.device = device
         self.wsClient = wsClient
+        
+        let fm = FileManager.default
+        let ramDiskPath = "/Volumes/CablesRAMDisk"
+        if fm.fileExists(atPath: ramDiskPath) {
+            self.tempFilePath = "\(ramDiskPath)/syphon_in_\(port).raw"
+        } else {
+            self.tempFilePath = "\(NSTemporaryDirectory())syphon_in_\(port).raw"
+        }
+        print("📁 Using shared frame file: \(self.tempFilePath)")
         
         if let clientClass = NSClassFromString("SyphonMetalClient") {
             self.clientClass = clientClass
@@ -210,21 +220,18 @@ final class SyphonManager: @unchecked Sendable {
             pixelBytes[i+2] = b
         }
         
-        // Construct binary package:
-        // Bytes 0-3: width (UInt32, little-endian)
-        // Bytes 4-7: height (UInt32, little-endian)
-        // Bytes 8...: raw RGBA pixels
-        var data = Data(capacity: 8 + pixelBytes.count)
+        // Write raw bytes directly to shared frame file
+        let fileUrl = URL(fileURLWithPath: self.tempFilePath)
+        do {
+            try Data(pixelBytes).write(to: fileUrl)
+        } catch {
+            print("❌ Failed to write frame to shared file: \(error)")
+            return
+        }
         
-        var w = UInt32(width).littleEndian
-        var h = UInt32(height).littleEndian
-        
-        withUnsafeBytes(of: &w) { data.append(contentsOf: $0) }
-        withUnsafeBytes(of: &h) { data.append(contentsOf: $0) }
-        data.append(contentsOf: pixelBytes)
-        
-        // Send binary data to private WebSocket connection
-        self.wsClient.send(data: data)
+        // Send lightweight text notification
+        let notification = "{\"type\":\"frame\",\"width\":\(width),\"height\":\(height)}"
+        self.wsClient.send(message: notification)
     }
     
     private func findServer(name: String, appName: String?) -> NSDictionary? {
@@ -275,7 +282,7 @@ final class Session: @unchecked Sendable {
         }
         
         self.wsClient = ws
-        self.syphonManager = SyphonManager(device: device, wsClient: ws)
+        self.syphonManager = SyphonManager(device: device, wsClient: ws, port: port)
         ws.connect()
     }
 }

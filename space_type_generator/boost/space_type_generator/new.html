@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        window.onload =( async () =>{
+            const p5jsCDN = '../lib/p5.min.js';
+            await loadScript(p5jsCDN);
+        })
+
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script'); // 1. Create the script element
+        script.src = src; // 2. Set the source URL
+
+        // 3. Add event listeners to handle load and error
+        script.onload = () => resolve(console.log(`Script ${src} loaded successfully.`));
+        script.onerror = () => reject(new Error(`Script load error for ${src}`));
+
+        document.body.appendChild(script); // 4. Append the script to the DOM
+    });
+}
+
+// Define your p5.js sketch functions in the global scope (for global mode)
+let sketch = function() {
+    window.setup = function() {
+        createCanvas(400, 400);
+        background(220);
+        console.log("p5.js sketch setup completed.");
+    };
+
+    window.draw = function() {
+        // Your draw loop code here
+    };
+};
+
+
+// Main execution: load p5.js library first, then initialize the sketch
+async function initializeP5Sketch() {
+    try {
+        
+        // After p5.js is loaded, run the sketch initialization
+        sketch(); // This defines setup and draw on the window
+        new p5(); // This starts the p5 instance in global mode
+
+    } catch (error) {
+        console.error("Failed to load p5.js library:", error);
+    }
+}
+
+// Call the function to start the dynamic loading process
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <title>STG</title>
+    <link rel="stylesheet" type="text/css" href="./css/stgStyle_obs.css" />
+
+    <style> body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
+
+    </head>
+
+  <body>
+
+    <div class="bottom">
+     <textarea id="textfield" autofocus>SPACE TYPE GENERATOR</textarea>
+   
+    </div>
+    <script src="../lib/obs-ws.js"></script>
+    <script src="../lib/obsWssConnectionManager.js"></script>
+    
+    <script id="obs_view">
+      var timer
+      const APP_FOLDER = "apps/space_type_generator/presets";
+      let PRESET_SETTINGS
+
+      //onload get query paramater
+      window.onload = ( async () => {
+      })
+      
+      //load p5 after connecting to OBS
+      obsWss.on("Identified", async (data) => {
+        const params = new URLSearchParams(window.location.search)
+        if(params.has("preset")){
+          loadSettings(params.get("preset"))    
+        }else{
+          console.log("add a preset parameter")
+        }
+        //stop if not preset found
+      })
+      
+      //get file name from Query Parameter
+      window.loadSettings = async (presetName) => {
+        console.log("preset",presetName)
+        const filename = presetName;        
+        try {
+          const response = await fetch(`/api/file/get?folder=${APP_FOLDER}&filename=${filename}.json`);
+          if(!response.ok) throw new Error("File not found");
+          PRESET_SETTINGS = await response.json();
+          console.log(PRESET_SETTINGS)
+          //load page with preset
+          window.location.href = `./${PRESET_SETTINGS.filename}.html?preset=${presetName}`
+        } catch(e) {
+          console.error(e);
+        }
+      };
+
+        </script>
+  </body>
+</html>

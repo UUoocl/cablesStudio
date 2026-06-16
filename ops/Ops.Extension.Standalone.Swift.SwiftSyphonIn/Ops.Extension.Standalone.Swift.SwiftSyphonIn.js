@@ -4,8 +4,10 @@
  * utilizing a high-performance native Swift-backed sidecar client process.
  */
 const WebSocket = op.require("ws");
-const { spawn } = op.require("child_process");
+const { spawn, execSync } = op.require("child_process");
 const fs = op.require("fs");
+const os = op.require("os");
+const path = op.require("path");
 
 const
     inActive = op.inBool("Active", false),
@@ -26,6 +28,27 @@ let cp = null;
 let texture = null;
 let currentWs = null;
 let servers = [];
+let tempFilePath = null;
+
+function getRamDiskPath() {
+    let ramDiskPath = "/Volumes/CablesRAMDisk";
+    if (os.platform() === "darwin") {
+        if (!fs.existsSync(ramDiskPath)) {
+            try {
+                op.log("[RAM Disk] Creating a 256MB RAM Disk at /Volumes/CablesRAMDisk...");
+                const dev = execSync("hdiutil attach -nomount ram://524288").toString().trim();
+                execSync(`diskutil erasevolume HFS+ "CablesRAMDisk" ${dev}`);
+                op.log("[RAM Disk] RAM Disk successfully mounted.");
+            } catch (e) {
+                op.logWarn("[RAM Disk] Failed to mount RAM disk, falling back to temp dir: " + String(e));
+                ramDiskPath = os.tmpdir();
+            }
+        }
+    } else {
+        ramDiskPath = os.tmpdir();
+    }
+    return ramDiskPath;
+}
 
 function killProcess() {
     if (cp) {
@@ -48,6 +71,14 @@ function stopServerAndProcess() {
         } catch (e) {}
         wss = null;
     }
+    if (tempFilePath) {
+        try {
+            if (fs.existsSync(tempFilePath)) {
+                fs.unlinkSync(tempFilePath);
+            }
+        } catch (e) {}
+        tempFilePath = null;
+    }
     outStatus.set("Stopped");
 }
 
@@ -60,6 +91,7 @@ function startServerAndProcess() {
         
         wss.on("listening", () => {
             const port = wss.address().port;
+            tempFilePath = path.join(getRamDiskPath(), "syphon_in_" + port + ".raw");
             op.log("[SwiftSyphonIn] Private WebSocket Server listening on port " + port);
             launchProcess(port);
         });
@@ -68,12 +100,8 @@ function startServerAndProcess() {
             op.log("[SwiftSyphonIn] Swift sidecar connected!");
             currentWs = ws;
 
-            ws.on("message", (message, isBinary) => {
-                if (isBinary || message instanceof Buffer || (Buffer && Buffer.isBuffer(message))) {
-                    handleBinaryFrame(message);
-                } else {
-                    handleTextMessage(message.toString());
-                }
+            ws.on("message", (message) => {
+                handleTextMessage(message.toString());
             });
 
             ws.on("close", () => {
@@ -175,6 +203,11 @@ function handleTextMessage(str) {
             inServer.setUiAttribs({ "values": names });
             
             outFound.set(servers.length > 0);
+        } else if (payload.type === "frame") {
+            const width = payload.width;
+            const height = payload.height;
+            if (width === 0 || height === 0) return;
+            handleFileFrame(width, height);
         }
     } catch (e) {
         op.logWarn("[SwiftSyphonIn] Error parsing message: " + String(e));
@@ -208,21 +241,12 @@ function sendSelectionToSidecar() {
     }
 }
 
-function handleBinaryFrame(data) {
+function handleFileFrame(width, height) {
+    if (!tempFilePath) return;
     try {
-        const buffer = data.buffer || data;
-        const byteOffset = data.byteOffset || 0;
-        const byteLength = data.byteLength || data.length;
+        if (!fs.existsSync(tempFilePath)) return;
+        const pixelData = fs.readFileSync(tempFilePath);
         
-        const view = new DataView(buffer, byteOffset, byteLength);
-        
-        // Bytes 0-3: width (UInt32 little endian)
-        // Bytes 4-7: height (UInt32 little endian)
-        const width = view.getUint32(0, true);
-        const height = view.getUint32(4, true);
-        
-        if (width === 0 || height === 0) return;
-
         if (!texture || texture.width !== width || texture.height !== height) {
             op.log("[SwiftSyphonIn] Creating texture: " + width + "x" + height);
             if (texture) texture.dispose();
@@ -240,9 +264,6 @@ function handleBinaryFrame(data) {
         const gl = op.patch.cgl.gl;
         gl.bindTexture(gl.TEXTURE_2D, texture.tex);
 
-        // Raw pixel data starts at byte index 8
-        const pixelData = new Uint8Array(buffer, byteOffset + 8, byteLength - 8);
-
         gl.texImage2D(
             gl.TEXTURE_2D,
             0,
@@ -257,7 +278,7 @@ function handleBinaryFrame(data) {
 
         outNext.trigger();
     } catch (e) {
-        op.logWarn("[SwiftSyphonIn] Error handling frame: " + String(e));
+        op.logWarn("[SwiftSyphonIn] Error handling file frame: " + String(e));
     }
 }
 

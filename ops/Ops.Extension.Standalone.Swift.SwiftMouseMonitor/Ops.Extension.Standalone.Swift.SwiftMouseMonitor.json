@@ -19,22 +19,9 @@
                 "subType": "boolean"
             },
             {
-                "type": 5,
-                "name": "Hostname"
-            },
-            {
-                "type": 0,
-                "name": "Port",
-                "subType": "integer"
-            },
-            {
                 "type": 0,
                 "name": "PPS Limit",
                 "subType": "integer"
-            },
-            {
-                "type": 5,
-                "name": "Channel Name"
             }
         ],
         "portsOut": [
@@ -88,12 +75,8 @@
                 "text": "Enable or disable global mouse telemetry listening."
             },
             {
-                "name": "Hostname",
-                "text": "Interface where the Swift server is running (default 127.0.0.1)."
-            },
-            {
-                "name": "Port",
-                "text": "Port where the Swift server is listening (default 8080)."
+                "name": "PPS Limit",
+                "text": "The maximum number of position update packets sent per second."
             },
             {
                 "name": "On Update",

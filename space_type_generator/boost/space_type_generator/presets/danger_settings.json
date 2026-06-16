@@ -1,0 +1,11 @@
+{
+  "filename": "danger",
+  "noiseSpeed": 18.04,
+  "radiusNoise": 0.15,
+  "tumult": 0.5,
+  "columns": 30,
+  "rows": 1,
+  "input": "ALL|GOOD|THINGS|I HOPE.",
+  "pgTextSize": 62,
+  "leading": 0.82
+}

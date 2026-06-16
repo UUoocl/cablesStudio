@@ -68,18 +68,11 @@ inTrigger.onTriggered = () => {
             try {
                 var activeSlideIndex = 1;
                 if (ppt.slideShowWindows.length > 0) {
-                    activeSlideIndex = ppt.slideShowWindows[0].view.slide.slideIndex();
+                    activeSlideIndex = ppt.slideShowWindows[0].slideshowView.slide.slideIndex();
                 } else {
                     activeSlideIndex = ppt.activeWindow.selection.slideRange.slideIndex();
                 }
-                
-                var adjustedIndex = 0;
-                for (var i = 0; i < activeSlideIndex; i++) {
-                    if (!isSlideSkipped(activePres.slides[i])) {
-                        adjustedIndex++;
-                    }
-                }
-                return adjustedIndex;
+                return activeSlideIndex;
             } catch(e) {
                 return 1;
             }
@@ -223,7 +216,8 @@ inTrigger.onTriggered = () => {
                         ${helpersStr}
 
                         if (ppt.slideShowWindows.length > 0) {
-                            ppt.slideShowWindows[0].view.next();
+                            var view = ppt.slideShowWindows[0].slideshowView;
+                            view.goToNextSlide();
                             return JSON.stringify({ status: "success", mode: "playing", message: "Advanced slides", activeIndex: getAdjustedActiveIndex(ppt, activePres) });
                         } else {
                             var currentSlideIndex = ppt.activeWindow.selection.slideRange.slideIndex(); // 1-indexed
@@ -267,7 +261,8 @@ inTrigger.onTriggered = () => {
                         ${helpersStr}
 
                         if (ppt.slideShowWindows.length > 0) {
-                            ppt.slideShowWindows[0].view.previous();
+                            var view = ppt.slideShowWindows[0].slideshowView;
+                            view.goToPreviousSlide();
                             return JSON.stringify({ status: "success", mode: "playing", message: "Went back slides", activeIndex: getAdjustedActiveIndex(ppt, activePres) });
                         } else {
                             var currentSlideIndex = ppt.activeWindow.selection.slideRange.slideIndex(); // 1-indexed
@@ -321,12 +316,28 @@ inTrigger.onTriggered = () => {
                         }
 
                         if (ppt.slideShowWindows.length > 0) {
-                            ppt.slideShowWindows[0].view.goToSlide(targetSlide.slideIndex());
+                            var view = ppt.slideShowWindows[0].slideshowView;
+                            var lastIdx = -1;
+                            var attempts = 0;
+                            while (attempts < 100) {
+                                var currentIdx = view.slide.slideIndex();
+                                var targetIdx = targetSlide.slideIndex();
+                                if (currentIdx === targetIdx || currentIdx === lastIdx) {
+                                    break;
+                                }
+                                lastIdx = currentIdx;
+                                if (currentIdx < targetIdx) {
+                                    view.goToNextSlide();
+                                } else {
+                                    view.goToPreviousSlide();
+                                }
+                                attempts++;
+                            }
                         } else {
                             targetSlide.select();
                         }
 
-                        return JSON.stringify({ status: "success", message: "Moved to slide " + slideNum, activeIndex: slideNum });
+                        return JSON.stringify({ status: "success", message: "Moved to slide " + slideNum, activeIndex: targetSlide.slideIndex() });
                     } catch (err) {
                         return JSON.stringify({ error: "Error in goto: " + err.message });
                     }
@@ -367,7 +378,7 @@ inTrigger.onTriggered = () => {
                         // Stop slideshow to release lock before updating presenter notes
                         try {
                             if (ppt.slideShowWindows.length > 0) {
-                                ppt.slideShowWindows[0].close();
+                                ppt.slideShowWindows[0].slideshowView.exitSlideShow();
                             }
                         } catch (e) {}
 
@@ -409,9 +420,31 @@ inTrigger.onTriggered = () => {
                             targetSlide.select();
                         }
 
-                        return JSON.stringify({ status: "success", message: "Updated slide " + slideNumber + " with scene " + sceneName, activeIndex: slideNumber });
+                        return JSON.stringify({ status: "success", message: "Updated slide " + slideNumber + " with scene " + sceneName, activeIndex: targetSlide.slideIndex() });
                     } catch (err) {
                         return JSON.stringify({ error: "Error updating slide scene: " + err.message });
+                    }
+                })()
+            `;
+            break;
+
+        case "getactiveindex":
+            jxaCode = `
+                (function() {
+                    try {
+                        var ppt = Application('Microsoft PowerPoint');
+                        if (!ppt.running()) {
+                            return JSON.stringify({ error: "PowerPoint is not running" });
+                        }
+                        if (ppt.presentations.length === 0) {
+                            return JSON.stringify({ error: "No presentation open in PowerPoint" });
+                        }
+                        var activePres = ppt.activePresentation;
+                        ${helpersStr}
+                        var adjusted = getAdjustedActiveIndex(ppt, activePres);
+                        return JSON.stringify({ activeIndex: adjusted });
+                    } catch (err) {
+                        return JSON.stringify({ error: err.message });
                     }
                 })()
             `;
@@ -459,6 +492,7 @@ inTrigger.onTriggered = () => {
 
                             var slideInfo = {
                                 Index: nonSkippedCount,
+                                AbsoluteIndex: i + 1,
                                 Name: metadata.Name || ("Slide " + nonSkippedCount),
                                 Scene: metadata.Scene || "",
                                 Section: metadata.Section || "",

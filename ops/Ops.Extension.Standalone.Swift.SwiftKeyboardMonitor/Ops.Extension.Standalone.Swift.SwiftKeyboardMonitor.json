@@ -26,10 +26,6 @@
                 "type": 0,
                 "name": "Port",
                 "subType": "integer"
-            },
-            {
-                "type": 5,
-                "name": "Channel Name"
             }
         ],
         "portsOut": [
@@ -52,15 +48,6 @@
             {
                 "type": 5,
                 "name": "Modifiers"
-            },
-            {
-                "type": 0,
-                "name": "Running",
-                "subType": "boolean"
-            },
-            {
-                "type": 5,
-                "name": "Status"
             }
         ]
     },

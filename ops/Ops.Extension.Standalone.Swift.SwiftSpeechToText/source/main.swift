@@ -29,7 +29,6 @@ final class WebSocketClient: @unchecked Sendable {
         self.webSocketTask = task
         self.isConnected = true
         task.resume()
-        print("🔌 Connecting to local Cables Standalone WebSocket server at \(url.absoluteString)...")
         listenForMessages(task: task)
     }
     
@@ -42,7 +41,6 @@ final class WebSocketClient: @unchecked Sendable {
         webSocketTask?.cancel(with: .goingAway, reason: nil)
         webSocketTask = nil
         isConnected = false
-        print("🛑 WebSocket disconnected.")
     }
     
     func send(message: String) {
@@ -87,7 +85,6 @@ final class WebSocketClient: @unchecked Sendable {
         reconnectTimer = Task {
             try? await Task.sleep(nanoseconds: 2_000_000_000)
             guard !Task.isCancelled else { return }
-            print("🔄 Attempting automatic reconnection to Cables server...")
             self.connect()
         }
         lock.unlock()
@@ -104,23 +101,42 @@ final class SpeechManager: @unchecked Sendable {
     private var currentLocale = "en-US"
     private var currentDeviceUID: String?
     
+    private var lastActivityTime = Date()
+    private let silenceThresholdDB: Float = -45.0
+    private var silenceDuration: TimeInterval = 1.5
+    private var isSilentState = true
+    private var lastText = ""
+    
     init(wsClient: WebSocketClient) {
         self.wsClient = wsClient
         checkSpeechAuthorizationStatus()
     }
     
     private func checkSpeechAuthorizationStatus() {
-        print("🎙️ Querying speech recognition authorization status...")
         let status = SFSpeechRecognizer.authorizationStatus()
         switch status {
         case .authorized:
-            print("✅ Speech recognition is authorized.")
+            break
         case .denied:
             print("❌ Speech recognition is denied. Please enable it in System Settings.")
         case .restricted:
             print("❌ Speech recognition is restricted on this device.")
         case .notDetermined:
-            print("⚠️ Speech recognition authorization is not determined yet.")
+            print("⚠️ Speech recognition authorization is not determined yet. Requesting authorization...")
+            SFSpeechRecognizer.requestAuthorization { authStatus in
+                switch authStatus {
+                case .authorized:
+                    print("✅ Speech recognition authorization granted.")
+                case .denied:
+                    print("❌ Speech recognition authorization denied.")
+                case .restricted:
+                    print("❌ Speech recognition authorization restricted.")
+                case .notDetermined:
+                    print("⚠️ Speech recognition authorization remains not determined.")
+                @unknown default:
+                    break
+                }
+            }
         @unknown default:
             break
         }
@@ -132,7 +148,6 @@ final class SpeechManager: @unchecked Sendable {
         
         guard currentLocale != localeIdentifier else { return }
         currentLocale = localeIdentifier
-        print("🌐 Locale changed to: \(localeIdentifier)")
         
         // If recording is active, restart it with the new locale
         if audioEngine.isRunning {
@@ -141,13 +156,19 @@ final class SpeechManager: @unchecked Sendable {
         }
     }
     
+    func setSilenceDuration(_ seconds: Double) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard seconds > 0 else { return }
+        silenceDuration = seconds
+    }
+    
     func setAudioDevice(uid: String) {
         lock.lock()
         defer { lock.unlock() }
         
         guard currentDeviceUID != uid else { return }
         currentDeviceUID = uid
-        print("🎤 Audio input device changed to UID: \(uid)")
         
         // If recording is active, restart it to bind the new device
         if audioEngine.isRunning {
@@ -177,10 +198,23 @@ final class SpeechManager: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         
-        print("🎙️ Resetting transcription (hot-swapping recognition task)...")
         guard audioEngine.isRunning else {
             print("⚠️ AVAudioEngine is not running, skipping reset.")
             return
+        }
+        
+        // Send final chunk before resetting if any text was transcribed
+        if !lastText.isEmpty {
+            let payload: [String: Any] = [
+                "type": "transcription",
+                "text": lastText,
+                "isFinal": true
+            ]
+            if let data = try? JSONSerialization.data(withJSONObject: payload, options: []),
+               let str = String(data: data, encoding: .utf8) {
+                wsClient.send(message: str)
+            }
+            lastText = ""
         }
         
         // 1. End old request and cancel old task
@@ -200,6 +234,15 @@ final class SpeechManager: @unchecked Sendable {
         
         let request = SFSpeechAudioBufferRecognitionRequest()
         request.shouldReportPartialResults = true
+        
+        // Force on-device recognition only. If not supported, stop.
+        guard recognizer.supportsOnDeviceRecognition else {
+            print("❌ On-device speech recognition is not supported/available for locale \(currentLocale). Stopping recording.")
+            stopRecordingInternal()
+            return
+        }
+        request.requiresOnDeviceRecognition = true
+        
         self.recognitionRequest = request
         
         // 3. Start the new recognition task
@@ -216,6 +259,9 @@ final class SpeechManager: @unchecked Sendable {
             
             if let result = result {
                 let text = result.bestTranscription.formattedString
+                self.lock.lock()
+                self.lastText = text
+                self.lock.unlock()
                 let payload: [String: Any] = [
                     "type": "transcription",
                     "text": text,
@@ -239,7 +285,6 @@ final class SpeechManager: @unchecked Sendable {
                 self.lock.unlock()
             }
         }
-        print("✅ Hot-swapped speech recognition task!")
     }
     
     func publishAudioDevices() {
@@ -256,21 +301,18 @@ final class SpeechManager: @unchecked Sendable {
     }
     
     private func startRecordingInternal() throws {
-        print("🎙️ Clearing any existing recognition task...")
         if let task = recognitionTask {
             task.cancel()
             self.recognitionTask = nil
         }
         
         // 1. Crash-safety guard: Ensure we have at least one active audio input device
-        print("🎙️ Checking connected audio input devices via CoreAudio...")
         let devices = getAudioInputDevices()
         guard devices.count > 1 else {
             print("❌ No physical audio input devices found on the system.")
             return
         }
         
-        print("🎙️ Creating SFSpeechRecognizer for locale \(currentLocale)...")
         speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: currentLocale))
         guard let recognizer = speechRecognizer else {
             print("❌ Speech recognizer is nil for locale \(currentLocale)")
@@ -281,7 +323,6 @@ final class SpeechManager: @unchecked Sendable {
             return
         }
         
-        print("🎙️ Creating SFSpeechAudioBufferRecognitionRequest...")
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let request = recognitionRequest else {
             print("❌ Unable to create speech recognition request.")
@@ -289,12 +330,18 @@ final class SpeechManager: @unchecked Sendable {
         }
         request.shouldReportPartialResults = true
         
-        print("🎙️ Accessing audioEngine inputNode...")
+        // Force on-device recognition only. If not supported, stop.
+        guard recognizer.supportsOnDeviceRecognition else {
+            print("❌ On-device speech recognition is not supported/available for locale \(currentLocale). Stopping recording.")
+            stopRecordingInternal()
+            return
+        }
+        request.requiresOnDeviceRecognition = true
+        
         let inputNode = audioEngine.inputNode
         
         // Dynamic CoreAudio device configuration on the input node's Audio Unit
         if let uid = currentDeviceUID, uid != "Default", let deviceID = getAudioDeviceID(from: uid) {
-            print("🎙️ Binding inputNode to AudioDeviceID: \(deviceID)...")
             guard let inputAudioUnit = inputNode.audioUnit else {
                 print("❌ Input node has no valid Audio Unit.")
                 return
@@ -311,15 +358,12 @@ final class SpeechManager: @unchecked Sendable {
                 size
             )
             
-            if status == noErr {
-                print("✅ Successfully set AudioDeviceID on input node: \(deviceID)")
-            } else {
+            if status != noErr {
                 print("❌ Failed to set AudioDeviceID on input node. Status: \(status)")
             }
         }
         
         let recordingFormat = inputNode.outputFormat(forBus: 0)
-        print("🎙️ Input node output format: sampleRate=\(recordingFormat.sampleRate), channels=\(recordingFormat.channelCount)")
         
         // 2. Crash-safety guard: Ensure recordingFormat is valid (sampleRate > 0 and channels > 0)
         guard recordingFormat.sampleRate > 0, recordingFormat.channelCount > 0 else {
@@ -327,12 +371,47 @@ final class SpeechManager: @unchecked Sendable {
             return
         }
         
-        print("🎙️ Safely removing any existing tap on bus 0...")
         inputNode.removeTap(onBus: 0)
         
-        print("🎙️ Installing new buffer tap on bus 0...")
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] (buffer, when) in
+        lastActivityTime = Date()
+        isSilentState = true
+        lastText = ""
+        
+        inputNode.installTap(onBus: 0, bufferSize: 4096, format: recordingFormat) { [weak self] (buffer, when) in
             guard let self = self else { return }
+            
+            // Calculate RMS amplitude for speech presence detection
+            let channelData = buffer.floatChannelData?[0]
+            let frameLength = Int(buffer.frameLength)
+            if let data = channelData, frameLength > 0 {
+                var sum: Float = 0
+                for i in 0..<frameLength {
+                    sum += data[i] * data[i]
+                }
+                let rms = sqrt(sum / Float(frameLength))
+                let db = rms > 0.0001 ? 20 * log10(rms) : -100.0
+                
+                self.lock.lock()
+                let wasSilent = self.isSilentState
+                if db > self.silenceThresholdDB {
+                    self.lastActivityTime = Date()
+                    self.isSilentState = false
+                }
+                
+                let shouldReset = !wasSilent && (Date().timeIntervalSince(self.lastActivityTime) > self.silenceDuration)
+                if shouldReset {
+                    self.isSilentState = true
+                }
+                self.lock.unlock()
+                
+                if shouldReset {
+                    // Trigger silence-based context flush
+                    DispatchQueue.main.async {
+                        self.resetTranscription()
+                    }
+                }
+            }
+            
             self.lock.lock()
             if let activeRequest = self.recognitionRequest {
                 activeRequest.append(buffer)
@@ -340,12 +419,8 @@ final class SpeechManager: @unchecked Sendable {
             self.lock.unlock()
         }
         
-        print("🎙️ Preparing AVAudioEngine...")
         audioEngine.prepare()
-        
-        print("🎙️ Starting AVAudioEngine...")
         try audioEngine.start()
-        print("🎤 Microphone tap installed, AVAudioEngine running...")
         
         recognitionTask = recognizer.recognitionTask(with: request) { [weak self] result, error in
             guard let self = self else { return }
@@ -360,6 +435,9 @@ final class SpeechManager: @unchecked Sendable {
             
             if let result = result {
                 let text = result.bestTranscription.formattedString
+                self.lock.lock()
+                self.lastText = text
+                self.lock.unlock()
                 let payload: [String: Any] = [
                     "type": "transcription",
                     "text": text,
@@ -376,7 +454,7 @@ final class SpeechManager: @unchecked Sendable {
                 self.lock.lock()
                 if self.recognitionRequest === request {
                     self.audioEngine.stop()
-                    inputNode.removeTap(onBus: 0)
+                    self.audioEngine.inputNode.removeTap(onBus: 0)
                     self.recognitionRequest = nil
                     self.recognitionTask = nil
                 }
@@ -390,11 +468,26 @@ final class SpeechManager: @unchecked Sendable {
             audioEngine.stop()
             audioEngine.inputNode.removeTap(onBus: 0)
         }
+        
+        // Send final chunk if any before stopping
+        if !lastText.isEmpty {
+            let payload: [String: Any] = [
+                "type": "transcription",
+                "text": lastText,
+                "isFinal": true
+            ]
+            if let data = try? JSONSerialization.data(withJSONObject: payload, options: []),
+               let str = String(data: data, encoding: .utf8) {
+                wsClient.send(message: str)
+            }
+            lastText = ""
+        }
+        
         recognitionRequest?.endAudio()
         recognitionTask?.cancel()
         recognitionRequest = nil
         recognitionTask = nil
-        print("🛑 Stopped audio engine and recognition task.")
+        isSilentState = true
     }
 }
 
@@ -419,6 +512,9 @@ final class Session: @unchecked Sendable {
             } else if type == "audioDevice" {
                 let uid = json["value"] as? String ?? "Default"
                 self.speechManager?.setAudioDevice(uid: uid)
+            } else if type == "silenceDuration" {
+                let duration = json["value"] as? Double ?? 1.5
+                self.speechManager?.setSilenceDuration(duration)
             } else if type == "start" {
                 self.speechManager?.startRecording()
             } else if type == "stop" {
@@ -569,13 +665,27 @@ while i < arguments.count {
 let session = Session()
 session.start(host: host, port: port)
 
-// Periodically publish active Audio Input Devices (handles hot-plugging)
-Task {
-    while true {
-        session.speechManager?.publishAudioDevices()
-        try? await Task.sleep(nanoseconds: 3_000_000_000)
+func setupAudioDeviceListener(session: Session) {
+    var address = AudioObjectPropertyAddress(
+        mSelector: kAudioHardwarePropertyDevices,
+        mScope: kAudioObjectPropertyScopeGlobal,
+        mElement: kAudioObjectPropertyElementMain
+    )
+    
+    let callback: AudioObjectPropertyListenerProc = { (objectID, numberAddresses, addresses, clientData) -> OSStatus in
+        if let sessionPtr = clientData {
+            let session = Unmanaged<Session>.fromOpaque(sessionPtr).takeUnretainedValue()
+            session.speechManager?.publishAudioDevices()
+        }
+        return noErr
     }
+    
+    let clientData = Unmanaged.passUnretained(session).toOpaque()
+    AudioObjectAddPropertyListener(AudioObjectID(kAudioObjectSystemObject), &address, callback, clientData)
 }
+
+setupAudioDeviceListener(session: session)
+session.speechManager?.publishAudioDevices()
 
 // Parent Lifecycle Tracking (Prevent Orphan Processes)
 Task {
@@ -588,7 +698,7 @@ Task {
     }
 }
 
-print("💡 Activating Swift Speech to Text sidecar process, waiting for events...")
+// Active session initialized. Process running.
 
 // Run loop keep-alive
 try await Task.sleep(nanoseconds: UInt64.max)

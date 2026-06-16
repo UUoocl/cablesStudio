@@ -10,10 +10,7 @@ const WebSocket = op.require("ws");
 
 const
     inActive = op.inBool("Active", false),
-    inHost = op.inString("Hostname", "127.0.0.1"),
-    inPort = op.inInt("Port", 8080),
     inPps = op.inInt("PPS Limit", 20),
-    inChannel = op.inString("Channel Name", "mouseEvents"),
 
     outUpdate = op.outTrigger("On Update"),
     outPosX = op.outNumber("Pos X", 0),
@@ -63,7 +60,7 @@ function launchProcess(port) {
 
     const host = "127.0.0.1";
     const pps = inPps.get() || 20;
-    const channel = inChannel.get() || "mouseEvents";
+    const channel = "mouseEvents";
     const args = [
         "--host", host,
         "--port", String(port),
@@ -215,8 +212,7 @@ inActive.onChange = () => {
         stopServerAndProcess();
     }
 };
-
-inHost.onChange = inPort.onChange = inPps.onChange = inChannel.onChange = () => {
+inPps.onChange = () => {
     if (inActive.get()) {
         startServerAndProcess();
     }

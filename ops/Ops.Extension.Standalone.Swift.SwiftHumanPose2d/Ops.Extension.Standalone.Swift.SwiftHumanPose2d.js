@@ -3,8 +3,10 @@
  * Captures 2D human body pose joint landmarks in real-time using native Apple Vision neural tracking.
  */
 const WebSocket = op.require("ws");
-const { spawn } = op.require("child_process");
+const { spawn, execSync } = op.require("child_process");
 const fs = op.require("fs");
+const os = op.require("os");
+const path = op.require("path");
 
 const
     inActive = op.inBool("Active", false),
@@ -27,6 +29,27 @@ const
 let wss = null;
 let cp = null;
 let currentWs = null;
+let inFilePath = null;
+
+function getRamDiskPath() {
+    let ramDiskPath = "/Volumes/CablesRAMDisk";
+    if (os.platform() === "darwin") {
+        if (!fs.existsSync(ramDiskPath)) {
+            try {
+                op.log("[RAM Disk] Creating a 256MB RAM Disk at /Volumes/CablesRAMDisk...");
+                const dev = execSync("hdiutil attach -nomount ram://524288").toString().trim();
+                execSync(`diskutil erasevolume HFS+ "CablesRAMDisk" ${dev}`);
+                op.log("[RAM Disk] RAM Disk successfully mounted.");
+            } catch (e) {
+                op.logWarn("[RAM Disk] Failed to mount RAM disk, falling back to temp dir: " + String(e));
+                ramDiskPath = os.tmpdir();
+            }
+        }
+    } else {
+        ramDiskPath = os.tmpdir();
+    }
+    return ramDiskPath;
+}
 
 function killProcess() {
     if (cp) {
@@ -50,6 +73,12 @@ function stopServerAndProcess() {
         } catch (e) {}
         wss = null;
     }
+    if (inFilePath) {
+        try {
+            if (fs.existsSync(inFilePath)) fs.unlinkSync(inFilePath);
+        } catch (e) {}
+        inFilePath = null;
+    }
     outStatus.set("Stopped");
 }
 
@@ -61,6 +90,8 @@ function startServerAndProcess() {
         
         wss.on("listening", () => {
             const port = wss.address().port;
+            const ramDiskPath = getRamDiskPath();
+            inFilePath = path.join(ramDiskPath, "pose2d_in_" + port + ".raw");
             op.log("[SwiftHumanPose2d] Private WebSocket Server listening on port " + port);
             launchProcess(port);
         });
@@ -251,24 +282,20 @@ render.onTriggered = () => {
 
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
-        // 9. Pack binary envelope: [width (UInt32) | height (UInt32) | minConfidence (Float32) | roiX (Float32) | roiY (Float32) | roiWidth (Float32) | roiHeight (Float32) | pixel bytes...]
-        const byteLength = 28 + op._pixelBuffer.length;
-        const binaryPkg = new Uint8Array(byteLength);
-        const view = new DataView(binaryPkg.buffer);
-
-        view.setUint32(0, targetW, true);
-        view.setUint32(4, targetH, true);
-        view.setFloat32(8, inMinConfidence.get(), true);
-        view.setFloat32(12, inRoiX.get(), true);
-        view.setFloat32(16, inRoiY.get(), true);
-        view.setFloat32(20, inRoiWidth.get(), true);
-        view.setFloat32(24, inRoiHeight.get(), true);
-        binaryPkg.set(op._pixelBuffer, 28);
-
-        // Stream frame bytes to Swift sidecar
+        // 9. Write pixels to RAM Disk file and send notification trigger with parameters
         try {
             isProcessing = true;
-            currentWs.send(binaryPkg);
+            fs.writeFileSync(inFilePath, op._pixelBuffer);
+            currentWs.send(JSON.stringify({
+                type: "frame",
+                width: targetW,
+                height: targetH,
+                minConfidence: inMinConfidence.get(),
+                roiX: inRoiX.get(),
+                roiY: inRoiY.get(),
+                roiWidth: inRoiWidth.get(),
+                roiHeight: inRoiHeight.get()
+            }));
         } catch (e) {
             isProcessing = false;
             op.logWarn("[SwiftHumanPose2d] Failed to stream frame: " + String(e));

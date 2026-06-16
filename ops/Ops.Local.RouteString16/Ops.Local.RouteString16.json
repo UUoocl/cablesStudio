@@ -1,0 +1,100 @@
+{
+    "id": "c522fde8-f572-4df2-a37c-3f74d5c9fa54",
+    "changelog": [
+        {
+            "message": "created op",
+            "author": "andro",
+            "date": 1587983335384
+        },
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "",
+            "date": 1779953991239
+        }
+    ],
+    "authorName": "",
+    "created": 1779953991239,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Index",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "String in"
+            },
+            {
+                "type": 5,
+                "name": "Default string"
+            },
+            {
+                "type": 0,
+                "name": "Set inactive to default",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Index 0 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 1 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 2 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 3 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 4 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 5 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 6 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 7 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 8 string"
+            },
+            {
+                "type": 5,
+                "name": "Index 9 string"
+            }
+        ]
+    },
+    "summary": "Route a string to an output port",
+    "issues": "",
+    "docs": {
+        "ports": [
+            {
+                "name": "Index",
+                "text": "Index of string port out to send string to"
+            },
+            {
+                "name": "String in",
+                "text": "String to route"
+            },
+            {
+                "name": "Default string",
+                "text": "The string which goes out of all other ports"
+            }
+        ]
+    }
+}

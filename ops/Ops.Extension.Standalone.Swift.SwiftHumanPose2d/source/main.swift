@@ -13,11 +13,11 @@ final class WebSocketClient: @unchecked Sendable {
     private var isConnected = false
     private let lock = NSLock()
     private var reconnectTimer: Task<Void, Never>?
-    private let onBinaryMessage: @Sendable (Data) -> Void
+    private let onMessage: @Sendable (String) -> Void
     
-    init(url: URL, onBinaryMessage: @escaping @Sendable (Data) -> Void) {
+    init(url: URL, onMessage: @escaping @Sendable (String) -> Void) {
         self.url = url
-        self.onBinaryMessage = onBinaryMessage
+        self.onMessage = onMessage
     }
     
     func connect() {
@@ -67,8 +67,8 @@ final class WebSocketClient: @unchecked Sendable {
             switch result {
             case .success(let message):
                 switch message {
-                case .data(let data):
-                    self.onBinaryMessage(data)
+                case .string(let text):
+                    self.onMessage(text)
                 default:
                     break
                 }
@@ -99,14 +99,24 @@ final class PoseManager: @unchecked Sendable {
     private let wsClient: WebSocketClient
     private let request = VNDetectHumanBodyPoseRequest()
     private let lock = NSLock()
+    private var inFilePath: String = ""
     
     // Cached pixel buffer and size for input frames to avoid per-frame allocations
     private var inputPixelBuffer: CVPixelBuffer?
     private var inputWidth = 0
     private var inputHeight = 0
     
-    init(wsClient: WebSocketClient) {
+    init(wsClient: WebSocketClient, port: Int) {
         self.wsClient = wsClient
+        
+        let fm = FileManager.default
+        let ramDiskPath = "/Volumes/CablesRAMDisk"
+        if fm.fileExists(atPath: ramDiskPath) {
+            self.inFilePath = "\(ramDiskPath)/pose2d_in_\(port).raw"
+        } else {
+            self.inFilePath = "\(NSTemporaryDirectory())pose2d_in_\(port).raw"
+        }
+        print("📁 Using shared file path: \(self.inFilePath)")
     }
     
     private func preparePixelBuffer(width: Int, height: Int) -> CVPixelBuffer? {
@@ -143,22 +153,28 @@ final class PoseManager: @unchecked Sendable {
         return buffer
     }
     
-    func processFrame(data: Data) {
+    func processFrame(
+        width w: Int,
+        height h: Int,
+        minConfidence: Float,
+        roiX: Float,
+        roiY: Float,
+        roiWidth: Float,
+        roiHeight: Float
+    ) {
         lock.lock()
         defer { lock.unlock() }
         
-        // Header is now 28 bytes: width (4B) | height (4B) | confidence (4B) | roiX (4B) | roiY (4B) | roiWidth (4B) | roiHeight (4B)
-        guard data.count > 28 else { return }
+        guard w > 0, h > 0 else { return }
         
-        let w = Int(data.withUnsafeBytes { $0.load(fromByteOffset: 0, as: UInt32.self) })
-        let h = Int(data.withUnsafeBytes { $0.load(fromByteOffset: 4, as: UInt32.self) })
-        let minConfidence = data.withUnsafeBytes { $0.load(fromByteOffset: 8, as: Float.self) }
-        let roiX = data.withUnsafeBytes { $0.load(fromByteOffset: 12, as: Float.self) }
-        let roiY = data.withUnsafeBytes { $0.load(fromByteOffset: 16, as: Float.self) }
-        let roiWidth = data.withUnsafeBytes { $0.load(fromByteOffset: 20, as: Float.self) }
-        let roiHeight = data.withUnsafeBytes { $0.load(fromByteOffset: 24, as: Float.self) }
+        // Read input raw RGBA bytes from shared file
+        let fileUrl = URL(fileURLWithPath: self.inFilePath)
+        guard let data = try? Data(contentsOf: fileUrl) else {
+            print("❌ Failed to read frame from shared file: \(self.inFilePath)")
+            return
+        }
         
-        guard w > 0, h > 0, data.count >= 28 + w * h * 4 else { return }
+        guard data.count >= w * h * 4 else { return }
         
         // 1. Prepare or reuse cached CVPixelBuffer
         guard let pixelBuffer = preparePixelBuffer(width: w, height: h) else {
@@ -175,7 +191,7 @@ final class PoseManager: @unchecked Sendable {
             
             data.withUnsafeBytes { rawBuffer in
                 guard let srcBaseAddress = rawBuffer.baseAddress else { return }
-                let srcPtr = srcBaseAddress.assumingMemoryBound(to: UInt8.self) + 28 // Skip 28-byte parameter header
+                let srcPtr = srcBaseAddress.assumingMemoryBound(to: UInt8.self)
                 
                 for y in 0..<h {
                     let srcRowPtr = srcPtr + (y * w * 4)
@@ -276,12 +292,37 @@ final class Session: @unchecked Sendable {
     func start(host: String, port: Int) {
         let serverUrl = URL(string: "ws://\(host):\(port)")!
         
-        let ws = WebSocketClient(url: serverUrl, onBinaryMessage: { [weak self] binaryData in
-            self?.poseManager?.processFrame(data: binaryData)
+        let ws = WebSocketClient(url: serverUrl, onMessage: { [weak self] jsonStr in
+            guard let self = self,
+                  let data = jsonStr.data(using: .utf8),
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let type = json["type"] as? String else {
+                return
+            }
+            
+            if type == "frame" {
+                let width = json["width"] as? Int ?? 0
+                let height = json["height"] as? Int ?? 0
+                let minConfidence = (json["minConfidence"] as? NSNumber)?.floatValue ?? 0.1
+                let roiX = (json["roiX"] as? NSNumber)?.floatValue ?? 0.0
+                let roiY = (json["roiY"] as? NSNumber)?.floatValue ?? 0.0
+                let roiWidth = (json["roiWidth"] as? NSNumber)?.floatValue ?? 1.0
+                let roiHeight = (json["roiHeight"] as? NSNumber)?.floatValue ?? 1.0
+                
+                self.poseManager?.processFrame(
+                    width: width,
+                    height: height,
+                    minConfidence: minConfidence,
+                    roiX: roiX,
+                    roiY: roiY,
+                    roiWidth: roiWidth,
+                    roiHeight: roiHeight
+                )
+            }
         })
         
         self.wsClient = ws
-        self.poseManager = PoseManager(wsClient: ws)
+        self.poseManager = PoseManager(wsClient: ws, port: port)
         ws.connect()
     }
 }

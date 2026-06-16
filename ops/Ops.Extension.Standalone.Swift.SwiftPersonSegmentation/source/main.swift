@@ -9,11 +9,11 @@ final class WebSocketClient: @unchecked Sendable {
     private var isConnected = false
     private let lock = NSLock()
     private var reconnectTimer: Task<Void, Never>?
-    private let onBinaryMessage: @Sendable (Data) -> Void
+    private let onMessage: @Sendable (String) -> Void
     
-    init(url: URL, onBinaryMessage: @escaping @Sendable (Data) -> Void) {
+    init(url: URL, onMessage: @escaping @Sendable (String) -> Void) {
         self.url = url
-        self.onBinaryMessage = onBinaryMessage
+        self.onMessage = onMessage
     }
     
     func connect() {
@@ -42,17 +42,17 @@ final class WebSocketClient: @unchecked Sendable {
         print("🛑 WebSocket disconnected.")
     }
     
-    func send(data: Data) {
+    func send(message: String) {
         lock.lock()
         let activeTask = webSocketTask
         let connected = isConnected
         lock.unlock()
         
         guard connected, let task = activeTask else { return }
-        let wsMessage = URLSessionWebSocketTask.Message.data(data)
+        let wsMessage = URLSessionWebSocketTask.Message.string(message)
         task.send(wsMessage) { error in
             if let error = error {
-                print("❌ WebSocket Send Data Error: \(error.localizedDescription)")
+                print("❌ WebSocket Send Error: \(error.localizedDescription)")
             }
         }
     }
@@ -63,8 +63,8 @@ final class WebSocketClient: @unchecked Sendable {
             switch result {
             case .success(let message):
                 switch message {
-                case .data(let data):
-                    self.onBinaryMessage(data)
+                case .string(let text):
+                    self.onMessage(text)
                 default:
                     break
                 }
@@ -96,6 +96,9 @@ final class SegmentationManager: @unchecked Sendable {
     private let request = VNGeneratePersonSegmentationRequest()
     private let lock = NSLock()
     
+    private var inFilePath: String = ""
+    private var outFilePath: String = ""
+    
     // Cached pixel buffer and size for input frames
     private var inputPixelBuffer: CVPixelBuffer?
     private var inputWidth = 0
@@ -104,8 +107,19 @@ final class SegmentationManager: @unchecked Sendable {
     // Cached output Data buffer
     private var outputData = Data()
     
-    init(wsClient: WebSocketClient, quality: String) {
+    init(wsClient: WebSocketClient, quality: String, port: Int) {
         self.wsClient = wsClient
+        
+        let fm = FileManager.default
+        let ramDiskPath = "/Volumes/CablesRAMDisk"
+        if fm.fileExists(atPath: ramDiskPath) {
+            self.inFilePath = "\(ramDiskPath)/seg_in_\(port).raw"
+            self.outFilePath = "\(ramDiskPath)/seg_out_\(port).raw"
+        } else {
+            self.inFilePath = "\(NSTemporaryDirectory())seg_in_\(port).raw"
+            self.outFilePath = "\(NSTemporaryDirectory())seg_out_\(port).raw"
+        }
+        print("📁 Using shared files:\n  In: \(self.inFilePath)\n  Out: \(self.outFilePath)")
         
         switch quality.lowercased() {
         case "accurate":
@@ -154,22 +168,23 @@ final class SegmentationManager: @unchecked Sendable {
         return buffer
     }
     
-    func processFrame(data: Data) {
+    func processFrame(width: Int, height: Int) {
         lock.lock()
         defer { lock.unlock() }
         
-        // Bytes 0-3: width (UInt32 little endian)
-        // Bytes 4-7: height (UInt32 little endian)
-        // Bytes 8...: raw RGBA pixels
-        guard data.count > 8 else { return }
+        guard width > 0, height > 0 else { return }
         
-        let w = Int(data.withUnsafeBytes { $0.load(fromByteOffset: 0, as: UInt32.self) })
-        let h = Int(data.withUnsafeBytes { $0.load(fromByteOffset: 4, as: UInt32.self) })
+        // Read input raw RGBA bytes from shared file
+        let fileUrl = URL(fileURLWithPath: self.inFilePath)
+        guard let data = try? Data(contentsOf: fileUrl) else {
+            print("❌ Failed to read frame from shared file: \(self.inFilePath)")
+            return
+        }
         
-        guard w > 0, h > 0, data.count >= 8 + w * h * 4 else { return }
+        guard data.count >= width * height * 4 else { return }
         
         // Prepare or reuse cached input CVPixelBuffer
-        guard let pixelBuffer = preparePixelBuffer(width: w, height: h) else {
+        guard let pixelBuffer = preparePixelBuffer(width: width, height: height) else {
             print("❌ Failed to create/prepare CVPixelBuffer.")
             return
         }
@@ -182,14 +197,13 @@ final class SegmentationManager: @unchecked Sendable {
             let dstPtr = dstBaseAddress.assumingMemoryBound(to: UInt8.self)
             
             data.withUnsafeBytes { rawBuffer in
-                guard let srcBaseAddress = rawBuffer.baseAddress else { return }
-                let srcPtr = srcBaseAddress.assumingMemoryBound(to: UInt8.self) + 8
+                guard let srcPtr = rawBuffer.baseAddress?.assumingMemoryBound(to: UInt8.self) else { return }
                 
-                for y in 0..<h {
-                    let srcRowPtr = srcPtr + (y * w * 4)
+                for y in 0..<height {
+                    let srcRowPtr = srcPtr + (y * width * 4)
                     let dstRowPtr = dstPtr + (y * bytesPerRow)
                     
-                    for x in 0..<w {
+                    for x in 0..<width {
                         let pixelIdx = x * 4
                         let r = srcRowPtr[pixelIdx]
                         let g = srcRowPtr[pixelIdx + 1]
@@ -237,28 +251,18 @@ final class SegmentationManager: @unchecked Sendable {
         let maskHeight = CVPixelBufferGetHeight(maskPixelBuffer)
         let maskBytesPerRow = CVPixelBufferGetBytesPerRow(maskPixelBuffer)
         
-        let expectedHeaderSize = 8
         let expectedPayloadSize = maskWidth * maskHeight * 4
-        let totalExpectedSize = expectedHeaderSize + expectedPayloadSize
         
         // Reuse cached outputData buffer
-        if outputData.count != totalExpectedSize {
-            outputData = Data(count: totalExpectedSize)
+        if outputData.count != expectedPayloadSize {
+            outputData = Data(count: expectedPayloadSize)
         }
-        
-        let outW = UInt32(maskWidth).littleEndian
-        let outH = UInt32(maskHeight).littleEndian
         
         outputData.withUnsafeMutableBytes { rawBuffer in
             guard let basePtr = rawBuffer.baseAddress else { return }
             
-            // Write output header (width & height)
-            let headerPtr = basePtr.assumingMemoryBound(to: UInt32.self)
-            headerPtr[0] = outW
-            headerPtr[1] = outH
-            
             // Map grayscale segment mask directly to output RGBA bytes using unsafe pointers
-            let payloadPtr = basePtr.assumingMemoryBound(to: UInt8.self) + 8
+            let payloadPtr = basePtr.assumingMemoryBound(to: UInt8.self)
             
             for y in 0..<maskHeight {
                 let rowPtr = maskBaseAddress.assumingMemoryBound(to: UInt8.self) + (y * maskBytesPerRow)
@@ -276,7 +280,18 @@ final class SegmentationManager: @unchecked Sendable {
             }
         }
         
-        self.wsClient.send(data: outputData)
+        // Write raw mask bytes to outFilePath
+        let outFileUrl = URL(fileURLWithPath: self.outFilePath)
+        do {
+            try outputData.write(to: outFileUrl)
+        } catch {
+            print("❌ Failed to write mask frame to shared file: \(error)")
+            return
+        }
+        
+        // Send JSON notification back to JS
+        let notification = "{\"type\":\"mask\",\"width\":\(maskWidth),\"height\":\(maskHeight)}"
+        self.wsClient.send(message: notification)
     }
 }
 
@@ -287,12 +302,23 @@ final class Session: @unchecked Sendable {
     func start(host: String, port: Int, quality: String) {
         let serverUrl = URL(string: "ws://\(host):\(port)")!
         
-        let ws = WebSocketClient(url: serverUrl, onBinaryMessage: { [weak self] binaryData in
-            self?.segmentationManager?.processFrame(data: binaryData)
+        let ws = WebSocketClient(url: serverUrl, onMessage: { [weak self] jsonStr in
+            guard let self = self,
+                  let data = jsonStr.data(using: .utf8),
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let type = json["type"] as? String else {
+                return
+            }
+            
+            if type == "frame" {
+                let width = json["width"] as? Int ?? 0
+                let height = json["height"] as? Int ?? 0
+                self.segmentationManager?.processFrame(width: width, height: height)
+            }
         })
         
         self.wsClient = ws
-        self.segmentationManager = SegmentationManager(wsClient: ws, quality: quality)
+        self.segmentationManager = SegmentationManager(wsClient: ws, quality: quality, port: port)
         ws.connect()
     }
 }

@@ -1,0 +1,34 @@
+{
+    "ports": [
+        {
+            "id": "gadwiczy9",
+            "title": "obsConnection",
+            "dir": 0,
+            "type": 2,
+            "objType": "obsConnection",
+            "order": 0
+        },
+        {
+            "id": "kgwmapwhz",
+            "title": "text",
+            "dir": 0,
+            "values": [
+                ""
+            ],
+            "type": 5,
+            "value": "hi",
+            "order": 1
+        },
+        {
+            "id": "kgwmapwha",
+            "title": "text2",
+            "dir": 0,
+            "values": [
+                ""
+            ],
+            "type": 5,
+            "value": "hello",
+            "order": 2
+        }
+    ]
+}

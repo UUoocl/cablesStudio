@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>STG _v.danger</title>
+
+    <link rel="stylesheet" type="text/css" href="./css/stgStyle.css" />
+    <script src="./js/p5.min.1.1.0.js"></script>
+    <script src="./js/sketch_danger.js" type="text/javascript"></script>
+
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      canvas {
+        vertical-align: top;
+      }
+
+      /* button, input, select {
+        background: #444; color: white; border: 1px solid #555; padding: 4px 8px; cursor: pointer; border-radius: 3px;
+      }
+      button:hover { background: #555; } */
+    </style>
+    </head>
+
+  <body>
+
+  <script src="./js/stg_menu.js"></script>
+  <script src="./js/obsidian_save_load.js"></script>
+  <script src="../lib/obs-ws.js"></script>
+  <script src="../lib/obsWssConnectionManager.js"></script>
+  <script src="./js/manage_view.js"></script>
+  <script src="./js/keyboard_input.js"></script>
+
+<script id="sketchSettings">
+  let hideCanvasUI = false;
+  function getSketchSettings(filename){
+    const settings = {
+    "filename" : filename,
+    "noiseSpeed" : noiseSpeedSlider.value(),
+    "radiusNoise" : radiusNoiseSlider.value(),
+    "tumult" : tumultSlider.value(),
+    "columns" : columnSlider.value(),
+    "rows" : rowSlider.value(),
+    "text" : inp.value(),
+    "pgTextSize" : fontSizeSlider.value(),
+    "leading" : leadingSlider.value(),
+    }
+    return settings
+  }
+
+function setSketchSettings(json){
+  noiseSpeedSlider.value(json.noiseSpeed )
+  radiusNoiseSlider.value(json.radiusNoise )
+  tumultSlider.value(json.tumult )
+  columnSlider.value(json.columns )
+  rowSlider.value(json.rows )
+  inp.value(json.text )
+  fontSizeSlider.value(json.pgTextSize )
+  leadingSlider.value(json.leading )
+  PRESET_SETTINGS = json
+}
+
+    </script>
+
+    <!-- <script>
+      function myFunction() {
+        alert(
+         "SPACE TYPE GENERATOR\n_v.stripes 1.0\nDesign and coding by KielM.com\nThanks for using! Let me know what you make.\nkiel.d.m@gmail.com"
+        );
+      }
+    </script> -->
+  </body>
+</html>

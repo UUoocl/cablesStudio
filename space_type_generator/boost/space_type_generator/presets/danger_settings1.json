@@ -1,0 +1,11 @@
+{
+  "filename": "danger",
+  "noiseSpeed": 5.69,
+  "radiusNoise": 0.28,
+  "tumult": 9.4,
+  "columns": 5,
+  "rows": 11,
+  "text": "Cmd+c",
+  "pgTextSize": 171,
+  "leading": 0.35
+}

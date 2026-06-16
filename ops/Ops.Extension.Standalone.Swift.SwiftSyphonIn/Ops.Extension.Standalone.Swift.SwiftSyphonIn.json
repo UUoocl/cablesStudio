@@ -22,7 +22,8 @@
                 "type": 5,
                 "name": "Server",
                 "values": [
-                    "None"
+                    "None",
+                    "OBS Studio: OBS Syphon0"
                 ]
             }
         ],

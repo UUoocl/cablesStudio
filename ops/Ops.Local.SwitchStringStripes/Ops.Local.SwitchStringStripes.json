@@ -1,0 +1,127 @@
+{
+    "id": "e38533cb-e65c-4469-8cea-1d6caf1e986e",
+    "changelog": [
+        {
+            "message": "created op",
+            "author": "pandur",
+            "date": 1550903371740
+        },
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "",
+            "date": 1779956869206
+        }
+    ],
+    "authorName": "",
+    "created": 1779956869206,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Index",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "String 0"
+            },
+            {
+                "type": 5,
+                "name": "String 1"
+            },
+            {
+                "type": 5,
+                "name": "String 2"
+            },
+            {
+                "type": 5,
+                "name": "String 3"
+            },
+            {
+                "type": 5,
+                "name": "String 4"
+            },
+            {
+                "type": 5,
+                "name": "String 5"
+            },
+            {
+                "type": 5,
+                "name": "String 6"
+            },
+            {
+                "type": 5,
+                "name": "String 7"
+            },
+            {
+                "type": 5,
+                "name": "String 8"
+            },
+            {
+                "type": 5,
+                "name": "String 9"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Result"
+            }
+        ]
+    },
+    "summary": "Switch between multiple strings with an index",
+    "docs": {
+        "ports": [
+            {
+                "name": "Index",
+                "text": "Index number determines which string is passed through"
+            },
+            {
+                "name": "String 0",
+                "text": "String 0 in"
+            },
+            {
+                "name": "String 1",
+                "text": "String 1 in"
+            },
+            {
+                "name": "String 2",
+                "text": "String 2 in"
+            },
+            {
+                "name": "String 3",
+                "text": "String 3 in"
+            },
+            {
+                "name": "String 4",
+                "text": "String 4 in"
+            },
+            {
+                "name": "String 5",
+                "text": "String 5 in"
+            },
+            {
+                "name": "String 6",
+                "text": "String 6 in"
+            },
+            {
+                "name": "String 7",
+                "text": "String 7 in"
+            },
+            {
+                "name": "String 8",
+                "text": "String 8 in"
+            },
+            {
+                "name": "String 9",
+                "text": "String 9 in"
+            },
+            {
+                "name": "Result",
+                "text": "Selected string output"
+            }
+        ]
+    },
+    "license": "MIT"
+}

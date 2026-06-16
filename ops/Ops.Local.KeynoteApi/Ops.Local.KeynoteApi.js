@@ -98,16 +98,9 @@ inTrigger.onTriggered = () => {
                         var doc = keynote.documents[0];
                         doc.start();
 
-                        // Get adjusted active index for non-skipped slides
                         var currentSlide = doc.currentSlide();
                         var currentNum = currentSlide.slideNumber();
-                        var adjustedActiveIndex = 0;
-                        for (var i = 0; i < currentNum; i++) {
-                            if (!doc.slides[i].skipped()) {
-                                adjustedActiveIndex++;
-                            }
-                        }
-                        return JSON.stringify({ status: "success", message: "Started presentation slideshow", activeIndex: adjustedActiveIndex });
+                        return JSON.stringify({ status: "success", message: "Started presentation slideshow", activeIndex: currentNum });
                     } catch (err) {
                         return JSON.stringify({ error: "Failed to play presentation: " + err.message });
                     }
@@ -129,16 +122,10 @@ inTrigger.onTriggered = () => {
                         var doc = keynote.documents[0];
                         if (keynote.playing()) {
                             doc.showNext();
-                            // Get adjusted active index for non-skipped slides
+                            
                             var currentSlide = doc.currentSlide();
                             var currentNum = currentSlide.slideNumber();
-                            var adjustedActiveIndex = 0;
-                            for (var i = 0; i < currentNum; i++) {
-                                if (!doc.slides[i].skipped()) {
-                                    adjustedActiveIndex++;
-                                }
-                            }
-                            return JSON.stringify({ status: "success", mode: "playing", message: "Advanced slides via showNext()", activeIndex: adjustedActiveIndex });
+                            return JSON.stringify({ status: "success", mode: "playing", message: "Advanced slides via showNext()", activeIndex: currentNum });
                         } else {
                             var currentIndex = doc.currentSlide().slideNumber(); // 1-indexed
                             var nextSlide = null;
@@ -150,26 +137,12 @@ inTrigger.onTriggered = () => {
                             }
                             if (nextSlide) {
                                 doc.currentSlide = nextSlide;
-                                // Get adjusted active index
                                 var currentNum = nextSlide.slideNumber();
-                                var adjustedActiveIndex = 0;
-                                for (var i = 0; i < currentNum; i++) {
-                                    if (!doc.slides[i].skipped()) {
-                                        adjustedActiveIndex++;
-                                    }
-                                }
-                                return JSON.stringify({ status: "success", mode: "editing", message: "Moved to slide " + adjustedActiveIndex, activeIndex: adjustedActiveIndex });
+                                return JSON.stringify({ status: "success", mode: "editing", message: "Moved to slide " + currentNum, activeIndex: currentNum });
                             } else {
-                                // Get adjusted active index for current slide
                                 var currentSlide = doc.currentSlide();
                                 var currentNum = currentSlide.slideNumber();
-                                var adjustedActiveIndex = 0;
-                                for (var i = 0; i < currentNum; i++) {
-                                    if (!doc.slides[i].skipped()) {
-                                        adjustedActiveIndex++;
-                                    }
-                                }
-                                return JSON.stringify({ error: "Already on the last non-skipped slide", activeIndex: adjustedActiveIndex });
+                                return JSON.stringify({ error: "Already on the last non-skipped slide", activeIndex: currentNum });
                             }
                         }
                     } catch (err) {
@@ -194,16 +167,10 @@ inTrigger.onTriggered = () => {
                         var doc = keynote.documents[0];
                         if (keynote.playing()) {
                             doc.showPrevious();
-                            // Get adjusted active index for non-skipped slides
+                            
                             var currentSlide = doc.currentSlide();
                             var currentNum = currentSlide.slideNumber();
-                            var adjustedActiveIndex = 0;
-                            for (var i = 0; i < currentNum; i++) {
-                                if (!doc.slides[i].skipped()) {
-                                    adjustedActiveIndex++;
-                                }
-                            }
-                            return JSON.stringify({ status: "success", mode: "playing", message: "Went back slides via showPrevious()", activeIndex: adjustedActiveIndex });
+                            return JSON.stringify({ status: "success", mode: "playing", message: "Went back slides via showPrevious()", activeIndex: currentNum });
                         } else {
                             var currentIndex = doc.currentSlide().slideNumber(); // 1-indexed
                             var prevSlide = null;
@@ -215,26 +182,12 @@ inTrigger.onTriggered = () => {
                             }
                             if (prevSlide) {
                                 doc.currentSlide = prevSlide;
-                                // Get adjusted active index
                                 var currentNum = prevSlide.slideNumber();
-                                var adjustedActiveIndex = 0;
-                                for (var i = 0; i < currentNum; i++) {
-                                    if (!doc.slides[i].skipped()) {
-                                        adjustedActiveIndex++;
-                                    }
-                                }
-                                return JSON.stringify({ status: "success", mode: "editing", message: "Moved to slide " + adjustedActiveIndex, activeIndex: adjustedActiveIndex });
+                                return JSON.stringify({ status: "success", mode: "editing", message: "Moved to slide " + currentNum, activeIndex: currentNum });
                             } else {
-                                // Get adjusted active index for current slide
                                 var currentSlide = doc.currentSlide();
                                 var currentNum = currentSlide.slideNumber();
-                                var adjustedActiveIndex = 0;
-                                for (var i = 0; i < currentNum; i++) {
-                                    if (!doc.slides[i].skipped()) {
-                                        adjustedActiveIndex++;
-                                    }
-                                }
-                                return JSON.stringify({ error: "Already on the first non-skipped slide", activeIndex: adjustedActiveIndex });
+                                return JSON.stringify({ error: "Already on the first non-skipped slide", activeIndex: currentNum });
                             }
                         }
                     } catch (err) {
@@ -279,7 +232,7 @@ inTrigger.onTriggered = () => {
                             return JSON.stringify({ error: "Non-skipped slide number " + slideNum + " not found." });
                         }
                         doc.currentSlide = targetSlide;
-                        return JSON.stringify({ status: "success", message: "Moved to slide " + slideNum, activeIndex: slideNum });
+                        return JSON.stringify({ status: "success", message: "Moved to slide " + slideNum, activeIndex: targetSlide.slideNumber() });
                     } catch (err) {
                         return JSON.stringify({ error: "Error in goto: " + err.message });
                     }
@@ -368,9 +321,32 @@ inTrigger.onTriggered = () => {
                         slide.presenterNotes = updatedNotes;
                         doc.currentSlide = slide;
 
-                        return JSON.stringify({ status: "success", message: "Updated slide " + slideNumber + " with scene " + sceneName, activeIndex: slideNumber });
+                        return JSON.stringify({ status: "success", message: "Updated slide " + slideNumber + " with scene " + sceneName, activeIndex: slide.slideNumber() });
                     } catch (err) {
                         return JSON.stringify({ error: "Error updating slide scene: " + err.message });
+                    }
+                })()
+            `;
+            break;
+
+        case "getactiveindex":
+            jxaCode = `
+                (function() {
+                    try {
+                        var keynote = Application('Keynote');
+                        if (!keynote.running()) {
+                            return JSON.stringify({ error: "Keynote is not running" });
+                        }
+                        if (keynote.documents.length === 0) {
+                            return JSON.stringify({ error: "No document is open in Keynote" });
+                        }
+                        var doc = keynote.documents[0];
+                        var currentSlide = doc.currentSlide();
+                        var currentNum = currentSlide.slideNumber();
+                        
+                        return JSON.stringify({ activeIndex: currentNum });
+                    } catch (err) {
+                        return JSON.stringify({ error: err.message });
                     }
                 })()
             `;
@@ -416,6 +392,7 @@ inTrigger.onTriggered = () => {
 
                             var slideInfo = {
                                 Index: nonSkippedCount,
+                                AbsoluteIndex: i + 1,
                                 Name: metadata.Name || ("Slide " + nonSkippedCount),
                                 Scene: metadata.Scene || "",
                                 Section: metadata.Section || "",
@@ -428,16 +405,10 @@ inTrigger.onTriggered = () => {
                         // Get adjusted active index for non-skipped slides
                         var currentSlide = doc.currentSlide();
                         var currentNum = currentSlide.slideNumber();
-                        var adjustedActiveIndex = 0;
-                        for (var i = 0; i < currentNum; i++) {
-                            if (!doc.slides[i].skipped()) {
-                                adjustedActiveIndex++;
-                            }
-                        }
 
                         var result = {
-                            ActiveIndex: adjustedActiveIndex,
-                            activeIndex: adjustedActiveIndex,
+                            ActiveIndex: currentNum,
+                            activeIndex: currentNum,
                             Slides: slidesData
                         };
                         return JSON.stringify(result);

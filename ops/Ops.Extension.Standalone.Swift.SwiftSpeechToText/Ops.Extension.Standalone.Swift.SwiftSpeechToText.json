@@ -38,9 +38,9 @@
                 "values": [
                     "Default System Microphone",
                     "i13Phone_UU Microphone",
-                    "Headphones",
                     "NDI Audio",
                     "MacBook Pro Microphone",
+                    "CADefaultDeviceAggregate-7272-0",
                     "Camo Microphone",
                     "ZoomAudioDevice"
                 ]
@@ -50,8 +50,14 @@
                 "name": "Output Mode",
                 "values": [
                     "Full Transcript",
-                    "New Words Only"
+                    "New Words Only",
+                    "Chunk"
                 ]
+            },
+            {
+                "type": 0,
+                "name": "Silence Duration (s)",
+                "subType": "number"
             },
             {
                 "type": 1,

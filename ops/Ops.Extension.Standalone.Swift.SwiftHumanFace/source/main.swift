@@ -13,11 +13,11 @@ final class WebSocketClient: @unchecked Sendable {
     private var isConnected = false
     private let lock = NSLock()
     private var reconnectTimer: Task<Void, Never>?
-    private let onBinaryMessage: @Sendable (Data) -> Void
+    private let onMessage: @Sendable (String) -> Void
     
-    init(url: URL, onBinaryMessage: @escaping @Sendable (Data) -> Void) {
+    init(url: URL, onMessage: @escaping @Sendable (String) -> Void) {
         self.url = url
-        self.onBinaryMessage = onBinaryMessage
+        self.onMessage = onMessage
     }
     
     func connect() {
@@ -67,8 +67,8 @@ final class WebSocketClient: @unchecked Sendable {
             switch result {
             case .success(let message):
                 switch message {
-                case .data(let data):
-                    self.onBinaryMessage(data)
+                case .string(let text):
+                    self.onMessage(text)
                 default:
                     break
                 }
@@ -99,33 +99,41 @@ final class FaceManager: @unchecked Sendable {
     private let wsClient: WebSocketClient
     private let request = VNDetectFaceLandmarksRequest()
     private let lock = NSLock()
+    private var inFilePath: String = ""
     
-    init(wsClient: WebSocketClient) {
+    init(wsClient: WebSocketClient, port: Int) {
         self.wsClient = wsClient
+        
+        let fm = FileManager.default
+        let ramDiskPath = "/Volumes/CablesRAMDisk"
+        if fm.fileExists(atPath: ramDiskPath) {
+            self.inFilePath = "\(ramDiskPath)/face_in_\(port).raw"
+        } else {
+            self.inFilePath = "\(NSTemporaryDirectory())face_in_\(port).raw"
+        }
+        print("📁 Using shared file path: \(self.inFilePath)")
     }
     
-    func processFrame(data: Data) {
+    func processFrame(width: Int, height: Int) {
         lock.lock()
         defer { lock.unlock() }
         
-        // Bytes 0-3: width (UInt32 little endian)
-        // Bytes 4-7: height (UInt32 little endian)
-        // Bytes 8...: raw RGBA pixels
-        guard data.count > 8 else { return }
+        guard width > 0, height > 0 else { return }
         
-        let width = data.subdata(in: 0..<4).withUnsafeBytes { $0.load(as: UInt32.self) }
-        let height = data.subdata(in: 4..<8).withUnsafeBytes { $0.load(as: UInt32.self) }
+        // Read input raw RGBA bytes from shared file
+        let fileUrl = URL(fileURLWithPath: self.inFilePath)
+        guard let data = try? Data(contentsOf: fileUrl) else {
+            print("❌ Failed to read frame from shared file: \(self.inFilePath)")
+            return
+        }
         
-        let w = Int(width)
-        let h = Int(height)
+        guard data.count >= width * height * 4 else { return }
         
-        guard w > 0, h > 0, data.count >= 8 + w * h * 4 else { return }
-        
-        // 1. Read raw RGBA bytes
-        let pixelBytes = [UInt8](data.subdata(in: 8..<8 + w * h * 4))
+        // Convert to pixel bytes array
+        let pixelBytes = [UInt8](data)
         
         // 2. Create CVPixelBuffer
-        guard let pixelBuffer = createPixelBuffer(width: w, height: h, rgbaBytes: pixelBytes) else {
+        guard let pixelBuffer = createPixelBuffer(width: width, height: height, rgbaBytes: pixelBytes) else {
             print("❌ Failed to create CVPixelBuffer.")
             return
         }
@@ -280,12 +288,23 @@ final class Session: @unchecked Sendable {
     func start(host: String, port: Int) {
         let serverUrl = URL(string: "ws://\(host):\(port)")!
         
-        let ws = WebSocketClient(url: serverUrl, onBinaryMessage: { [weak self] binaryData in
-            self?.faceManager?.processFrame(data: binaryData)
+        let ws = WebSocketClient(url: serverUrl, onMessage: { [weak self] jsonStr in
+            guard let self = self,
+                  let data = jsonStr.data(using: .utf8),
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let type = json["type"] as? String else {
+                return
+            }
+            
+            if type == "frame" {
+                let width = json["width"] as? Int ?? 0
+                let height = json["height"] as? Int ?? 0
+                self.faceManager?.processFrame(width: width, height: height)
+            }
         })
         
         self.wsClient = ws
-        self.faceManager = FaceManager(wsClient: ws)
+        self.faceManager = FaceManager(wsClient: ws, port: port)
         ws.connect()
     }
 }

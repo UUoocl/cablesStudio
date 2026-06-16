@@ -13,12 +13,10 @@ final class WebSocketClient: @unchecked Sendable {
     private let lock = NSLock()
     private var reconnectTimer: Task<Void, Never>?
     private let onMessage: @Sendable (String) -> Void
-    private let onBinaryMessage: @Sendable (Data) -> Void
     
-    init(url: URL, onMessage: @escaping @Sendable (String) -> Void, onBinaryMessage: @escaping @Sendable (Data) -> Void) {
+    init(url: URL, onMessage: @escaping @Sendable (String) -> Void) {
         self.url = url
         self.onMessage = onMessage
-        self.onBinaryMessage = onBinaryMessage
     }
     
     func connect() {
@@ -70,9 +68,7 @@ final class WebSocketClient: @unchecked Sendable {
                 switch message {
                 case .string(let text):
                     self.onMessage(text)
-                case .data(let data):
-                    self.onBinaryMessage(data)
-                @unknown default:
+                default:
                     break
                 }
                 self.listenForMessages(task: task)
@@ -104,14 +100,24 @@ final class SyphonServerManager: @unchecked Sendable {
     private let device: MTLDevice
     private let commandQueue: MTLCommandQueue
     private let lock = NSLock()
+    private var tempFilePath: String = ""
     
     private var serverClass: AnyClass?
     private var publishFunc: (@convention(c) (AnyObject, Selector, AnyObject, AnyObject, NSRect, Bool) -> Void)?
     private var stopFunc: (@convention(c) (AnyObject, Selector) -> Void)?
     
-    init(device: MTLDevice) {
+    init(device: MTLDevice, port: Int) {
         self.device = device
         self.commandQueue = device.makeCommandQueue()!
+        
+        let fm = FileManager.default
+        let ramDiskPath = "/Volumes/CablesRAMDisk"
+        if fm.fileExists(atPath: ramDiskPath) {
+            self.tempFilePath = "\(ramDiskPath)/syphon_out_\(port).raw"
+        } else {
+            self.tempFilePath = "\(NSTemporaryDirectory())syphon_out_\(port).raw"
+        }
+        print("📁 Using shared frame file: \(self.tempFilePath)")
         
         if let serverClass = NSClassFromString("SyphonMetalServer") {
             self.serverClass = serverClass
@@ -164,36 +170,31 @@ final class SyphonServerManager: @unchecked Sendable {
         print("🚀 Successfully started Syphon server: \(name)")
     }
     
-    func publishFrame(data: Data) {
+    func publishFrame(width: Int, height: Int) {
         lock.lock()
         let server = currentServer
         let publish = publishFunc
         lock.unlock()
         
         guard let server = server, let publish = publish else { return }
+        guard width > 0, height > 0 else { return }
         
-        // binary data package:
-        // Bytes 0-3: width (UInt32 little endian)
-        // Bytes 4-7: height (UInt32 little endian)
-        // Bytes 8...: raw RGBA pixels
-        guard data.count > 8 else { return }
+        let fileUrl = URL(fileURLWithPath: self.tempFilePath)
+        guard let data = try? Data(contentsOf: fileUrl) else {
+            print("❌ Failed to read frame from shared file: \(self.tempFilePath)")
+            return
+        }
         
-        let width = data.subdata(in: 0..<4).withUnsafeBytes { $0.load(as: UInt32.self) }
-        let height = data.subdata(in: 4..<8).withUnsafeBytes { $0.load(as: UInt32.self) }
-        
-        let w = Int(width)
-        let h = Int(height)
-        
-        guard w > 0, h > 0, data.count >= 8 + w * h * 4 else { return }
+        guard data.count >= width * height * 4 else { return }
         
         // Read raw RGBA bytes
-        let pixelBytes = [UInt8](data.subdata(in: 8..<8 + w * h * 4))
+        let pixelBytes = [UInt8](data.subdata(in: 0..<width * height * 4))
         
         // Create MTLTexture descriptor
         let descriptor = MTLTextureDescriptor.texture2DDescriptor(
             pixelFormat: .rgba8Unorm,
-            width: w,
-            height: h,
+            width: width,
+            height: height,
             mipmapped: false
         )
         descriptor.usage = [.shaderRead, .shaderWrite]
@@ -203,18 +204,16 @@ final class SyphonServerManager: @unchecked Sendable {
             return
         }
         
-        let region = MTLRegionMake2D(0, 0, w, h)
-        texture.replace(region: region, mipmapLevel: 0, withBytes: pixelBytes, bytesPerRow: w * 4)
+        let region = MTLRegionMake2D(0, 0, width, height)
+        texture.replace(region: region, mipmapLevel: 0, withBytes: pixelBytes, bytesPerRow: width * 4)
         
         guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             print("❌ Failed to create MTLCommandBuffer.")
             return
         }
         
-        let rect = NSRect(x: 0, y: 0, width: CGFloat(w), height: CGFloat(h))
+        let rect = NSRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height))
         
-        // Syphon coordinates are standard, WebGL reads pixels bottom-to-top, so we flip if necessary.
-        // We set flipped to true so that it appears oriented correctly in standard Syphon clients!
         publish(server, Selector(("publishFrameTexture:onCommandBuffer:imageRegion:flipped:")), texture, commandBuffer, rect, true)
         commandBuffer.commit()
     }
@@ -227,7 +226,7 @@ final class Session: @unchecked Sendable {
     func start(host: String, port: Int, device: MTLDevice) {
         let serverUrl = URL(string: "ws://\(host):\(port)")!
         
-        self.serverManager = SyphonServerManager(device: device)
+        self.serverManager = SyphonServerManager(device: device, port: port)
         
         let ws = WebSocketClient(url: serverUrl, onMessage: { [weak self] jsonStr in
             guard let self = self,
@@ -240,9 +239,11 @@ final class Session: @unchecked Sendable {
             if type == "serverName" {
                 let name = json["name"] as? String ?? "Cables_Output"
                 self.serverManager?.updateServer(name: name)
+            } else if type == "frame" {
+                let width = json["width"] as? Int ?? 0
+                let height = json["height"] as? Int ?? 0
+                self.serverManager?.publishFrame(width: width, height: height)
             }
-        }, onBinaryMessage: { [weak self] binaryData in
-            self?.serverManager?.publishFrame(data: binaryData)
         })
         
         self.wsClient = ws

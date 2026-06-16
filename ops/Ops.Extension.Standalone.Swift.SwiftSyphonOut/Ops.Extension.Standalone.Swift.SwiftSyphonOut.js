@@ -4,8 +4,10 @@
  * utilizing a high-performance native Swift-backed sidecar process and Metal.
  */
 const WebSocket = op.require("ws");
-const { spawn } = op.require("child_process");
+const { spawn, execSync } = op.require("child_process");
 const fs = op.require("fs");
+const os = op.require("os");
+const path = op.require("path");
 
 const
     render = op.inTrigger("Render"),
@@ -21,6 +23,27 @@ let currentWs = null;
 let lastWidth = 0;
 let lastHeight = 0;
 let lastServerName = "";
+let tempFilePath = null;
+
+function getRamDiskPath() {
+    let ramDiskPath = "/Volumes/CablesRAMDisk";
+    if (os.platform() === "darwin") {
+        if (!fs.existsSync(ramDiskPath)) {
+            try {
+                op.log("[RAM Disk] Creating a 256MB RAM Disk at /Volumes/CablesRAMDisk...");
+                const dev = execSync("hdiutil attach -nomount ram://524288").toString().trim();
+                execSync(`diskutil erasevolume HFS+ "CablesRAMDisk" ${dev}`);
+                op.log("[RAM Disk] RAM Disk successfully mounted.");
+            } catch (e) {
+                op.logWarn("[RAM Disk] Failed to mount RAM disk, falling back to temp dir: " + String(e));
+                ramDiskPath = os.tmpdir();
+            }
+        }
+    } else {
+        ramDiskPath = os.tmpdir();
+    }
+    return ramDiskPath;
+}
 
 function killProcess() {
     if (cp) {
@@ -43,6 +66,14 @@ function stopServerAndProcess() {
         } catch (e) {}
         wss = null;
     }
+    if (tempFilePath) {
+        try {
+            if (fs.existsSync(tempFilePath)) {
+                fs.unlinkSync(tempFilePath);
+            }
+        } catch (e) {}
+        tempFilePath = null;
+    }
     outStatus.set("Stopped");
 }
 
@@ -54,6 +85,7 @@ function startServerAndProcess() {
         
         wss.on("listening", () => {
             const port = wss.address().port;
+            tempFilePath = path.join(getRamDiskPath(), "syphon_out_" + port + ".raw");
             op.log("[SwiftSyphonOut] Private WebSocket Server listening on port " + port);
             launchProcess(port);
         });
@@ -195,23 +227,19 @@ render.onTriggered = () => {
 
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
-        // Pack binary WebSocket envelope:
-        // Bytes 0-3: width (UInt32 little-endian)
-        // Bytes 4-7: height (UInt32 little-endian)
-        // Bytes 8+: Raw RGBA bytes
-        const byteLength = 8 + op._pixelBuffer.length;
-        const binaryPkg = new Uint8Array(byteLength);
-        const view = new DataView(binaryPkg.buffer);
-
-        view.setUint32(0, width, true);
-        view.setUint32(4, height, true);
-        binaryPkg.set(op._pixelBuffer, 8);
-
-        // Send binary buffer directly to the Swift sidecar at maximum frame rate
-        try {
-            currentWs.send(binaryPkg);
-        } catch (e) {
-            op.logWarn("[SwiftSyphonOut] Failed to stream frame: " + String(e));
+        // Write the raw RGBA pixels directly to shared file synchronously
+        if (tempFilePath) {
+            try {
+                fs.writeFileSync(tempFilePath, op._pixelBuffer);
+                const payload = JSON.stringify({
+                    type: "frame",
+                    width: width,
+                    height: height
+                });
+                currentWs.send(payload);
+            } catch (e) {
+                op.logWarn("[SwiftSyphonOut] Failed to stream frame via RAM Disk: " + String(e));
+            }
         }
     }
 };

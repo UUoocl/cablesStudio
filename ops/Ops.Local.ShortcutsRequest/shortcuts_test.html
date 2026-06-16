@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortcuts Request Test Utility</title>
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --secondary-glow: rgba(6, 182, 212, 0.15);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-purple: #6366f1;
+            --accent-cyan: #06b6d4;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at top right, var(--primary-glow), transparent 40%),
+                radial-gradient(circle at bottom left, var(--secondary-glow), transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glow effect background */
+        .ambient-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 100%);
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 580px;
+            z-index: 1;
+        }
+
+        /* Main Glass Card */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Header design */
+        .card-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .title-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            width: 18px;
+            height: 18px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 14px 14px 44px;
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--text-main);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .form-input::placeholder {
+            color: rgba(148, 163, 184, 0.5);
+        }
+
+        /* Buttons */
+        .btn-trigger {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-trigger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .btn-trigger:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn-trigger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px -8px rgba(99, 102, 241, 0.7);
+            filter: brightness(1.05);
+        }
+
+        .btn-trigger:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 10px -5px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-trigger:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Response Panel */
+        .response-panel {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            display: none; /* Shown dynamically */
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .response-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .response-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pill.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-pill.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-pill.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        /* Endpoint path block */
+        .endpoint-block {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent-cyan);
+            word-break: break-all;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        pre {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #cbd5e1;
+            overflow-x: auto;
+            max-height: 240px;
+            line-height: 1.5;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer styling */
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="title-badge">Cables Operator</div>
+                <h1>Shortcuts Request Test</h1>
+                <p class="subtitle">Interact with the standalone @ops/Ops.Local.ShortcutsRequest API</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="shortcut-name">macOS Shortcut Name</label>
+                <div class="input-wrapper">
+                    <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <input type="text" id="shortcut-name" class="form-input" placeholder="e.g. Get Active Slides, Sync Slides" value="Get Active Slides">
+                </div>
+            </div>
+
+            <button class="btn-trigger" id="btn-trigger">
+                <span class="spinner" id="btn-spinner"></span>
+                <span id="btn-text">Execute Shortcut Request</span>
+            </button>
+
+            <div class="response-panel" id="response-panel">
+                <div class="response-header">
+                    <span class="response-title">API Response</span>
+                    <span class="status-pill" id="status-pill">
+                        <span id="status-text">Pending</span>
+                    </span>
+                </div>
+                <div class="endpoint-block">
+                    <span id="endpoint-url">http://{window.location.host}/api/shortcuts?name=</span>
+                    <button class="copy-btn" id="btn-copy" title="Copy endpoint URL">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                        </svg>
+                    </button>
+                </div>
+                <pre><code id="json-output">Loading...</code></pre>
+            </div>
+        </div>
+        <div class="footer">
+            Local standalone server test utility &bull; cablesStudio
+        </div>
+    </div>
+
+    <script>
+        const btnTrigger = document.getElementById('btn-trigger');
+        const btnText = document.getElementById('btn-text');
+        const btnSpinner = document.getElementById('btn-spinner');
+        const shortcutNameInput = document.getElementById('shortcut-name');
+        const responsePanel = document.getElementById('response-panel');
+        const statusPill = document.getElementById('status-pill');
+        const statusText = document.getElementById('status-text');
+        const jsonOutput = document.getElementById('json-output');
+        const endpointUrl = document.getElementById('endpoint-url');
+        const btnCopy = document.getElementById('btn-copy');
+
+        // Dynamically initialize the base endpoint URL preview on page load
+        const getBaseUrl = () => {
+            // fallback to local server default if window.location.host is not fully defined
+            const host = window.location.host || '127.0.0.1:8080';
+            const protocol = window.location.protocol && window.location.protocol.startsWith('http') ? window.location.protocol : 'http:';
+            return `${protocol}//${host}/api/shortcuts`;
+        };
+
+        // Display current URL scheme
+        endpointUrl.textContent = `${getBaseUrl()}?name=`;
+
+        // Copy Endpoint URL helper
+        btnCopy.addEventListener('click', () => {
+            navigator.clipboard.writeText(endpointUrl.textContent).then(() => {
+                const originalSvg = btnCopy.innerHTML;
+                btnCopy.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                btnCopy.style.color = '#10b981';
+                setTimeout(() => {
+                    btnCopy.innerHTML = originalSvg;
+                    btnCopy.style.color = '';
+                }, 2000);
+            });
+        });
+
+        btnTrigger.addEventListener('click', async () => {
+            const name = shortcutNameInput.value.trim();
+            if (!name) {
+                alert('Please enter a macOS Shortcut name.');
+                return;
+            }
+
+            const targetUrl = `${getBaseUrl()}?name=${encodeURIComponent(name)}`;
+            endpointUrl.textContent = targetUrl;
+
+            // UI Loading state
+            btnSpinner.style.display = 'block';
+            btnText.textContent = 'Executing...';
+            btnTrigger.disabled = true;
+            
+            responsePanel.style.display = 'block';
+            statusPill.className = 'status-pill pending';
+            statusText.textContent = 'Pending';
+            jsonOutput.textContent = 'Sending fetch request to local server...';
+
+            try {
+                const response = await fetch(targetUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                });
+
+                const isJson = response.headers.get('content-type')?.includes('application/json');
+                let data = null;
+                if (isJson) {
+                    data = await response.json();
+                } else {
+                    data = await response.text();
+                }
+
+                if (response.ok) {
+                    statusPill.className = 'status-pill success';
+                    statusText.textContent = `Success (${response.status})`;
+                    jsonOutput.textContent = typeof data === 'object' ? JSON.stringify(data, null, 4) : data;
+                } else {
+                    statusPill.className = 'status-pill error';
+                    statusText.textContent = `Error (${response.status})`;
+                    jsonOutput.textContent = typeof data === 'object' ? JSON.stringify(data, null, 4) : data || `HTTP Error response: ${response.statusText}`;
+                }
+            } catch (err) {
+                statusPill.className = 'status-pill error';
+                statusText.textContent = 'Failed';
+                jsonOutput.textContent = `Network / Connection Error:\n${err.message}\n\nPlease check if the local server is running at ${getBaseUrl()} and supports this endpoint, or verify CORS rules in your browser console.`;
+                console.error('Fetch error:', err);
+            } finally {
+                btnSpinner.style.display = 'none';
+                btnText.textContent = 'Execute Shortcut Request';
+                btnTrigger.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

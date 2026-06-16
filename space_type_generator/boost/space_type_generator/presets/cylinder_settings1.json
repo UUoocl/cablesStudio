@@ -1,0 +1,62 @@
+{
+  "filename": "cylinder",
+  "inpText": "I-TRY-ALL-THINGS;-I-ACHIEVE-WHAT-I-CAN.//",
+  "radius": 250,
+  "stackNum": 1,
+  "rRotate": -5,
+  "rOffset": 0,
+  "rWaveCount": 4,
+  "rWaveSpeed": 50,
+  "rWave": 0,
+  "rZaxis": 21,
+  "strecherYsize": 76,
+  "strecherXsize": 0,
+  "rLong": 0,
+  "typeX": 30,
+  "typeY": 40,
+  "typeStroke": 3,
+  "xRotCamera": 15,
+  "yRotCamera": 0,
+  "zRotCamera": 0,
+  "xRotTweak": 0,
+  "yRotTweak": 0,
+  "zRotTweak": 0,
+  "zoomCamera": -500,
+  "bkgdColor": {
+    "mode": "rgb",
+    "maxes": {
+      "rgb": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "hsb": [
+        360,
+        100,
+        100,
+        1
+      ],
+      "hsl": [
+        360,
+        100,
+        100,
+        1
+      ]
+    },
+    "_array": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "levels": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "hsla": null,
+    "hsba": null
+  }
+}
