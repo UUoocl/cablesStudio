@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1781583968696,
+    "updated": 1781695580193,
     "visibility": "private",
     "ops": [
         {
@@ -1101,17 +1101,6 @@
                             "portIn": "obsConnection",
                             "portOut": "obsConnection",
                             "objIn": "ssca45u4j",
-                            "objOut": "npty46ytr"
-                        }
-                    ]
-                },
-                {
-                    "name": "obsCredentials",
-                    "links": [
-                        {
-                            "portIn": "Body Object",
-                            "portOut": "obsCredentials",
-                            "objIn": "8do0hil5g",
                             "objOut": "npty46ytr"
                         }
                     ]
@@ -2230,7 +2219,7 @@
                 },
                 {
                     "name": "WS Active Clients",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Error",
@@ -2267,78 +2256,14 @@
                 "resizable": true,
                 "vizLayerMaxZoom": 3500,
                 "translate": {
-                    "x": 978.9094052720446,
-                    "y": -522.7080732811581
+                    "x": 951.8419687719007,
+                    "y": -494.6933097225331
                 }
             },
             "portsIn": [
                 {
                     "name": "Number",
                     "value": 0
-                }
-            ]
-        },
-        {
-            "opId": "b9ca4f5a-c600-47bf-939e-8184088fb7cf",
-            "id": "jpr0225yi",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 818.544164230896,
-                    "y": -585.2480039263114
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Language Locale",
-                    "value": "en-US"
-                },
-                {
-                    "name": "Audio Input Device",
-                    "value": "Default System Microphone"
-                },
-                {
-                    "name": "Output Mode",
-                    "value": "New Words Only"
-                },
-                {
-                    "name": "Silence Duration (s)",
-                    "value": 1
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Transcribed Text",
-                    "links": [
-                        {
-                            "portIn": "String",
-                            "portOut": "Transcribed Text",
-                            "objIn": "jpkygrmmr",
-                            "objOut": "jpr0225yi"
-                        },
-                        {
-                            "portIn": "Value",
-                            "portOut": "Transcribed Text",
-                            "objIn": "oehpcrd3h",
-                            "objOut": "jpr0225yi"
-                        }
-                    ]
-                },
-                {
-                    "name": "Is Final Segment",
-                    "value": false
-                },
-                {
-                    "name": "Running",
-                    "value": true
-                },
-                {
-                    "name": "Status",
-                    "value": "Listening Microphone..."
                 }
             ]
         },
@@ -2932,7 +2857,7 @@
             "portsIn": [
                 {
                     "name": "Device index",
-                    "value": 2
+                    "value": 0
                 },
                 {
                     "name": "Device",
@@ -3382,52 +3307,6 @@
             ]
         },
         {
-            "opId": "e3b4c5d6-e7f8-4901-b2c3-d4e5f6a7b8c9",
-            "id": "pbqib7p8c",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 1145.7415153369784,
-                    "y": -2175.394651551556
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Audio Input index",
-                    "value": 0
-                },
-                {
-                    "name": "Audio Input",
-                    "value": "MacBook Pro Microphone (Built-in)"
-                },
-                {
-                    "name": "Volume",
-                    "value": 1
-                },
-                {
-                    "name": "Mute",
-                    "value": 0
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Audio Out",
-                    "links": [
-                        {
-                            "portIn": "Audio In",
-                            "portOut": "Audio Out",
-                            "objIn": "ly49slxa8",
-                            "objOut": "pbqib7p8c"
-                        }
-                    ]
-                },
-                {
-                    "name": "Listening",
-                    "value": 0
-                }
-            ]
-        },
-        {
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "tk15i8d30",
             "attribs": {},
@@ -3503,15 +3382,15 @@
                 },
                 {
                     "name": "Average Volume",
-                    "value": 0
+                    "value": 0.07684326171875
                 },
                 {
                     "name": "Average Volume Time-Domain",
-                    "value": 0.5
+                    "value": 0.497894287109375
                 },
                 {
                     "name": "RMS Volume",
-                    "value": 0.5
+                    "value": 0.49791126274890046
                 }
             ]
         },
@@ -4249,7 +4128,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -4289,46 +4168,6 @@
             ]
         },
         {
-            "opId": "f0da4f5a-d700-47bf-939e-8184088fb7cf",
-            "id": "4c1wrgv3m",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -427,
-                    "y": -230.6553814779653
-                },
-                "disabled": false
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Hostname",
-                    "value": "127.0.0.1"
-                },
-                {
-                    "name": "Port",
-                    "value": 8080
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Combo",
-                    "value": "s"
-                },
-                {
-                    "name": "Key",
-                    "value": "s"
-                },
-                {
-                    "name": "Modifiers",
-                    "value": ""
-                }
-            ]
-        },
-        {
             "opId": "e0ca4f5a-c600-47bf-939e-8184088fb7cf",
             "id": "1hs3olndh",
             "attribs": {},
@@ -4362,11 +4201,11 @@
                 },
                 {
                     "name": "Pos X",
-                    "value": 3027
+                    "value": 3659
                 },
                 {
                     "name": "Pos Y",
-                    "value": 38
+                    "value": 328
                 },
                 {
                     "name": "Click",
@@ -4385,7 +4224,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": 0.100006103515625
+                    "value": 9.317108154296875
                 },
                 {
                     "name": "Running",
@@ -4567,7 +4406,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -5080,6 +4919,285 @@
                     ]
                 }
             ]
+        },
+        {
+            "opId": "b9ca4f5a-c600-47bf-939e-8184088fb7cf",
+            "id": "w5fjh69cz",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 932.6460736435263,
+                    "y": -578.0242144995757
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Language Locale",
+                    "value": "en-US"
+                },
+                {
+                    "name": "Audio Input Device",
+                    "value": "MacBook Pro Microphone"
+                },
+                {
+                    "name": "Output Mode",
+                    "value": "New Words Only"
+                },
+                {
+                    "name": "Silence Duration (s)",
+                    "value": 1.5
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Transcribed Text",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Transcribed Text",
+                            "objIn": "jpkygrmmr",
+                            "objOut": "w5fjh69cz"
+                        },
+                        {
+                            "portIn": "Value",
+                            "portOut": "Transcribed Text",
+                            "objIn": "oehpcrd3h",
+                            "objOut": "w5fjh69cz"
+                        }
+                    ]
+                },
+                {
+                    "name": "On Word Received",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "On Word Received",
+                            "objIn": "tvtkh3g2k",
+                            "objOut": "w5fjh69cz"
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Final Segment",
+                    "value": true
+                },
+                {
+                    "name": "Running",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Exited (Code: null)"
+                }
+            ]
+        },
+        {
+            "opId": "b4c93fde-85c6-4c7e-9962-a6463a84838b",
+            "id": "e4gwvbswk",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 113.64069647066754,
+                    "y": -222.12558787042346
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Whitespace",
+                    "value": 0
+                },
+                {
+                    "name": "Wrap lines",
+                    "value": 1
+                },
+                {
+                    "name": "Syntax index",
+                    "value": 0
+                },
+                {
+                    "name": "Syntax",
+                    "value": "text"
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
+            "id": "9e7qoly0a",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 67.3371790769306,
+                    "y": -8.923015846046106
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                },
+                {
+                    "name": "String",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "4533060f-3cd4-4572-ac78-dad0710a3f7a",
+            "id": "tvtkh3g2k",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 100,
+                "width": 130,
+                "resizable": true,
+                "translate": {
+                    "x": 1200,
+                    "y": -520
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Count Overlay",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Count",
+                    "value": 102
+                }
+            ]
+        },
+        {
+            "opId": "f0da4f5a-d700-47bf-939e-8184088fb7cf",
+            "id": "zipshb73i",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -146.47651743059095,
+                    "y": -219.6250751840266
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "On Press",
+                    "links": [
+                        {
+                            "portIn": "Clear",
+                            "portOut": "On Press",
+                            "objIn": "9e7qoly0a",
+                            "objOut": "zipshb73i"
+                        }
+                    ]
+                },
+                {
+                    "name": "Combo",
+                    "value": "s"
+                },
+                {
+                    "name": "Key",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Key",
+                            "objIn": "e4gwvbswk",
+                            "objOut": "zipshb73i"
+                        }
+                    ]
+                },
+                {
+                    "name": "Modifiers",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        },
+        {
+            "opId": "cbfbbffd-a5a8-4b21-bcb5-5d031cc5e11a",
+            "id": "p863y0qnm",
+            "attribs": {},
+            "uiAttribs": {
+                "loading": false,
+                "translate": {
+                    "x": 1157,
+                    "y": -2189.241520657492
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Audio Input index",
+                    "value": 5
+                },
+                {
+                    "name": "Audio Input",
+                    "value": "MacBook Pro Microphone (Built-in)"
+                },
+                {
+                    "name": "Volume",
+                    "value": 1
+                },
+                {
+                    "name": "Mute",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Audio Out",
+                    "links": [
+                        {
+                            "portIn": "Audio In",
+                            "portOut": "Audio Out",
+                            "objIn": "ly49slxa8",
+                            "objOut": "p863y0qnm"
+                        }
+                    ]
+                },
+                {
+                    "name": "Listening",
+                    "value": 1
+                }
+            ]
         }
     ],
     "settings": {
@@ -5111,9 +5229,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 1017.7516130799477,
-                "y": -357.3624283465926,
-                "z": 1432.1779467310116
+                "x": 1473.359374379881,
+                "y": -4499.104579472441,
+                "z": 1245.5208166306838
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -5279,7 +5397,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "8e710964884932fdc2e0f5f0c5dc15d5faa74ee1",
+    "opsHash": "1ea35c0422b2bc58492c8132136f6b14236320f6",
     "buildInfo": {
         "updateWarning": false,
         "core": {
