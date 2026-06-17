@@ -1,0 +1,56 @@
+{
+    "id": "503B24A6-B213-4338-A528-C7DB62020595",
+    "name": "Ops.Extension.Standalone.PythonSoomfonKeyTexture",
+    "summary": "Sends a WebGL texture to a specific display key (0-5) on the connected Soomfon Stream Controller.",
+    "authorName": "Antigravity",
+    "created": 1736418000000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "cgl",
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Texture"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Target"
+            },
+            {
+                "type": 0,
+                "name": "Key Index",
+                "subType": "integer",
+                "group": "Target"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture",
+                "group": "Texture"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "subType": "number",
+                "group": "Texture"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            }
+        ]
+    }
+}

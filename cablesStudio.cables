@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1781695580193,
+    "updated": 1781702116110,
     "visibility": "private",
     "ops": [
         {
@@ -3382,15 +3382,15 @@
                 },
                 {
                     "name": "Average Volume",
-                    "value": 0.07684326171875
+                    "value": 0
                 },
                 {
                     "name": "Average Volume Time-Domain",
-                    "value": 0.497894287109375
+                    "value": 0.5
                 },
                 {
                     "name": "RMS Volume",
-                    "value": 0.49791126274890046
+                    "value": 0.5
                 }
             ]
         },
@@ -4201,11 +4201,11 @@
                 },
                 {
                     "name": "Pos X",
-                    "value": 3659
+                    "value": 3969
                 },
                 {
                     "name": "Pos Y",
-                    "value": 328
+                    "value": 375
                 },
                 {
                     "name": "Click",
@@ -4224,7 +4224,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": 9.317108154296875
+                    "value": -8.503341674804688
                 },
                 {
                     "name": "Running",
@@ -5125,7 +5125,7 @@
                 },
                 {
                     "name": "Combo",
-                    "value": "s"
+                    "value": "cmd + s"
                 },
                 {
                     "name": "Key",
@@ -5140,7 +5140,7 @@
                 },
                 {
                     "name": "Modifiers",
-                    "value": ""
+                    "value": "cmd"
                 },
                 {
                     "name": "Running",
@@ -5166,7 +5166,7 @@
             "portsIn": [
                 {
                     "name": "Audio Input index",
-                    "value": 5
+                    "value": 0
                 },
                 {
                     "name": "Audio Input",
@@ -5196,6 +5196,346 @@
                 {
                     "name": "Listening",
                     "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "a2e5781a-6df3-4c9b-8d07-88989e223d6a",
+            "id": "i00cohavp",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 320,
+                    "y": -2266.3412181285435
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Device Index",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "Connection",
+                            "portOut": "Connection",
+                            "objIn": "cq13ofng2",
+                            "objOut": "i00cohavp"
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Connected",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Error: Missing Python dependencies. Please run: pip install streamdeck Pillow"
+                },
+                {
+                    "name": "Event Key Index",
+                    "value": 13
+                },
+                {
+                    "name": "Event Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
+            "id": "j99uk9w0j",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 343.57195796283463,
+                    "y": -2315.7320469162155
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Python Install Location",
+                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Found: Python 3.12.10"
+                },
+                {
+                    "name": "Found",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "b1c67a32-7fd4-4d8c-9a18-99abce334d7b",
+            "id": "xt2s3p27u",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 236.08391538755023,
+                    "y": -2042.4601725350547
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                }
+            ]
+        },
+        {
+            "opId": "0816c999-f2db-466b-9777-2814573574c5",
+            "id": "4ihcalpis",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">MainLoop trigger",
+                "translate": {
+                    "x": 120.80018883837744,
+                    "y": -2347.1763927751745
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "MainLoop trigger"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Triggered",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Triggered",
+                            "objIn": "ydzqloxrs",
+                            "objOut": "4ihcalpis"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e4209c59-8d78-4fa9-95e4-805fa820c3b6",
+            "id": "ydzqloxrs",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 120.80018883837744,
+                    "y": -2268.629046072625
+                },
+                "loading": false
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Generate Texture",
+                    "value": 1
+                },
+                {
+                    "name": "Webcam Input index",
+                    "value": 0
+                },
+                {
+                    "name": "Webcam Input",
+                    "value": "Default"
+                },
+                {
+                    "name": "Requested Width",
+                    "value": 1280
+                },
+                {
+                    "name": "Requested Height",
+                    "value": 720
+                },
+                {
+                    "name": "Flip X",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 0
+                },
+                {
+                    "name": "Show HTML Element",
+                    "value": 0
+                },
+                {
+                    "name": "CSS",
+                    "value": "z-index:99999;\nposition:absolute;\n"
+                },
+                {
+                    "name": "Element Flip X",
+                    "value": 0
+                },
+                {
+                    "name": "Element Flip Y",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture",
+                            "objIn": "cq13ofng2",
+                            "objOut": "ydzqloxrs"
+                        }
+                    ]
+                },
+                {
+                    "name": "Ratio",
+                    "value": 1.7777777777777777
+                },
+                {
+                    "name": "Available",
+                    "value": 1
+                },
+                {
+                    "name": "Size Width",
+                    "value": 1280
+                },
+                {
+                    "name": "Size Height",
+                    "value": 720
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Active device",
+                    "value": "FaceTime HD Camera (3A71:F4B5)"
+                }
+            ]
+        },
+        {
+            "opId": "c2d78b43-8fe5-4e9d-ab29-aacdfd445e8c",
+            "id": "cq13ofng2",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 190.19035337823476,
+                    "y": -2110.1088603488583
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "yp10680ms",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 190.19035337823476,
+                    "y": -2221.9897193375946
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "cq13ofng2",
+                            "objOut": "yp10680ms"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "4F96BE97-D3BC-4D54-9A59-D5B9871FB44F",
+            "id": "oetdia5nr",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 496,
+                    "y": -2262.911174803132
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Connected",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Error: Missing Python dependencies. Please run: pip install git+https://github.com/tomekceszke/ajazz-akp03e.git Pillow hidapi"
+                },
+                {
+                    "name": "Event Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Pressed",
+                    "value": false
+                },
+                {
+                    "name": "Event Knob Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Knob Direction",
+                    "value": 0
+                },
+                {
+                    "name": "Knob 0 Value",
+                    "value": 0
+                },
+                {
+                    "name": "Knob 1 Value",
+                    "value": 0
+                },
+                {
+                    "name": "Knob 2 Value",
+                    "value": 0
+                },
+                {
+                    "name": "Event Knob Click Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Knob Click Pressed",
+                    "value": false
                 }
             ]
         }
@@ -5229,9 +5569,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 1473.359374379881,
-                "y": -4499.104579472441,
-                "z": 1245.5208166306838
+                "x": 635.640833558422,
+                "y": -2845.354687719348,
+                "z": 1105.445055446373
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -5397,7 +5737,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "1ea35c0422b2bc58492c8132136f6b14236320f6",
+    "opsHash": "6b6488cbbdb217db0ca8a7e1a8c035915288ed59",
     "buildInfo": {
         "updateWarning": false,
         "core": {
