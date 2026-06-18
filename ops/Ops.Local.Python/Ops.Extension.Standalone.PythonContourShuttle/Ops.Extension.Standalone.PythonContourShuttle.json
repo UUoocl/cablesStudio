@@ -1,0 +1,74 @@
+{
+    "id": "B696F28A-4210-449D-8077-AEF037A3B7E9",
+    "name": "Ops.Extension.Standalone.PythonContourShuttle",
+    "summary": "Monitors input from the Contour ShuttlePRO v2 controller (buttons, jog wheel, and shuttle ring) via a background Python daemon using WebSockets.",
+    "authorName": "Antigravity",
+    "created": 1781683200000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned"
+            },
+            {
+                "type": 0,
+                "name": "Shuttle Value",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Shuttle Moved"
+            },
+            {
+                "type": 0,
+                "name": "Button Index",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Button Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Button Event"
+            }
+        ]
+    }
+}

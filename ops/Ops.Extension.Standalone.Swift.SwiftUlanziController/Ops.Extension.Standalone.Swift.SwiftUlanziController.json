@@ -1,0 +1,89 @@
+{
+    "id": "f5f7f329-8da7-4d92-938a-3510e19488a0",
+    "name": "Ops.Extension.Standalone.Swift.SwiftUlanziController",
+    "summary": "Interfaces with the Ulanzi D100H Dial Controller using a native background Swift process.",
+    "authorName": "Antigravity",
+    "created": 1781856000000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Haptic Strength",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Send Haptic"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Event Type"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "MAC Address"
+            },
+            {
+                "type": 0,
+                "name": "Battery",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Button Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Button Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "On Button Event"
+            },
+            {
+                "type": 1,
+                "name": "On Dial CW"
+            },
+            {
+                "type": 1,
+                "name": "On Dial CCW"
+            },
+            {
+                "type": 2,
+                "name": "Raw Message"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    }
+}

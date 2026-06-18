@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1781702116110,
+    "updated": 1781785849879,
     "visibility": "private",
     "ops": [
         {
@@ -4201,11 +4201,11 @@
                 },
                 {
                     "name": "Pos X",
-                    "value": 3969
+                    "value": 664
                 },
                 {
                     "name": "Pos Y",
-                    "value": 375
+                    "value": 244
                 },
                 {
                     "name": "Click",
@@ -4224,7 +4224,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": -8.503341674804688
+                    "value": 0
                 },
                 {
                     "name": "Running",
@@ -4983,15 +4983,15 @@
                 },
                 {
                     "name": "Is Final Segment",
-                    "value": true
-                },
-                {
-                    "name": "Running",
                     "value": false
                 },
                 {
+                    "name": "Running",
+                    "value": true
+                },
+                {
                     "name": "Status",
-                    "value": "Exited (Code: null)"
+                    "value": "Listening Microphone..."
                 }
             ]
         },
@@ -5091,7 +5091,7 @@
             "portsOut": [
                 {
                     "name": "Count",
-                    "value": 102
+                    "value": 208
                 }
             ]
         },
@@ -5125,7 +5125,7 @@
                 },
                 {
                     "name": "Combo",
-                    "value": "cmd + s"
+                    "value": "s"
                 },
                 {
                     "name": "Key",
@@ -5140,7 +5140,7 @@
                 },
                 {
                     "name": "Modifiers",
-                    "value": "cmd"
+                    "value": ""
                 },
                 {
                     "name": "Running",
@@ -5196,108 +5196,6 @@
                 {
                     "name": "Listening",
                     "value": 1
-                }
-            ]
-        },
-        {
-            "opId": "a2e5781a-6df3-4c9b-8d07-88989e223d6a",
-            "id": "i00cohavp",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 320,
-                    "y": -2266.3412181285435
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Device Index",
-                    "value": 0
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Connection",
-                    "links": [
-                        {
-                            "portIn": "Connection",
-                            "portOut": "Connection",
-                            "objIn": "cq13ofng2",
-                            "objOut": "i00cohavp"
-                        }
-                    ]
-                },
-                {
-                    "name": "Is Connected",
-                    "value": false
-                },
-                {
-                    "name": "Status",
-                    "value": "Error: Missing Python dependencies. Please run: pip install streamdeck Pillow"
-                },
-                {
-                    "name": "Event Key Index",
-                    "value": 13
-                },
-                {
-                    "name": "Event Pressed",
-                    "value": false
-                }
-            ]
-        },
-        {
-            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
-            "id": "j99uk9w0j",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 343.57195796283463,
-                    "y": -2315.7320469162155
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Python Install Location",
-                    "value": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Status",
-                    "value": "Found: Python 3.12.10"
-                },
-                {
-                    "name": "Found",
-                    "value": true
-                }
-            ]
-        },
-        {
-            "opId": "b1c67a32-7fd4-4d8c-9a18-99abce334d7b",
-            "id": "xt2s3p27u",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 236.08391538755023,
-                    "y": -2042.4601725350547
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Key Index",
-                    "value": 0
-                },
-                {
-                    "name": "JPEG Quality",
-                    "value": 0.85
                 }
             ]
         },
@@ -5370,11 +5268,11 @@
                 },
                 {
                     "name": "Flip X",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "Flip Y",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "Show HTML Element",
@@ -5400,7 +5298,13 @@
                         {
                             "portIn": "Texture",
                             "portOut": "Texture",
-                            "objIn": "cq13ofng2",
+                            "objIn": "k9oaybbdt",
+                            "objOut": "ydzqloxrs"
+                        },
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture",
+                            "objIn": "mermxs4ef",
                             "objOut": "ydzqloxrs"
                         }
                     ]
@@ -5432,34 +5336,13 @@
             ]
         },
         {
-            "opId": "c2d78b43-8fe5-4e9d-ab29-aacdfd445e8c",
-            "id": "cq13ofng2",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 190.19035337823476,
-                    "y": -2110.1088603488583
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "JPEG Quality",
-                    "value": 0.85
-                }
-            ]
-        },
-        {
             "opId": "21630924-39e4-4df5-9965-b9136510d156",
             "id": "yp10680ms",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 190.19035337823476,
-                    "y": -2221.9897193375946
+                    "x": 243.5697083008409,
+                    "y": -2198.8417203507997
                 }
             },
             "portsOut": [
@@ -5469,7 +5352,7 @@
                         {
                             "portIn": "Render",
                             "portOut": "Next",
-                            "objIn": "cq13ofng2",
+                            "objIn": "k9oaybbdt",
                             "objOut": "yp10680ms"
                         }
                     ]
@@ -5477,13 +5360,13 @@
             ]
         },
         {
-            "opId": "4F96BE97-D3BC-4D54-9A59-D5B9871FB44F",
-            "id": "oetdia5nr",
+            "opId": "F74E062F-0FBD-4252-87B7-8F128E61869E",
+            "id": "sbaguqbng",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 496,
-                    "y": -2262.911174803132
+                    "x": 577,
+                    "y": -2274.5302688907473
                 }
             },
             "portsIn": [
@@ -5494,12 +5377,145 @@
             ],
             "portsOut": [
                 {
+                    "name": "Status",
+                    "value": "Connected"
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Jog Value",
+                    "value": 10
+                },
+                {
+                    "name": "Jog Delta",
+                    "value": 1
+                },
+                {
+                    "name": "Shuttle Value",
+                    "value": 0
+                },
+                {
+                    "name": "Button Index",
+                    "value": 4
+                },
+                {
+                    "name": "Button Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "ef2e987c-ea56-42d4-bb39-6d655f4621d9",
+            "id": "y4j6i3ums",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 331.5981875061043,
+                    "y": -2259.7625374914537
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Device Index",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "Connection",
+                            "portOut": "Connection",
+                            "objIn": "k9oaybbdt",
+                            "objOut": "y4j6i3ums"
+                        }
+                    ]
+                },
+                {
                     "name": "Is Connected",
                     "value": false
                 },
                 {
                     "name": "Status",
-                    "value": "Error: Missing Python dependencies. Please run: pip install git+https://github.com/tomekceszke/ajazz-akp03e.git Pillow hidapi"
+                    "value": "Error: No Stream Decks connected."
+                },
+                {
+                    "name": "Event Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "fa1c7423-8ed5-4a8d-bba8-09abce334d7b",
+            "id": "k9oaybbdt",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 307.5981875061043,
+                    "y": -2128.6808922136956
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                }
+            ]
+        },
+        {
+            "opId": "24FE395B-60C9-4C46-86F0-0628DCF485C0",
+            "id": "dqy3020zq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 307,
+                    "y": -2023.7940808953947
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "Connection",
+                            "portOut": "Connection",
+                            "objIn": "mermxs4ef",
+                            "objOut": "dqy3020zq"
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Connected",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Error: No Soomfon devices connected."
                 },
                 {
                     "name": "Event Key Index",
@@ -5538,6 +5554,110 @@
                     "value": false
                 }
             ]
+        },
+        {
+            "opId": "9876E84F-66C7-418E-9213-9BD8161A49B2",
+            "id": "mermxs4ef",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 281.33792226733686,
+                    "y": -1939.2924980232929
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "7a1gva8n5",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 177.85191980787715,
+                    "y": -2003.543370632242
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "mermxs4ef",
+                            "objOut": "7a1gva8n5"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "f5f7f329-8da7-4d92-938a-3510e19488a0",
+            "id": "ipk47ffdl",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 672,
+                    "y": -2060
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Haptic Strength",
+                    "value": 75
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Event Type",
+                    "value": "deviceKeyEvent"
+                },
+                {
+                    "name": "Connected",
+                    "value": true
+                },
+                {
+                    "name": "MAC Address",
+                    "value": "9AC8EF30-D978-486D-3B95-7AAE65FD7B24"
+                },
+                {
+                    "name": "Battery",
+                    "value": 100
+                },
+                {
+                    "name": "Button Index",
+                    "value": 10
+                },
+                {
+                    "name": "Button Pressed",
+                    "value": true
+                },
+                {
+                    "name": "Running",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Exited (Code: null)"
+                }
+            ]
         }
     ],
     "settings": {
@@ -5569,9 +5689,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 635.640833558422,
-                "y": -2845.354687719348,
-                "z": 1105.445055446373
+                "x": 845.4120802997396,
+                "y": -3201.79003932431,
+                "z": 362.4190842451131
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -5737,44 +5857,42 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "6b6488cbbdb217db0ca8a7e1a8c035915288ed59",
+    "opsHash": "92276fdf36af589a7e6dc054b497515d09c812f0",
     "buildInfo": {
         "updateWarning": false,
         "core": {
-            "timestamp": 1777913765733,
-            "created": "2026-05-04T16:56:05.733Z",
+            "timestamp": 1777512526532,
+            "created": "2026-04-30T01:28:46.532Z",
             "git": {
                 "branch": "develop",
-                "commit": "f99328394cb5173850c8e1e44dbb3873ab1e252c",
-                "date": "1777911286",
-                "message": "docs"
+                "commit": "db53c3e811af6d141da6584ec3ca94aeb6392246",
+                "date": "1777480946",
+                "message": "gltf parse"
             }
         },
         "ui": {
-            "timestamp": 1777913784349,
-            "created": "2026-05-04T16:56:24.349Z",
+            "timestamp": 1777512532169,
+            "created": "2026-04-30T01:28:52.169Z",
             "git": {
                 "branch": "develop",
-                "commit": "ce073c5313c86cee733c84039a36efcd603a920b",
-                "date": "1777910715",
-                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+                "commit": "45ce300547134b86a592a65d9ce08c50d359a46f",
+                "date": "1777401508",
+                "message": "cm update"
             }
         },
         "api": {
-            "timestamp": 1777913803958,
-            "created": "2026-05-04T16:56:43.958Z",
+            "timestamp": 1781649664137,
+            "created": "2026-06-16T22:41:04.137Z",
             "git": {
-                "branch": "develop",
-                "commit": "d6c646b8f9459fe6ce60f09a5137e3763ca45d79",
-                "date": "1777533606",
-                "message": "toggleMaximizeCanvas -> toggleMaximized"
+                "branch": "main",
+                "commit": "cd54ebcbc8bc17976a8a93943c388231aa0fefe7",
+                "date": "1780253941",
+                "message": "Add macOS privacy usage description keys to package.json extendInfo"
             },
             "platform": {
-                "os": ":mac",
                 "npm": "10.5.2",
                 "node": "20.13.1"
-            },
-            "version": "0.10.7"
+            }
         }
     },
     "updatedByUser": "",

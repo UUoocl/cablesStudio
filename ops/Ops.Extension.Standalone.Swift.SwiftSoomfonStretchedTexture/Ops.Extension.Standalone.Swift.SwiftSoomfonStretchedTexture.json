@@ -1,0 +1,50 @@
+{
+    "id": "CEB12A84-332D-4E10-A98B-7360FA3D801E",
+    "name": "Ops.Extension.Standalone.Swift.SwiftSoomfonStretchedTexture",
+    "summary": "Stretches a WebGL texture across the 3x2 grid of display keys on the connected Soomfon Stream Controller via compiled Swift sidecar.",
+    "authorName": "Antigravity",
+    "created": 1736418000000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "cgl",
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Texture"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Target"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture",
+                "group": "Texture"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "subType": "number",
+                "group": "Texture"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            }
+        ]
+    }
+}
