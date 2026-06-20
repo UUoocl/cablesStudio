@@ -5,7 +5,7 @@
     "authorName": "Antigravity",
     "changelog": [
         {
-            "message": "op created to control global macOS mouse cursor position, clicks, drags, and scrolling using a native background sidecar process",
+            "message": "op created to control global macOS mouse cursor position, clicks, drags, and scrolling using a native background sidecar process.",
             "type": "new op",
             "author": "Antigravity",
             "date": 1778466600000

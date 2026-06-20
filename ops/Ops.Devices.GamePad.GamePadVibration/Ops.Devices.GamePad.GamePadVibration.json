@@ -1,0 +1,95 @@
+{
+    "summary": "Sends vibration (rumble) effects to a gamepad",
+    "authorName": "cables",
+    "id": "8d362ea7-b774-4f77-9f9a-8bbeeccd61e6",
+    "created": 1781898416080,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "GamePad Data"
+            },
+            {
+                "type": 1,
+                "name": "Vibrate"
+            },
+            {
+                "type": 1,
+                "name": "Stop"
+            },
+            {
+                "type": 0,
+                "name": "Duration",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Strong Magnitude",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Weak Magnitude",
+                "subType": "number"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Supported",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Vibrating",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "next"
+            }
+        ]
+    },
+    "docs": {
+        "ports": [
+            {
+                "name": "GamePad Data",
+                "text": "Gamepad object input"
+            },
+            {
+                "name": "Vibrate",
+                "text": "Trigger to play the vibration effect"
+            },
+            {
+                "name": "Stop",
+                "text": "Trigger to stop the vibration effect"
+            },
+            {
+                "name": "Duration",
+                "text": "Duration of the vibration in milliseconds"
+            },
+            {
+                "name": "Strong Magnitude",
+                "text": "Intensity of the low-frequency rumble motor (0-1)"
+            },
+            {
+                "name": "Weak Magnitude",
+                "text": "Intensity of the high-frequency rumble motor (0-1)"
+            },
+            {
+                "name": "Supported",
+                "text": "True if the gamepad supports vibration effects"
+            },
+            {
+                "name": "Vibrating",
+                "text": "True if the gamepad is currently vibrating"
+            },
+            {
+                "name": "next",
+                "text": "Triggers when vibration starts or stops"
+            }
+        ]
+    },
+    "license": "MIT",
+    "isReleased": true
+}

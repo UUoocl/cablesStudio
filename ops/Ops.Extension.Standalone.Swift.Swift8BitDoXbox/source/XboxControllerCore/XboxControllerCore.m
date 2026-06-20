@@ -212,6 +212,42 @@ static void ReadCallback(void *refcon, IOReturn result, void *arg0);
         return;
     }
     
+    // Configure Device if not already configured
+    UInt8 activeConfig = 0;
+    kr = (*_deviceInterface)->GetConfiguration(_deviceInterface, &activeConfig);
+    if (kr == kIOReturnSuccess) {
+        if (activeConfig == 0) {
+            UInt8 numConfig = 0;
+            kr = (*_deviceInterface)->GetNumberOfConfigurations(_deviceInterface, &numConfig);
+            if (kr == kIOReturnSuccess && numConfig > 0) {
+                IOUSBConfigurationDescriptorPtr configDesc = NULL;
+                kr = (*_deviceInterface)->GetConfigurationDescriptorPtr(_deviceInterface, 0, &configDesc);
+                if (kr == kIOReturnSuccess && configDesc) {
+                    kr = (*_deviceInterface)->SetConfiguration(_deviceInterface, configDesc->bConfigurationValue);
+                    if (kr != kIOReturnSuccess) {
+                        NSLog(@"[XboxControllerCore] Failed to set configuration: 0x%08x", kr);
+                        [self closeConnection];
+                        return;
+                    }
+                } else {
+                    NSLog(@"[XboxControllerCore] Failed to get configuration descriptor: 0x%08x", kr);
+                    [self closeConnection];
+                    return;
+                }
+            } else {
+                NSLog(@"[XboxControllerCore] Failed to get number of configurations or no configurations found: 0x%08x, count: %d", kr, numConfig);
+                [self closeConnection];
+                return;
+            }
+        } else {
+            NSLog(@"[XboxControllerCore] Device already configured with configuration: %d", activeConfig);
+        }
+    } else {
+        NSLog(@"[XboxControllerCore] Failed to get current configuration: 0x%08x", kr);
+        [self closeConnection];
+        return;
+    }
+    
     // Find Interface 0
     IOUSBFindInterfaceRequest interfaceRequest;
     interfaceRequest.bInterfaceClass = kIOUSBFindInterfaceDontCare;
