@@ -1,0 +1,94 @@
+{
+    "id": "a7b3db10-9b17-468f-80d9-23f940e2a81d",
+    "summary": "Convert textures and send color/grid messages to Novation Launchpad Mini [MK3]",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "update"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Mode",
+                "values": ["Direct MIDI", "Message Output Only"],
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "MIDI Device",
+                "values": ["none"],
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Grid Size",
+                "values": ["8x8 Grid", "9x9 Full (with Buttons)"],
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Color Mode",
+                "values": ["RGB (SysEx)", "Palette (Velocity)"],
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Brightness",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Send Handshake"
+            },
+            {
+                "type": 1,
+                "name": "Clear Grid"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Text",
+                "subType": "string"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Scroll"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "trigger"
+            },
+            {
+                "type": 2,
+                "name": "MIDI Messages"
+            },
+            {
+                "type": 0,
+                "name": "Status",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl",
+        "cgl_pixelreader"
+    ],
+    "isReleased": true
+}
