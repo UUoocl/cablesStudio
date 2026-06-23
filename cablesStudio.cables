@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1782181823407,
+    "updated": 1782185719799,
     "visibility": "private",
     "ops": [
         {
@@ -2290,7 +2290,7 @@
                 },
                 {
                     "name": "Status",
-                    "value": "Found 1 device(s)"
+                    "value": "Found 0 device(s)"
                 }
             ]
         },
@@ -2311,7 +2311,7 @@
                 },
                 {
                     "name": "UVC Camera Target",
-                    "value": "OBSBOT Tiny SE"
+                    "value": "default"
                 },
                 {
                     "name": "Poll Rate Per Second",
@@ -4037,11 +4037,11 @@
                 },
                 {
                     "name": "Pos X",
-                    "value": 3553
+                    "value": 3330
                 },
                 {
                     "name": "Pos Y",
-                    "value": 227
+                    "value": -86
                 },
                 {
                     "name": "Click",
@@ -4060,7 +4060,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": 0.7761993408203125
+                    "value": 8.873641967773438
                 },
                 {
                     "name": "Running",
@@ -5105,7 +5105,7 @@
                 },
                 {
                     "name": "Button Index",
-                    "value": 1
+                    "value": 12
                 },
                 {
                     "name": "Button Pressed",
@@ -5217,11 +5217,11 @@
             "portsOut": [
                 {
                     "name": "Event Type",
-                    "value": "bluetooth_status"
+                    "value": "connected"
                 },
                 {
                     "name": "Connected",
-                    "value": false
+                    "value": true
                 },
                 {
                     "name": "MAC Address",
@@ -5233,11 +5233,11 @@
                 },
                 {
                     "name": "Button Index",
-                    "value": 3
+                    "value": 9
                 },
                 {
                     "name": "Button Pressed",
-                    "value": false
+                    "value": true
                 },
                 {
                     "name": "On Button Event",
@@ -5304,7 +5304,7 @@
             "portsOut": [
                 {
                     "name": "Count",
-                    "value": 1305
+                    "value": 1
                 }
             ]
         },
@@ -5610,7 +5610,7 @@
                 },
                 {
                     "name": "Event Knob Direction",
-                    "value": 1
+                    "value": -1
                 },
                 {
                     "name": "Knob 0 Value",
@@ -6567,7 +6567,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 3553
+                    "value": 3330
                 }
             ]
         },
@@ -6585,7 +6585,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 227
+                    "value": -86
                 }
             ]
         },
@@ -6670,7 +6670,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 0.7761993408203125
+                    "value": 8.873641967773438
                 }
             ]
         },
@@ -7758,7 +7758,7 @@
                 },
                 {
                     "name": "Ratio",
-                    "value": 0.7125748502994012
+                    "value": 1.0625
                 },
                 {
                     "name": "texture",
@@ -7773,7 +7773,7 @@
                 },
                 {
                     "name": "Aspect",
-                    "value": 1.403361344537815
+                    "value": 0.9411764705882353
                 },
                 {
                     "name": "Num Lines",
@@ -7889,7 +7889,7 @@
                 },
                 {
                     "name": "Webcam Input index",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Webcam Input",
@@ -7933,9 +7933,9 @@
                     "name": "Next",
                     "links": [
                         {
-                            "portIn": "update",
+                            "portIn": "render",
                             "portOut": "Next",
-                            "objIn": "po8sojhj3",
+                            "objIn": "6c3r4pot5",
                             "objOut": "qnhok3je6"
                         }
                     ]
@@ -7946,7 +7946,7 @@
                         {
                             "portIn": "Texture",
                             "portOut": "Texture",
-                            "objIn": "po8sojhj3",
+                            "objIn": "6c3r4pot5",
                             "objOut": "qnhok3je6"
                         }
                     ]
@@ -7978,13 +7978,205 @@
             ]
         },
         {
-            "opId": "a7b3db10-9b17-468f-80d9-23f940e2a81d",
-            "id": "po8sojhj3",
+            "opId": "b8c4ec21-ac28-4d9f-93e6-9c9ff1b175b9",
+            "id": "6c3r4pot5",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2746.236750873223,
-                    "y": -5620.185818869804
+                    "x": 2746,
+                    "y": -5629.485967314458
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Output Resolution index",
+                    "value": 0
+                },
+                {
+                    "name": "Output Resolution",
+                    "value": "Default (256x256)"
+                },
+                {
+                    "name": "Source TL index",
+                    "value": 0
+                },
+                {
+                    "name": "Source TL",
+                    "value": "Top-Left"
+                },
+                {
+                    "name": "Rotation TL index",
+                    "value": 3
+                },
+                {
+                    "name": "Rotation TL",
+                    "value": "270° CW"
+                },
+                {
+                    "name": "Flip X TL",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Y TL",
+                    "value": 0
+                },
+                {
+                    "name": "Source TR index",
+                    "value": 1
+                },
+                {
+                    "name": "Source TR",
+                    "value": "Top-Right"
+                },
+                {
+                    "name": "Rotation TR index",
+                    "value": 0
+                },
+                {
+                    "name": "Rotation TR",
+                    "value": "None"
+                },
+                {
+                    "name": "Flip X TR",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Y TR",
+                    "value": 0
+                },
+                {
+                    "name": "Source BL index",
+                    "value": 2
+                },
+                {
+                    "name": "Source BL",
+                    "value": "Bottom-Left"
+                },
+                {
+                    "name": "Rotation BL index",
+                    "value": 2
+                },
+                {
+                    "name": "Rotation BL",
+                    "value": "180°"
+                },
+                {
+                    "name": "Flip X BL",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Y BL",
+                    "value": 0
+                },
+                {
+                    "name": "Source BR index",
+                    "value": 3
+                },
+                {
+                    "name": "Source BR",
+                    "value": "Bottom-Right"
+                },
+                {
+                    "name": "Rotation BR index",
+                    "value": 1
+                },
+                {
+                    "name": "Rotation BR",
+                    "value": "90° CW"
+                },
+                {
+                    "name": "Flip X BR",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Y BR",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "update",
+                            "portOut": "trigger",
+                            "objIn": "nqz0ybl2x",
+                            "objOut": "6c3r4pot5"
+                        },
+                        {
+                            "portIn": "update",
+                            "portOut": "trigger",
+                            "objIn": "9ihdte38w",
+                            "objOut": "6c3r4pot5"
+                        },
+                        {
+                            "portIn": "update",
+                            "portOut": "trigger",
+                            "objIn": "pmdl9og3g",
+                            "objOut": "6c3r4pot5"
+                        },
+                        {
+                            "portIn": "update",
+                            "portOut": "trigger",
+                            "objIn": "o5wvpf8bi",
+                            "objOut": "6c3r4pot5"
+                        }
+                    ]
+                },
+                {
+                    "name": "Texture TL",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture TL",
+                            "objIn": "9ihdte38w",
+                            "objOut": "6c3r4pot5"
+                        }
+                    ]
+                },
+                {
+                    "name": "Texture TR",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture TR",
+                            "objIn": "nqz0ybl2x",
+                            "objOut": "6c3r4pot5"
+                        }
+                    ]
+                },
+                {
+                    "name": "Texture BL",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture BL",
+                            "objIn": "pmdl9og3g",
+                            "objOut": "6c3r4pot5"
+                        }
+                    ]
+                },
+                {
+                    "name": "Texture BR",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture BR",
+                            "objIn": "o5wvpf8bi",
+                            "objOut": "6c3r4pot5"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a7b3db10-9b17-468f-80d9-23f940e2a81d",
+            "id": "nqz0ybl2x",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2837.971691629002,
+                    "y": -5534.093384904129
                 }
             },
             "portsIn": [
@@ -8002,19 +8194,19 @@
                 },
                 {
                     "name": "MIDI Device index",
-                    "value": 3
+                    "value": 9
                 },
                 {
                     "name": "MIDI Device",
-                    "value": "Launchpad Mini MK3 LPMiniMK3 MIDI In"
+                    "value": "Launchpad Mini MK3-4 LPMiniMK3 MIDI In"
                 },
                 {
                     "name": "Grid Size index",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "Grid Size",
-                    "value": "8x8 Grid"
+                    "value": "9x9 Full (with Buttons)"
                 },
                 {
                     "name": "Color Mode index",
@@ -8036,11 +8228,233 @@
             "portsOut": [
                 {
                     "name": "Status",
-                    "value": "Connected to Launchpad Mini MK3 LPMiniMK3 MIDI In"
+                    "value": "Connected to Launchpad Mini MK3-4 LPMiniMK3 MIDI In"
                 },
                 {
                     "name": "Connected",
                     "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a7b3db10-9b17-468f-80d9-23f940e2a81d",
+            "id": "9ihdte38w",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2618.645985973,
+                    "y": -5528.905916109817
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Mode index",
+                    "value": 0
+                },
+                {
+                    "name": "Mode",
+                    "value": "Direct MIDI"
+                },
+                {
+                    "name": "MIDI Device index",
+                    "value": 7
+                },
+                {
+                    "name": "MIDI Device",
+                    "value": "Launchpad Mini MK3-2 LPMiniMK3 MIDI In"
+                },
+                {
+                    "name": "Grid Size index",
+                    "value": 1
+                },
+                {
+                    "name": "Grid Size",
+                    "value": "9x9 Full (with Buttons)"
+                },
+                {
+                    "name": "Color Mode index",
+                    "value": 0
+                },
+                {
+                    "name": "Color Mode",
+                    "value": "RGB (SysEx)"
+                },
+                {
+                    "name": "Brightness",
+                    "value": 1
+                },
+                {
+                    "name": "Scroll Text",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected to Launchpad Mini MK3-2 LPMiniMK3 MIDI In"
+                },
+                {
+                    "name": "Connected",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a7b3db10-9b17-468f-80d9-23f940e2a81d",
+            "id": "pmdl9og3g",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2618,
+                    "y": -5443.407686516732
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Mode index",
+                    "value": 0
+                },
+                {
+                    "name": "Mode",
+                    "value": "Direct MIDI"
+                },
+                {
+                    "name": "MIDI Device index",
+                    "value": 5
+                },
+                {
+                    "name": "MIDI Device",
+                    "value": "Launchpad Mini MK3-1 LPMiniMK3 MIDI In"
+                },
+                {
+                    "name": "Grid Size index",
+                    "value": 1
+                },
+                {
+                    "name": "Grid Size",
+                    "value": "9x9 Full (with Buttons)"
+                },
+                {
+                    "name": "Color Mode index",
+                    "value": 0
+                },
+                {
+                    "name": "Color Mode",
+                    "value": "RGB (SysEx)"
+                },
+                {
+                    "name": "Brightness",
+                    "value": 1
+                },
+                {
+                    "name": "Scroll Text",
+                    "value": "hi"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected to Launchpad Mini MK3-1 LPMiniMK3 MIDI In"
+                },
+                {
+                    "name": "Connected",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a7b3db10-9b17-468f-80d9-23f940e2a81d",
+            "id": "o5wvpf8bi",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2858.571892003332,
+                    "y": -5448.443302587379
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Mode index",
+                    "value": 0
+                },
+                {
+                    "name": "Mode",
+                    "value": "Direct MIDI"
+                },
+                {
+                    "name": "MIDI Device index",
+                    "value": 3
+                },
+                {
+                    "name": "MIDI Device",
+                    "value": "Launchpad Mini MK3-3 LPMiniMK3 MIDI In"
+                },
+                {
+                    "name": "Grid Size index",
+                    "value": 1
+                },
+                {
+                    "name": "Grid Size",
+                    "value": "9x9 Full (with Buttons)"
+                },
+                {
+                    "name": "Color Mode index",
+                    "value": 0
+                },
+                {
+                    "name": "Color Mode",
+                    "value": "RGB (SysEx)"
+                },
+                {
+                    "name": "Brightness",
+                    "value": 1
+                },
+                {
+                    "name": "Scroll Text",
+                    "value": "hi"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected to Launchpad Mini MK3-3 LPMiniMK3 MIDI In"
+                },
+                {
+                    "name": "Connected",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "484b3a00-41b7-4e3f-8a99-a1b32a764eff",
+            "id": "qtk27nn43",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2948.456079035207,
+                    "y": -5707.781279769989
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Device index",
+                    "value": 3
+                },
+                {
+                    "name": "Device",
+                    "value": "Launchpad Mini MK3-3 LPMiniMK3 MIDI Out"
                 }
             ]
         }
@@ -8074,9 +8488,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 3378.166782226581,
-                "y": -13474.032467007943,
-                "z": 1669.0763412092272
+                "x": 2821.1802288763606,
+                "y": -13288.784220997595,
+                "z": 1431.667239268851
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -8242,7 +8656,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "9a3c29130dc35d34cb0f39c1f7890f4050b1feca",
+    "opsHash": "26e5cd83f0f645991e0a06273ca5c479791e7d25",
     "buildInfo": {
         "updateWarning": false,
         "core": {

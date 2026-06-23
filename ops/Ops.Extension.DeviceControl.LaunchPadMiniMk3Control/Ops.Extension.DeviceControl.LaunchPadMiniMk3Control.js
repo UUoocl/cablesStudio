@@ -97,13 +97,29 @@ function onMIDISuccess(midiAccess) {
     midiAccess.onstatechange = scanDevices;
 }
 
+const deviceMap = new Map();
+
 function scanDevices() {
     if (!midi) return;
-    const outputs = midi.outputs.values();
+    deviceMap.clear();
     const deviceNames = ["none"];
 
+    const nameCounts = {};
+    const outputsArray = [];
+
+    const outputs = midi.outputs.values();
     for (let output = outputs.next(); output && !output.done; output = outputs.next()) {
-        deviceNames.push(output.value.name);
+        outputsArray.push(output.value);
+        nameCounts[output.value.name] = (nameCounts[output.value.name] || 0) + 1;
+    }
+
+    for (const output of outputsArray) {
+        let displayName = output.name;
+        if (nameCounts[output.name] > 1) {
+            displayName = `${output.name} (ID: ${output.id})`;
+        }
+        deviceNames.push(displayName);
+        deviceMap.set(displayName, output.id);
     }
 
     inMidiDevice.uiAttribs.values = deviceNames;
@@ -134,23 +150,26 @@ function updateConnection() {
         return;
     }
 
-    const outputs = midi.outputs.values();
-    let found = null;
-    for (let output = outputs.next(); output && !output.done; output = outputs.next()) {
-        if (output.value.name === targetName) {
-            found = output.value;
-            break;
+    const targetId = deviceMap.get(targetName);
+    if (targetId) {
+        outputDevice = midi.outputs.get(targetId);
+    } else {
+        // Fallback for saved patch values
+        const outputs = midi.outputs.values();
+        for (let output = outputs.next(); output && !output.done; output = outputs.next()) {
+            if (output.value.name === targetName || `${output.value.name} (ID: ${output.value.id})` === targetName) {
+                outputDevice = output.value;
+                break;
+            }
         }
     }
 
-    if (found) {
-        outputDevice = found;
-        outStatus.set("Connected to " + targetName);
+    if (outputDevice) {
+        outStatus.set("Connected to " + outputDevice.name);
         outConnected.set(true);
         // Automatically enter programmer mode
         enterProgrammerMode();
     } else {
-        outputDevice = null;
         outStatus.set("Device not found");
         outConnected.set(false);
     }
