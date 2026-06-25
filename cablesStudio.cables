@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1782185719799,
+    "updated": 1782349380686,
     "visibility": "private",
     "ops": [
         {
@@ -4037,11 +4037,11 @@
                 },
                 {
                     "name": "Pos X",
-                    "value": 3330
+                    "value": 2548
                 },
                 {
                     "name": "Pos Y",
-                    "value": -86
+                    "value": 138
                 },
                 {
                     "name": "Click",
@@ -4060,7 +4060,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": 8.873641967773438
+                    "value": 8.843475341796875
                 },
                 {
                     "name": "Running",
@@ -5105,7 +5105,7 @@
                 },
                 {
                     "name": "Button Index",
-                    "value": 12
+                    "value": 7
                 },
                 {
                     "name": "Button Pressed",
@@ -5346,8 +5346,8 @@
                     "y": -2742.0538034410183
                 },
                 "area": {
-                    "w": 1297.8373706548005,
-                    "h": 313.2213242261414,
+                    "w": 461.8411064402287,
+                    "h": 302.5754812893433,
                     "id": "2bi9mcwet"
                 }
             },
@@ -6428,8 +6428,8 @@
                     "y": -5922.978511937157
                 },
                 "area": {
-                    "w": 1540.182205818006,
-                    "h": 6279.836483936453,
+                    "w": 1716.4377524944935,
+                    "h": 6979.003569184689,
                     "id": "ns7d68p9d"
                 }
             },
@@ -6567,7 +6567,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 3330
+                    "value": 2548
                 }
             ]
         },
@@ -6585,7 +6585,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": -86
+                    "value": 138
                 }
             ]
         },
@@ -6670,7 +6670,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 8.873641967773438
+                    "value": 8.843475341796875
                 }
             ]
         },
@@ -7817,11 +7817,11 @@
             "attribs": {},
             "uiAttribs": {
                 "hasArea": true,
-                "comment_title": "Device Control",
-                "title": "Device Control",
+                "comment_title": "MIDI Device LED Control",
+                "title": "MIDI Device LED Control",
                 "translate": {
-                    "x": 2528.684752114791,
-                    "y": -5924.533283435055
+                    "x": 2714,
+                    "y": -5926.768354962065
                 },
                 "area": {
                     "w": 1139.7263469400118,
@@ -7832,7 +7832,7 @@
             "portsIn": [
                 {
                     "name": "Title",
-                    "value": "Device Control"
+                    "value": "MIDI Device LED Control"
                 }
             ]
         },
@@ -7843,8 +7843,8 @@
             "uiAttribs": {
                 "title": ">MainLoop trigger",
                 "translate": {
-                    "x": 2714.756502945779,
-                    "y": -5827.082501140345
+                    "x": 2909.207725795693,
+                    "y": -5829.317572667355
                 }
             },
             "portsIn": [
@@ -7873,8 +7873,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2746.236750873223,
-                    "y": -5740
+                    "x": 2938.4529021961266,
+                    "y": -5742.23507152701
                 },
                 "loading": false
             },
@@ -7983,8 +7983,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2746,
-                    "y": -5629.485967314458
+                    "x": 2938.4529021961266,
+                    "y": -5631.721038841469
                 }
             },
             "portsIn": [
@@ -8175,8 +8175,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2837.971691629002,
-                    "y": -5534.093384904129
+                    "x": 3032.422914478916,
+                    "y": -5536.32845643114
                 }
             },
             "portsIn": [
@@ -8194,7 +8194,7 @@
                 },
                 {
                     "name": "MIDI Device index",
-                    "value": 9
+                    "value": 0
                 },
                 {
                     "name": "MIDI Device",
@@ -8228,11 +8228,11 @@
             "portsOut": [
                 {
                     "name": "Status",
-                    "value": "Connected to Launchpad Mini MK3-4 LPMiniMK3 MIDI In"
+                    "value": "Device not found"
                 },
                 {
                     "name": "Connected",
-                    "value": true
+                    "value": false
                 }
             ]
         },
@@ -8242,8 +8242,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2618.645985973,
-                    "y": -5528.905916109817
+                    "x": 2813.0972088229137,
+                    "y": -5531.140987636827
                 }
             },
             "portsIn": [
@@ -8261,7 +8261,7 @@
                 },
                 {
                     "name": "MIDI Device index",
-                    "value": 7
+                    "value": 0
                 },
                 {
                     "name": "MIDI Device",
@@ -8295,11 +8295,11 @@
             "portsOut": [
                 {
                     "name": "Status",
-                    "value": "Connected to Launchpad Mini MK3-2 LPMiniMK3 MIDI In"
+                    "value": "Device not found"
                 },
                 {
                     "name": "Connected",
-                    "value": true
+                    "value": false
                 }
             ]
         },
@@ -8309,8 +8309,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2618,
-                    "y": -5443.407686516732
+                    "x": 2812.451222849914,
+                    "y": -5445.642758043742
                 }
             },
             "portsIn": [
@@ -8328,7 +8328,7 @@
                 },
                 {
                     "name": "MIDI Device index",
-                    "value": 5
+                    "value": 0
                 },
                 {
                     "name": "MIDI Device",
@@ -8362,11 +8362,11 @@
             "portsOut": [
                 {
                     "name": "Status",
-                    "value": "Connected to Launchpad Mini MK3-1 LPMiniMK3 MIDI In"
+                    "value": "Device not found"
                 },
                 {
                     "name": "Connected",
-                    "value": true
+                    "value": false
                 }
             ]
         },
@@ -8376,8 +8376,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2858.571892003332,
-                    "y": -5448.443302587379
+                    "x": 3053.0231148532457,
+                    "y": -5450.678374114389
                 }
             },
             "portsIn": [
@@ -8395,7 +8395,7 @@
                 },
                 {
                     "name": "MIDI Device index",
-                    "value": 3
+                    "value": 0
                 },
                 {
                     "name": "MIDI Device",
@@ -8429,11 +8429,11 @@
             "portsOut": [
                 {
                     "name": "Status",
-                    "value": "Connected to Launchpad Mini MK3-3 LPMiniMK3 MIDI In"
+                    "value": "Device not found"
                 },
                 {
                     "name": "Connected",
-                    "value": true
+                    "value": false
                 }
             ]
         },
@@ -8443,18 +8443,153 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 2948.456079035207,
-                    "y": -5707.781279769989
+                    "x": 3142.907301885121,
+                    "y": -5710.016351296999
                 }
             },
             "portsIn": [
                 {
                     "name": "Device index",
-                    "value": 3
+                    "value": 0
                 },
                 {
                     "name": "Device",
                     "value": "Launchpad Mini MK3-3 LPMiniMK3 MIDI Out"
+                }
+            ]
+        },
+        {
+            "opId": "E18B3092-B2A8-4D26-BD50-86BC7D60FA1B",
+            "id": "1e2v98j0r",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1465.163368719166,
+                    "y": -2626.663860148828
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected: Contour ShuttleXpress"
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Jog Value",
+                    "value": 41
+                },
+                {
+                    "name": "Jog Delta",
+                    "value": -1
+                },
+                {
+                    "name": "Shuttle Value",
+                    "value": 0
+                },
+                {
+                    "name": "Button Index",
+                    "value": 4
+                },
+                {
+                    "name": "Button Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "tevx78lke",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Contour ShuttleXpress",
+                "title": "Contour ShuttleXpress",
+                "translate": {
+                    "x": 1423,
+                    "y": -2742.589585900631
+                },
+                "area": {
+                    "w": 536.2673146342509,
+                    "h": 309.087356131517,
+                    "id": "xcqizraum"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Contour ShuttleXpress"
+                }
+            ]
+        },
+        {
+            "opId": "745098D7-BAF5-4809-881E-CED0E32E562D",
+            "id": "giq5arp21",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1044,
+                    "y": 360
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Button LEDs",
+                    "value": 1
+                },
+                {
+                    "name": "Jog LEDs",
+                    "value": 0
+                },
+                {
+                    "name": "Jog Mode",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Disconnected"
+                },
+                {
+                    "name": "Running",
+                    "value": false
+                },
+                {
+                    "name": "Last Key",
+                    "value": "STOP_PLAY"
+                },
+                {
+                    "name": "Last Key Pressed",
+                    "value": false
+                },
+                {
+                    "name": "Jog Value",
+                    "value": 360
+                },
+                {
+                    "name": "Jog Delta",
+                    "value": 0
+                },
+                {
+                    "name": "Battery Level",
+                    "value": 28
+                },
+                {
+                    "name": "Charging",
+                    "value": true
                 }
             ]
         }
@@ -8488,9 +8623,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 2821.1802288763606,
-                "y": -13288.784220997595,
-                "z": 1431.667239268851
+                "x": 1388.5369934572022,
+                "y": 733.7686560990844,
+                "z": 900.6833260226806
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -8656,7 +8791,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "26e5cd83f0f645991e0a06273ca5c479791e7d25",
+    "opsHash": "74d92bf31f6e10d194cebcc8b9b7ca5ccb31a1d5",
     "buildInfo": {
         "updateWarning": false,
         "core": {

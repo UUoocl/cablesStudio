@@ -1,0 +1,100 @@
+{
+    "id": "745098D7-BAF5-4809-881E-CED0E32E562D",
+    "name": "Ops.Extension.Standalone.Swift.SwiftBmdSpeedEditor",
+    "summary": "Natively monitors input from the Blackmagic Design DaVinci Resolve Speed Editor controller (keys, jog wheel, battery status) and supports control of LEDs and jog modes via a macOS Swift daemon using IOKit/IOHIDManager and WebSockets.",
+    "authorName": "Antigravity",
+    "created": 1781683200000,
+    "isReleased": true,
+    "license": "MIT",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Button LEDs",
+                "subType": "integer",
+                "group": "LEDs"
+            },
+            {
+                "type": 0,
+                "name": "Jog LEDs",
+                "subType": "integer",
+                "group": "LEDs"
+            },
+            {
+                "type": 0,
+                "name": "Jog Mode",
+                "subType": "integer",
+                "group": "Jog Settings"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "Keys Pressed"
+            },
+            {
+                "type": 3,
+                "name": "Key Names"
+            },
+            {
+                "type": 5,
+                "name": "Last Key"
+            },
+            {
+                "type": 0,
+                "name": "Last Key Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned"
+            },
+            {
+                "type": 0,
+                "name": "Battery Level",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Charging",
+                "subType": "boolean"
+            }
+        ]
+    }
+}
