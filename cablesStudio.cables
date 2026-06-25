@@ -6,7 +6,7 @@
     "userId": "69ff4a5b713d18e17f1752a2",
     "cachedUsername": "",
     "created": 1778338395154,
-    "updated": 1782349380686,
+    "updated": 1782351176395,
     "visibility": "private",
     "ops": [
         {
@@ -4037,11 +4037,11 @@
                 },
                 {
                     "name": "Pos X",
-                    "value": 2548
+                    "value": 2903
                 },
                 {
                     "name": "Pos Y",
-                    "value": 138
+                    "value": 188
                 },
                 {
                     "name": "Click",
@@ -4060,7 +4060,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": 8.843475341796875
+                    "value": 2.57025146484375
                 },
                 {
                     "name": "Running",
@@ -5217,7 +5217,7 @@
             "portsOut": [
                 {
                     "name": "Event Type",
-                    "value": "connected"
+                    "value": "deviceKeyEvent"
                 },
                 {
                     "name": "Connected",
@@ -5233,7 +5233,7 @@
                 },
                 {
                     "name": "Button Index",
-                    "value": 9
+                    "value": 10
                 },
                 {
                     "name": "Button Pressed",
@@ -5304,7 +5304,7 @@
             "portsOut": [
                 {
                     "name": "Count",
-                    "value": 1
+                    "value": 410
                 }
             ]
         },
@@ -6567,7 +6567,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 2548
+                    "value": 2903
                 }
             ]
         },
@@ -6585,7 +6585,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 138
+                    "value": 188
                 }
             ]
         },
@@ -6670,7 +6670,7 @@
             "portsOut": [
                 {
                     "name": "Result",
-                    "value": 8.843475341796875
+                    "value": 2.57025146484375
                 }
             ]
         },
@@ -8532,7 +8532,7 @@
         },
         {
             "opId": "745098D7-BAF5-4809-881E-CED0E32E562D",
-            "id": "giq5arp21",
+            "id": "wkr1qhbnw",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
@@ -8547,29 +8547,29 @@
                 },
                 {
                     "name": "Button LEDs",
-                    "value": 1
+                    "value": 1201
                 },
                 {
                     "name": "Jog LEDs",
-                    "value": 0
+                    "value": 9
                 },
                 {
                     "name": "Jog Mode",
-                    "value": 0
+                    "value": 1
                 }
             ],
             "portsOut": [
                 {
                     "name": "Status",
-                    "value": "Disconnected"
+                    "value": "Connected: DaVinci Resolve Speed Editor"
                 },
                 {
                     "name": "Running",
-                    "value": false
+                    "value": true
                 },
                 {
                     "name": "Last Key",
-                    "value": "STOP_PLAY"
+                    "value": ""
                 },
                 {
                     "name": "Last Key Pressed",
@@ -8577,7 +8577,7 @@
                 },
                 {
                     "name": "Jog Value",
-                    "value": 360
+                    "value": 0
                 },
                 {
                     "name": "Jog Delta",
@@ -8585,7 +8585,7 @@
                 },
                 {
                     "name": "Battery Level",
-                    "value": 28
+                    "value": 41
                 },
                 {
                     "name": "Charging",
@@ -8623,9 +8623,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 1388.5369934572022,
-                "y": 733.7686560990844,
-                "z": 900.6833260226806
+                "x": 1210.4324357782216,
+                "y": 572.3721423125394,
+                "z": 557.4739245756228
             },
             "bp2sub_zo3pph3oi": {
                 "x": 249.81233643504618,
@@ -8791,7 +8791,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "74d92bf31f6e10d194cebcc8b9b7ca5ccb31a1d5",
+    "opsHash": "06c2664b83cc7604e0c69dc18fd33b1d4b05ebbe",
     "buildInfo": {
         "updateWarning": false,
         "core": {

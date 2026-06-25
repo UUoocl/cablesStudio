@@ -14,26 +14,26 @@
             {
                 "type": 0,
                 "name": "Active",
-                "subType": "boolean",
-                "group": "Controls"
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "LEDs State"
             },
             {
                 "type": 0,
                 "name": "Button LEDs",
-                "subType": "integer",
-                "group": "LEDs"
+                "subType": "integer"
             },
             {
                 "type": 0,
                 "name": "Jog LEDs",
-                "subType": "integer",
-                "group": "LEDs"
+                "subType": "integer"
             },
             {
                 "type": 0,
                 "name": "Jog Mode",
-                "subType": "integer",
-                "group": "Jog Settings"
+                "subType": "integer"
             }
         ],
         "portsOut": [
@@ -74,12 +74,12 @@
             {
                 "type": 0,
                 "name": "Jog Value",
-                "subType": "integer"
+                "subType": "number"
             },
             {
                 "type": 0,
                 "name": "Jog Delta",
-                "subType": "integer"
+                "subType": "number"
             },
             {
                 "type": 1,
@@ -88,7 +88,7 @@
             {
                 "type": 0,
                 "name": "Battery Level",
-                "subType": "integer"
+                "subType": "number"
             },
             {
                 "type": 0,

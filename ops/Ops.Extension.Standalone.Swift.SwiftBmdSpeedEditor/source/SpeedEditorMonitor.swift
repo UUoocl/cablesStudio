@@ -333,10 +333,7 @@ public final class SpeedEditorMonitor: @unchecked Sendable {
     private func processReport(reportID: UInt32, data: [UInt8]) {
         guard !data.isEmpty else { return }
         
-        // Log raw bytes to stdout (captured by Cables JS and printed to console)
-        let hexString = data.map { String(format: "%02X", $0) }.joined(separator: " ")
-        print("📥 Raw Report ID \(reportID) (len \(data.count)): [\(hexString)]")
-        
+
         // The report ID is prepended to the data buffer if:
         // 1. The first byte matches the report ID.
         // 2. And the length is larger than the standard payload.

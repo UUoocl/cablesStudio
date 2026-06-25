@@ -10,6 +10,7 @@ const WebSocket = op.require("ws");
 
 const
     inActive = op.inBool("Active", false),
+    inLedsObj = op.inObject("LEDs State"),
     inButtonLeds = op.inInt("Button LEDs", 0),
     inJogLeds = op.inInt("Jog LEDs", 0),
     inJogMode = op.inInt("Jog Mode", 0),
@@ -152,8 +153,12 @@ function startServerAndProcess() {
             outStatus.set("Connected");
 
             // Sync initial states
-            sendCommand("set_leds", inButtonLeds.get());
-            sendCommand("set_jog_leds", inJogLeds.get());
+            if (inLedsObj.get() && typeof inLedsObj.get() === "object") {
+                updateLedsFromObject(inLedsObj.get());
+            } else {
+                sendCommand("set_leds", inButtonLeds.get());
+                sendCommand("set_jog_leds", inJogLeds.get());
+            }
             sendCommand("set_jog_mode", inJogMode.get());
 
             ws.on("message", (message, isBinary) => {
@@ -230,6 +235,70 @@ inActive.onChange = () => {
     } else {
         stopServerAndProcess();
     }
+};
+
+const LED_MAP = {
+    "CLOSE_UP": 1 << 0,
+    "CUT": 1 << 1,
+    "DIS": 1 << 2,
+    "SMOOTH_CUT": 1 << 3,
+    "TRANS": 1 << 4,
+    "SNAP": 1 << 5,
+    "CAM7": 1 << 6,
+    "CAM8": 1 << 7,
+    "CAM9": 1 << 8,
+    "LIVE_OVERWRITE": 1 << 9,
+    "CAM4": 1 << 10,
+    "CAM5": 1 << 11,
+    "CAM6": 1 << 12,
+    "VIDEO_ONLY": 1 << 13,
+    "CAM1": 1 << 14,
+    "CAM2": 1 << 15,
+    "CAM3": 1 << 16,
+    "AUDIO_ONLY": 1 << 17
+};
+
+const JOG_LED_MAP = {
+    "JOG": 1 << 0,
+    "SHTL": 1 << 1,
+    "SCRL": 1 << 2
+};
+
+function updateLedsFromObject(obj) {
+    if (!obj || typeof obj !== "object") return;
+    
+    let buttonBitfield = 0;
+    let jogBitfield = 0;
+    let hasButtonLed = false;
+    let hasJogLed = false;
+    
+    for (const key in obj) {
+        const val = obj[key];
+        const active = (val === 1 || val === true || val === "1");
+        
+        if (LED_MAP.hasOwnProperty(key)) {
+            hasButtonLed = true;
+            if (active) {
+                buttonBitfield |= LED_MAP[key];
+            }
+        } else if (JOG_LED_MAP.hasOwnProperty(key)) {
+            hasJogLed = true;
+            if (active) {
+                jogBitfield |= JOG_LED_MAP[key];
+            }
+        }
+    }
+    
+    if (hasButtonLed) {
+        sendCommand("set_leds", buttonBitfield);
+    }
+    if (hasJogLed) {
+        sendCommand("set_jog_leds", jogBitfield);
+    }
+}
+
+inLedsObj.onChange = () => {
+    updateLedsFromObject(inLedsObj.get());
 };
 
 inButtonLeds.onChange = () => {

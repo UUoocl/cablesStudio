@@ -33,6 +33,7 @@ Since the operator uses a compiled macOS binary, it must be compiled locally:
 
 ### Inputs
 *   **`Active`** (boolean): Set to `true` to launch the native Swift sidecar process, perform the challenge-response unlock handshake, and begin streaming events. Set to `false` to cleanly close.
+*   **`LEDs State`** (object): An easy way to control key LEDs by setting key names (e.g., `"CUT"`, `"CLOSE_UP"`, `"CAM1"`, `"JOG"`, etc.) to `0` or `1` / `true` or `false`.
 *   **`Button LEDs`** (integer): A 32-bit bitfield controlling standard key LEDs (e.g. CUT, SMOOTH_CUT, CAM1-9, etc).
 *   **`Jog LEDs`** (integer): A 3-bit bitfield controlling JOG, SHTL, and SCRL LEDs on the search dial.
 *   **`Jog Mode`** (integer): Selects the jog wheel reporting mode (Relative or Absolute).
@@ -51,3 +52,25 @@ Since the operator uses a compiled macOS binary, it must be compiled locally:
 *   **`Jog Turned`** (trigger): Fires when the jog wheel is turned.
 *   **`Battery Level`** (integer): Internal battery charge level (0-100).
 *   **`Charging`** (boolean): `true` if the unit is charging via USB.
+
+---
+
+## Key LED Control (Object)
+
+You can set key LEDs using a JSON object passed to the **`LEDs State`** input port.
+The key of the object is the friendly name, and the value is `1` / `true` (on) or `0` / `false` (off).
+
+Example:
+```json
+{
+  "CUT": 1,
+  "CLOSE_UP": 1,
+  "CAM1": 1,
+  "JOG": 1
+}
+```
+
+Available Key Names for LEDs:
+* Standard keys: `"CLOSE_UP"`, `"CUT"`, `"DIS"`, `"SMOOTH_CUT"`, `"TRANS"`, `"SNAP"`, `"LIVE_OVERWRITE"`, `"CAM1"` to `"CAM9"`, `"VIDEO_ONLY"`, `"AUDIO_ONLY"`.
+* Search dial mode keys: `"JOG"`, `"SHTL"`, `"SCRL"`.
+
