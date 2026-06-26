@@ -1,0 +1,266 @@
+{
+    "id": "62008e36-338d-48ea-a470-4cd0651f91c2",
+    "summary": "Control pads, faders, buttons, and lights on the AKAI APC Mini MK2 controller",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "update"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Mode index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "MIDI Device index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 3,
+                "name": "Pads Array",
+                "group": "Pads"
+            },
+            {
+                "type": 2,
+                "name": "Pads Object",
+                "group": "Pads"
+            },
+            {
+                "type": 3,
+                "name": "Horizontal Pads Array",
+                "group": "Horizontal Buttons"
+            },
+            {
+                "type": 2,
+                "name": "Horizontal Pads Object",
+                "group": "Horizontal Buttons"
+            },
+            {
+                "type": 3,
+                "name": "Vertical Pads Array",
+                "group": "Vertical Buttons"
+            },
+            {
+                "type": 2,
+                "name": "Vertical Pads Object",
+                "group": "Vertical Buttons"
+            },
+            {
+                "type": 5,
+                "name": "Shift Button",
+                "group": "Buttons"
+            },
+            {
+                "type": 1,
+                "name": "Reset Faders",
+                "group": "Faders"
+            },
+            {
+                "type": 3,
+                "name": "Fader Defaults",
+                "group": "Faders"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "trigger"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 2,
+                "name": "MIDI Messages"
+            },
+            {
+                "type": 3,
+                "name": "Faders Array"
+            },
+            {
+                "type": 2,
+                "name": "Faders Object"
+            },
+            {
+                "type": 0,
+                "name": "Fader 1",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 2",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 3",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 4",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 5",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 6",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 7",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Fader 8",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Master Fader",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Fader 1 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 2 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 3 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 4 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 5 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 6 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 7 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Fader 8 Turn"
+            },
+            {
+                "type": 1,
+                "name": "Master Fader Turn"
+            },
+            {
+                "type": 1,
+                "name": "Pad Press"
+            },
+            {
+                "type": 1,
+                "name": "Pad Release"
+            },
+            {
+                "type": 0,
+                "name": "Last Pad Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Last Pad Row",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Last Pad Col",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Last Pad Velocity",
+                "subType": "number"
+            },
+            {
+                "type": 3,
+                "name": "Pads State"
+            },
+            {
+                "type": 2,
+                "name": "Pads State Object"
+            },
+            {
+                "type": 1,
+                "name": "Horizontal Press"
+            },
+            {
+                "type": 1,
+                "name": "Horizontal Release"
+            },
+            {
+                "type": 0,
+                "name": "Last Horizontal Index",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Vertical Press"
+            },
+            {
+                "type": 1,
+                "name": "Vertical Release"
+            },
+            {
+                "type": 0,
+                "name": "Last Vertical Index",
+                "subType": "number"
+            },
+            {
+                "type": 3,
+                "name": "Horizontal State"
+            },
+            {
+                "type": 3,
+                "name": "Vertical State"
+            },
+            {
+                "type": 0,
+                "name": "Shift State",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Buttons State"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "isReleased": true
+}
