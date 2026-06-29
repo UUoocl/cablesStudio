@@ -1,0 +1,2002 @@
+{
+    "1": [
+        {
+            "DiffuseRepeatX": 0.94,
+            "DiffuseRepeatY": 0.94,
+            "TexOffsetX": 0.03,
+            "TexOffsetY": 0
+        }
+    ],
+    "2": [
+        {
+            "DiffuseRepeatX": 0.49,
+            "DiffuseRepeatY": 0.49,
+            "TexOffsetX": 0,
+            "TexOffsetY": 0.26
+        },
+        {
+            "DiffuseRepeatX": 0.49,
+            "DiffuseRepeatY": 0.49,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.26
+        }
+    ],
+    "3": [
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.08,
+            "TexOffsetY": 0.52
+        },
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.52
+        },
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.3,
+            "TexOffsetY": 0.07
+        }
+    ],
+    "4": [
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.08,
+            "TexOffsetY": 0.52
+        },
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.52
+        },
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.08,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.42,
+            "DiffuseRepeatY": 0.42,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.07
+        }
+    ],
+    "5": [
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.01,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.34,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.67,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.18,
+            "TexOffsetY": 0.18
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.51,
+            "TexOffsetY": 0.18
+        }
+    ],
+    "6": [
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.01,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.34,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.67,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.01,
+            "TexOffsetY": 0.18
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.34,
+            "TexOffsetY": 0.18
+        },
+        {
+            "DiffuseRepeatX": 0.31,
+            "DiffuseRepeatY": 0.31,
+            "TexOffsetX": 0.67,
+            "TexOffsetY": 0.18
+        }
+    ],
+    "7": [
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "8": [
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.20,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "9": [
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.66
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.36
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.35,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.29,
+            "DiffuseRepeatY": 0.29,
+            "TexOffsetX": 0.65,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "10": [
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.15
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.15
+        }
+    ],
+    "11": [
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.14,
+            "TexOffsetY": 0.15
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.38,
+            "TexOffsetY": 0.15
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.62,
+            "TexOffsetY": 0.15
+        }
+    ],
+    "12": [
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.63
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.39
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.15
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.15
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.15
+        },
+        {
+            "DiffuseRepeatX": 0.23,
+            "DiffuseRepeatY": 0.23,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.15
+        }
+    ],
+    "13": [
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.73,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.26,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.39,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "14": [
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.73,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "15": [
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.16,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.38,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.61,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "16": [
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.73
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.50,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.29
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.05,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.28,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.06
+        },
+        {
+            "DiffuseRepeatX": 0.21,
+            "DiffuseRepeatY": 0.21,
+            "TexOffsetX": 0.74,
+            "TexOffsetY": 0.06
+        }
+    ],
+    "17": [
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.31,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.13
+        }
+    ],
+    "18": [
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.13
+        }
+    ],
+    "19": [
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.12,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.31,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.69,
+            "TexOffsetY": 0.13
+        }
+    ],
+    "20": [
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.7
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.51
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.32
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.02,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.22,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.41,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.60,
+            "TexOffsetY": 0.13
+        },
+        {
+            "DiffuseRepeatX": 0.18,
+            "DiffuseRepeatY": 0.18,
+            "TexOffsetX": 0.79,
+            "TexOffsetY": 0.13
+        }
+    ],
+    "21": [
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.07
+        }
+    ],
+    "22": [
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.33,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.07
+        }
+    ],
+    "23": [
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.07
+        }
+    ],
+    "24": [
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.15,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.33,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.5,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.68,
+            "TexOffsetY": 0.07
+        }
+    ],
+    "25": [
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.77
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.59
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.42
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.25
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.06,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.24,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.42,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.59,
+            "TexOffsetY": 0.07
+        },
+        {
+            "DiffuseRepeatX": 0.17,
+            "DiffuseRepeatY": 0.17,
+            "TexOffsetX": 0.77,
+            "TexOffsetY": 0.07
+        }
+    ]
+}
