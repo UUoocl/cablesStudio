@@ -1,1 +1,0 @@
-If no string is plugged into the default string port then the output is an empty string ""
