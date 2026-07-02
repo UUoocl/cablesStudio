@@ -1,6 +1,6 @@
 {
     "id": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a2",
-    "name": "Ops.Extension.Standalone.SyphonOut",
+    "name": "Ops.Extension.Standalone.AppleFrameworks.SyphonOut",
     "summary": "Publishes a texture to Syphon via IOSurface for OBS (Standalone only).",
     "authorName": "Antigravity",
     "created": 1713792000000,

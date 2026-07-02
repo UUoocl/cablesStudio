@@ -9,6 +9,7 @@ Patches/mediaPipe_bundle/ops/Ops.User.MediaPipe.VisionBundle.zip
 Patches/mediaPipe_bundle/mediapipe_bundle_test.cables
 /reference/
 /cables-develop
+/cables_electron
 /other_ops/
 ops/index.html
 ops/Ops.Local.Osc.OscSendArguments/node_modules

@@ -1,0 +1,97 @@
+{
+    "id": "c2a6111f-c4f4-411a-be35-3c1bbcb8a188",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed Apple Vision hand pose landmarks tracker",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 3,
+                "name": "Hands Array"
+            },
+            {
+                "type": 0,
+                "name": "Detected Hands",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Hands Detected"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Tracks 2D human hand joints, fingers, and chirality (left/right) in real-time from an input WebGL texture using macOS Apple Vision neural frameworks directly in memory.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Starts or stops the native HumanHand tracking engine."
+            },
+            {
+                "name": "Render",
+                "text": "Trigger render loop to process the incoming texture."
+            },
+            {
+                "name": "Texture",
+                "text": "WebGL Texture containing the hand subject to track."
+            },
+            {
+                "name": "Hands Array",
+                "text": "An array of detected hands containing tracked finger joints, wrist, normalized coordinates (top-left mapped), hand chirality (left/right), and confidence levels."
+            },
+            {
+                "name": "Detected Hands",
+                "text": "Total number of hands currently tracked in the active frame."
+            },
+            {
+                "name": "On Hands Detected",
+                "text": "Trigger fired every time a new set of hand landmarks is received."
+            },
+            {
+                "name": "Running",
+                "text": "True if the native hand tracking engine is active."
+            },
+            {
+                "name": "Status",
+                "text": "Human-readable status of the tracking engine."
+            }
+        ]
+    },
+    "isReleased": true
+}

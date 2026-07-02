@@ -1,0 +1,98 @@
+{
+    "id": "c2a6111f-c4f4-411a-be35-3c1bbcb8a186",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed Apple Vision person segmentation",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 2,
+                "name": "Texture"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Quality Level",
+                "values": ["Accurate", "Balanced", "Fast"]
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Segmentation Mask"
+            },
+            {
+                "type": 1,
+                "name": "On Mask Ready"
+            },
+            {
+                "type": 0,
+                "name": "Mask Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Mask Height",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Isolates a person from an input texture using native macOS Apple Vision directly in memory, outputting a high-quality person segmentation mask in real-time.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Render",
+                "text": "The trigger to process the frame."
+            },
+            {
+                "name": "Texture",
+                "text": "The input WebGL texture to perform segmentation on."
+            },
+            {
+                "name": "Active",
+                "text": "Enable or disable segmentation mask processing."
+            },
+            {
+                "name": "Quality Level",
+                "text": "Quality and speed trade-off (Accurate, Balanced, or Fast)."
+            },
+            {
+                "name": "Segmentation Mask",
+                "text": "The output upscaled black-and-white texture containing the isolated person mask."
+            },
+            {
+                "name": "On Mask Ready",
+                "text": "Fires when the output mask is updated."
+            }
+        ]
+    },
+    "isReleased": true
+}

@@ -1,6 +1,6 @@
 {
     "id": "e2f1d182-3d4f-4a5e-96bc-842f2b1b06a3",
-    "name": "Ops.Extension.Standalone.SyphonIn",
+    "name": "Ops.Extension.Standalone.AppleFrameworks.SyphonIn",
     "summary": "Receives a texture from a Syphon server (Standalone only).",
     "authorName": "Antigravity",
     "created": 1714204800000,

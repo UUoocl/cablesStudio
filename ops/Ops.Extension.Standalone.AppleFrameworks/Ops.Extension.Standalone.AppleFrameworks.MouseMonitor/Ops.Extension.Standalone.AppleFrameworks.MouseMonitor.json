@@ -1,0 +1,108 @@
+{
+    "id": "f19d27cc-981f-495d-ab90-50d4eb076412",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed global mouse telemetry",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "PPS Limit",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Update"
+            },
+            {
+                "type": 0,
+                "name": "Pos X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Pos Y",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Click"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Streams high-frequency real-time global mouse telemetry (position, clicks, scrolls) directly using native macOS Node-API bindings without WebSockets.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Enable or disable global mouse telemetry listening."
+            },
+            {
+                "name": "PPS Limit",
+                "text": "The maximum number of position update packets sent per second."
+            },
+            {
+                "name": "On Update",
+                "text": "Fires when any telemetry event (move, click, or scroll) is received."
+            },
+            {
+                "name": "Pos X",
+                "text": "Absolute X coordinate of the cursor on the primary display."
+            },
+            {
+                "name": "Pos Y",
+                "text": "Absolute Y coordinate of the cursor on the primary display."
+            },
+            {
+                "name": "Click",
+                "text": "Mouse button state string (e.g. 'MB1 down', 'MB2 up')."
+            },
+            {
+                "name": "Scroll Delta X",
+                "text": "Horizontal mouse wheel scroll delta value."
+            },
+            {
+                "name": "Scroll Delta Y",
+                "text": "Vertical mouse wheel scroll delta value."
+            }
+        ]
+    },
+    "isReleased": true
+}

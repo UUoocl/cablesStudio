@@ -1,0 +1,79 @@
+{
+    "id": "c2a6111f-c4f4-411a-be35-3c1bbcb8a183",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed global mouse event emitter",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Emit"
+            },
+            {
+                "type": 4,
+                "name": "Mouse Object"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 4,
+                "name": "Emitted Mouse"
+            },
+            {
+                "type": 1,
+                "name": "On Emitted"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Controls mouse cursor position, emits virtual button clicks/drags, and scrolls globally on macOS using direct native Node-API bindings without WebSockets.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Enable or disable global mouse telemetry listening."
+            },
+            {
+                "name": "Emit",
+                "text": "Trigger event emission."
+            },
+            {
+                "name": "Mouse Object",
+                "text": "Input event data (x, y, button, action, scrollX, scrollY)."
+            },
+            {
+                "name": "Emitted Mouse",
+                "text": "Details of the successfully emitted mouse event."
+            },
+            {
+                "name": "On Emitted",
+                "text": "Fires when a mouse event is successfully emitted."
+            }
+        ]
+    },
+    "isReleased": true
+}

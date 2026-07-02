@@ -1,0 +1,79 @@
+{
+    "id": "c2a6111f-c4f4-411a-be35-3c1bbcb8a185",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed global keyboard event emitter",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Emit"
+            },
+            {
+                "type": 4,
+                "name": "Keystroke Object"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Emitted Keystroke"
+            },
+            {
+                "type": 1,
+                "name": "On Emitted"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Emits virtual keyboard keystrokes globally on macOS using direct native Node-API bindings without WebSockets.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Enable or disable global keyboard event emission."
+            },
+            {
+                "name": "Emit",
+                "text": "Trigger keystroke event emission."
+            },
+            {
+                "name": "Keystroke Object",
+                "text": "Input key parameters (key, modifiers)."
+            },
+            {
+                "name": "Emitted Keystroke",
+                "text": "Details of the successfully emitted keyboard combination (e.g. 'cmd + shift + a')."
+            },
+            {
+                "name": "On Emitted",
+                "text": "Fires when a keystroke event is successfully emitted."
+            }
+        ]
+    },
+    "isReleased": true
+}

@@ -42,7 +42,7 @@ A local networking hub that transforms your Cables patch into a network-accessib
 ### 3. Real-Time Video Share: Syphon In/Out (macOS)
 An open-source macOS framework integration for real-time video frame sharing between Cables and other creative video tools (Resolume Arena, MadMapper, OBS Studio, Millumin, etc.) at high frame rates and with minimal latency.
 
-*   **Dual Integration Paths**: Supports both native Node-based wrappers (`NodeSyphon.SyphonIn`, `NodeSyphon.SyphonOut`) and compiled Swift-based sidecars (`SwiftSyphonIn`, `SwiftSyphonOut`).
+*   **Dual Integration Paths**: Supports both native Node-based wrappers (`AppleFrameworks.SyphonIn`, `AppleFrameworks.SyphonOut`) and compiled Swift-based sidecars (`SwiftSyphonIn`, `SwiftSyphonOut`).
 *   **Ingest & Publish**: Stream your Cables GL viewport or offscreen RenderTargets directly to other software, or ingest external textures to use inside your Cables shaders.
 
 ---
