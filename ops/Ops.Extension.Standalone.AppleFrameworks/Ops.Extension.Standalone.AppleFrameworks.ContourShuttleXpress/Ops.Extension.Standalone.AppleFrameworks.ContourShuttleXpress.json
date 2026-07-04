@@ -1,0 +1,131 @@
+{
+    "id": "4C3B24F0-E138-4F9A-B8CF-5A2C872E7DAB",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed Contour ShuttleXpress controller",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned"
+            },
+            {
+                "type": 0,
+                "name": "Shuttle Value",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Shuttle Moved"
+            },
+            {
+                "type": 0,
+                "name": "Button Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Button Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Button Event"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Interfaces natively with Contour ShuttleXpress controller using IOHIDManager in memory.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Starts or stops the native Contour ShuttleXpress listener."
+            },
+            {
+                "name": "On Event",
+                "text": "Fires when any state, button, jog, or shuttle update arrives."
+            },
+            {
+                "name": "Status",
+                "text": "Connection status string."
+            },
+            {
+                "name": "Running",
+                "text": "True if active."
+            },
+            {
+                "name": "Jog Value",
+                "text": "Current position of the inner jog wheel."
+            },
+            {
+                "name": "Jog Delta",
+                "text": "Jog movement delta since last tick."
+            },
+            {
+                "name": "Jog Turned",
+                "text": "Fires when the jog wheel rotates."
+            },
+            {
+                "name": "Shuttle Value",
+                "text": "Current position of the outer spring-loaded shuttle ring (-7 to 7)."
+            },
+            {
+                "name": "Shuttle Moved",
+                "text": "Fires when the shuttle ring is deflected."
+            },
+            {
+                "name": "Button Index",
+                "text": "Index of the button that triggered a press/release action (0-4)."
+            },
+            {
+                "name": "Button Pressed",
+                "text": "True if the button is pressed, false if released."
+            },
+            {
+                "name": "Button Event",
+                "text": "Fires when a button state changes."
+            }
+        ]
+    }
+}

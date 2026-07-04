@@ -1,0 +1,105 @@
+{
+    "_id": "6a47dd1f73db3b1e179c3fcb",
+    "shortId": "II3jko",
+    "name": "BlankPatch",
+    "description": "",
+    "userId": "6a47dd1fb8988e6983c6e155",
+    "cachedUsername": "",
+    "created": 1783094559381,
+    "updated": 1783094559527,
+    "visibility": "private",
+    "ops": [],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a47dd1fb8988e6983c6e155",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1783094559381
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 0,
+                "y": 0,
+                "z": 1200
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "BlankPatch"
+    },
+    "opsHash": "97d170e1550eee4afc0af065b78cda302a97674c",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1777913765733,
+            "created": "2026-05-04T16:56:05.733Z",
+            "git": {
+                "branch": "develop",
+                "commit": "f99328394cb5173850c8e1e44dbb3873ab1e252c",
+                "date": "1777911286",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1777913784349,
+            "created": "2026-05-04T16:56:24.349Z",
+            "git": {
+                "branch": "develop",
+                "commit": "ce073c5313c86cee733c84039a36efcd603a920b",
+                "date": "1777910715",
+                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+            }
+        },
+        "api": {
+            "timestamp": 1777913803958,
+            "created": "2026-05-04T16:56:43.958Z",
+            "git": {
+                "branch": "develop",
+                "commit": "d6c646b8f9459fe6ce60f09a5137e3763ca45d79",
+                "date": "1777533606",
+                "message": "toggleMaximizeCanvas -> toggleMaximized"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.10.7"
+        }
+    },
+    "updatedByUser": ""
+}

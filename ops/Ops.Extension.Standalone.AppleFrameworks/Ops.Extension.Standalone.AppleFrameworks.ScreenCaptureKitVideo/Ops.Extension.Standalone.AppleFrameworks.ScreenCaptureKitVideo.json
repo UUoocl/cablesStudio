@@ -1,0 +1,140 @@
+{
+    "id": "0B7E6A2E-9BD8-4D04-B472-E40B04245CB3",
+    "created": 1782943900000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for AppleFrameworks.ScreenCaptureKitVideo",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943900000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Capture Type",
+                "subType": "string",
+                "group": "Source Settings"
+            },
+            {
+                "type": 5,
+                "name": "Source",
+                "subType": "string",
+                "group": "Source Settings"
+            },
+            {
+                "type": 0,
+                "name": "Output Width",
+                "subType": "integer",
+                "group": "Resolution Settings"
+            },
+            {
+                "type": 0,
+                "name": "Output Height",
+                "subType": "integer",
+                "group": "Resolution Settings"
+            },
+            {
+                "type": 1,
+                "name": "Refresh",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl",
+        "standalone_electron"
+    ],
+    "summary": "Captures macOS displays or specific application windows natively using Apple's high-performance ScreenCaptureKit framework.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Render",
+                "text": "Triggers the frame upload loop to pull the latest frame onto the WebGL texture."
+            },
+            {
+                "name": "Active",
+                "text": "True to start the capture stream, false to stop it."
+            },
+            {
+                "name": "Capture Type",
+                "text": "Choose to capture a display (Screen Capture) or a specific application window (Window Capture)."
+            },
+            {
+                "name": "Source",
+                "text": "Select the target screen or window from the dynamically populated list."
+            },
+            {
+                "name": "Output Width",
+                "text": "Target capture width. ScreenCaptureKit will natively scale the captured frame to this size."
+            },
+            {
+                "name": "Output Height",
+                "text": "Target capture height. ScreenCaptureKit will natively scale the captured frame to this size."
+            },
+            {
+                "name": "Refresh",
+                "text": "Manually triggers a query to update the available screens and windows lists."
+            },
+            {
+                "name": "Texture",
+                "text": "Outputs the captured video stream as a WebGL Texture."
+            },
+            {
+                "name": "Next",
+                "text": "Outward trigger cascading rendering loop."
+            },
+            {
+                "name": "Width",
+                "text": "Actual width of the generated texture."
+            },
+            {
+                "name": "Height",
+                "text": "Actual height of the generated texture."
+            },
+            {
+                "name": "Status",
+                "text": "Text status indicating capture states: Stopped, Capturing, Permission Denied, or Error."
+            }
+        ]
+    }
+}

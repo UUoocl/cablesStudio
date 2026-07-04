@@ -1,0 +1,175 @@
+{
+    "id": "0B6E6A2E-D4F4-44F4-BA15-3BC59B0B796D",
+    "created": 1782943300000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed Soomfon Stream Controller SE",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943300000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 3,
+                "name": "Connection"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 3,
+                "name": "Device Info"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Key Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Knob Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Direction",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 0 Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 1 Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 2 Value",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Knob Click Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Pressed",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Interfaces natively with Soomfon Stream Controller SE (Ajazz AKP03 clone) using USB HID directly.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Starts or stops the native Soomfon Stream Controller monitor."
+            },
+            {
+                "name": "Connection",
+                "text": "The connection object passed to texture writers for drawing images."
+            },
+            {
+                "name": "Is Connected",
+                "text": "True if connected."
+            },
+            {
+                "name": "Status",
+                "text": "Connection status string."
+            },
+            {
+                "name": "Device Info",
+                "text": "Object describing the connected device layout parameters."
+            },
+            {
+                "name": "Key Event",
+                "text": "Fires when a physical key button state changes."
+            },
+            {
+                "name": "Event Key Index",
+                "text": "Index of the key button triggered."
+            },
+            {
+                "name": "Event Pressed",
+                "text": "True if pressed, false if released."
+            },
+            {
+                "name": "Knob Event",
+                "text": "Fires when a knob is rotated."
+            },
+            {
+                "name": "Event Knob Index",
+                "text": "Index of the knob rotated (0-2)."
+            },
+            {
+                "name": "Event Knob Direction",
+                "text": "Direction of the knob rotation (-1 CCW, 1 CW)."
+            },
+            {
+                "name": "Knob 0 Value",
+                "text": "Accumulated value of knob 0."
+            },
+            {
+                "name": "Knob 1 Value",
+                "text": "Accumulated value of knob 1."
+            },
+            {
+                "name": "Knob 2 Value",
+                "text": "Accumulated value of knob 2."
+            },
+            {
+                "name": "Knob Click Event",
+                "text": "Fires when a knob is clicked/pressed."
+            },
+            {
+                "name": "Event Knob Click Index",
+                "text": "Index of the knob clicked (0-2)."
+            },
+            {
+                "name": "Event Knob Click Pressed",
+                "text": "True if pressed, false if released."
+            }
+        ]
+    }
+}

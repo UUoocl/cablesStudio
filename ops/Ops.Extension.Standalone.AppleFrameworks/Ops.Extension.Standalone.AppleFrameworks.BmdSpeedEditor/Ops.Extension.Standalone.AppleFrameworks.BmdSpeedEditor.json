@@ -1,0 +1,182 @@
+{
+    "id": "4C3B24F0-E138-4F9A-B8CF-5A2C872E7D8A",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed DaVinci Resolve Speed Editor controller",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "LEDs State"
+            },
+            {
+                "type": 0,
+                "name": "Button LEDs",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Jog LEDs",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Jog Mode",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Keys Pressed"
+            },
+            {
+                "type": 2,
+                "name": "Key Names"
+            },
+            {
+                "type": 5,
+                "name": "Last Key"
+            },
+            {
+                "type": 0,
+                "name": "Last Key Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned"
+            },
+            {
+                "type": 0,
+                "name": "Battery Level",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Charging",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Interfaces natively with Blackmagic Design DaVinci Resolve Speed Editor controller using IOHIDManager in memory.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Starts or stops the native Speed Editor listener."
+            },
+            {
+                "name": "LEDs State",
+                "text": "Object dictionary of button LED keys and their active state (e.g. `{\"CUT\": true, \"JOG\": false}`)."
+            },
+            {
+                "name": "Button LEDs",
+                "text": "Raw bitfield for the buttons LEDs."
+            },
+            {
+                "name": "Jog LEDs",
+                "text": "Raw bitfield for the jog LEDs (Jog, Shuttle, Scroll)."
+            },
+            {
+                "name": "Jog Mode",
+                "text": "Selects the jog wheel mode (0 = relative ticks, 1 = absolute mode, etc)."
+            },
+            {
+                "name": "On Event",
+                "text": "Fires when any state, key, jog, or battery update arrives."
+            },
+            {
+                "name": "Status",
+                "text": "Connection status string."
+            },
+            {
+                "name": "Running",
+                "text": "True if active."
+            },
+            {
+                "name": "Keys Pressed",
+                "text": "Array of raw key codes currently held down."
+            },
+            {
+                "name": "Key Names",
+                "text": "Array of friendly names of keys currently held down."
+            },
+            {
+                "name": "Last Key",
+                "text": "Name of the last key that triggered a press/release action."
+            },
+            {
+                "name": "Last Key Pressed",
+                "text": "True if the last key event was a press, false if release."
+            },
+            {
+                "name": "Key Event",
+                "text": "Fires when a key is pressed or released."
+            },
+            {
+                "name": "Jog Value",
+                "text": "Current position of the jog wheel."
+            },
+            {
+                "name": "Jog Delta",
+                "text": "Jog movement delta since last tick."
+            },
+            {
+                "name": "Jog Turned",
+                "text": "Fires when the jog wheel rotates."
+            },
+            {
+                "name": "Battery Level",
+                "text": "Battery charge level (0-100)."
+            },
+            {
+                "name": "Charging",
+                "text": "True if the device is plugged in and charging."
+            }
+        ]
+    }
+}

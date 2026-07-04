@@ -1,0 +1,4 @@
+build/
+binding.node
+stream_deck.node
+.DS_Store

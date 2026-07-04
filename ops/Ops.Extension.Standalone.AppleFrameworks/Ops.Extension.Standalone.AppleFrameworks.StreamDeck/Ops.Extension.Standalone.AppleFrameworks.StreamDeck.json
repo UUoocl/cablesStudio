@@ -1,0 +1,107 @@
+{
+    "id": "0B7E6A2E-9BD8-4D04-B472-E40B04245CB0",
+    "created": 1782943600000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for AppleFrameworks.StreamDeck",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943600000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "group": "Settings",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Connection"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 2,
+                "name": "Device Info"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Key Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Pressed",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Interfaces natively with Elgato Stream Decks via compiled N-API binary using IOHIDManager.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Activates the driver, connecting to the device."
+            },
+            {
+                "name": "Device Index",
+                "text": "Selects which connected device to control (if multiple are attached)."
+            },
+            {
+                "name": "Connection",
+                "text": "Outputs the connection object needed by the texture streaming operators."
+            },
+            {
+                "name": "Is Connected",
+                "text": "Outputs true when a device is connected."
+            },
+            {
+                "name": "Status",
+                "text": "String output showing connection details and current state."
+            },
+            {
+                "name": "Device Info",
+                "text": "Returns metadata (name, key count, grid dimensions) of the connected device."
+            },
+            {
+                "name": "Key Event",
+                "text": "Trigger fired whenever a button is pressed or released."
+            },
+            {
+                "name": "Event Key Index",
+                "text": "The index of the button (0-indexed) associated with the event."
+            },
+            {
+                "name": "Event Pressed",
+                "text": "True if pressed, false if released."
+            }
+        ]
+    }
+}

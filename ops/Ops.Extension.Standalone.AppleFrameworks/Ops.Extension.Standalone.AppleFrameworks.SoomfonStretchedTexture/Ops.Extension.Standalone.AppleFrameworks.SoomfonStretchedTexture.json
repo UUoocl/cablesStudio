@@ -1,0 +1,84 @@
+{
+    "id": "0B6E6A2E-9BD8-4D04-B472-E40B04245CB0",
+    "created": 1782943500000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for AppleFrameworks.SoomfonStretchedTexture",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943500000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Texture"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Target"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture",
+                "group": "Texture"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "subType": "number",
+                "group": "Texture"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl",
+        "standalone_electron"
+    ],
+    "summary": "Sends a WebGL texture stretched across the display keys (3x2 grid) on the connected Soomfon Stream Controller natively.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Render",
+                "text": "Triggers the rendering and upload pipeline."
+            },
+            {
+                "name": "Active",
+                "text": "True to run the frame processing and upload, false to skip."
+            },
+            {
+                "name": "Connection",
+                "text": "Connect to the Connection output port of the SoomfonController operator."
+            },
+            {
+                "name": "Texture",
+                "text": "WebGL input texture to display."
+            },
+            {
+                "name": "JPEG Quality",
+                "text": "JPEG compression quality (0-1)."
+            },
+            {
+                "name": "Next",
+                "text": "Outward trigger cascading rendering loop."
+            }
+        ]
+    }
+}

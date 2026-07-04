@@ -1,0 +1,1 @@
+cmd_Release/iosurface_shared.node := c++ -bundle -framework IOSurface -framework CoreFoundation -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=10.15 -arch arm64 -L./Release -stdlib=libc++  -o Release/iosurface_shared.node Release/obj.target/iosurface_shared/src/iosurface_shared.o Release/nothing.a 

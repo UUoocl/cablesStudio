@@ -1,0 +1,93 @@
+{
+    "id": "0B7E6A2E-9BD8-4D04-B472-E40B04245CB5",
+    "created": 1782944100000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for AppleFrameworks.CoreAudioTap",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782944100000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Capture Type",
+                "subType": "string",
+                "group": "Source Settings"
+            },
+            {
+                "type": 5,
+                "name": "Source",
+                "subType": "string",
+                "group": "Source Settings"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "subType": "number",
+                "group": "Settings"
+            },
+            {
+                "type": 1,
+                "name": "Refresh",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Audio Node"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Captures system-wide audio or specific application window audio natively using CoreAudio process taps (macOS Sonoma+).",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "True to start the audio capture tap, false to stop it."
+            },
+            {
+                "name": "Capture Type",
+                "text": "Choose to capture system sound (System Audio Capture) or specific application process audio (Window Audio Capture)."
+            },
+            {
+                "name": "Source",
+                "text": "Select the target screen/system or window from the dynamically populated list."
+            },
+            {
+                "name": "Volume",
+                "text": "Volume multiplier applied to the captured audio node (0-1)."
+            },
+            {
+                "name": "Refresh",
+                "text": "Manually triggers a query to update the available windows list."
+            },
+            {
+                "name": "Audio Node",
+                "text": "Outputs the captured stereo audio stream as a Web Audio Node compatible object."
+            },
+            {
+                "name": "Status",
+                "text": "Text status indicating capture states: Stopped, Capturing, Permission Denied, or Error."
+            }
+        ]
+    }
+}
