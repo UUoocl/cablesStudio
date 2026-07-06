@@ -17,147 +17,106 @@ let gainNode = null;
 
 op.onDelete = cleanup;
 
-inStart.onTriggered = () =>
-{
+inStart.onTriggered = () => {
     op.log("[DesktopAudio] Start Capture triggered");
     startCapture();
 };
 
-inStop.onTriggered = () =>
-{
+inStop.onTriggered = () => {
     op.log("[DesktopAudio] Stop Capture triggered");
     cleanup();
 };
 
-inVolume.onChange = () =>
-{
-    if (gainNode && gainNode.gain)
-    {
+inVolume.onChange = () => {
+    if (gainNode && gainNode.gain) {
         gainNode.gain.value = inVolume.get();
     }
 };
 
-const isMac = (typeof process !== "undefined" && process.platform === "darwin") || 
-              (typeof navigator !== "undefined" && /Mac/i.test(navigator.platform || navigator.userAgent));
-const isWindows = (typeof process !== "undefined" && process.platform === "win32") || 
-                  (typeof navigator !== "undefined" && /Win/i.test(navigator.platform || navigator.userAgent));
+const isMac = (typeof process !== "undefined" && process.platform === "darwin") ||
+    (typeof navigator !== "undefined" && /Mac/i.test(navigator.platform || navigator.userAgent));
+const isWindows = (typeof process !== "undefined" && process.platform === "win32") ||
+    (typeof navigator !== "undefined" && /Win/i.test(navigator.platform || navigator.userAgent));
 
 // Initial check
 checkPermissionStatus();
 
-function getIpcRenderer()
-{
-    if (window.ipcRenderer) return window.ipcRenderer;
-
-    if (typeof op.require === "function")
-    {
-        try
-        {
-            const electron = op.require("electron");
-            if (electron && electron.ipcRenderer) return electron.ipcRenderer;
-        }
-        catch (e) {}
+function getIpcRenderer() {
+    try {
+        return op.require("electron")?.ipcRenderer || null;
+    } catch (e) {
+        return null;
     }
-
-    if (window.nodeRequire)
-    {
-        try
-        {
-            const electron = window.nodeRequire("electron");
-            if (electron && electron.ipcRenderer) return electron.ipcRenderer;
-        }
-        catch (e) {}
-    }
-
-    return null;
 }
 
-function checkPermissionStatus()
-{
+function checkPermissionStatus() {
     const ipc = getIpcRenderer();
 
-    if (ipc)
-    {
+    if (ipc) {
         ipc.invoke("talkerMessage", "getMediaAccessStatus", { "mediaType": "screen" })
-            .then((res) =>
-            {
+            .then((res) => {
                 const status = res.data || res;
                 outPermission.set(status);
             })
-            .catch(() =>
-            {
+            .catch(() => {
                 outPermission.set("unknown");
             });
     }
-    else
-    {
+    else {
         outPermission.set("not-electron");
     }
 }
 
-function cleanup()
-{
+function cleanup() {
     outAudioNode.set(null);
     outError.set("");
 
-    if (stream)
-    {
+    if (stream) {
         const tracks = stream.getTracks();
         tracks.forEach((track) => { return track.stop(); });
         stream = null;
     }
 
-    if (mediaStreamSource)
-    {
-        try { mediaStreamSource.disconnect(); } catch (e) {}
+    if (mediaStreamSource) {
+        try { mediaStreamSource.disconnect(); } catch (e) { }
         mediaStreamSource = null;
     }
 
-    if (gainNode)
-    {
-        try { gainNode.disconnect(); } catch (e) {}
+    if (gainNode) {
+        try { gainNode.disconnect(); } catch (e) { }
         gainNode = null;
     }
 }
 
-function startCapture()
-{
+function startCapture() {
     checkPermissionStatus();
     cleanup();
 
-    const handleStream = (s) =>
-    {
+    const handleStream = (s) => {
         op.log("[DesktopAudio] Stream successfully resolved!");
         stream = s;
         outError.set("");
 
         // Stop the video track immediately to save performance/decoding overhead
         const videoTracks = stream.getVideoTracks();
-        if (videoTracks.length > 0)
-        {
+        if (videoTracks.length > 0) {
             videoTracks[0].stop();
         }
 
         const audioTracks = stream.getAudioTracks();
-        if (audioTracks.length > 0)
-        {
-            if (CABLES.WEBAUDIO)
-            {
+        if (audioTracks.length > 0) {
+            if (CABLES.WEBAUDIO) {
                 audioCtx = CABLES.WEBAUDIO.createAudioContext(op);
             }
-            else
-            {
+            else {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (window.AudioContext)
-                {
+                if (window.AudioContext) {
                     if (!window.audioContext) window.audioContext = new AudioContext();
                     audioCtx = window.audioContext;
                 }
             }
-            if (audioCtx)
-            {
-                if (audioCtx.state === "suspended")
-                {
+            if (audioCtx) {
+                if (audioCtx.state === "suspended") {
                     audioCtx.resume()
                         .catch((re) => { op.error("[DesktopAudio] Failed to resume AudioContext:", re); });
                 }
@@ -165,30 +124,26 @@ function startCapture()
                 mediaStreamSource = audioCtx.createMediaStreamSource(stream);
                 gainNode = audioCtx.createGain();
                 gainNode.gain.value = inVolume.get();
-                
+
                 mediaStreamSource.connect(gainNode);
                 outAudioNode.set(gainNode);
                 op.log("[DesktopAudio] Successfully connected loopback audio stream.");
             }
-            else
-            {
+            else {
                 outError.set("AudioContext not available");
             }
         }
-        else
-        {
+        else {
             outError.set("No audio tracks found in stream");
         }
     };
 
-    const handleError = (e) =>
-    {
+    const handleError = (e) => {
         op.error("[DesktopAudio] Get Media Error:", e);
         outError.set("Capture Error: " + e.message);
     };
 
-    if (isMac || isWindows)
-    {
+    if (isMac || isWindows) {
         op.log(`[DesktopAudio] ${isMac ? "macOS" : "Windows"} loopback requested, calling getDisplayMedia...`);
         navigator.mediaDevices.getDisplayMedia({
             "video": {
@@ -197,16 +152,14 @@ function startCapture()
             },
             "audio": true
         })
-        .then(handleStream)
-        .catch(handleError);
+            .then(handleStream)
+            .catch(handleError);
     }
-    else
-    {
+    else {
         // Fallback for Windows/Linux desktop capture
         const ipc = getIpcRenderer();
 
-        const proceedWithSourceId = (sourceId) =>
-        {
+        const proceedWithSourceId = (sourceId) => {
             const constraints = {
                 "audio": {
                     "mandatory": {
@@ -231,19 +184,16 @@ function startCapture()
                 .catch(handleError);
         };
 
-        if (ipc)
-        {
+        if (ipc) {
             ipc.invoke("getDesktopCaptureSources", { "types": ["screen"] })
-                .then((sources) =>
-                {
+                .then((sources) => {
                     const s = sources.success && sources.data ? sources.data : sources;
                     const primary = s[0] || { "id": "screen:0:0" };
                     proceedWithSourceId(primary.id);
                 })
                 .catch(handleError);
         }
-        else
-        {
+        else {
             handleError(new Error("Electron IPC not available"));
         }
     }

@@ -1,0 +1,299 @@
+{
+    "_id": "6a49865f1d5c88acef09b671",
+    "shortId": "U6QFro",
+    "name": "Untitled",
+    "description": "",
+    "userId": "6a49865fe79df1aedafb4377",
+    "cachedUsername": "",
+    "created": 1783203423379,
+    "updated": 1783261846879,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "915j9bxg7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -368.5097604684643,
+                    "y": -800.1032453295729
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "width",
+                    "value": 646
+                },
+                {
+                    "name": "height",
+                    "value": 343
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "8krflrf2y",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -421.14212105196896,
+                    "y": -708.4583618552116
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "SSE Event Name",
+                    "value": "message"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                },
+                {
+                    "name": "WS Channel",
+                    "value": "message"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": "/favicon.ico"
+                },
+                {
+                    "name": "WS Message Channel",
+                    "value": ""
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 0
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "7gi24jwzg",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -311.21642426831767,
+                    "y": -634.820766792924
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Launch TurboWarp",
+                            "portOut": "Next",
+                            "objIn": "62w3zbwwp",
+                            "objOut": "7gi24jwzg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e2a3c4b5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+            "id": "z5spefuib",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -276,
+                    "y": -440
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Volume",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Permission Status",
+                    "value": "unknown"
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "2ad53458-3937-4492-a5f8-18e8d00c48ac",
+            "id": "62w3zbwwp",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -311,
+                    "y": -551.5416381447884
+                }
+            }
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a49865fe79df1aedafb4377",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1783203423379
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 646,
+            "h": 343,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -363.1389504280214,
+                "y": -712.3896262907515,
+                "z": 913.2321182063814
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "Untitled"
+    },
+    "opsHash": "35bf8421eea1f44954d5920860c5871106de4043",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1782384754584,
+            "created": "2026-06-25T10:52:34.584Z",
+            "git": {
+                "branch": "develop",
+                "commit": "822accab1993d461dad3a870e6918463622523d8",
+                "date": "1782383076",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1782384773089,
+            "created": "2026-06-25T10:52:53.089Z",
+            "git": {
+                "branch": "develop",
+                "commit": "89ee7fdb683f267af33d155006ac4aa6dbbef9dc",
+                "date": "1782377186",
+                "message": "Merge branch 'develop'"
+            }
+        },
+        "api": {
+            "timestamp": 1782384790730,
+            "created": "2026-06-25T10:53:10.730Z",
+            "git": {
+                "branch": "develop",
+                "commit": "e9905b2dcd49c9dc4c8604859b957ce5f7591bb4",
+                "date": "1780928700",
+                "message": "edit opdependencies"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.11.0"
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEn1JREFUeF7t1sENADAMAjG6/9Ct1DXO2QCTB2fbnSNAgAABAgQIEMgIHAMw07WgBAgQIECAAIEvYAB6BAIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgACBBx1VaBA+Pro5AAAAAElFTkSuQmCC"
+}

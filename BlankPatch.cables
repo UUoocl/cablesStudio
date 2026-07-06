@@ -6,9 +6,699 @@
     "userId": "6a47dd1fb8988e6983c6e155",
     "cachedUsername": "",
     "created": 1783094559381,
-    "updated": 1783094559527,
+    "updated": 1783301978807,
     "visibility": "private",
-    "ops": [],
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "8rmjepnch",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -708,
+                    "y": -47.38656697313024
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "x2rvo8mdb",
+                            "objOut": "8rmjepnch"
+                        },
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "0kbua7p4w",
+                            "objOut": "8rmjepnch"
+                        },
+                        {
+                            "portIn": "Update",
+                            "portOut": "trigger",
+                            "objIn": "tnpy1bt4y",
+                            "objOut": "8rmjepnch"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 670
+                },
+                {
+                    "name": "height",
+                    "value": 377
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "e4209c59-8d78-4fa9-95e4-805fa820c3b6",
+            "id": "x2rvo8mdb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -708,
+                    "y": 27.079808632911742
+                },
+                "loading": false
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Generate Texture",
+                    "value": 1
+                },
+                {
+                    "name": "Webcam Input index",
+                    "value": 0
+                },
+                {
+                    "name": "Webcam Input",
+                    "value": "Default"
+                },
+                {
+                    "name": "Requested Width",
+                    "value": 1280
+                },
+                {
+                    "name": "Requested Height",
+                    "value": 720
+                },
+                {
+                    "name": "Flip X",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 0
+                },
+                {
+                    "name": "Show HTML Element",
+                    "value": 0
+                },
+                {
+                    "name": "CSS",
+                    "value": "z-index:99999;\nposition:absolute;\n"
+                },
+                {
+                    "name": "Element Flip X",
+                    "value": 0
+                },
+                {
+                    "name": "Element Flip Y",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Force Update",
+                            "portOut": "Next",
+                            "objIn": "d7jbv5udv",
+                            "objOut": "x2rvo8mdb"
+                        }
+                    ]
+                },
+                {
+                    "name": "Ratio",
+                    "value": 1.7777777777777777
+                },
+                {
+                    "name": "Available",
+                    "value": 1
+                },
+                {
+                    "name": "Size Width",
+                    "value": 1280
+                },
+                {
+                    "name": "Size Height",
+                    "value": 720
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Active device",
+                    "value": "OBSBOT Tiny SE StreamCamera (3564:feff)"
+                }
+            ]
+        },
+        {
+            "opId": "c7a8b9f0-d1e2-43f4-b5a6-7c8d9e0f1a2c",
+            "id": "tnpy1bt4y",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -784.8874265589612,
+                    "y": 440.903443219658
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Broadcast Channel Name",
+                    "value": "texture-sync"
+                },
+                {
+                    "name": "Pos X",
+                    "value": 31
+                },
+                {
+                    "name": "Pos Y",
+                    "value": 321
+                },
+                {
+                    "name": "Width",
+                    "value": 800
+                },
+                {
+                    "name": "Height",
+                    "value": 480
+                },
+                {
+                    "name": "Smoothing",
+                    "value": 1
+                },
+                {
+                    "name": "Stretch",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent background",
+                    "value": 1
+                },
+                {
+                    "name": "Title",
+                    "value": "cables texture"
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "qyqy7xykr",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -494.01387197028345,
+                    "y": -30.928950368585376
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "SSE Event Name",
+                    "value": "message"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                },
+                {
+                    "name": "WS Channel",
+                    "value": "message"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": "/turbowarp/static/blocks-media/default/handdelete.cur"
+                },
+                {
+                    "name": "WS Message Channel",
+                    "value": ""
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 3
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "jv0u1e3vx",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -494,
+                    "y": 50.48444700782795
+                }
+            }
+        },
+        {
+            "opId": "9e74b275-a1ed-4d10-aba4-4b3311363a99",
+            "id": "lxlv1prph",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -836.143047118871,
+                    "y": 208.0016378598411
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "URL",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/space_type_generator/stripes/index.html"
+                },
+                {
+                    "name": "ID",
+                    "value": "defaultCanvas0"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Style",
+                    "value": "position:absolute;\nz-index:9999;\nborder:0;\nwidth:100%;\nheight:100%;\n//visibility:hidden;"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Element",
+                    "links": [
+                        {
+                            "portIn": "Iframe Element",
+                            "portOut": "Element",
+                            "objIn": "cp1kzn66d",
+                            "objOut": "lxlv1prph"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "cc8c3ede-7103-410b-849f-a645793cab39",
+            "id": "1jap5djv8",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -681.8342300631575,
+                    "y": 150.4779638233757
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "render",
+                    "title": "Trigger"
+                },
+                {
+                    "name": "Render Mesh",
+                    "value": 1,
+                    "title": "Render"
+                },
+                {
+                    "name": "width",
+                    "value": 1
+                },
+                {
+                    "name": "height",
+                    "value": 1
+                },
+                {
+                    "name": "pivot x index",
+                    "value": 1
+                },
+                {
+                    "name": "pivot x",
+                    "value": "center"
+                },
+                {
+                    "name": "pivot y index",
+                    "value": 1
+                },
+                {
+                    "name": "pivot y",
+                    "value": "center"
+                },
+                {
+                    "name": "axis index",
+                    "value": 0
+                },
+                {
+                    "name": "axis",
+                    "value": "xy"
+                },
+                {
+                    "name": "Flip TexCoord X",
+                    "value": 0
+                },
+                {
+                    "name": "Flip TexCoord Y",
+                    "value": 1
+                },
+                {
+                    "name": "num columns",
+                    "value": 1
+                },
+                {
+                    "name": "num rows",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "650baeb1-db2d-4781-9af6-ab4e9d4277be",
+            "id": "0kbua7p4w",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -681.8342300631575,
+                    "y": 94.27222242597543
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "posX",
+                    "value": 0.69
+                },
+                {
+                    "name": "posY",
+                    "value": 0.52
+                },
+                {
+                    "name": "posZ",
+                    "value": 0
+                },
+                {
+                    "name": "scale",
+                    "value": 1
+                },
+                {
+                    "name": "rotX",
+                    "value": 0
+                },
+                {
+                    "name": "rotY",
+                    "value": 0
+                },
+                {
+                    "name": "rotZ",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "1jap5djv8",
+                            "objOut": "0kbua7p4w"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2fbada6b-70fa-4b43-87db-8b0d9293990b",
+            "id": "d7jbv5udv",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -827.1171235965026,
+                    "y": 348.44416676920304
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "filter index",
+                    "value": 1
+                },
+                {
+                    "name": "filter",
+                    "value": "linear"
+                },
+                {
+                    "name": "wrap index",
+                    "value": 0
+                },
+                {
+                    "name": "wrap",
+                    "value": "repeat"
+                },
+                {
+                    "name": "flip",
+                    "value": 0
+                },
+                {
+                    "name": "unpackPreMultipliedAlpha",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "texture",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "texture",
+                            "objIn": "tnpy1bt4y",
+                            "objOut": "d7jbv5udv"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 670
+                },
+                {
+                    "name": "height",
+                    "value": 377
+                }
+            ]
+        },
+        {
+            "opId": "01094f4a-d0aa-4484-b50d-528c491a2fbf",
+            "id": "cp1kzn66d",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -836.143047118871,
+                    "y": 270.39163543500536
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Selector",
+                    "value": "canvas"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Canvas Element",
+                    "links": [
+                        {
+                            "portIn": "canvas",
+                            "portOut": "Canvas Element",
+                            "objIn": "d7jbv5udv",
+                            "objOut": "cp1kzn66d"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "9rb9zwd76",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 150,
+                "resizable": true,
+                "translate": {
+                    "x": -442.6703080297542,
+                    "y": 459.266146819371
+                },
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "c7a8b9f0-d1e2-43f4-b5a6-7c8d9e0f1a2f",
+            "id": "50c1pcdyo",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -516,
+                    "y": 340
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "URL",
+                    "value": "http://127.0.0.1:8080/turbowarp/editor.html"
+                },
+                {
+                    "name": "Broadcast Channel Name",
+                    "value": "url-sync"
+                },
+                {
+                    "name": "Pos X",
+                    "value": 8
+                },
+                {
+                    "name": "Pos Y",
+                    "value": 0
+                },
+                {
+                    "name": "Width",
+                    "value": 1258
+                },
+                {
+                    "name": "Height",
+                    "value": 718
+                },
+                {
+                    "name": "Transparent background",
+                    "value": 1
+                },
+                {
+                    "name": "Title",
+                    "value": "cables window"
+                }
+            ]
+        }
+    ],
     "settings": {
         "licence": "none"
     },
@@ -29,8 +719,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 640,
-            "h": 320,
+            "w": 670,
+            "h": 377,
             "s": 1
         },
         "timeline": {},
@@ -38,9 +728,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 0,
-                "y": 0,
-                "z": 1200
+                "x": -504.9542763306133,
+                "y": 411.9691676570416,
+                "z": 392.1497022145182
             }
         },
         "outline": {
@@ -61,45 +751,45 @@
     "summary": {
         "title": "BlankPatch"
     },
-    "opsHash": "97d170e1550eee4afc0af065b78cda302a97674c",
+    "opsHash": "e6830284735a96ea4c43c4f23efa0ef358366977",
     "buildInfo": {
         "updateWarning": false,
         "core": {
-            "timestamp": 1777913765733,
-            "created": "2026-05-04T16:56:05.733Z",
+            "timestamp": 1777512526532,
+            "created": "2026-04-30T01:28:46.532Z",
             "git": {
                 "branch": "develop",
-                "commit": "f99328394cb5173850c8e1e44dbb3873ab1e252c",
-                "date": "1777911286",
-                "message": "docs"
+                "commit": "db53c3e811af6d141da6584ec3ca94aeb6392246",
+                "date": "1777480946",
+                "message": "gltf parse"
             }
         },
         "ui": {
-            "timestamp": 1777913784349,
-            "created": "2026-05-04T16:56:24.349Z",
+            "timestamp": 1777512532169,
+            "created": "2026-04-30T01:28:52.169Z",
             "git": {
                 "branch": "develop",
-                "commit": "ce073c5313c86cee733c84039a36efcd603a920b",
-                "date": "1777910715",
-                "message": "Merge branch 'develop' of github.com:cables-gl/cables_ui into develop"
+                "commit": "45ce300547134b86a592a65d9ce08c50d359a46f",
+                "date": "1777401508",
+                "message": "cm update"
             }
         },
         "api": {
-            "timestamp": 1777913803958,
-            "created": "2026-05-04T16:56:43.958Z",
+            "timestamp": 1783296151638,
+            "created": "2026-07-06T00:02:31.638Z",
             "git": {
-                "branch": "develop",
-                "commit": "d6c646b8f9459fe6ce60f09a5137e3763ca45d79",
-                "date": "1777533606",
-                "message": "toggleMaximizeCanvas -> toggleMaximized"
+                "branch": "main",
+                "commit": "cd54ebcbc8bc17976a8a93943c388231aa0fefe7",
+                "date": "1780253941",
+                "message": "Add macOS privacy usage description keys to package.json extendInfo"
             },
             "platform": {
-                "os": ":mac",
                 "npm": "10.5.2",
                 "node": "20.13.1"
-            },
-            "version": "0.10.7"
+            }
         }
     },
-    "updatedByUser": ""
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAGH9JREFUeF7t2MFtXUkQBEHKE5oiU2QKTZEp9GwXlBGTBXQQ0LnmRf9DQr8+Pj7++/BHgAABAgQIECBwRuCXADxzax9KgAABAgQIEPgnIAD9EAgQIECAAAECxwQE4LGD+1wCBAgQIECAgAD0GyBAgAABAgQIHBMQgMcO7nMJECBAgAABAgLQb4AAAQIECBAgcExAAB47uM8lQIAAAQIECAhAvwECBAgQIECAwDEBAXjs4D6XAAECBAgQICAA/QYIECBAgAABAscEBOCxg/tcAgQIECBAgIAA9BsgQIAAAQIECBwTEIDHDu5zCRAgQIAAAQIC0G+AAAECBAgQIHBMQAAeO7jPJUCgF/j8/Pz4+eePQCnw/f1dztuOBQRgfADzBAjcE/iJvz9//tz7cF88JfD19TX1Ho95KyAA33pbI0CAwL///ROAfgi1gACsL9DuC8DW3zoBAgcFBODBow9+sgAcPMrDJwnAh9imCBAg8CMgAP0OFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPn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",
+    "exports": 2
 }

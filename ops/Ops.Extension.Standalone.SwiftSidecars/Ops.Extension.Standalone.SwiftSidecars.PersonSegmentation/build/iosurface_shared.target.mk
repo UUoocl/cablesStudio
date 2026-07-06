@@ -62,7 +62,7 @@ INCS_Debug := \
 	-I/Users/jonwood/Library/Caches/node-gyp/31.7.3/deps/uv/include \
 	-I/Users/jonwood/Library/Caches/node-gyp/31.7.3/deps/zlib \
 	-I/Users/jonwood/Library/Caches/node-gyp/31.7.3/deps/v8/include \
-	-I/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.SwiftSidecars/node_modules/node-addon-api
+	-I/Users/jonwood/Github_local_dev/node_modules/node-addon-api
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=iosurface_shared' \
@@ -122,7 +122,7 @@ INCS_Release := \
 	-I/Users/jonwood/Library/Caches/node-gyp/31.7.3/deps/uv/include \
 	-I/Users/jonwood/Library/Caches/node-gyp/31.7.3/deps/zlib \
 	-I/Users/jonwood/Library/Caches/node-gyp/31.7.3/deps/v8/include \
-	-I/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.SwiftSidecars/node_modules/node-addon-api
+	-I/Users/jonwood/Github_local_dev/node_modules/node-addon-api
 
 OBJS := \
 	$(obj).target/$(TARGET)/src/iosurface_shared.o

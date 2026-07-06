@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftPersonSegmentation",
+    name: "CablesPersonSegmentation",
     platforms: [
         .macOS(.v14)
     ],
     dependencies: [],
     targets: [
         .executableTarget(
-            name: "SwiftPersonSegmentation",
+            name: "CablesPersonSegmentation",
             dependencies: [],
             path: "source"
         )

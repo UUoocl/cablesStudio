@@ -2,6 +2,26 @@
 #include <IOSurface/IOSurface.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreVideo/CVPixelBuffer.h>
+#include <algorithm>
+
+static uint8_t* GetBufferPointer(Napi::Env env, Napi::Value val, size_t& outLength) {
+    if (val.IsBuffer()) {
+        Napi::Buffer<uint8_t> buf = val.As<Napi::Buffer<uint8_t>>();
+        outLength = buf.Length();
+        return buf.Data();
+    } else if (val.IsTypedArray()) {
+        Napi::TypedArray ta = val.As<Napi::TypedArray>();
+        Napi::ArrayBuffer ab = ta.ArrayBuffer();
+        outLength = ta.ByteLength();
+        return (uint8_t*)ab.Data() + ta.ByteOffset();
+    } else if (val.IsArrayBuffer()) {
+        Napi::ArrayBuffer ab = val.As<Napi::ArrayBuffer>();
+        outLength = ab.ByteLength();
+        return (uint8_t*)ab.Data();
+    }
+    Napi::Error::New(env, "Buffer or Uint8Array required").ThrowAsJavaScriptException();
+    return nullptr;
+}
 
 class IOSurfaceWrap : public Napi::ObjectWrap<IOSurfaceWrap> {
 public:
@@ -10,6 +30,8 @@ public:
             InstanceMethod("lock", &IOSurfaceWrap::Lock),
             InstanceMethod("unlock", &IOSurfaceWrap::Unlock),
             InstanceMethod("getBuffer", &IOSurfaceWrap::GetBuffer),
+            InstanceMethod("read", &IOSurfaceWrap::Read),
+            InstanceMethod("write", &IOSurfaceWrap::Write),
         });
         
         Napi::FunctionReference* constructor = new Napi::FunctionReference();
@@ -95,13 +117,52 @@ private:
     
     Napi::Value GetBuffer(const Napi::CallbackInfo& info) {
         Napi::Env env = info.Env();
+        Napi::Error::New(env, "getBuffer() is deprecated due to V8 security restrictions. Use read() or write() instead.").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    Napi::Value Read(const Napi::CallbackInfo& info) {
+        Napi::Env env = info.Env();
         if (!surface) return env.Null();
         
+        if (info.Length() < 1) {
+            Napi::Error::New(env, "Buffer or Uint8Array required").ThrowAsJavaScriptException();
+            return env.Null();
+        }
+        
+        size_t jsLength = 0;
+        uint8_t* jsData = GetBufferPointer(env, info[0], jsLength);
+        if (!jsData) return env.Null();
+        
         void* baseAddress = IOSurfaceGetBaseAddress(surface);
-        size_t size = IOSurfaceGetAllocSize(surface);
+        size_t surfaceSize = IOSurfaceGetAllocSize(surface);
         if (!baseAddress) return env.Null();
         
-        return Napi::Buffer<uint8_t>::New(env, (uint8_t*)baseAddress, size, [](Napi::Env env, uint8_t* finalizeData) {});
+        size_t copySize = std::min(surfaceSize, jsLength);
+        memcpy(jsData, baseAddress, copySize);
+        return Napi::Number::New(env, copySize);
+    }
+    
+    Napi::Value Write(const Napi::CallbackInfo& info) {
+        Napi::Env env = info.Env();
+        if (!surface) return env.Null();
+        
+        if (info.Length() < 1) {
+            Napi::Error::New(env, "Buffer or Uint8Array required").ThrowAsJavaScriptException();
+            return env.Null();
+        }
+        
+        size_t jsLength = 0;
+        uint8_t* jsData = GetBufferPointer(env, info[0], jsLength);
+        if (!jsData) return env.Null();
+        
+        void* baseAddress = IOSurfaceGetBaseAddress(surface);
+        size_t surfaceSize = IOSurfaceGetAllocSize(surface);
+        if (!baseAddress) return env.Null();
+        
+        size_t copySize = std::min(surfaceSize, jsLength);
+        memcpy(baseAddress, jsData, copySize);
+        return Napi::Number::New(env, copySize);
     }
 };
 
@@ -112,6 +173,8 @@ public:
             InstanceMethod("lock", &IOSurfaceLookupWrap::Lock),
             InstanceMethod("unlock", &IOSurfaceLookupWrap::Unlock),
             InstanceMethod("getBuffer", &IOSurfaceLookupWrap::GetBuffer),
+            InstanceMethod("read", &IOSurfaceLookupWrap::Read),
+            InstanceMethod("write", &IOSurfaceLookupWrap::Write),
         });
         
         exports.Set("IOSurfaceLookupWrap", func);
@@ -163,13 +226,52 @@ private:
     
     Napi::Value GetBuffer(const Napi::CallbackInfo& info) {
         Napi::Env env = info.Env();
+        Napi::Error::New(env, "getBuffer() is deprecated due to V8 security restrictions. Use read() or write() instead.").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    Napi::Value Read(const Napi::CallbackInfo& info) {
+        Napi::Env env = info.Env();
         if (!surface) return env.Null();
         
+        if (info.Length() < 1) {
+            Napi::Error::New(env, "Buffer or Uint8Array required").ThrowAsJavaScriptException();
+            return env.Null();
+        }
+        
+        size_t jsLength = 0;
+        uint8_t* jsData = GetBufferPointer(env, info[0], jsLength);
+        if (!jsData) return env.Null();
+        
         void* baseAddress = IOSurfaceGetBaseAddress(surface);
-        size_t size = IOSurfaceGetAllocSize(surface);
+        size_t surfaceSize = IOSurfaceGetAllocSize(surface);
         if (!baseAddress) return env.Null();
         
-        return Napi::Buffer<uint8_t>::New(env, (uint8_t*)baseAddress, size, [](Napi::Env env, uint8_t* finalizeData) {});
+        size_t copySize = std::min(surfaceSize, jsLength);
+        memcpy(jsData, baseAddress, copySize);
+        return Napi::Number::New(env, copySize);
+    }
+    
+    Napi::Value Write(const Napi::CallbackInfo& info) {
+        Napi::Env env = info.Env();
+        if (!surface) return env.Null();
+        
+        if (info.Length() < 1) {
+            Napi::Error::New(env, "Buffer or Uint8Array required").ThrowAsJavaScriptException();
+            return env.Null();
+        }
+        
+        size_t jsLength = 0;
+        uint8_t* jsData = GetBufferPointer(env, info[0], jsLength);
+        if (!jsData) return env.Null();
+        
+        void* baseAddress = IOSurfaceGetBaseAddress(surface);
+        size_t surfaceSize = IOSurfaceGetAllocSize(surface);
+        if (!baseAddress) return env.Null();
+        
+        size_t copySize = std::min(surfaceSize, jsLength);
+        memcpy(baseAddress, jsData, copySize);
+        return Napi::Number::New(env, copySize);
     }
 };
 

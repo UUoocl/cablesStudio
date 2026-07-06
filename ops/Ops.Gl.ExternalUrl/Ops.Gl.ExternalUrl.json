@@ -1,0 +1,82 @@
+{
+    "id": "c7a8b9f0-d1e2-43f4-b5a6-7c8d9e0f1a2e",
+    "authorName": "Antigravity",
+    "created": 1783267200000,
+    "summary": "Open an external URL inside a subwindow.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Update"
+            },
+            {
+                "type": 5,
+                "name": "URL"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 0,
+                "name": "Pos X",
+                "group": "Position",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Pos Y",
+                "group": "Position",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Size",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Size",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Transparent background",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Title"
+            },
+            {
+                "type": 1,
+                "name": "Open Window"
+            },
+            {
+                "type": 1,
+                "name": "Fullscreen"
+            },
+            {
+                "type": 1,
+                "name": "Close"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Element",
+                "objType": "element"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ]
+}

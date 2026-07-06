@@ -128,6 +128,7 @@ final class SegmentationManager: @unchecked Sendable {
         // 2. Wrap the IOSurface inside a CVPixelBuffer in zero-copy GPU memory
         var unmanagedPixelBuffer: Unmanaged<CVPixelBuffer>? = nil
         let attrs = [
+            kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_32RGBA,
             kCVPixelBufferMetalCompatibilityKey: true,
             kCVPixelBufferCGImageCompatibilityKey: true,
             kCVPixelBufferCGBitmapContextCompatibilityKey: true
@@ -195,7 +196,8 @@ final class Session: @unchecked Sendable {
             }
             
             if type == "surface" {
-                let id = json["id"] as? UInt32 ?? 0
+                let idNum = json["id"] as? NSNumber
+                let id = idNum?.uint32Value ?? 0
                 let width = json["width"] as? Int ?? 0
                 let height = json["height"] as? Int ?? 0
                 self.segmentationManager?.processIosurfaceFrame(surfaceID: id, width: width, height: height)
@@ -235,6 +237,9 @@ while i < arguments.count {
 }
 
 // 1. Start Session
+setbuf(stdout, nil)
+setbuf(stderr, nil)
+
 let session = Session()
 session.start(host: host, port: port, quality: quality)
 
@@ -252,4 +257,4 @@ Task {
 print("💡 Activating Swift Person Segmentation sidecar process, waiting for events...")
 
 // Run loop keep-alive
-try await Task.sleep(nanoseconds: UInt64.max)
+dispatchMain()

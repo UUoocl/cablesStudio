@@ -20,6 +20,20 @@ struct SpeechEventData {
 // Forward declaration of C++ helper to invoke napi threadsafe callback
 void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* data);
 
+static NSBundle* GetMainAppBundle() {
+    NSBundle* bundle = [NSBundle mainBundle];
+    NSString* path = [bundle bundlePath];
+    NSRange range = [path rangeOfString:@"/Contents/Frameworks/"];
+    if (range.location != NSNotFound) {
+        NSString* mainPath = [path substringToIndex:range.location];
+        NSBundle* outerBundle = [NSBundle bundleWithPath:mainPath];
+        if (outerBundle != nil) {
+            return outerBundle;
+        }
+    }
+    return bundle;
+}
+
 std::vector<std::pair<std::string, std::string>> getAudioInputDevicesCpp() {
     std::vector<std::pair<std::string, std::string>> list;
     list.push_back({"Default System Microphone", "Default"});
@@ -169,9 +183,14 @@ static OSStatus AudioDeviceListChangedCallback(AudioObjectID inObjectID, UInt32 
         _silenceDuration = 1.5;
         _isRecording = NO;
         
-        [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
-            // Check status asynchronously
-        }];
+        NSString* speechDesc = [GetMainAppBundle() objectForInfoDictionaryKey:@"NSSpeechRecognitionUsageDescription"];
+        if (speechDesc != nil) {
+            [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
+                // Check status asynchronously
+            }];
+        } else {
+            NSLog(@"[SpeechToText] Warning: NSSpeechRecognitionUsageDescription is missing from Info.plist. RequestAuthorization was skipped to prevent a crash.");
+        }
         
         // Register CoreAudio listener for hotplugging input devices
         AudioObjectPropertyAddress address = {
@@ -206,7 +225,14 @@ static OSStatus AudioDeviceListChangedCallback(AudioObjectID inObjectID, UInt32 
 }
 
 - (void)startRecordingInternal {
+    NSString* speechDesc = [GetMainAppBundle() objectForInfoDictionaryKey:@"NSSpeechRecognitionUsageDescription"];
+    if (speechDesc == nil) {
+        [self sendStatusEvent:@"Missing Speech Permission Key in Info.plist"];
+        return;
+    }
+
     [self.audioEngine stop];
+
     [self.audioEngine.inputNode removeTapOnBus:0];
     if (self.recognitionTask) {
         [self.recognitionTask cancel];
@@ -453,6 +479,13 @@ static OSStatus AudioDeviceListChangedCallback(AudioObjectID inObjectID, UInt32 
 void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* data) {
     SpeechEventData* event = static_cast<SpeechEventData*>(data);
     
+    napi_handle_scope scope = nullptr;
+    napi_status scope_status = napi_open_handle_scope(env, &scope);
+    if (scope_status != napi_ok) {
+        delete event;
+        return;
+    }
+    
     napi_value event_obj = nullptr;
     napi_create_object(env, &event_obj);
     
@@ -498,6 +531,7 @@ void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* data) {
     napi_value result = nullptr;
     napi_call_function(env, global, js_cb, 1, &event_obj, &result);
     
+    napi_close_handle_scope(env, scope);
     delete event;
 }
 

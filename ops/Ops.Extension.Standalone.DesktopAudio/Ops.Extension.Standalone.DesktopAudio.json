@@ -5,26 +5,19 @@
     "layout": {
         "portsIn": [
             {
-                "type": 0,
-                "name": "Active",
-                "group": "Audio Settings",
-                "subType": "boolean"
+                "type": 1,
+                "name": "Start Capture",
+                "group": "Controls"
             },
             {
                 "type": 1,
-                "name": "Refresh Sources",
-                "group": "Source Settings"
-            },
-            {
-                "type": 0,
-                "name": "Source index",
-                "group": "Source Settings",
-                "subType": "integer"
+                "name": "Stop Capture",
+                "group": "Controls"
             },
             {
                 "type": 0,
                 "name": "Volume",
-                "group": "Audio Settings",
+                "group": "Settings",
                 "subType": "number"
             }
         ],
@@ -32,15 +25,6 @@
             {
                 "type": 2,
                 "name": "Audio Node"
-            },
-            {
-                "type": 2,
-                "name": "MediaStream"
-            },
-            {
-                "type": 0,
-                "name": "Has Audio Track",
-                "subType": "boolean"
             },
             {
                 "type": 5,

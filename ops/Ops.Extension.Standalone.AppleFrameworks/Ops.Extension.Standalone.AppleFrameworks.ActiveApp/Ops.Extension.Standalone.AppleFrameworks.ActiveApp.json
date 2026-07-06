@@ -1,0 +1,105 @@
+{
+    "id": "d8b5c907-8e6f-474c-83b4-7d5a864c7e2d",
+    "created": 1778466140000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for high-performance N-API active application and window monitoring",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1778466140000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Interval (ms)",
+                "subType": "number"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Application Name"
+            },
+            {
+                "type": 5,
+                "name": "Bundle Identifier"
+            },
+            {
+                "type": 0,
+                "name": "Process ID",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Window Title"
+            },
+            {
+                "type": 1,
+                "name": "On Changed"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Monitors the frontmost active application and window title on macOS and outputs the application info in real-time.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Enable or disable global application and window title monitoring."
+            },
+            {
+                "name": "Interval (ms)",
+                "text": "Interval in milliseconds at which the native N-API addon queries application state."
+            },
+            {
+                "name": "Application Name",
+                "text": "Name of the currently frontmost active application."
+            },
+            {
+                "name": "Bundle Identifier",
+                "text": "Bundle ID of the active application (e.g. com.apple.Safari)."
+            },
+            {
+                "name": "Process ID",
+                "text": "Process ID (PID) of the active application."
+            },
+            {
+                "name": "Window Title",
+                "text": "Title of the active window within the frontmost application."
+            },
+            {
+                "name": "On Changed",
+                "text": "Fires a trigger when the active application or its window title changes."
+            },
+            {
+                "name": "Running",
+                "text": "True if the native addon is actively polling."
+            },
+            {
+                "name": "Status",
+                "text": "Human-readable status of the native addon."
+            }
+        ]
+    },
+    "isReleased": true
+}

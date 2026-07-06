@@ -439,7 +439,7 @@
     "init_module": "/Users/jonwood/.npm-init.js",
     "userconfig": "/Users/jonwood/.npmrc",
     "globalconfig": "/Users/jonwood/.nvm/versions/node/v20.13.1/etc/npmrc",
-    "local_prefix": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.SwiftSidecars",
+    "local_prefix": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.SwiftSidecars/Ops.Extension.Standalone.SwiftSidecars.PersonSegmentation",
     "global_prefix": "/Users/jonwood/.nvm/versions/node/v20.13.1"
   }
 }

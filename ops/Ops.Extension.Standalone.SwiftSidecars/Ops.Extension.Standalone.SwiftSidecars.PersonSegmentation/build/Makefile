@@ -326,8 +326,8 @@ $(obj).$(TOOLSET)/%.o: $(obj)/%.S FORCE_DO_CMD
 
 ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
     $(findstring $(join ^,$(prefix)),\
-                 $(join ^,../node_modules/node-addon-api/nothing.target.mk)))),)
-  include ../node_modules/node-addon-api/nothing.target.mk
+                 $(join ^,../../../../node_modules/node-addon-api/nothing.target.mk)))),)
+  include ../../../../node_modules/node-addon-api/nothing.target.mk
 endif
 ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
     $(findstring $(join ^,$(prefix)),\
@@ -337,7 +337,7 @@ endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
 cmd_regen_makefile = cd $(srcdir); /Users/jonwood/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/jonwood/Library/Caches/node-gyp/31.7.3" "-Dnode_gyp_dir=/Users/jonwood/node_modules/node-gyp" "-Dnode_lib_file=/Users/jonwood/Library/Caches/node-gyp/31.7.3/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.SwiftSidecars/Ops.Extension.Standalone.SwiftSidecars.PersonSegmentation" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.SwiftSidecars/Ops.Extension.Standalone.SwiftSidecars.PersonSegmentation/build/config.gypi -I/Users/jonwood/node_modules/node-gyp/addon.gypi -I/Users/jonwood/Library/Caches/node-gyp/31.7.3/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/../../../../../Library/Caches/node-gyp/31.7.3/include/node/common.gypi $(srcdir)/../../../../../node_modules/node-gyp/addon.gypi $(srcdir)/../node_modules/node-addon-api/node_api.gyp $(srcdir)/binding.gyp $(srcdir)/build/config.gypi
+Makefile: $(srcdir)/../../../../../Library/Caches/node-gyp/31.7.3/include/node/common.gypi $(srcdir)/../../../../../node_modules/node-gyp/addon.gypi $(srcdir)/../../../../node_modules/node-addon-api/node_api.gyp $(srcdir)/binding.gyp $(srcdir)/build/config.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

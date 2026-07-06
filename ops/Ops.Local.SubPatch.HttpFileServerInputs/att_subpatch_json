@@ -7,11 +7,11 @@
       "uiAttribs": {
         "title": ">SseTrigger",
         "translate": {
-          "x": -541.3720517957688,
-          "y": -1462.0428749702542
+          "x": -554.2600949078767,
+          "y": -1377.3500202335456
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
       },
@@ -43,11 +43,11 @@
       "uiAttribs": {
         "title": "var get",
         "translate": {
-          "x": -583.9852785366397,
-          "y": -1563.039201487796
+          "x": -555.447468788401,
+          "y": -1414.826705698556
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "extendTitle": "#VarSseEvent",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
@@ -80,11 +80,11 @@
       "uiAttribs": {
         "title": "var get",
         "translate": {
-          "x": -557.094697143943,
-          "y": -1508.2449604252467
+          "x": -555.3640113052562,
+          "y": -1449.946355194745
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "extendTitle": "#VarSsePayload",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
@@ -117,11 +117,11 @@
       "uiAttribs": {
         "title": "var get",
         "translate": {
-          "x": -757.4245068267627,
-          "y": -1527.426667630376
+          "x": -367.53428027578553,
+          "y": -1562.4084989346684
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "extendTitle": "#varIP",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
@@ -154,11 +154,11 @@
       "uiAttribs": {
         "title": "var get",
         "translate": {
-          "x": -722.2309493062869,
-          "y": -1493.469243912473
+          "x": -355.53428027578553,
+          "y": -1525.6893516927423
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "extendTitle": "#varPort",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
@@ -191,12 +191,12 @@
       "uiAttribs": {
         "title": "var get",
         "translate": {
-          "x": -301.9261968885076,
-          "y": -1545.5474686575506
+          "x": -294.56160082444603,
+          "y": -1452.569443348773
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
-        "extendTitle": "#HttpFileServer_WS_Channel_In",
+        "subPatch": "sgodw1tbt",
+        "extendTitle": "#ws_name",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
       },
@@ -204,7 +204,7 @@
       "portsIn": [
         {
           "name": "Variable",
-          "value": "HttpFileServer_WS_Channel_In"
+          "value": "ws_name"
         }
       ],
       "portsOut": [
@@ -228,12 +228,12 @@
       "uiAttribs": {
         "title": "var get",
         "translate": {
-          "x": -275.22555855560455,
-          "y": -1508.5921119224297
+          "x": -293.6370487157585,
+          "y": -1415.614086613652
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
-        "extendTitle": "#HttpFileServer_WS_Data_In",
+        "subPatch": "sgodw1tbt",
+        "extendTitle": "#ws_object",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
       },
@@ -241,7 +241,7 @@
       "portsIn": [
         {
           "name": "Variable",
-          "value": "HttpFileServer_WS_Data_In"
+          "value": "ws_object"
         }
       ],
       "portsOut": [
@@ -265,11 +265,11 @@
       "uiAttribs": {
         "title": ">HttpFileServer_WS_Send_In",
         "translate": {
-          "x": -233.17118005453895,
-          "y": -1471.628974499824
+          "x": -293.0085230750394,
+          "y": -1376.809800175031
         },
         "color": "#07F78C",
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "tempSubOldOpId": null,
         "blueprintSubpatch2": true
       },
@@ -299,10 +299,10 @@
       "id": "7ilco1qfp",
       "attribs": {},
       "uiAttribs": {
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "translate": {
-          "x": -458.44329916135484,
-          "y": -1637.6460660391167
+          "x": -403,
+          "y": -1634.8843425150935
         },
         "blueprintSubpatch2": true,
         "tempSubOldOpId": null
@@ -314,7 +314,7 @@
       "id": "j80rtsfma",
       "attribs": {},
       "uiAttribs": {
-        "subPatch": "8ji1m9f71",
+        "subPatch": "sgodw1tbt",
         "translate": {
           "x": -403.53428027578553,
           "y": -1230.3527250644431
@@ -357,6 +357,56 @@
           "title": "Triggered"
         }
       ]
+    },
+    {
+      "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+      "id": "4zs9q4uh3",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "sgodw1tbt",
+        "title": "var set",
+        "extendTitle": "#ws_name",
+        "translate": {
+          "x": -10.162656979499502,
+          "y": -1614.2457260739577
+        }
+      },
+      "portsIn": [
+        {
+          "name": "Value",
+          "value": 0
+        },
+        {
+          "name": "Variable",
+          "value": "ws_name"
+        }
+      ],
+      "storage": {
+        "ref": "4zs9q4uh3"
+      }
+    },
+    {
+      "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+      "id": "14njjyo2n",
+      "attribs": {},
+      "uiAttribs": {
+        "subPatch": "sgodw1tbt",
+        "title": "var set",
+        "extendTitle": "#ws_object",
+        "translate": {
+          "x": -10.162656979499502,
+          "y": -1567.7882733476001
+        }
+      },
+      "portsIn": [
+        {
+          "name": "Variable",
+          "value": "ws_object"
+        }
+      ],
+      "storage": {
+        "ref": "14njjyo2n"
+      }
     }
   ]
 }

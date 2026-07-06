@@ -132,7 +132,7 @@ function startServerAndProcess() {
 }
 
 function launchProcess(port) {
-    let binaryPath = `${op.patch.config.prefixAssetPath}ops/Ops.Extension.Standalone.SwiftSidecars/Ops.Extension.Standalone.SwiftSidecars.PersonSegmentation/swift_bin/SwiftPersonSegmentation`;
+    let binaryPath = `${op.patch.config.prefixAssetPath}ops/Ops.Extension.Standalone.SwiftSidecars/Ops.Extension.Standalone.SwiftSidecars.PersonSegmentation/swift_bin/CablesPersonSegmentation`;
     if (op.patch && typeof op.patch.filePath === "function") {
         binaryPath = op.patch.filePath(binaryPath);
     }
@@ -289,7 +289,7 @@ render.onTriggered = () => {
                 try {
                     op.log(`[PersonSegmentation] Allocating input IOSurface: ${targetW}x${targetH}`);
                     sharedInputSurface = new iosurfaceShared.IOSurfaceWrap(targetW, targetH);
-                    sharedInputBuffer = sharedInputSurface.getBuffer();
+                    sharedInputBuffer = new Uint8Array(targetW * targetH * 4);
                     sharedInputSurfaceWidth = targetW;
                     sharedInputSurfaceHeight = targetH;
                 } catch(e) {
@@ -302,10 +302,13 @@ render.onTriggered = () => {
             try {
                 isProcessing = true;
 
-                // 8. Read the downsampled pixels directly into the shared surface memory
+                // 8. Read the downsampled pixels directly into the local JS buffer
                 gl.bindFramebuffer(gl.READ_FRAMEBUFFER, op._downsampleFbo);
-                sharedInputSurface.lock();
                 gl.readPixels(0, 0, targetW, targetH, gl.RGBA, gl.UNSIGNED_BYTE, sharedInputBuffer);
+
+                // Copy local JS buffer data to shared IOSurface memory
+                sharedInputSurface.lock();
+                sharedInputSurface.write(sharedInputBuffer);
                 sharedInputSurface.unlock();
 
                 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -350,7 +353,7 @@ function handleIosurfaceMask(maskID, maskW, maskH) {
     try {
         // 1. Lookup mask surface
         const sharedMaskSurface = new iosurfaceShared.IOSurfaceLookupWrap(maskID);
-        const sharedMaskBuffer = sharedMaskSurface.getBuffer();
+        const sharedMaskBuffer = new Uint8Array(maskW * maskH);
 
         if (!sharedMaskSurface || !sharedMaskBuffer) return;
 
@@ -368,7 +371,11 @@ function handleIosurfaceMask(maskID, maskW, maskH) {
 
         gl.bindTexture(gl.TEXTURE_2D, op._maskSmallTex.tex);
 
+        // Copy shared IOSurface mask data to local JS buffer
         sharedMaskSurface.lock();
+        sharedMaskSurface.read(sharedMaskBuffer);
+        sharedMaskSurface.unlock();
+
         gl.texImage2D(
             gl.TEXTURE_2D,
             0,

@@ -1,0 +1,1207 @@
+{
+    "_id": "6a47dd1f73db3b1e179c3fcb",
+    "shortId": "II3jko",
+    "name": "BlankPatch",
+    "description": "",
+    "userId": "6a47dd1fb8988e6983c6e155",
+    "cachedUsername": "",
+    "created": 1783094559381,
+    "updated": 1783173875775,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "9whbr5tww",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -767.2566521233391,
+                    "y": -232.3245434672823
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "qkfa2drjr",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -144.09767975380203,
+                    "y": -474.36966857362415
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "trigger",
+                            "objIn": "s7xhceq9h",
+                            "objOut": "qkfa2drjr"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 670
+                },
+                {
+                    "name": "height",
+                    "value": 377
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "5e9c6933-0605-4bf7-8671-a016d917f327",
+            "id": "jbsz9kda9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -463.5030420113012,
+                    "y": -419.4704820933672
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Text",
+                    "value": "Audio Capture"
+                },
+                {
+                    "name": "Grey Out",
+                    "value": 0
+                },
+                {
+                    "name": "Visible",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Pressed Trigger",
+                    "links": [
+                        {
+                            "portIn": "Start Capture",
+                            "portOut": "Pressed Trigger",
+                            "objIn": "x5yu7ud37",
+                            "objOut": "jbsz9kda9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "5a681c35-78ce-4cb3-9858-bc79c34c6819",
+            "id": "nnq3rk2ck",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -512.065119835868,
+                    "y": -501.6211136378324
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Visible",
+                    "value": 1
+                },
+                {
+                    "name": "Opacity",
+                    "value": 1
+                },
+                {
+                    "name": "Default Minimized",
+                    "value": 0
+                },
+                {
+                    "name": "Minimized Opacity",
+                    "value": 0.5
+                },
+                {
+                    "name": "Show undo button",
+                    "value": 0
+                },
+                {
+                    "name": "Show Minimize",
+                    "value": 0
+                },
+                {
+                    "name": "Title",
+                    "value": ""
+                },
+                {
+                    "name": "Side",
+                    "value": 0
+                },
+                {
+                    "name": "Default CSS",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "childs",
+                    "title": "Children",
+                    "links": [
+                        {
+                            "portIn": "link",
+                            "portOut": "childs",
+                            "objIn": "jbsz9kda9",
+                            "objOut": "nnq3rk2ck"
+                        }
+                    ]
+                },
+                {
+                    "name": "Opfened",
+                    "value": true,
+                    "title": "Opened"
+                }
+            ]
+        },
+        {
+            "opId": "19b441eb-9f63-4f35-ba08-b87841517c4d",
+            "id": "tvpztcg7e",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 32.92578082241272
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "r",
+                    "value": 0
+                },
+                {
+                    "name": "g",
+                    "value": 0.149
+                },
+                {
+                    "name": "b",
+                    "value": 0.203
+                },
+                {
+                    "name": "a",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "lu66ksgjb",
+                            "objOut": "tvpztcg7e"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ec280011-1190-4333-9a68-adb4904fca1a",
+            "id": "l6wta8tsu",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 197.80766221340548
+                },
+                "notWorkingMsg": null
+            },
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "nsu3r7yp8",
+                            "objOut": "l6wta8tsu"
+                        }
+                    ]
+                },
+                {
+                    "name": "index",
+                    "links": [
+                        {
+                            "portIn": "number1",
+                            "portOut": "index",
+                            "objIn": "aij5bexod",
+                            "objOut": "l6wta8tsu"
+                        },
+                        {
+                            "portIn": "number1",
+                            "portOut": "index",
+                            "objIn": "7pyroz6uv",
+                            "objOut": "l6wta8tsu"
+                        }
+                    ]
+                },
+                {
+                    "name": "value",
+                    "links": [
+                        {
+                            "portIn": "number1",
+                            "portOut": "value",
+                            "objIn": "cmje1hwwe",
+                            "objOut": "l6wta8tsu"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "1bbdae06-fbb2-489b-9bcc-36c9d65bd441",
+            "id": "aij5bexod",
+            "attribs": {},
+            "uiAttribs": {
+                "mathTitle": true,
+                "translate": {
+                    "x": 74.95677593366844,
+                    "y": 277.8076622134055
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "number2",
+                    "value": 0.01
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "r",
+                            "portOut": "result",
+                            "objIn": "nsu3r7yp8",
+                            "objOut": "aij5bexod"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "1bbdae06-fbb2-489b-9bcc-36c9d65bd441",
+            "id": "7pyroz6uv",
+            "attribs": {},
+            "uiAttribs": {
+                "mathTitle": true,
+                "translate": {
+                    "x": 455.31482299285955,
+                    "y": 297.8076622134055
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "number2",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "posX",
+                            "portOut": "result",
+                            "objIn": "c519u197a",
+                            "objOut": "7pyroz6uv"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "1bbdae06-fbb2-489b-9bcc-36c9d65bd441",
+            "id": "cmje1hwwe",
+            "attribs": {},
+            "uiAttribs": {
+                "mathTitle": true,
+                "translate": {
+                    "x": 455.31482299285955,
+                    "y": 357.8076622134055
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "number2",
+                    "value": 0.41
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "y",
+                            "portOut": "result",
+                            "objIn": "t729e8elc",
+                            "objOut": "cmje1hwwe"
+                        },
+                        {
+                            "portIn": "z",
+                            "portOut": "result",
+                            "objIn": "t729e8elc",
+                            "objOut": "cmje1hwwe"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a466bc1f-06e9-4595-8849-bffb9fe22f99",
+            "id": "s7xhceq9h",
+            "attribs": {},
+            "uiAttribs": {
+                "resizable": true,
+                "resizableY": false,
+                "stretchPorts": true,
+                "translate": {
+                    "x": -145.2761370208919,
+                    "y": -292.81512367821324
+                },
+                "notWorkingMsg": null
+            },
+            "portsOut": [
+                {
+                    "name": "trigger 0",
+                    "links": [
+                        {
+                            "portIn": "Trigger In",
+                            "portOut": "trigger 0",
+                            "objIn": "e1nce3hto",
+                            "objOut": "s7xhceq9h"
+                        }
+                    ]
+                },
+                {
+                    "name": "trigger 3",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger 3",
+                            "objIn": "tvpztcg7e",
+                            "objOut": "s7xhceq9h"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "650baeb1-db2d-4781-9af6-ab4e9d4277be",
+            "id": "lu66ksgjb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 97.80766221340548
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "posX",
+                    "value": -19
+                },
+                {
+                    "name": "posY",
+                    "value": -0.1
+                },
+                {
+                    "name": "posZ",
+                    "value": -25
+                },
+                {
+                    "name": "scale",
+                    "value": 0.36
+                },
+                {
+                    "name": "rotX",
+                    "value": 44.23
+                },
+                {
+                    "name": "rotY",
+                    "value": 0
+                },
+                {
+                    "name": "rotZ",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "trigger",
+                            "objIn": "l6wta8tsu",
+                            "objOut": "lu66ksgjb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ec55d252-3843-41b1-b731-0482dbd9e72b",
+            "id": "99sxqt0dq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 797.8076622134055
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "r",
+                    "value": 0.059
+                },
+                {
+                    "name": "g",
+                    "value": 0
+                },
+                {
+                    "name": "b",
+                    "value": 0.141
+                },
+                {
+                    "name": "a",
+                    "value": 0.135
+                },
+                {
+                    "name": "colorizeTexture",
+                    "value": 0
+                },
+                {
+                    "name": "Vertex Colors",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source",
+                    "value": "Luminance"
+                },
+                {
+                    "name": "Opacity TexCoords Transform",
+                    "value": 0
+                },
+                {
+                    "name": "Discard Transparent Pixels",
+                    "value": 0
+                },
+                {
+                    "name": "diffuseRepeatX",
+                    "value": 1
+                },
+                {
+                    "name": "diffuseRepeatY",
+                    "value": 1
+                },
+                {
+                    "name": "Tex Offset X",
+                    "value": 0
+                },
+                {
+                    "name": "Tex Offset Y",
+                    "value": 0
+                },
+                {
+                    "name": "Crop TexCoords",
+                    "value": 0
+                },
+                {
+                    "name": "billboard",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "wfj2ugs0k",
+                            "objOut": "99sxqt0dq"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "37b92ba4-cea5-42ae-bf28-a513ca28549c",
+            "id": "k9kz3ymj2",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 617.8076622134055
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "Render Mesh",
+                    "value": 1
+                },
+                {
+                    "name": "Width",
+                    "value": 2
+                },
+                {
+                    "name": "Length",
+                    "value": 2
+                },
+                {
+                    "name": "Height",
+                    "value": 2
+                },
+                {
+                    "name": "Center",
+                    "value": 1
+                },
+                {
+                    "name": "Mapping index",
+                    "value": 0
+                },
+                {
+                    "name": "Mapping",
+                    "value": "Side"
+                },
+                {
+                    "name": "Bias",
+                    "value": 0
+                },
+                {
+                    "name": "Flip X",
+                    "value": 1
+                },
+                {
+                    "name": "Top",
+                    "value": 1
+                },
+                {
+                    "name": "Bottom",
+                    "value": 1
+                },
+                {
+                    "name": "Left",
+                    "value": 1
+                },
+                {
+                    "name": "Right",
+                    "value": 1
+                },
+                {
+                    "name": "Front",
+                    "value": 1
+                },
+                {
+                    "name": "Back",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Next",
+                            "objIn": "w3uzfhnl6",
+                            "objOut": "k9kz3ymj2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ec55d252-3843-41b1-b731-0482dbd9e72b",
+            "id": "nsu3r7yp8",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 377.8076622134055
+                },
+                "notWorkingMsg": null
+            },
+            "portsIn": [
+                {
+                    "name": "g",
+                    "value": 0.267
+                },
+                {
+                    "name": "b",
+                    "value": 0.267
+                },
+                {
+                    "name": "a",
+                    "value": 1
+                },
+                {
+                    "name": "colorizeTexture",
+                    "value": 0
+                },
+                {
+                    "name": "Vertex Colors",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source",
+                    "value": "Luminance"
+                },
+                {
+                    "name": "Opacity TexCoords Transform",
+                    "value": 0
+                },
+                {
+                    "name": "Discard Transparent Pixels",
+                    "value": 0
+                },
+                {
+                    "name": "diffuseRepeatX",
+                    "value": 1
+                },
+                {
+                    "name": "diffuseRepeatY",
+                    "value": 1
+                },
+                {
+                    "name": "Tex Offset X",
+                    "value": 0
+                },
+                {
+                    "name": "Tex Offset Y",
+                    "value": 0
+                },
+                {
+                    "name": "Crop TexCoords",
+                    "value": 0
+                },
+                {
+                    "name": "billboard",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "c519u197a",
+                            "objOut": "nsu3r7yp8"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ff9bf46c-676f-4aa1-95bf-5595a6813ed7",
+            "id": "e1nce3hto",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -257.81303931920365,
+                    "y": -85.49030401444801
+                },
+                "notWorkingMsg": null,
+                "color": "#5dc0fd"
+            },
+            "portsIn": [
+                {
+                    "name": "FFT size index",
+                    "value": 2
+                },
+                {
+                    "name": "FFT size",
+                    "value": 256
+                },
+                {
+                    "name": "Smoothing",
+                    "value": 0.3
+                },
+                {
+                    "name": "Min",
+                    "value": -90
+                },
+                {
+                    "name": "Max",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "FFT Array",
+                    "links": [
+                        {
+                            "portIn": "array",
+                            "portOut": "FFT Array",
+                            "objIn": "l6wta8tsu",
+                            "objOut": "e1nce3hto"
+                        }
+                    ]
+                },
+                {
+                    "name": "Array Length",
+                    "value": 128
+                },
+                {
+                    "name": "Average Volume",
+                    "value": 0
+                },
+                {
+                    "name": "Average Volume Time-Domain",
+                    "value": 0.49609375
+                },
+                {
+                    "name": "RMS Volume",
+                    "value": 0.49609375
+                }
+            ]
+        },
+        {
+            "opId": "37b92ba4-cea5-42ae-bf28-a513ca28549c",
+            "id": "wfj2ugs0k",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 897.8076622134055
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Render Mesh",
+                    "value": 1
+                },
+                {
+                    "name": "Width",
+                    "value": 1
+                },
+                {
+                    "name": "Length",
+                    "value": 1
+                },
+                {
+                    "name": "Height",
+                    "value": 1
+                },
+                {
+                    "name": "Center",
+                    "value": 1
+                },
+                {
+                    "name": "Mapping index",
+                    "value": 0
+                },
+                {
+                    "name": "Mapping",
+                    "value": "Side"
+                },
+                {
+                    "name": "Bias",
+                    "value": 0
+                },
+                {
+                    "name": "Flip X",
+                    "value": 1
+                },
+                {
+                    "name": "Top",
+                    "value": 1
+                },
+                {
+                    "name": "Bottom",
+                    "value": 1
+                },
+                {
+                    "name": "Left",
+                    "value": 1
+                },
+                {
+                    "name": "Right",
+                    "value": 1
+                },
+                {
+                    "name": "Front",
+                    "value": 1
+                },
+                {
+                    "name": "Back",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "3996ed5d-8143-4bec-9cfd-c1b193a295af",
+            "id": "w3uzfhnl6",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 677.8076622134055
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Enable depth testing",
+                    "value": 1
+                },
+                {
+                    "name": "Depth Test Method index",
+                    "value": 3
+                },
+                {
+                    "name": "Depth Test Method",
+                    "value": "less or equal"
+                },
+                {
+                    "name": "Write to depth buffer",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "Next",
+                            "objIn": "qcdvfd5hj",
+                            "objOut": "w3uzfhnl6"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "9e8a4b73-4ba7-4c4f-b266-81c5f9db9b7a",
+            "id": "qcdvfd5hj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 737.8076622134055
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "99sxqt0dq",
+                            "objOut": "qcdvfd5hj"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "650baeb1-db2d-4781-9af6-ab4e9d4277be",
+            "id": "c519u197a",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 477.8076622134055
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "posY",
+                    "value": -0.1
+                },
+                {
+                    "name": "posZ",
+                    "value": 0
+                },
+                {
+                    "name": "scale",
+                    "value": 0.1
+                },
+                {
+                    "name": "rotX",
+                    "value": 0
+                },
+                {
+                    "name": "rotY",
+                    "value": 0
+                },
+                {
+                    "name": "rotZ",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "t729e8elc",
+                            "objOut": "c519u197a"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "50e7f565-0cdb-47ca-912b-87c04e2f00e3",
+            "id": "t729e8elc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 62.95677593366844,
+                    "y": 557.8076622134055
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "scale",
+                    "value": 1
+                },
+                {
+                    "name": "x",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "k9kz3ymj2",
+                            "objOut": "t729e8elc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e2a3c4b5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+            "id": "x5yu7ud37",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -321.6409976329464,
+                    "y": -302.5968528576857
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Volume",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Audio Node",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Audio Node",
+                            "objIn": "9whbr5tww",
+                            "objOut": "x5yu7ud37"
+                        },
+                        {
+                            "portIn": "Audio In",
+                            "portOut": "Audio Node",
+                            "objIn": "e1nce3hto",
+                            "objOut": "x5yu7ud37"
+                        }
+                    ]
+                },
+                {
+                    "name": "Permission Status",
+                    "value": "granted"
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a47dd1fb8988e6983c6e155",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1783094559381
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 670,
+            "h": 377,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -19.426909861942832,
+                "y": 166.47663543857118,
+                "z": 1195.2353869026615
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "BlankPatch"
+    },
+    "opsHash": "28b2765202999cc7a535ef6aeaff332c89221b5b",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1777512526532,
+            "created": "2026-04-30T01:28:46.532Z",
+            "git": {
+                "branch": "develop",
+                "commit": "db53c3e811af6d141da6584ec3ca94aeb6392246",
+                "date": "1777480946",
+                "message": "gltf parse"
+            }
+        },
+        "ui": {
+            "timestamp": 1777512532169,
+            "created": "2026-04-30T01:28:52.169Z",
+            "git": {
+                "branch": "develop",
+                "commit": "45ce300547134b86a592a65d9ce08c50d359a46f",
+                "date": "1777401508",
+                "message": "cm update"
+            }
+        },
+        "api": {
+            "timestamp": 1781649664137,
+            "created": "2026-06-16T22:41:04.137Z",
+            "git": {
+                "branch": "main",
+                "commit": "cd54ebcbc8bc17976a8a93943c388231aa0fefe7",
+                "date": "1780253941",
+                "message": "Add macOS privacy usage description keys to package.json extendInfo"
+            },
+            "platform": {
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            }
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEoBJREFUeF7t1kERACAMA0FqBgX4twYz2Litg2z6yKx97nIECBAgQIAAAQIZgTEAM10LSoAAAQIECBD4AgagRyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQeLVE5qBXh5bvAAAAAElFTkSuQmCC",
+    "exports": 2
+}
