@@ -1,0 +1,80 @@
+{
+    "id": "e2a3c4b5-6a7b-8c9d-0e1f-2a3b4c5d6e81",
+    "authorName": "Uuoocl",
+    "created": 1783335964000,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Strudel Code"
+            },
+            {
+                "type": 1,
+                "name": "Play"
+            },
+            {
+                "type": 1,
+                "name": "Stop"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Default Samples",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Audio Node"
+            }
+        ]
+    },
+    "summary": "Evaluate and run Strudel live coding patterns using ES Modules in Cables GL, outputting to a Web Audio GainNode",
+    "docs": {
+        "ports": [
+            {
+                "name": "Play",
+                "text": "Trigger to compile and evaluate the Strudel code pattern."
+            },
+            {
+                "name": "Stop",
+                "text": "Trigger to hush the Strudel engine and stop all audio playback."
+            },
+            {
+                "name": "Strudel Code",
+                "text": "The Strudel live coding code string."
+            },
+            {
+                "name": "Volume",
+                "text": "Gain multiplier applied to the output Audio Node."
+            },
+            {
+                "name": "Default Samples",
+                "text": "When true, automatically registers and loads standard dirt-samples from Tidal's GitHub."
+            },
+            {
+                "name": "Audio Node",
+                "text": "The Web Audio API GainNode outputting the generated stereo Strudel audio."
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl",
+        "webaudio"
+    ],
+    "changelog": [
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "Uuoocl",
+            "date": 1783335964000
+        }
+    ],
+    "license": "MIT",
+    "isReleased": true
+}

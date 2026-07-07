@@ -1,0 +1,72 @@
+{
+    "id": "a3b2c1d0-1f2e-3d4c-5b6a-7c8d9e0f1a23",
+    "authorName": "Antigravity",
+    "created": 1783336200000,
+    "summary": "Fetches and runs Reveal.js slides from a URL, outputting the DOM container element and supporting interactive page controls.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Fetch URL"
+            },
+            {
+                "type": 5,
+                "name": "Base URL"
+            },
+            {
+                "type": 0,
+                "name": "Theme index",
+                "values": [
+                    "black",
+                    "white",
+                    "league",
+                    "beige",
+                    "sky",
+                    "night",
+                    "serif",
+                    "simple",
+                    "solarized",
+                    "blood",
+                    "moon"
+                ],
+                "group": "Settings",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Next Slide",
+                "group": "Navigation"
+            },
+            {
+                "type": 1,
+                "name": "Prev Slide",
+                "group": "Navigation"
+            },
+            {
+                "type": 0,
+                "name": "Slide Index",
+                "group": "Navigation",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Element"
+            },
+            {
+                "type": 0,
+                "name": "Current Slide",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}
