@@ -1,0 +1,77 @@
+{
+    "id": "e9c15d48-831d-403d-bc67-c25e839e944d",
+    "authorName": "Antigravity",
+    "created": 1783353600000,
+    "summary": "Transcribes speech in real-time from the microphone using standard Web Speech API or Chrome's experimental On-Device speech recognition API.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Audio In"
+            },
+            {
+                "type": 5,
+                "name": "Language"
+            },
+            {
+                "type": 0,
+                "name": "Continuous",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Interim Results",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "Phrases"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Start"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Text"
+            },
+            {
+                "type": 5,
+                "name": "Interim Text"
+            },
+            {
+                "type": 0,
+                "name": "Confidence"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 1,
+                "name": "New Result"
+            },
+            {
+                "type": 0,
+                "name": "Listening Status",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Supported",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

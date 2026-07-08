@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevealSlides Runner Window</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="reveal-iframe" src="about:blank"></iframe>
+
+    <script>
+        // Use var for top-level variables to allow safe redeclaration on popup reuse
+        var bc = null;
+        var channelName = null;
+
+        // Config placeholders - will be replaced dynamically by the parent window upon open
+        var bcName = 'reveal-sync';
+        var slideUrl = '';
+        var initialCss = 'width: 100%; height: 100%; border: none;';
+
+        function setupBroadcastChannel(name) {
+            if (bc) {
+                bc.close();
+            }
+            channelName = name;
+            bc = new BroadcastChannel(channelName);
+
+            bc.onmessage = (event) => {
+                const data = event.data;
+                if (!data) return;
+
+                if (data.type === 'next') {
+                    sendToIframe({ method: 'next' });
+                } else if (data.type === 'prev') {
+                    sendToIframe({ method: 'prev' });
+                } else if (data.type === 'slide') {
+                    sendToIframe({
+                        method: 'slide',
+                        args: [data.indexh ?? 0, data.indexv ?? 0, data.indexf ?? 0]
+                    });
+                } else if (data.type === 'css') {
+                    applyCss(data.css);
+                }
+            };
+
+            // Notify parent window that the runner is ready
+            bc.postMessage({ type: 'ready' });
+        }
+
+        function sendToIframe(msg) {
+            const iframeEl = document.getElementById('reveal-iframe');
+            if (iframeEl && iframeEl.contentWindow) {
+                iframeEl.contentWindow.postMessage(JSON.stringify(msg), '*');
+            }
+        }
+
+        function applyCss(cssString) {
+            const iframeEl = document.getElementById('reveal-iframe');
+            if (iframeEl && cssString) {
+                iframeEl.style.cssText = cssString;
+            }
+        }
+
+        function init() {
+            // Apply initial CSS
+            applyCss(initialCss);
+
+            // Ensure URL contains postMessageEvents=true
+            var url = slideUrl || '';
+            if (url) {
+                try {
+                    const parsedUrl = new URL(url, window.location.href);
+                    if (parsedUrl.searchParams.get("postMessageEvents") !== "true") {
+                        parsedUrl.searchParams.set("postMessageEvents", "true");
+                    }
+                    url = parsedUrl.href;
+                } catch(e) {
+                    if (!url.includes("postMessageEvents=true")) {
+                        url += (url.includes("?") ? "&" : "?") + "postMessageEvents=true";
+                    }
+                }
+            }
+
+            const iframeEl = document.getElementById('reveal-iframe');
+            if (iframeEl) {
+                iframeEl.src = url;
+            }
+
+            // Setup Broadcast Channel
+            setupBroadcastChannel(bcName);
+        }
+
+        // Listen for postMessage events from the embedded reveal iframe
+        window.addEventListener('message', (event) => {
+            const iframeEl = document.getElementById('reveal-iframe');
+            if (!iframeEl || event.source !== iframeEl.contentWindow) return;
+
+            try {
+                const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+                if (!data || data.namespace !== 'reveal') return;
+
+                // Handle slide changed and fragment events
+                if (data.eventName === 'slidechanged' || data.eventName === 'ready' || data.eventName === 'fragmentshown' || data.eventName === 'fragmenthidden') {
+                    const state = data.state || {};
+                    let attrs = {};
+                    let notes = "";
+
+                    // If same-origin, we can extract attributes and notes directly
+                    try {
+                        if (iframeEl.contentWindow.Reveal) {
+                            const currentSlide = iframeEl.contentWindow.Reveal.getCurrentSlide();
+                            if (currentSlide) {
+                                for (let i = 0; i < currentSlide.attributes.length; i++) {
+                                    const attr = currentSlide.attributes[i];
+                                    attrs[attr.name] = attr.value;
+                                }
+                            }
+                            notes = iframeEl.contentWindow.Reveal.getSlideNotes() || "";
+                        }
+                    } catch (e) {
+                        // Cross-origin: Request them via postMessage callbacks
+                        sendToIframe({ method: 'getCurrentSlide' });
+                        sendToIframe({ method: 'getSlideNotes' });
+                    }
+
+                    if (bc) {
+                        bc.postMessage({
+                            type: 'slidechanged',
+                            indexh: state.indexh ?? 0,
+                            indexv: state.indexv ?? 0,
+                            indexf: state.indexf ?? 0,
+                            attributes: attrs,
+                            notes: notes
+                        });
+                    }
+                } else if (data.eventName === 'callback') {
+                    // Forward cross-origin callback data back to Cables
+                    if (bc) {
+                        if (data.method === 'getCurrentSlide' || data.method === 'Reveal.getCurrentSlide();') {
+                            bc.postMessage({
+                                type: 'attributes',
+                                attributes: data.result
+                            });
+                        } else if (data.method === 'getSlideNotes' || data.method === 'Reveal.getSlideNotes();') {
+                            bc.postMessage({
+                                type: 'notes',
+                                notes: data.result
+                            });
+                        }
+                    }
+                }
+            } catch (e) {
+                // Not JSON or other error
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

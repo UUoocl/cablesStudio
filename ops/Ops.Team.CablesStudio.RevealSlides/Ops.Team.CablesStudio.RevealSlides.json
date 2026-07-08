@@ -1,0 +1,112 @@
+{
+    "id": "7c458a2d-3b8c-4f1e-9e7d-b6a82d0c1592",
+    "authorName": "Antigravity",
+    "created": 1783353600000,
+    "summary": "Acts as a remote controller/receiver for an iframe-embedded Reveal.js presentation running in a child window, communicating via BroadcastChannel.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "URL"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 5,
+                "name": "IFrame CSS"
+            },
+            {
+                "type": 5,
+                "name": "Window Name"
+            },
+            {
+                "type": 0,
+                "name": "Window Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Height",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window X",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Y",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Open Child Window"
+            },
+            {
+                "type": 1,
+                "name": "Close Child Window"
+            },
+            {
+                "type": 1,
+                "name": "Next Slide"
+            },
+            {
+                "type": 1,
+                "name": "Prev Slide"
+            },
+            {
+                "type": 0,
+                "name": "Slide Index",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Open"
+            },
+            {
+                "type": 0,
+                "name": "Index H",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Index V",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Index F",
+                "subType": "integer"
+            },
+            {
+                "type": 2,
+                "name": "Indices"
+            },
+            {
+                "type": 2,
+                "name": "Attributes"
+            },
+            {
+                "type": 5,
+                "name": "Notes"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

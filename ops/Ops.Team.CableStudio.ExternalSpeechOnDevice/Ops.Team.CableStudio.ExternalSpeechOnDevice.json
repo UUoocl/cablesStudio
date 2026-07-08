@@ -1,0 +1,89 @@
+{
+    "id": "b3e5a2c1-842f-410a-ad3d-f2e7b12c5b73",
+    "authorName": "Antigravity",
+    "created": 1783353600000,
+    "summary": "Establishes a local WebRTC connection to a child window, streaming microphone audio input to it and receiving real-time speech transcription back over an RTCDataChannel.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Audio In"
+            },
+            {
+                "type": 5,
+                "name": "Language"
+            },
+            {
+                "type": 0,
+                "name": "Continuous",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Interim Results",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "Phrases"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Open Child"
+            },
+            {
+                "type": 1,
+                "name": "Close Child"
+            },
+            {
+                "type": 1,
+                "name": "Start"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Text"
+            },
+            {
+                "type": 5,
+                "name": "Interim Text"
+            },
+            {
+                "type": 0,
+                "name": "Confidence"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 1,
+                "name": "New Result"
+            },
+            {
+                "type": 0,
+                "name": "Listening Status",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Supported",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

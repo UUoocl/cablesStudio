@@ -1,0 +1,141 @@
+{
+    "id": "e2f1839c-ea01-4475-ab19-3db9128debc1",
+    "authorName": "Antigravity",
+    "created": 1783353600000,
+    "summary": "Captures desktop screen/window/tab inside a child window context via WebRTC streaming to bypass iframe permission blocks.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Update"
+            },
+            {
+                "type": 1,
+                "name": "Open Child",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Close Child",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Start Capture",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Stop Capture",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Capture Type index",
+                "values": [
+                    "Audio & Video",
+                    "Video Only",
+                    "Audio Only"
+                ],
+                "group": "Settings",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Display Surface index",
+                "values": [
+                    "Any",
+                    "Monitor",
+                    "Window",
+                    "Browser Tab"
+                ],
+                "group": "Settings",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "FPS",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "group": "Audio",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Texture",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Flip X",
+                "group": "Texture",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 2,
+                "name": "Audio Node"
+            },
+            {
+                "type": 0,
+                "name": "Is Capturing",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Texture Updated"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 5,
+                "name": "WebRTC Status"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl",
+        "webaudio"
+    ],
+    "license": "MIT",
+    "isReleased": true
+}
