@@ -2,14 +2,10 @@
     "id": "b3e5a2c1-842f-410a-ad3d-f2e7b12c5b73",
     "authorName": "Antigravity",
     "created": 1783353600000,
-    "summary": "Establishes a local WebRTC connection to a child window, streaming microphone audio input to it and receiving real-time speech transcription back over an RTCDataChannel.",
+    "summary": "Establishes a local speech transcription connection to a child window via BroadcastChannel, transcribing from local child microphone.",
     "category": "gl",
     "layout": {
         "portsIn": [
-            {
-                "type": 2,
-                "name": "Audio In"
-            },
             {
                 "type": 5,
                 "name": "Language"
@@ -44,6 +40,10 @@
             {
                 "type": 1,
                 "name": "Start"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
             }
         ],
         "portsOut": [

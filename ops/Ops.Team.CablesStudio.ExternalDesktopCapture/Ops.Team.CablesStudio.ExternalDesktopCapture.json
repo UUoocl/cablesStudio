@@ -93,6 +93,12 @@
                 "name": "Flip X",
                 "group": "Texture",
                 "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Show Child Preview",
+                "group": "Settings",
+                "subType": "boolean"
             }
         ],
         "portsOut": [

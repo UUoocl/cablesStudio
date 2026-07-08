@@ -16,6 +16,7 @@ const inFPS = op.inInt("FPS", 30);
 const inVolume = op.inFloat("Volume", 1.0);
 const inFlipY = op.inBool("Flip Y", true);
 const inFlipX = op.inBool("Flip X", false);
+const inShowChildPreview = op.inBool("Show Child Preview", true);
 
 // Define outputs
 const outNext = op.outTrigger("Next");
@@ -29,7 +30,7 @@ const outWebRTCStatus = op.outString("WebRTC Status", "disconnected");
 
 // Port groupings
 op.setPortGroup("Controls", [inOpenChild, inCloseChild, inStart, inStop, inChannelName]);
-op.setPortGroup("Settings", [inCaptureType, inDisplaySurface]);
+op.setPortGroup("Settings", [inCaptureType, inDisplaySurface, inShowChildPreview]);
 op.setPortGroup("Resolution", [inWidth, inHeight, inFPS]);
 op.setPortGroup("Audio", [inVolume]);
 op.setPortGroup("Texture", [inFlipY, inFlipX]);
@@ -43,6 +44,23 @@ let bcParent = null;
 let childWindow = null;
 let windowPollInterval = null;
 let isCapturing = false;
+
+// Parent video element for decoding the child stream locally
+const videoElement = document.createElement("video");
+videoElement.autoplay = true;
+videoElement.playsInline = true;
+videoElement.muted = true;
+videoElement.style.position = "absolute";
+videoElement.style.width = "16px";
+videoElement.style.height = "16px";
+videoElement.style.left = "-100px";
+videoElement.style.top = "-100px";
+videoElement.style.pointerEvents = "none";
+videoElement.style.opacity = "0.01";
+videoElement.style.overflow = "hidden";
+if (!videoElement.parentNode) {
+    document.body.appendChild(videoElement);
+}
 
 // Web Audio resources
 let audioCtx = null;
@@ -198,7 +216,8 @@ const templateHtml = `<!DOCTYPE html>
             displaySurface: "Any",
             width: 1280,
             height: 720,
-            fps: 30
+            fps: 30,
+            showChildPreview: true
         };
 
         function initChannel() {
@@ -216,8 +235,10 @@ const templateHtml = `<!DOCTYPE html>
                 document.getElementById('stop-btn').style.display = isCapturing ? 'inline-block' : 'none';
                 
                 var video = document.getElementById('runner-preview');
-                if (isCapturing) {
+                var wantPreview = window.captureConstraints.showChildPreview;
+                if (isCapturing && wantPreview) {
                     video.style.display = 'block';
+                    if (!video.srcObject) video.srcObject = captureStream;
                 } else {
                     video.style.display = 'none';
                     video.srcObject = null;
@@ -259,10 +280,6 @@ const templateHtml = `<!DOCTYPE html>
 
                 captureStream = await navigator.mediaDevices.getDisplayMedia(constraints);
                 
-                // Show locally in the child window preview
-                var video = document.getElementById('runner-preview');
-                video.srcObject = captureStream;
-
                 var track = captureStream.getVideoTracks()[0];
                 var settings = track ? track.getSettings() : null;
                 var resStr = settings ? (settings.width + "x" + settings.height + " @ " + Math.round(settings.frameRate || 30) + "fps") : "Active";
@@ -303,6 +320,9 @@ const templateHtml = `<!DOCTYPE html>
                 bcChild.postMessage(msg);
             }
         }
+
+        // Expose updateStatus so opener can trigger changes dynamically
+        window.updateStatus = updateStatus;
 
         document.getElementById('capture-btn').onclick = startScreenCapture;
         document.getElementById('stop-btn').onclick = stopScreenCapture;
@@ -345,6 +365,8 @@ function cleanGPU() {
         try { gainNode.disconnect(); } catch(e) {}
         gainNode = null;
     }
+    videoElement.pause();
+    videoElement.srcObject = null;
 }
 
 function initBroadcastChannel() {
@@ -364,6 +386,16 @@ function initBroadcastChannel() {
                 outIsCapturing.set(true);
                 outWebRTCStatus.set("Direct GPU Sharing (Active)");
                 
+                // Set up local video playback for WebGL upload
+                if (childWindow && !childWindow.closed && childWindow.captureStream) {
+                    videoElement.srcObject = childWindow.captureStream;
+                    videoElement.play().catch((err) => {
+                        if (err.name !== "AbortError") {
+                            op.logWarn("[ExternalDesktopCapture] Playback failed:", err.message);
+                        }
+                    });
+                }
+
                 // Initialize audio directly if audio tracks exist
                 setupParentAudio();
             } else if (data.value === 'stopped') {
@@ -475,7 +507,8 @@ inOpenChild.onTriggered = () => {
         displaySurface: getDisplaySurfaceString(),
         width: inWidth.get(),
         height: inHeight.get(),
-        fps: inFPS.get()
+        fps: inFPS.get(),
+        showChildPreview: inShowChildPreview.get()
     };
 
     clearInterval(windowPollInterval);
@@ -506,7 +539,8 @@ inStart.onTriggered = () => {
             displaySurface: getDisplaySurfaceString(),
             width: inWidth.get(),
             height: inHeight.get(),
-            fps: inFPS.get()
+            fps: inFPS.get(),
+            showChildPreview: inShowChildPreview.get()
         };
         try {
             childWindow.startScreenCapture();
@@ -530,52 +564,49 @@ inStop.onTriggered = () => {
 inUpdate.onTriggered = () => {
     outNext.trigger();
 
-    if (!isCapturing || !childWindow || childWindow.closed) return;
+    if (!isCapturing) return;
 
     const capType = getCaptureTypeString();
     const wantVideo = capType === "Audio & Video" || capType === "Video Only";
 
-    if (wantVideo) {
-        const video = childWindow.document.getElementById('runner-preview');
-        if (video && video.readyState >= 2) { // HAVE_CURRENT_DATA
-            const w = video.videoWidth;
-            const h = video.videoHeight;
+    if (wantVideo && videoElement.readyState >= 2) { // HAVE_CURRENT_DATA
+        const w = videoElement.videoWidth;
+        const h = videoElement.videoHeight;
 
-            if (w <= 0 || h <= 0) return;
+        if (w <= 0 || h <= 0) return;
 
-            if (!tex) {
-                tex = new CGL.Texture(cgl, {
-                    filter: CGL.Texture.FILTER_LINEAR,
-                    wrap: CGL.Texture.WRAP_CLAMP_TO_EDGE
-                });
-            }
-
-            if (tex.width !== w || tex.height !== h) {
-                tex.setSize(w, h);
-            }
-
-            const source = getFrameSource(video);
-
-            const gl = cgl.gl;
-            gl.bindTexture(gl.TEXTURE_2D, tex.tex);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, inFlipY.get());
-            
-            gl.texImage2D(
-                gl.TEXTURE_2D,
-                0,
-                gl.RGBA,
-                gl.RGBA,
-                gl.UNSIGNED_BYTE,
-                source
-            );
-
-            if (inFlipY.get()) {
-                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-            }
-
-            outTexture.setRef(tex);
-            outTextureUpdated.trigger();
+        if (!tex) {
+            tex = new CGL.Texture(cgl, {
+                filter: CGL.Texture.FILTER_LINEAR,
+                wrap: CGL.Texture.WRAP_CLAMP_TO_EDGE
+            });
         }
+
+        if (tex.width !== w || tex.height !== h) {
+            tex.setSize(w, h);
+        }
+
+        const source = getFrameSource(videoElement);
+
+        const gl = cgl.gl;
+        gl.bindTexture(gl.TEXTURE_2D, tex.tex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, inFlipY.get());
+        
+        gl.texImage2D(
+            gl.TEXTURE_2D,
+            0,
+            gl.RGBA,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            source
+        );
+
+        if (inFlipY.get()) {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        }
+
+        outTexture.setRef(tex);
+        outTextureUpdated.trigger();
     }
 };
 
@@ -583,6 +614,16 @@ inVolume.onChange = () => {
     if (gainNode && gainNode.gain) {
         const time = audioCtx ? audioCtx.currentTime : 0;
         gainNode.gain.setValueAtTime(inVolume.get(), time);
+    }
+};
+
+inShowChildPreview.onChange = () => {
+    if (childWindow && !childWindow.closed) {
+        childWindow.captureConstraints.showChildPreview = inShowChildPreview.get();
+        if (childWindow.updateStatus && childWindow.captureStream) {
+            // Re-apply preview visibility immediately
+            childWindow.updateStatus(null, null, true);
+        }
     }
 };
 
@@ -603,6 +644,7 @@ op.onDelete = () => {
         tex.delete();
         tex = null;
     }
+    videoElement.remove();
 };
 
 // Auto-start BroadcastChannel listener on op load

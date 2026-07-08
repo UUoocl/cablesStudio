@@ -22,10 +22,11 @@ const outSupported = op.outBool("Supported", false);
 op.setPortGroup("Settings", [inAudioIn, inLanguage, inContinuous, inInterim, inPhrases, inActive]);
 op.setPortGroup("Controls", [inStart]);
 
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+// Enforce Chrome's prefixed webkitSpeechRecognition strictly to target the Chrome On-Device Speech API
+const SpeechRecognition = window.webkitSpeechRecognition;
+const SpeechGrammarList = window.webkitSpeechGrammarList;
 
-outSupported.set(!!SpeechRecognition);
+outSupported.set(!!SpeechRecognition && !!SpeechRecognition.available);
 
 let recognition = null;
 let isListening = false;
@@ -41,7 +42,13 @@ function initRecognition() {
     }
 
     if (!SpeechRecognition) {
-        outStatus.set("Error: SpeechRecognition API not supported.");
+        outStatus.set("Error: Chrome webkitSpeechRecognition API not supported.");
+        outSupported.set(false);
+        return;
+    }
+
+    if (!SpeechRecognition.available) {
+        outStatus.set("Error: Chrome On-Device Speech API is not available.");
         outSupported.set(false);
         return;
     }
@@ -50,10 +57,9 @@ function initRecognition() {
     recognition.continuous = inContinuous.get();
     recognition.interimResults = inInterim.get();
     recognition.lang = inLanguage.get() || "en-US";
-
-    if (recognition.processLocally !== undefined) {
-        recognition.processLocally = true;
-    }
+    
+    // Explicitly configure local processing with no cloud fallback
+    recognition.processLocally = true;
 
     // Set grammar list if phrases are provided
     if (SpeechGrammarList) {
@@ -69,7 +75,7 @@ function initRecognition() {
     recognition.onstart = () => {
         isListening = true;
         outListening.set(true);
-        outStatus.set("Listening...");
+        outStatus.set("Listening (On-Device)...");
     };
 
     recognition.onresult = (event) => {
@@ -101,10 +107,6 @@ function initRecognition() {
     recognition.onerror = (event) => {
         if (event.error === 'no-speech' || event.error === 'aborted') return;
         outStatus.set("Error: " + event.error);
-
-        if (event.error === 'network' && SpeechRecognition.available) {
-            outStatus.set("Error: network (Chrome on-device processing failed. Check chrome://settings/accessibility)");
-        }
     };
 
     recognition.onend = () => {
@@ -139,7 +141,7 @@ async function startListening() {
                 if (result === "available") {
                     tryStart();
                 } else if (result === "unavailable") {
-                    outStatus.set(`Language pack ${recognition.lang} not available.`);
+                    outStatus.set(`Language pack ${recognition.lang} not available locally.`);
                 } else {
                     outStatus.set("Language pack download required. Installing...");
                     const success = await SpeechRecognition.install({ langs: [recognition.lang], processLocally: true });
@@ -150,10 +152,10 @@ async function startListening() {
                     }
                 }
             } catch (e) {
-                tryStart();
+                outStatus.set("Error checking local availability: " + e.message);
             }
         } else {
-            tryStart();
+            outStatus.set("Error: Chrome On-Device Speech API not available.");
         }
     }
 }
