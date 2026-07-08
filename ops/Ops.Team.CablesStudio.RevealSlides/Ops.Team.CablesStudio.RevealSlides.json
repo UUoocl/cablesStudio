@@ -62,6 +62,10 @@
                 "type": 0,
                 "name": "Slide Index",
                 "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Create Deck Index"
             }
         ],
         "portsOut": [
@@ -103,6 +107,14 @@
             {
                 "type": 5,
                 "name": "Error"
+            },
+            {
+                "type": 2,
+                "name": "All Indices"
+            },
+            {
+                "type": 1,
+                "name": "On Indexed"
             }
         ]
     },

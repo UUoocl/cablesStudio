@@ -15,6 +15,7 @@ const inClose = op.inTriggerButton("Close Child Window");
 const inNextSlide = op.inTriggerButton("Next Slide");
 const inPrevSlide = op.inTriggerButton("Prev Slide");
 const inSlideIndex = op.inInt("Slide Index", 0);
+const inCreateIndex = op.inTriggerButton("Create Deck Index");
 
 // Define outputs
 const outOnOpen = op.outTrigger("On Open");
@@ -26,13 +27,96 @@ const outAttributes = op.outObject("Attributes", null);
 const outNotes = op.outString("Notes", "");
 const outWindowStatus = op.outString("Window Status", "closed");
 const outError = op.outString("Error", "");
+const outAllIndices = op.outObject("All Indices", null);
+const outOnIndexed = op.outTrigger("On Indexed");
 
 // Port groupings
 op.setPortGroup("Settings", [inUrl, inChannelName, inCss, inWinName, inWinWidth, inWinHeight, inWinX, inWinY]);
-op.setPortGroup("Controls", [inOpen, inClose, inNextSlide, inPrevSlide, inSlideIndex]);
+op.setPortGroup("Controls", [inOpen, inClose, inNextSlide, inPrevSlide, inSlideIndex, inCreateIndex]);
 
 let bc = null;
 let childWindow = null;
+
+let isIndexing = false;
+let initialIndices = null;
+let slideMap = {};
+let nextTimeout = null;
+let lastState = null;
+
+function resetIndexingState() {
+    isIndexing = false;
+    initialIndices = null;
+    slideMap = {};
+    if (nextTimeout) {
+        clearTimeout(nextTimeout);
+        nextTimeout = null;
+    }
+}
+
+function scheduleNextStepTimeout() {
+    if (nextTimeout) {
+        clearTimeout(nextTimeout);
+    }
+    nextTimeout = setTimeout(() => {
+        finishIndexing();
+    }, 150);
+}
+
+function processCurrentIndexingState(data) {
+    if (!isIndexing) return;
+
+    if (nextTimeout) {
+        clearTimeout(nextTimeout);
+        nextTimeout = null;
+    }
+
+    const h = data.indexh ?? 0;
+    const v = data.indexv ?? 0;
+    const f = data.indexf;
+
+    let key;
+    if (f !== undefined && f !== null && f !== -1) {
+        key = `${h},${v},${f}`;
+    } else if (f === -1) {
+        key = `${h},${v},-1`;
+    } else {
+        key = `${h},${v}`;
+    }
+
+    if (slideMap[key]) {
+        finishIndexing();
+        return;
+    }
+
+    const slideData = { "scene": "" };
+    if (data.attributes && data.attributes["data-id"]) {
+        slideData["data-id"] = data.attributes["data-id"];
+    }
+    slideMap[key] = slideData;
+
+    sendCmd({ type: 'next' });
+    scheduleNextStepTimeout();
+}
+
+function finishIndexing() {
+    if (nextTimeout) {
+        clearTimeout(nextTimeout);
+        nextTimeout = null;
+    }
+    isIndexing = false;
+
+    if (initialIndices) {
+        sendCmd({
+            type: 'slide',
+            indexh: initialIndices.indexh,
+            indexv: initialIndices.indexv,
+            indexf: initialIndices.indexf
+        });
+    }
+
+    outAllIndices.set(slideMap);
+    outOnIndexed.trigger();
+}
 
 // Embedded template.html runner source code
 const templateHtml = `<!DOCTYPE html>
@@ -181,7 +265,7 @@ const templateHtml = `<!DOCTYPE html>
                             type: 'slidechanged',
                             indexh: state.indexh ?? 0,
                             indexv: state.indexv ?? 0,
-                            indexf: state.indexf ?? 0,
+                            indexf: state.indexf,
                             attributes: attrs,
                             notes: notes
                         });
@@ -253,6 +337,7 @@ inWinName.onChange = () => {
 };
 
 function initBroadcastChannel() {
+    resetIndexingState();
     if (bc) {
         bc.close();
         bc = null;
@@ -267,10 +352,16 @@ function initBroadcastChannel() {
         if (!data) return;
 
         if (data.type === 'ready') {
+            resetIndexingState();
             // Send initial setup values to runner
             sendCmd({ type: 'css', css: inCss.get() });
             sendCmd({ type: 'slide', indexh: inSlideIndex.get() });
         } else if (data.type === 'slidechanged') {
+            if (isIndexing) {
+                processCurrentIndexingState(data);
+                return;
+            }
+            lastState = data;
             outIndexH.set(data.indexh ?? 0);
             outIndexV.set(data.indexv ?? 0);
             outIndexF.set(data.indexf ?? 0);
@@ -286,8 +377,10 @@ function initBroadcastChannel() {
                 outNotes.set(data.notes);
             }
         } else if (data.type === 'attributes') {
+            if (isIndexing) return;
             outAttributes.set(data.attributes);
         } else if (data.type === 'notes') {
+            if (isIndexing) return;
             outNotes.set(data.notes);
         }
     };
@@ -314,7 +407,38 @@ inSlideIndex.onChange = () => {
     });
 };
 
+inCreateIndex.onTriggered = () => {
+    if (childWindow && !childWindow.closed && !isIndexing) {
+        isIndexing = true;
+        initialIndices = lastState ? {
+            indexh: lastState.indexh ?? 0,
+            indexv: lastState.indexv ?? 0,
+            indexf: lastState.indexf
+        } : {
+            indexh: outIndexH.get() ?? 0,
+            indexv: outIndexV.get() ?? 0,
+            indexf: undefined
+        };
+        slideMap = {};
+
+        // If we are already at slide 0,0, start processing immediately
+        if (initialIndices.indexh === 0 && initialIndices.indexv === 0) {
+            const dataToProcess = lastState || { indexh: 0, indexv: 0, indexf: initialIndices.indexf };
+            processCurrentIndexingState(dataToProcess);
+        } else {
+            sendCmd({
+                type: 'slide',
+                indexh: 0,
+                indexv: 0,
+                indexf: -1
+            });
+            scheduleNextStepTimeout();
+        }
+    }
+};
+
 inOpen.onTriggered = () => {
+    resetIndexingState();
     if (childWindow && !childWindow.closed) {
         childWindow.focus();
         return;
@@ -365,6 +489,7 @@ inOpen.onTriggered = () => {
 };
 
 inClose.onTriggered = () => {
+    resetIndexingState();
     if (childWindow) {
         childWindow.close();
         childWindow = null;
@@ -376,6 +501,7 @@ inClose.onTriggered = () => {
 initBroadcastChannel();
 
 op.onDelete = () => {
+    resetIndexingState();
     if (bc) {
         bc.close();
     }
