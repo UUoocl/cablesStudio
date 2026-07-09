@@ -1,0 +1,95 @@
+{
+    "id": "2d8cff00-9ce2-4752-b883-fa4c0e6205dc",
+    "authorName": "Antigravity",
+    "created": 1783598400000,
+    "summary": "Opens a Zoom meeting inside a child window and captures speaker updates, chat messages, mute, video, and participant states using a pasteable MutationObserver console injection script.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 5,
+                "name": "Zoom Meeting URL"
+            },
+            {
+                "type": 5,
+                "name": "Meeting ID"
+            },
+            {
+                "type": 5,
+                "name": "Meeting Password"
+            },
+            {
+                "type": 5,
+                "name": "User Name"
+            },
+            {
+                "type": 1,
+                "name": "Open Child Window"
+            },
+            {
+                "type": 1,
+                "name": "Close Child Window"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Open"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 5,
+                "name": "Active Speaker"
+            },
+            {
+                "type": 0,
+                "name": "Muted",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Video Off",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Participants Count",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "Last Chat Sender"
+            },
+            {
+                "type": 5,
+                "name": "Last Chat Message"
+            },
+            {
+                "type": 1,
+                "name": "On Chat Message"
+            },
+            {
+                "type": 5,
+                "name": "Connection Status"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            },
+            {
+                "type": 5,
+                "name": "Injector Code"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

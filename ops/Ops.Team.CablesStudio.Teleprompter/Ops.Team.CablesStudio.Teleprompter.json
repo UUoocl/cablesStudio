@@ -68,6 +68,15 @@
                 "subType": "boolean"
             },
             {
+                "type": 0,
+                "name": "Focus View",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Reset"
+            },
+            {
                 "type": 5,
                 "name": "Foreground Color"
             },
@@ -124,6 +133,52 @@
             {
                 "type": 1,
                 "name": "On Previous"
+            },
+            {
+                "type": 1,
+                "name": "On Reset"
+            },
+            {
+                "type": 0,
+                "name": "Play Out",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Autoplay Out",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Speed Out"
+            },
+            {
+                "type": 0,
+                "name": "Font Size Out",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Flip X Out",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y Out",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Foreground Color Out"
+            },
+            {
+                "type": 5,
+                "name": "Background Color Out"
+            },
+            {
+                "type": 0,
+                "name": "Focus View Out",
+                "subType": "boolean"
             },
             {
                 "type": 5,

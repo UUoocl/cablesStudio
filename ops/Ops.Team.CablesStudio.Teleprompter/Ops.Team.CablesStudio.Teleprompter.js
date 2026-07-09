@@ -8,6 +8,7 @@ const inAutoplay = op.inBool("Autoplay", false);
 
 const inOpen = op.inTriggerButton("Open Child Window");
 const inClose = op.inTriggerButton("Close Child Window");
+const inReset = op.inTriggerButton("Reset");
 
 const inSpeed = op.inFloat("Speed", 20);
 const inSpeedUp = op.inTriggerButton("Speed Up");
@@ -19,6 +20,7 @@ const inFontSmaller = op.inTriggerButton("Font Smaller");
 
 const inFlipX = op.inBool("Flip X", false);
 const inFlipY = op.inBool("Flip Y", false);
+const inFocusView = op.inBool("Focus View", false);
 
 const inTextColor = op.inString("Foreground Color", "#ffffff");
 const inBkgdColor = op.inString("Background Color", "#141414");
@@ -36,14 +38,25 @@ const outOnPlay = op.outTrigger("On Play");
 const outOnPause = op.outTrigger("On Pause");
 const outOnNext = op.outTrigger("On Next");
 const outOnPrev = op.outTrigger("On Previous");
+const outOnReset = op.outTrigger("On Reset");
+const outPlay = op.outBool("Play Out", false);
+const outAutoplay = op.outBool("Autoplay Out", false);
+const outSpeed = op.outNumber("Speed Out", 20);
+const outFontSize = op.outNumber("Font Size Out", 60);
+const outFlipX = op.outBool("Flip X Out", false);
+const outFlipY = op.outBool("Flip Y Out", false);
+const outTextColor = op.outString("Foreground Color Out", "#ffffff");
+const outBkgdColor = op.outString("Background Color Out", "#141414");
+const outFocusView = op.outBool("Focus View Out", false);
 const outError = op.outString("Error", "");
 
 // Port groupings
 op.setPortGroup("Settings", [inChannelName, inTextColor, inBkgdColor, inWinName, inWinWidth, inWinHeight, inWinX, inWinY]);
-op.setPortGroup("Controls", [inOpen, inClose, inText, inPlay, inAutoplay, inSpeed, inSpeedUp, inSpeedDown, inFontSize, inFontBigger, inFontSmaller, inFlipX, inFlipY]);
+op.setPortGroup("Controls", [inOpen, inClose, inReset, inText, inPlay, inAutoplay, inSpeed, inSpeedUp, inSpeedDown, inFontSize, inFontBigger, inFontSmaller, inFlipX, inFlipY, inFocusView]);
 
 let bc = null;
 let childWindow = null;
+let lastSentText = null;
 
 // Embedded HTML template
 const templateHtml = `<!doctype html>
@@ -142,7 +155,6 @@ const templateHtml = `<!doctype html>
             height: 36px !important;
             min-height: 36px !important;
             max-height: 36px !important;
-            overflow: hidden !important;
         }
         .tp-metric-row {
             display: flex !important;
@@ -160,10 +172,9 @@ const templateHtml = `<!doctype html>
             height: 16px !important;
             min-height: 16px !important;
             max-height: 16px !important;
-            overflow: hidden !important;
         }
         .tp-metric-label {
-            width: 45px !important;
+            width: 70px !important;
             text-align: left !important;
             display: inline-block !important;
             flex-shrink: 0 !important;
@@ -329,6 +340,13 @@ const templateHtml = `<!doctype html>
             right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0));
         }
+        .tp-teleprompter pre,
+        .tp-teleprompter code {
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            word-break: break-all !important;
+            font-family: monospace !important;
+        }
     </style>
 </head>
 <body id="tp-gui">
@@ -341,12 +359,12 @@ const templateHtml = `<!doctype html>
             </div>
             <div class="tp-display-metrics">
                 <div class="tp-metric-row">
-                    <span class="tp-metric-label">Font:</span>
-                    <span class="tp-font-display-val">60</span>
+                    <span class="tp-metric-label">Font (<span class="tp-font-display-val">60</span>):</span>
+                    <input type="range" class="tp-font-slider tp-range-input" min="12" max="200" value="60">
                 </div>
                 <div class="tp-metric-row">
-                    <span class="tp-metric-label">Speed:</span>
-                    <span class="tp-speed-display-val">20</span>
+                    <span class="tp-metric-label">Speed (<span class="tp-speed-display-val">20</span>):</span>
+                    <input type="range" class="tp-speed-slider tp-range-input" min="-50" max="50" value="20">
                 </div>
             </div>
             <div class="tp-auto-scroll">
@@ -402,6 +420,8 @@ const templateHtml = `<!doctype html>
         var bc = null;
         var channelName = null;
         var bcName = 'teleprompter-sync';
+        var opId = 'teleprompter-op-id';
+        var currentRawText = '';
         
         var TelePrompter = (function() {
             var elm = {};
@@ -444,11 +464,13 @@ const templateHtml = `<!doctype html>
                     elm.buttonPrev = document.querySelector('.tp-btn.prev');
                     elm.buttonNext = document.querySelector('.tp-btn.next');
                     elm.fontSizeValue = document.querySelector('.tp-font-display-val');
+                    elm.fontSlider = document.querySelector('.tp-font-slider');
                     elm.header = document.querySelector('.tp-header');
                     elm.headerContent = document.querySelectorAll('.tp-header h1, .tp-header .tp-nav');
                     elm.marker = document.querySelector('.tp-marker');
                     elm.overlay = document.querySelector('.tp-overlay');
                     elm.speedValue = document.querySelector('.tp-speed-display-val');
+                    elm.speedSlider = document.querySelector('.tp-speed-slider');
                     elm.teleprompter = document.querySelector('.tp-teleprompter');
                     elm.textColor = document.getElementById('text-color');
                     elm.autoScroll = document.getElementById('auto-scroll');
@@ -462,8 +484,10 @@ const templateHtml = `<!doctype html>
                         buttonFlipY: !!elm.buttonFlipY,
                         buttonPlay: !!elm.buttonPlay,
                         fontSizeValue: !!elm.fontSizeValue,
+                        fontSlider: !!elm.fontSlider,
                         header: !!elm.header,
                         speedValue: !!elm.speedValue,
+                        speedSlider: !!elm.speedSlider,
                         teleprompter: !!elm.teleprompter,
                         textColor: !!elm.textColor,
                         autoScroll: !!elm.autoScroll
@@ -474,8 +498,8 @@ const templateHtml = `<!doctype html>
             }
 
             function bindEvents() {
-                elm.backgroundColor.addEventListener('change', handleBackgroundColor);
-                elm.textColor.addEventListener('change', handleTextColor);
+                elm.backgroundColor.addEventListener('input', handleBackgroundColor);
+                elm.textColor.addEventListener('input', handleTextColor);
                 elm.buttonDimControls.addEventListener('click', handleDim);
                 elm.buttonFlipX.addEventListener('click', handleFlipX);
                 elm.buttonFlipY.addEventListener('click', handleFlipY);
@@ -486,9 +510,21 @@ const templateHtml = `<!doctype html>
                 elm.buttonNext.addEventListener('click', function() { sendEvent('next'); });
 
                 elm.autoScroll.addEventListener('change', handleAutoScroll);
+                elm.fontSlider.addEventListener('input', handleFontSliderInput);
+                elm.speedSlider.addEventListener('input', handleSpeedSliderInput);
 
                 window.addEventListener('keydown', navigate);
                 window.addEventListener('resize', handleResize);
+            }
+
+            function handleFontSliderInput() {
+                config.fontSize = parseInt(elm.fontSlider.value, 10) || 60;
+                updateFontSize(true);
+            }
+
+            function handleSpeedSliderInput() {
+                config.pageSpeed = parseInt(elm.speedSlider.value, 10) || 0;
+                updateSpeed(true);
             }
 
             function initUI() {
@@ -516,11 +552,34 @@ const templateHtml = `<!doctype html>
                 sendState('textColor', config.textColor);
             }
 
+            function hexToRgb(hex) {
+                var shorthandRegex = /^#?([a-f0-9])([a-f0-9])([a-f0-9])$/i;
+                hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+                    return r + r + g + g + b + b;
+                });
+                var result = /^#?([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+            }
+
             function applyColorStyles() {
                 elm.article.style.backgroundColor = config.backgroundColor;
                 elm.body.style.backgroundColor = config.backgroundColor;
                 elm.teleprompter.style.backgroundColor = config.backgroundColor;
                 elm.teleprompter.style.color = config.textColor;
+
+                var rgb = hexToRgb(config.backgroundColor) || { r: 20, g: 20, b: 20 };
+                var topOverlay = elm.overlay ? elm.overlay.querySelector('.top') : null;
+                var bottomOverlay = elm.overlay ? elm.overlay.querySelector('.bottom') : null;
+                if (topOverlay) {
+                    topOverlay.style.background = 'linear-gradient(to bottom, rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0.85), rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0))';
+                }
+                if (bottomOverlay) {
+                    bottomOverlay.style.background = 'linear-gradient(to top, rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0.85), rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0))';
+                }
             }
 
             function handleAutoScroll() {
@@ -536,6 +595,7 @@ const templateHtml = `<!doctype html>
             function handleDim() {
                 config.dimControls = !config.dimControls;
                 updateDimUI();
+                sendState('focusView', config.dimControls);
             }
 
             function updateDimUI() {
@@ -586,6 +646,7 @@ const templateHtml = `<!doctype html>
             function updateFontSize(send = true) {
                 console.log("[Teleprompter] updateFontSize called. fontSize:", config.fontSize, "send:", send);
                 if (elm.fontSizeValue) elm.fontSizeValue.textContent = config.fontSize;
+                if (elm.fontSlider) elm.fontSlider.value = config.fontSize;
                 if (elm.teleprompter) {
                     elm.teleprompter.style.fontSize = config.fontSize + 'px';
                     elm.teleprompter.style.lineHeight = (config.fontSize * 1.4) + 'px';
@@ -598,6 +659,7 @@ const templateHtml = `<!doctype html>
             function updateSpeed(send = true) {
                 console.log("[Teleprompter] updateSpeed called. pageSpeed:", config.pageSpeed, "send:", send);
                 if (elm.speedValue) elm.speedValue.textContent = config.pageSpeed;
+                if (elm.speedSlider) elm.speedSlider.value = config.pageSpeed;
                 if (send) {
                     sendState('speed', config.pageSpeed);
                 }
@@ -652,6 +714,7 @@ const templateHtml = `<!doctype html>
                 } else {
                     elm.article.scrollTo({ top: targetTop, behavior: 'smooth' });
                 }
+                sendEvent('reset');
             }
 
             function pageScroll(timestamp) {
@@ -744,6 +807,8 @@ const templateHtml = `<!doctype html>
                 if (elm.backgroundColor) elm.backgroundColor.value = config.backgroundColor;
                 if (elm.textColor) elm.textColor.value = config.textColor;
                 if (elm.autoScroll) elm.autoScroll.checked = config.autoScroll;
+                if (elm.fontSlider) elm.fontSlider.value = config.fontSize;
+                if (elm.speedSlider) elm.speedSlider.value = config.pageSpeed;
 
                 applyColorStyles();
                 updateFontSize(false);
@@ -753,20 +818,41 @@ const templateHtml = `<!doctype html>
             }
 
             function sendPlayState(playing) {
+                var payload = { type: 'playState', value: playing };
                 if (bc) {
-                    bc.postMessage({ type: 'playState', value: playing });
+                    try { bc.postMessage(payload); } catch(e) {}
+                }
+                if (window.onTeleprompterMessage) {
+                    try { window.onTeleprompterMessage(payload); return; } catch(e) {}
+                }
+                if (window.opener) {
+                    try { window.opener.postMessage({ type: 'teleprompterSync', opId: opId, payload: payload }, '*'); } catch(e) {}
                 }
             }
 
             function sendEvent(name) {
+                var payload = { type: 'event', eventName: name };
                 if (bc) {
-                    bc.postMessage({ type: 'event', eventName: name });
+                    try { bc.postMessage(payload); } catch(e) {}
+                }
+                if (window.onTeleprompterMessage) {
+                    try { window.onTeleprompterMessage(payload); return; } catch(e) {}
+                }
+                if (window.opener) {
+                    try { window.opener.postMessage({ type: 'teleprompterSync', opId: opId, payload: payload }, '*'); } catch(e) {}
                 }
             }
 
             function sendState(type, value) {
+                var payload = { type: type, value: value };
                 if (bc) {
-                    bc.postMessage({ type: type, value: value });
+                    try { bc.postMessage(payload); } catch(e) {}
+                }
+                if (window.onTeleprompterMessage) {
+                    try { window.onTeleprompterMessage(payload); return; } catch(e) {}
+                }
+                if (window.opener) {
+                    try { window.opener.postMessage({ type: 'teleprompterSync', opId: opId, payload: payload }, '*'); } catch(e) {}
                 }
             }
 
@@ -791,55 +877,150 @@ const templateHtml = `<!doctype html>
                 setTextColor: function(val) { config.textColor = val; applyColorStyles(); elm.textColor.value = val; },
                 setBackgroundColor: function(val) { config.backgroundColor = val; applyColorStyles(); elm.backgroundColor.value = val; },
                 setAutoScroll: function(val) { config.autoScroll = val; if (elm.autoScroll) elm.autoScroll.checked = val; },
+                setFocusView: function(val) { config.dimControls = val; updateDimUI(); },
                 cleanTeleprompter: cleanTeleprompter,
                 resetPageScroll: function(instant) { handleReset(instant); }
             };
         })();
 
+        function sanitizeInput(html) {
+            html = String(html || '');
+            if (!html) return '';
+            try {
+                var div = document.createElement('div');
+                div.innerHTML = html;
+                
+                var dangerousTags = ['script', 'style', 'iframe', 'frame', 'object', 'embed', 'link', 'meta'];
+                for (var i = 0; i < dangerousTags.length; i++) {
+                    var elements = div.getElementsByTagName(dangerousTags[i]);
+                    while (elements.length > 0) {
+                        var el = elements[0];
+                        if (el && el.parentNode) {
+                            el.parentNode.removeChild(el);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                
+                var allElements = div.getElementsByTagName('*');
+                for (var i = 0; i < allElements.length; i++) {
+                    var el = allElements[i];
+                    var attrs = el.attributes;
+                    if (attrs) {
+                        var attrNames = [];
+                        for (var j = 0; j < attrs.length; j++) {
+                            if (attrs[j]) attrNames.push(attrs[j].name);
+                        }
+                        for (var j = 0; j < attrNames.length; j++) {
+                            var attrName = attrNames[j];
+                            if (attrName.toLowerCase().indexOf('on') === 0) {
+                                el.removeAttribute(attrName);
+                            } else if (attrName.toLowerCase() === 'href' || attrName.toLowerCase() === 'src') {
+                                var rawVal = el.getAttribute(attrName);
+                                if (rawVal) {
+                                    var attrVal = String(rawVal).trim();
+                                    if (attrVal.toLowerCase().indexOf('javascript:') === 0) {
+                                        el.removeAttribute(attrName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return div.innerHTML;
+            } catch (e) {
+                console.error("[Teleprompter] Sanitization failed, falling back to regex:", e);
+                try {
+                    var scriptRegex = new RegExp('<script[^>]*>[^]*?</' + 'script>', 'gi');
+                    return html.replace(scriptRegex, '');
+                } catch(err) {
+                    return html;
+                }
+            }
+        }
+
+        function handleIncomingMessage(data) {
+            if (!data) return;
+            if (data.type === 'text') {
+                if (currentRawText !== data.text) {
+                    currentRawText = data.text;
+                    var tEl = document.getElementById('teleprompter');
+                    if (tEl) tEl.innerHTML = sanitizeInput(data.text || '');
+                    TelePrompter.cleanTeleprompter();
+                    TelePrompter.resetPageScroll(true);
+                }
+            } else if (data.type === 'speed') {
+                TelePrompter.setSpeed(data.value);
+            } else if (data.type === 'fontSize') {
+                TelePrompter.setFontSize(data.value);
+            } else if (data.type === 'flipX') {
+                TelePrompter.setFlipX(data.value);
+            } else if (data.type === 'flipY') {
+                TelePrompter.setFlipY(data.value);
+            } else if (data.type === 'textColor') {
+                TelePrompter.setTextColor(data.value);
+            } else if (data.type === 'backgroundColor') {
+                TelePrompter.setBackgroundColor(data.value);
+            } else if (data.type === 'play') {
+                if (data.value) {
+                    TelePrompter.start();
+                } else {
+                    TelePrompter.stop();
+                }
+            } else if (data.type === 'autoplay') {
+                TelePrompter.setAutoScroll(data.value);
+            } else if (data.type === 'focusView') {
+                TelePrompter.setFocusView(data.value);
+            } else if (data.type === 'reset') {
+                TelePrompter.reset(data.instant ?? false);
+            }
+        }
+
         function setupBroadcastChannel(name) {
             console.log("[Teleprompter] setting up BroadcastChannel:", name);
             if (bc) {
-                bc.close();
+                try { bc.close(); } catch(e) {}
             }
             channelName = name;
-            bc = new BroadcastChannel(channelName);
+            try {
+                bc = new BroadcastChannel(channelName);
+                bc.onmessage = function(event) {
+                    var data = event.data;
+                    console.log("[Teleprompter] Child received BC message:", data);
+                    handleIncomingMessage(data);
+                };
+                console.log("[Teleprompter] Sending ready command to parent via BC...");
+                bc.postMessage({ type: 'ready' });
+            } catch (e) {
+                console.warn("[Teleprompter] BroadcastChannel initialization failed. Falling back to postMessage.", e);
+            }
 
-            bc.onmessage = function(event) {
-                var data = event.data;
-                console.log("[Teleprompter] Child received BC message:", data);
-                if (!data) return;
-
-                if (data.type === 'text') {
-                    var tEl = document.getElementById('teleprompter');
-                    if (tEl) tEl.innerHTML = data.text || '';
-                    TelePrompter.cleanTeleprompter();
-                    TelePrompter.resetPageScroll(true);
-                } else if (data.type === 'speed') {
-                    TelePrompter.setSpeed(data.value);
-                } else if (data.type === 'fontSize') {
-                    TelePrompter.setFontSize(data.value);
-                } else if (data.type === 'flipX') {
-                    TelePrompter.setFlipX(data.value);
-                } else if (data.type === 'flipY') {
-                    TelePrompter.setFlipY(data.value);
-                } else if (data.type === 'textColor') {
-                    TelePrompter.setTextColor(data.value);
-                } else if (data.type === 'backgroundColor') {
-                    TelePrompter.setBackgroundColor(data.value);
-                } else if (data.type === 'play') {
-                    if (data.value) {
-                        TelePrompter.start();
-                    } else {
-                        TelePrompter.stop();
-                    }
-                } else if (data.type === 'autoplay') {
-                    TelePrompter.setAutoScroll(data.value);
-                }
-            };
-
-            console.log("[Teleprompter] Sending ready command to parent...");
-            bc.postMessage({ type: 'ready' });
+            // Try direct message callback first
+            if (window.onTeleprompterMessage) {
+                try {
+                    window.onTeleprompterMessage({ type: 'ready' });
+                } catch(e) {}
+            }
+            // Always send ready via postMessage to cover fallback scenarios
+            if (window.opener) {
+                try {
+                    window.opener.postMessage({ type: 'teleprompterSync', opId: opId, payload: { type: 'ready' } }, '*');
+                } catch(e) {}
+            }
         }
+
+        // PostMessage fallback listener
+        window.addEventListener('message', function(event) {
+            var data = event.data;
+            if (data && data.type === 'teleprompterSync') {
+                console.log("[Teleprompter] Child received postMessage fallback:", data.payload);
+                handleIncomingMessage(data.payload);
+            }
+        });
+
+        window.handleIncomingMessage = handleIncomingMessage;
+        window.sanitizeInput = sanitizeInput;
 
         TelePrompter.init();
         setupBroadcastChannel(bcName);
@@ -852,7 +1033,22 @@ function sendCmd(payload) {
         try {
             bc.postMessage(payload);
         } catch (e) {
-            op.logWarn("[Teleprompter] Failed to send broadcast command:", e);
+            // Ignore BC send errors if not initialized/supported
+        }
+    }
+    if (childWindow && !childWindow.closed) {
+        try {
+            if (typeof childWindow.handleIncomingMessage === 'function') {
+                childWindow.handleIncomingMessage(payload);
+                return;
+            }
+        } catch (e) {
+            // Direct call failed or blocked, fall back to postMessage
+        }
+        try {
+            childWindow.postMessage({ type: 'teleprompterSync', payload: payload }, '*');
+        } catch (e) {
+            op.logWarn("[Teleprompter] Failed to send postMessage to child window:", e);
         }
     }
 }
@@ -886,105 +1082,158 @@ inWinName.onChange = () => {
     }
 };
 
+function handleParentIncomingMessage(data) {
+    if (!data) return;
+
+    if (data.type === 'ready') {
+        op.log("[Teleprompter] Parent sending initial state to child window...");
+        sendCmd({ type: 'text', text: inText.get() || "" });
+        let speed = inSpeed.get() ?? 20;
+        speed = Math.max(-50, Math.min(50, speed));
+        sendCmd({ type: 'speed', value: speed });
+        sendCmd({ type: 'fontSize', value: inFontSize.get() ?? 60 });
+        sendCmd({ type: 'flipX', value: inFlipX.get() ?? false });
+        sendCmd({ type: 'flipY', value: inFlipY.get() ?? false });
+        sendCmd({ type: 'textColor', value: inTextColor.get() || "#ffffff" });
+        sendCmd({ type: 'backgroundColor', value: inBkgdColor.get() || "#141414" });
+        sendCmd({ type: 'autoplay', value: inAutoplay.get() ?? false });
+        sendCmd({ type: 'play', value: inPlay.get() ?? false });
+        sendCmd({ type: 'focusView', value: inFocusView.get() ?? false });
+
+        // Initialize output ports
+        outSpeed.set(speed);
+        outFontSize.set(inFontSize.get() ?? 60);
+        outPlay.set(inPlay.get() ?? false);
+        outAutoplay.set(inAutoplay.get() ?? false);
+        outFlipX.set(inFlipX.get() ?? false);
+        outFlipY.set(inFlipY.get() ?? false);
+        outTextColor.set(inTextColor.get() || "#ffffff");
+        outBkgdColor.set(inBkgdColor.get() || "#141414");
+        outFocusView.set(inFocusView.get() ?? false);
+    } else if (data.type === 'playState') {
+        const val = !!data.value;
+        if (!!inPlay.get() !== val) {
+            inPlay.set(val);
+        }
+        outPlay.set(val);
+        if (val) {
+            outOnPlay.trigger();
+        } else {
+            outOnPause.trigger();
+        }
+    } else if (data.type === 'autoScroll') {
+        const val = !!data.value;
+        if (!!inAutoplay.get() !== val) {
+            inAutoplay.set(val);
+        }
+        outAutoplay.set(val);
+    } else if (data.type === 'event') {
+        if (data.eventName === 'next') {
+            outOnNext.trigger();
+        } else if (data.eventName === 'prev') {
+            outOnPrev.trigger();
+        } else if (data.eventName === 'reset') {
+            outOnReset.trigger();
+        }
+    } else if (data.type === 'speed') {
+        const val = Number(data.value) || 0;
+        if (Number(inSpeed.get()) !== val) {
+            inSpeed.set(val);
+        }
+        outSpeed.set(val);
+    } else if (data.type === 'fontSize') {
+        const val = Number(data.value) || 60;
+        if (Number(inFontSize.get()) !== val) {
+            inFontSize.set(val);
+        }
+        outFontSize.set(val);
+    } else if (data.type === 'flipX') {
+        const val = !!data.value;
+        if (!!inFlipX.get() !== val) {
+            inFlipX.set(val);
+        }
+        outFlipX.set(val);
+    } else if (data.type === 'flipY') {
+        const val = !!data.value;
+        if (!!inFlipY.get() !== val) {
+            inFlipY.set(val);
+        }
+        outFlipY.set(val);
+    } else if (data.type === 'textColor') {
+        if (inTextColor.get() !== data.value) {
+            inTextColor.set(data.value);
+        }
+        outTextColor.set(data.value);
+    } else if (data.type === 'backgroundColor') {
+        if (inBkgdColor.get() !== data.value) {
+            inBkgdColor.set(data.value);
+        }
+        outBkgdColor.set(data.value);
+    } else if (data.type === 'focusView') {
+        const val = !!data.value;
+        if (!!inFocusView.get() !== val) {
+            inFocusView.set(val);
+        }
+        outFocusView.set(val);
+    }
+}
+
 function initBroadcastChannel() {
     if (bc) {
-        bc.close();
+        try { bc.close(); } catch(e) {}
         bc = null;
     }
 
     const cName = inChannelName.get();
     if (!cName) return;
 
-    bc = new BroadcastChannel(cName);
-    bc.onmessage = (event) => {
-        const data = event.data;
-        op.log("[Teleprompter] Parent received BC message:", data);
-        if (!data) return;
-
-        if (data.type === 'ready') {
-            op.log("[Teleprompter] Parent sending initial state to child window...");
-            sendCmd({ type: 'text', text: inText.get() || "" });
-            let speed = inSpeed.get() ?? 20;
-            speed = Math.max(-50, Math.min(50, speed));
-            sendCmd({ type: 'speed', value: speed });
-            sendCmd({ type: 'fontSize', value: inFontSize.get() ?? 60 });
-            sendCmd({ type: 'flipX', value: inFlipX.get() ?? false });
-            sendCmd({ type: 'flipY', value: inFlipY.get() ?? false });
-            sendCmd({ type: 'textColor', value: inTextColor.get() || "#ffffff" });
-            sendCmd({ type: 'backgroundColor', value: inBkgdColor.get() || "#141414" });
-            sendCmd({ type: 'autoplay', value: inAutoplay.get() ?? false });
-            sendCmd({ type: 'play', value: inPlay.get() ?? false });
-        } else if (data.type === 'playState') {
-            const val = !!data.value;
-            if (!!inPlay.get() !== val) {
-                inPlay.set(val);
-            }
-            if (val) {
-                outOnPlay.trigger();
-            } else {
-                outOnPause.trigger();
-            }
-        } else if (data.type === 'autoScroll') {
-            const val = !!data.value;
-            if (!!inAutoplay.get() !== val) {
-                inAutoplay.set(val);
-            }
-        } else if (data.type === 'event') {
-            if (data.eventName === 'next') {
-                outOnNext.trigger();
-            } else if (data.eventName === 'prev') {
-                outOnPrev.trigger();
-            }
-        } else if (data.type === 'speed') {
-            const val = Number(data.value) || 0;
-            if (Number(inSpeed.get()) !== val) {
-                inSpeed.set(val);
-            }
-        } else if (data.type === 'fontSize') {
-            const val = Number(data.value) || 60;
-            if (Number(inFontSize.get()) !== val) {
-                inFontSize.set(val);
-            }
-        } else if (data.type === 'flipX') {
-            const val = !!data.value;
-            if (!!inFlipX.get() !== val) {
-                inFlipX.set(val);
-            }
-        } else if (data.type === 'flipY') {
-            const val = !!data.value;
-            if (!!inFlipY.get() !== val) {
-                inFlipY.set(val);
-            }
-        } else if (data.type === 'textColor') {
-            if (inTextColor.get() !== data.value) {
-                inTextColor.set(data.value);
-            }
-        } else if (data.type === 'backgroundColor') {
-            if (inBkgdColor.get() !== data.value) {
-                inBkgdColor.set(data.value);
-            }
-        }
-    };
+    try {
+        bc = new BroadcastChannel(cName);
+        bc.onmessage = (event) => {
+            const data = event.data;
+            op.log("[Teleprompter] Parent received BC message:", data);
+            handleParentIncomingMessage(data);
+        };
+    } catch (e) {
+        op.logWarn("[Teleprompter] BroadcastChannel initialization failed. Falling back to postMessage.", e);
+    }
 }
+
+const onParentWindowMessage = (event) => {
+    const data = event.data;
+    if (data && data.type === 'teleprompterSync' && data.opId === op.id) {
+        op.log("[Teleprompter] Parent received postMessage fallback:", data.payload);
+        handleParentIncomingMessage(data.payload);
+    }
+};
+
+window.addEventListener('message', onParentWindowMessage);
 
 inChannelName.onChange = initBroadcastChannel;
 
 inText.onChange = () => {
-    sendCmd({ type: 'text', text: inText.get() || "" });
+    const txt = inText.get() || "";
+    if (txt !== lastSentText) {
+        lastSentText = txt;
+        sendCmd({ type: 'text', text: txt });
+    }
 };
 
 inPlay.onChange = () => {
     sendCmd({ type: 'play', value: inPlay.get() ?? false });
+    outPlay.set(inPlay.get() ?? false);
 };
 
 inAutoplay.onChange = () => {
     sendCmd({ type: 'autoplay', value: inAutoplay.get() ?? false });
+    outAutoplay.set(inAutoplay.get() ?? false);
 };
 
 inSpeed.onChange = () => {
     let speed = inSpeed.get() ?? 20;
     speed = Math.max(-50, Math.min(50, speed));
     sendCmd({ type: 'speed', value: speed });
+    outSpeed.set(speed);
 };
 
 inSpeedUp.onTriggered = () => {
@@ -999,6 +1248,7 @@ inSpeedDown.onTriggered = () => {
 
 inFontSize.onChange = () => {
     sendCmd({ type: 'fontSize', value: inFontSize.get() ?? 60 });
+    outFontSize.set(inFontSize.get() ?? 60);
 };
 
 inFontBigger.onTriggered = () => {
@@ -1013,18 +1263,31 @@ inFontSmaller.onTriggered = () => {
 
 inFlipX.onChange = () => {
     sendCmd({ type: 'flipX', value: inFlipX.get() ?? false });
+    outFlipX.set(inFlipX.get() ?? false);
 };
 
 inFlipY.onChange = () => {
     sendCmd({ type: 'flipY', value: inFlipY.get() ?? false });
+    outFlipY.set(inFlipY.get() ?? false);
 };
 
 inTextColor.onChange = () => {
     sendCmd({ type: 'textColor', value: inTextColor.get() || "#ffffff" });
+    outTextColor.set(inTextColor.get() || "#ffffff");
 };
 
 inBkgdColor.onChange = () => {
     sendCmd({ type: 'backgroundColor', value: inBkgdColor.get() || "#141414" });
+    outBkgdColor.set(inBkgdColor.get() || "#141414");
+};
+
+inFocusView.onChange = () => {
+    sendCmd({ type: 'focusView', value: inFocusView.get() ?? false });
+    outFocusView.set(inFocusView.get() ?? false);
+};
+
+inReset.onTriggered = () => {
+    sendCmd({ type: 'reset', value: true });
 };
 
 inOpen.onTriggered = () => {
@@ -1049,6 +1312,15 @@ inOpen.onTriggered = () => {
         return;
     }
 
+    try {
+        childWindow.onTeleprompterMessage = (payload) => {
+            op.log("[Teleprompter] Parent received direct message from child:", payload);
+            handleParentIncomingMessage(payload);
+        };
+    } catch (e) {
+        op.logWarn("[Teleprompter] Failed to bind direct message callback to child window:", e);
+    }
+
     outError.set("");
     outWindowStatus.set("open");
     outOnOpen.trigger();
@@ -1059,7 +1331,8 @@ inOpen.onTriggered = () => {
 
     const customizedTemplate = templateHtml
         .replace("<title>Teleprompter</title>", `<title>${winName}</title>`)
-        .replace("var bcName = 'teleprompter-sync';", `var bcName = '${cName}';`);
+        .replace("var bcName = 'teleprompter-sync';", `var bcName = '${cName}';`)
+        .replace("var opId = 'teleprompter-op-id';", `var opId = '${op.id}';`);
 
     doc.write(customizedTemplate);
     doc.close();
@@ -1086,9 +1359,10 @@ initBroadcastChannel();
 
 op.onDelete = () => {
     if (bc) {
-        bc.close();
+        try { bc.close(); } catch(e) {}
     }
     if (childWindow) {
         childWindow.close();
     }
+    window.removeEventListener('message', onParentWindowMessage);
 };
