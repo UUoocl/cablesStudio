@@ -1,0 +1,137 @@
+{
+    "id": "e0b51c48-831d-403d-bc67-c25e839e944e",
+    "authorName": "Antigravity",
+    "created": 1783353600000,
+    "summary": "Opens a teleprompter child window and controls it over BroadcastChannel, supporting text synchronisation, speed/font controls, vertical/horizontal flipping, and play/pause/next/prev event outputs.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 5,
+                "name": "Text"
+            },
+            {
+                "type": 0,
+                "name": "Play",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Autoplay",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Open Child Window"
+            },
+            {
+                "type": 1,
+                "name": "Close Child Window"
+            },
+            {
+                "type": 0,
+                "name": "Speed"
+            },
+            {
+                "type": 1,
+                "name": "Speed Up"
+            },
+            {
+                "type": 1,
+                "name": "Speed Down"
+            },
+            {
+                "type": 0,
+                "name": "Font Size",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Font Bigger"
+            },
+            {
+                "type": 1,
+                "name": "Font Smaller"
+            },
+            {
+                "type": 0,
+                "name": "Flip X",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Foreground Color"
+            },
+            {
+                "type": 5,
+                "name": "Background Color"
+            },
+            {
+                "type": 5,
+                "name": "Window Name"
+            },
+            {
+                "type": 0,
+                "name": "Window Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Height",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window X",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Y",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Open"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 1,
+                "name": "On Play"
+            },
+            {
+                "type": 1,
+                "name": "On Pause"
+            },
+            {
+                "type": 1,
+                "name": "On Next"
+            },
+            {
+                "type": 1,
+                "name": "On Previous"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

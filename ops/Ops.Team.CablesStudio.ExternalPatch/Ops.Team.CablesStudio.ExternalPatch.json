@@ -1,0 +1,76 @@
+{
+    "id": "2b3f11a4-9273-455b-b9f1-799d63ab2ad9",
+    "authorName": "Antigravity",
+    "created": 1783569813000,
+    "summary": "Opens a Cables patch in an external child window and syncs state via BroadcastChannel API, appending the channel parameter to the URL query string.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 5,
+                "name": "Patch URL"
+            },
+            {
+                "type": 1,
+                "name": "Open Window"
+            },
+            {
+                "type": 1,
+                "name": "Close Window"
+            },
+            {
+                "type": 5,
+                "name": "Window Title"
+            },
+            {
+                "type": 0,
+                "name": "Window Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Height",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window X",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Y",
+                "subType": "integer"
+            },
+            {
+                "type": 4,
+                "name": "Send Message"
+            },
+            {
+                "type": 1,
+                "name": "Send Trigger"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 1,
+                "name": "On Received"
+            },
+            {
+                "type": 4,
+                "name": "Received Message"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

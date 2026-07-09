@@ -14,6 +14,7 @@ const
     inOpen = op.inTriggerButton("Open Window"),
     inFull = op.inTriggerButton("Fullscreen"),
     outEle = op.outObject("Element", null, "element"),
+    outMode = op.outString("Mode", "None"),
     inClose = op.inTriggerButton("Close");
 
 const cgl = op.patch.cgl;
@@ -110,6 +111,7 @@ function close()
     webgpuSampler = null;
     webgpuBindGroup = null;
     lastGpuTexture = null;
+    outMode.set("Inactive");
 }
 
 function resize(useWinSize)
@@ -343,7 +345,12 @@ inUpdate.onTriggered = () =>
         });
     }
 
-    if (canvas && realTexture)
+    if (!subWindow || !realTexture) {
+        outMode.set("Inactive");
+        return;
+    }
+
+    if (canvas)
     {
         canvas.style.top = y + "px";
         canvas.style.left = x + "px";
@@ -353,6 +360,7 @@ inUpdate.onTriggered = () =>
             const device = op.patch.cgp.device;
             const presentationFormat = op.patch.cgp.presentationFormat || navigator.gpu.getPreferredCanvasFormat();
             renderWebGPU(device, presentationFormat, realTexture.gpuTexture);
+            outMode.set("WebGPU");
             return;
         }
 
@@ -396,8 +404,10 @@ inUpdate.onTriggered = () =>
                 }).catch((err) => {
                     console.error("createImageBitmap failed:", err);
                 });
+                outMode.set("WebGL");
             } else {
                 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                outMode.set("WebGL (FB Error)");
             }
         }
     }

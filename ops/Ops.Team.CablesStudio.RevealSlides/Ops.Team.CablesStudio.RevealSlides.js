@@ -29,6 +29,8 @@ const outWindowStatus = op.outString("Window Status", "closed");
 const outError = op.outString("Error", "");
 const outAllIndices = op.outObject("All Indices", null);
 const outOnIndexed = op.outTrigger("On Indexed");
+const outEventName = op.outString("Event Name", "");
+const outOnEvent = op.outTrigger("On Event");
 
 // Port groupings
 op.setPortGroup("Settings", [inUrl, inChannelName, inCss, inWinName, inWinWidth, inWinHeight, inWinX, inWinY]);
@@ -236,8 +238,8 @@ const templateHtml = `<!DOCTYPE html>
                 const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
                 if (!data || data.namespace !== 'reveal') return;
 
-                // Handle slide changed and fragment events
-                if (data.eventName === 'slidechanged' || data.eventName === 'ready' || data.eventName === 'fragmentshown' || data.eventName === 'fragmenthidden') {
+                // Handle all reveal js events except callbacks
+                if (data.eventName && data.eventName !== 'callback') {
                     const state = data.state || {};
                     let attrs = {};
                     let notes = "";
@@ -263,6 +265,7 @@ const templateHtml = `<!DOCTYPE html>
                     if (bc) {
                         bc.postMessage({
                             type: 'slidechanged',
+                            eventName: data.eventName,
                             indexh: state.indexh ?? 0,
                             indexv: state.indexv ?? 0,
                             indexf: state.indexf,
@@ -375,6 +378,10 @@ function initBroadcastChannel() {
             }
             if (data.notes) {
                 outNotes.set(data.notes);
+            }
+            if (data.eventName) {
+                outEventName.set(data.eventName);
+                outOnEvent.trigger();
             }
         } else if (data.type === 'attributes') {
             if (isIndexing) return;
