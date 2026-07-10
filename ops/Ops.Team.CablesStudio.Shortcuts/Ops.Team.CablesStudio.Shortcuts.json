@@ -1,0 +1,60 @@
+{
+    "id": "e2a44f8b-fdfc-45cf-a9cf-bd0be9d52fa2",
+    "authorName": "Antigravity",
+    "created": 1783353600000,
+    "summary": "Executes Apple Shortcuts in a child window via shortcuts:// URI scheme and receives execution results from JXA (JavaScript for Automation) via BroadcastChannel or CABLES.patch variable.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "UUID"
+            },
+            {
+                "type": 5,
+                "name": "Shortcut Name"
+            },
+            {
+                "type": 2,
+                "name": "Data"
+            },
+            {
+                "type": 1,
+                "name": "Open Window"
+            },
+            {
+                "type": 1,
+                "name": "Close Window"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 1,
+                "name": "Send Shortcut Request"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Shortcut Result Object"
+            },
+            {
+                "type": 1,
+                "name": "On Result Received"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}
