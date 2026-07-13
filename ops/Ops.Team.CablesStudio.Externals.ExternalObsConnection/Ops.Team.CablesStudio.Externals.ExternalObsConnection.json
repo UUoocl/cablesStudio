@@ -1,0 +1,92 @@
+{
+    "id": "e0b2d6a5-7140-410a-9d62-7e045610bcde",
+    "authorName": "Cables GL",
+    "description": "Connect to OBS Studio WebSocket server via an external popup window bridge, bypassing mixed-content or iframe sandboxing restrictions.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Host / URL"
+            },
+            {
+                "type": 0,
+                "name": "Port",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Password"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 0,
+                "name": "Auto Connect",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Open Popup"
+            },
+            {
+                "type": 1,
+                "name": "Close Popup"
+            },
+            {
+                "type": 1,
+                "name": "Send Request"
+            },
+            {
+                "type": 5,
+                "name": "Request Name"
+            },
+            {
+                "type": 2,
+                "name": "Request Data"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Popup Open",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Response Success",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Response Data"
+            },
+            {
+                "type": 1,
+                "name": "On Response"
+            },
+            {
+                "type": 5,
+                "name": "Event Name"
+            },
+            {
+                "type": 2,
+                "name": "Event Data"
+            },
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}
