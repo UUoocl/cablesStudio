@@ -6,6 +6,10 @@ const inMeetingUrl = op.inString("Zoom Meeting URL", "https://app.zoom.us/wc/");
 const inMeetingId = op.inString("Meeting ID", "");
 const inMeetingPassword = op.inString("Meeting Password", "");
 const inUserName = op.inString("User Name", "");
+const inWinWidth = op.inInt("Window Width", 1280);
+const inWinHeight = op.inInt("Window Height", 800);
+const inWinX = op.inInt("Window X", 100);
+const inWinY = op.inInt("Window Y", 100);
 const inOpen = op.inTriggerButton("Open Child Window");
 const inClose = op.inTriggerButton("Close Child Window");
 
@@ -24,6 +28,7 @@ const outInjectorCode = op.outString("Injector Code", "");
 
 // Port groupings
 op.setPortGroup("Meeting credentials", [inMeetingUrl, inMeetingId, inMeetingPassword, inUserName]);
+op.setPortGroup("Window Settings", [inWinWidth, inWinHeight, inWinX, inWinY]);
 op.setPortGroup("Controls", [inOpen, inClose, inChannelName]);
 
 let childWindow = null;
@@ -278,6 +283,27 @@ const onParentWindowMessage = (event) => {
 
 window.addEventListener('message', onParentWindowMessage);
 
+function resizeWindow() {
+    if (childWindow && !childWindow.closed) {
+        try {
+            childWindow.resizeTo(inWinWidth.get() || 1280, inWinHeight.get() || 800);
+        } catch (e) {}
+    }
+}
+
+function moveWindow() {
+    if (childWindow && !childWindow.closed) {
+        try {
+            childWindow.moveTo(inWinX.get() ?? 100, inWinY.get() ?? 100);
+        } catch (e) {}
+    }
+}
+
+inWinWidth.onChange = resizeWindow;
+inWinHeight.onChange = resizeWindow;
+inWinX.onChange = moveWindow;
+inWinY.onChange = moveWindow;
+
 // Open meeting in child window
 inOpen.onTriggered = () => {
     if (childWindow && !childWindow.closed) {
@@ -310,11 +336,11 @@ inOpen.onTriggered = () => {
     outConnection.set("waiting_for_injector");
     outOnOpen.trigger();
 
-    const w = 1280;
-    const h = 800;
-    const left = (window.screen.width - w) / 2;
-    const top = (window.screen.height - h) / 2;
-    const features = `width=${w},height=${h},left=${left},top=${top},location=no,toolbar=no,menubar=no,status=no,popup=yes,scrollbars=yes,resizable=yes`;
+    const w = inWinWidth.get() || 1280;
+    const h = inWinHeight.get() || 800;
+    const x = inWinX.get() ?? 100;
+    const y = inWinY.get() ?? 100;
+    const features = `width=${w},height=${h},left=${x},top=${y},location=no,toolbar=no,menubar=no,status=no,popup=yes,scrollbars=yes,resizable=yes`;
 
     // Open standard Zoom page in a new window
     childWindow = window.open(url, `zoom_meeting_${op.id}`, features);

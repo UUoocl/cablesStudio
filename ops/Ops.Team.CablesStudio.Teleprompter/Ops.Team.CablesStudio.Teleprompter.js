@@ -706,14 +706,18 @@ const templateHtml = `<!doctype html>
                 sendPlayState(false);
             }
 
-            function handleReset(instant) {
-                stop();
+            function resetScrollPosition(instant) {
                 var targetTop = config.flipY ? elm.teleprompter.offsetHeight + 100 : 0;
                 if (instant) {
-                    elm.article.scrollTop = targetTop;
+                    if (elm.article) elm.article.scrollTop = targetTop;
                 } else {
-                    elm.article.scrollTo({ top: targetTop, behavior: 'smooth' });
+                    if (elm.article) elm.article.scrollTo({ top: targetTop, behavior: 'smooth' });
                 }
+            }
+
+            function handleReset(instant) {
+                stop();
+                resetScrollPosition(instant);
                 sendEvent('reset');
             }
 
@@ -877,9 +881,11 @@ const templateHtml = `<!doctype html>
                 setTextColor: function(val) { config.textColor = val; applyColorStyles(); elm.textColor.value = val; },
                 setBackgroundColor: function(val) { config.backgroundColor = val; applyColorStyles(); elm.backgroundColor.value = val; },
                 setAutoScroll: function(val) { config.autoScroll = val; if (elm.autoScroll) elm.autoScroll.checked = val; },
+                getAutoScroll: function() { return config.autoScroll; },
                 setFocusView: function(val) { config.dimControls = val; updateDimUI(); },
                 cleanTeleprompter: cleanTeleprompter,
-                resetPageScroll: function(instant) { handleReset(instant); }
+                resetPageScroll: function(instant) { handleReset(instant); },
+                resetScrollPosition: resetScrollPosition
             };
         })();
 
@@ -948,7 +954,12 @@ const templateHtml = `<!doctype html>
                     var tEl = document.getElementById('teleprompter');
                     if (tEl) tEl.innerHTML = sanitizeInput(data.text || '');
                     TelePrompter.cleanTeleprompter();
-                    TelePrompter.resetPageScroll(true);
+                    if (TelePrompter.getAutoScroll()) {
+                        TelePrompter.resetScrollPosition(true);
+                        TelePrompter.start();
+                    } else {
+                        TelePrompter.resetPageScroll(true);
+                    }
                 }
             } else if (data.type === 'speed') {
                 TelePrompter.setSpeed(data.value);

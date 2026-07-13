@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ext-Trigger_Fast_Fluid_Simulation no drag</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Helvetica, Arial, sans-serif;
+            overflow: hidden; /* disable scrolling / rubberband effect on mobile */
+            height:100vh;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            outline:0;
+        }
+
+        * {
+            /* disable on touch highlights of html elements, especially on mobile! */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+    </style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta itemprop="name" content="Ext-Trigger_Fast Fluid Simulation no drag">
+    <meta itemprop="description" content="made with cables">
+    <meta itemprop="image" content="screenshot.png">
+    <meta name="description" content="made with cables"/>
+
+</head>
+<body>
+    <canvas id="glcanvas" width="100vw" height="100vh" tabindex="1"></canvas>
+
+    <script type="module">
+        import { create } from '../lib/slides-studio-client.js?v=1.0.5';
+        window.slidesStudioClient = { create };
+    </script>
+
+    <script>
+        let mousePosX = 0, mousePosY = 0;
+        
+        let displayXmin = 0;
+        let displayXmax = 1920;
+        let displayYmin = 0;
+        let displayYmax = 1080;
+
+        const desktopBoundsChannel = new BroadcastChannel('desktop_bounds');
+
+        function remap(n, start1, stop1, start2, stop2) {
+            return (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+        }
+
+        desktopBoundsChannel.onmessage = (event) => {
+            if(event.data && typeof event.data.minX !== 'undefined') {
+                console.log('Received desktop bounds via BroadcastChannel:', event.data);
+                updateLocalBounds(event.data);
+            }
+        };
+
+        function updateLocalBounds(bounds) {
+            displayXmin = bounds.minX;
+            displayXmax = bounds.maxX;
+            displayYmin = bounds.minY;
+            displayYmax = bounds.maxY;
+
+            // Update CABLES variables if patch is already loaded
+            if (typeof CABLES !== 'undefined' && CABLES.patch) {
+                const monitorsXmin = CABLES.patch.getVar("monitorsXmin")
+                const monitorsXmax = CABLES.patch.getVar("monitorsXmax")
+                const monitorsYmin = CABLES.patch.getVar("monitorsYmin")
+                const monitorsYmax = CABLES.patch.getVar("monitorsYmax")
+                if (monitorsXmin) monitorsXmin.setValue(displayXmin);
+                if (monitorsXmax) monitorsXmax.setValue(displayXmax);
+                if (monitorsYmin) monitorsYmin.setValue(displayYmin);
+                if (monitorsYmax) monitorsYmax.setValue(displayYmax);
+
+                // Update height based on new ratio
+                const varCanvasHeight = CABLES.patch.getVar("ColorHeight");
+                if (varCanvasHeight) {
+                    const monitorWidth = (Math.abs(displayXmin)+Math.abs(displayXmax));
+                    const monitorHeight = (Math.abs(displayYmin)+Math.abs(displayYmax));
+                    if (monitorWidth > 0) {
+                        const ratio = monitorHeight/monitorWidth;
+                        varCanvasHeight.setValue(640 * ratio);
+                    }
+                }
+            }
+        }
+
+        let socket;
+
+        async function initSocket() {
+            if (!window.slidesStudioClient) {
+                setTimeout(initSocket, 100);
+                return;
+            }
+
+            socket = window.slidesStudioClient.create({
+                hostname: window.location.hostname,
+                port: window.location.port,
+                path: '/websocket/',
+                authToken: { name: 'Cables-Flow-Highlight' }
+            });
+
+            socket.on('error', (err) => {
+                console.error('WebSocket error:', err);
+            });
+
+            socket.on('connect', () => {
+                console.log('Connected to WebSocket');
+                
+                try {
+                    socket.invoke('setInfo', { name: 'Cables Flow Highlight' });
+                } catch (e) {}
+
+                // Request bounds from other apps first
+                desktopBoundsChannel.postMessage('request_bounds');
+                // Fetch from OBS as fallback after a short delay if no one responded
+                setTimeout(() => {
+                    if (displayXmax === 1920 && displayYmax === 1080) {
+                        fetchDesktopBounds();
+                    }
+                }, 500);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from WebSocket');
+            });
+
+            // Subscribe to mouse position updates
+            const posChannel = socket.subscribe('mousePosition');
+            posChannel.on('message', (data) => {
+                mousePosX = Math.round(data.x);
+                mousePosY = Math.round(data.y);
+
+                if (typeof CABLES !== 'undefined' && CABLES.patch) {
+                    const varMouseX = CABLES.patch.getVar("MouseInX");
+                    const varMouseY = CABLES.patch.getVar("MouseInY");
+                    if (varMouseX && varMouseY) {
+                        const currentValueX = varMouseX.getValue();
+                        const currentValueY = varMouseY.getValue();
+
+                        const varPreviousMouseX = CABLES.patch.getVar("prevMousePosX");
+                        const varPreviousMouseY = CABLES.patch.getVar("prevMousePosY");
+
+                        const varMouseMoving = CABLES.patch.getVar("MouseMoving");
+                        const varMouseDrag = CABLES.patch.getVar("MouseIsDragged");
+                        if(varMouseMoving) varMouseMoving.setValue(1);
+                        if(varMouseDrag) varMouseDrag.setValue(1);
+
+                        varMouseX.setValue(Number(mousePosX));
+                        varMouseY.setValue(Number(mousePosY));
+                        if(varPreviousMouseX) varPreviousMouseX.setValue(currentValueX);
+                        if(varPreviousMouseY) varPreviousMouseY.setValue(currentValueY);
+                        if(varMouseMoving) varMouseMoving.setValue(0);
+                        if(varMouseDrag) varMouseDrag.setValue(1);
+                    }
+                }
+            });
+        }
+
+        async function fetchDesktopBounds() {
+            if (!socket) return;
+            try {
+                const data = await socket.invoke('obsRequest', {
+                    requestType: 'GetMonitorList'
+                });
+                const monitors = data.monitors || [];
+                if (monitors.length > 0) {
+                    const bounds = {
+                        minX: Math.min(...monitors.map(m => m.monitorPositionX)),
+                        maxX: Math.max(...monitors.map(m => m.monitorPositionX + m.monitorWidth)),
+                        minY: Math.min(...monitors.map(m => m.monitorPositionY)),
+                        maxY: Math.max(...monitors.map(m => m.monitorPositionY + m.monitorHeight))
+                    };
+                    updateLocalBounds(bounds);
+                }
+            } catch (e) {
+                console.error("Failed to fetch desktop bounds from WebSocket", e);
+            }
+        }
+
+        // Initial setup
+        initSocket();
+
+        // p5 map/constrain helpers for cables logic if needed
+        let map = (n, start1, stop1, start2, stop2) => {
+            return (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+        };
+
+        let constrain = (n, low, high) => {
+            return Math.max(Math.min(n, high), low);
+        };
+    
+    </script>
+    
+    <script type="text/javascript" src="patches/Fast_Fluid_Simulation.js" async></script>
+    
+
+    <script type="text/javascript">
+
+        function showError(initiator,...args)
+        {
+            CABLES.logErrorConsole("[" + initiator + "]", ...args);
+        }
+
+        function patchInitialized(patch)
+        {
+        }
+
+        function patchFinishedLoading(patch)
+        {
+            const varCanvasWidth = CABLES.patch.getVar("ColorWidth");
+            const varCanvasHeight = CABLES.patch.getVar("ColorHeight");
+            varCanvasWidth.setValue(640);
+
+            const monitorWidth = (Math.abs(displayXmin)+Math.abs(displayXmax));
+            const monitorHeight = (Math.abs(displayYmin)+Math.abs(displayYmax));
+            
+            const ratio = monitorHeight/monitorWidth;
+            varCanvasHeight.setValue(640 * ratio);
+            
+            const monitorsXmin = CABLES.patch.getVar("monitorsXmin")
+            const monitorsXmax = CABLES.patch.getVar("monitorsXmax")
+            const monitorsYmin = CABLES.patch.getVar("monitorsYmin")
+            const monitorsYmax = CABLES.patch.getVar("monitorsYmax")
+            if (monitorsXmin) monitorsXmin.setValue(displayXmin);
+            if (monitorsXmax) monitorsXmax.setValue(displayXmax);
+            if (monitorsYmin) monitorsYmin.setValue(displayYmin);
+            if (monitorsYmax) monitorsYmax.setValue(displayYmax);
+        }
+
+        document.addEventListener("CABLES.jsLoaded", function (event)
+        {
+            CABLES.patch = new CABLES.Patch({
+            patch: CABLES.exportedPatch,
+            "prefixAssetPath": "",
+            "assetPath": "assets/",
+            "jsPath": "patches/",
+            "glCanvasId": "glcanvas",
+            "glCanvasResizeToWindow": true,
+            "onError": showError,
+            "onPatchLoaded": patchInitialized,
+            "onFinishedLoading": patchFinishedLoading,
+            "canvas": {"alpha":true, "premultipliedAlpha":true } // make canvas transparent
+            });
+        });
+
+        document.getElementById('glcanvas').addEventListener('touchmove', (e)=>{ e.preventDefault(); }, false);
+    </script>
+</body>
+</html>

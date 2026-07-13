@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- set div y position to 400px-->
+    <!-- set div height to 200px-->
+    <!-- set div width to 100%-->
+    <!-- set div border width to 15px-->
+    <!-- set div border color to red-->
+    <!-- set div border style to solid-->
+    <!-- set div background to blue with opacity 50%-->
+    <div id="border"
+        style="position:absolute; top: 0px; height: 200px; width: 100%; border: 1px solid rgba(255, 0, 0, 1); border-width: 15px; background-color: rgba(0, 0, 255, 1);">
+    </div>
+</body>
+
+add a script to change the background to transparent on div click. acll the function on load
+<script>
+    function changeBackgroundToTransparent() {
+        document.body.style.backgroundColor = "transparent";
+    }
+    document.getElementById("border").addEventListener("click", changeBackgroundToTransparent);
+</script>
+
+</html>

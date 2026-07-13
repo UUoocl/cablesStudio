@@ -27,6 +27,26 @@
                 "name": "User Name"
             },
             {
+                "type": 0,
+                "name": "Window Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Height",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window X",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Y",
+                "subType": "integer"
+            },
+            {
                 "type": 1,
                 "name": "Open Child Window"
             },

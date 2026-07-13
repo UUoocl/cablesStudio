@@ -1,0 +1,100 @@
+{
+    "id": "e59178ad-5df9-4674-a690-cb64c77041fb",
+    "created": 1783856000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1783856000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "URL"
+            },
+            {
+                "type": 5,
+                "name": "Event Name"
+            },
+            {
+                "type": 0,
+                "name": "Append Event to URL",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Received"
+            },
+            {
+                "type": 5,
+                "name": "Data String"
+            },
+            {
+                "type": 2,
+                "name": "Data Object"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "summary": "Listens for Server-Sent Events (SSE) from a specified URL, dynamically subscribing to the configured event name.",
+    "docs": {
+        "ports": [
+            {
+                "name": "URL",
+                "text": "The endpoint URL of the SSE stream."
+            },
+            {
+                "name": "Event Name",
+                "text": "The name of the event to listen for (e.g. message or custom events)."
+            },
+            {
+                "name": "Append Event to URL",
+                "text": "If true, appends the Event Name to the end of the URL."
+            },
+            {
+                "name": "Active",
+                "text": "Toggles the connection state on/off."
+            },
+            {
+                "name": "Connected",
+                "text": "True when the Server-Sent Events stream is connected and open."
+            },
+            {
+                "name": "Received",
+                "text": "Fires when a matching event is received."
+            },
+            {
+                "name": "Data String",
+                "text": "The raw string content of the received event payload."
+            },
+            {
+                "name": "Data Object",
+                "text": "The parsed JSON object if the payload is valid JSON."
+            },
+            {
+                "name": "Error",
+                "text": "Contains the connection error or status message."
+            }
+        ]
+    }
+}

@@ -4,10 +4,15 @@ const
     inScriptLocation = op.inString("Script Location", `${op.patch.config.prefixAssetPath}ops/Ops.Local.Python/Ops.Extension.Standalone.PythonGlobalMouseMonitor/python_script/mouse_monitor_cables.py`),
     inActive = op.inBool("Active", false),
     outUpdate = op.outTrigger("On Update"),
-    outClick = op.outString("Click", ""),
     outPosX = op.outNumber("Pos X", 0),
     outPosY = op.outNumber("Pos Y", 0),
-    outScrollDelta = op.outNumber("Scroll Delta", 0);
+    outButton = op.outNumber("Button", 0),
+    outIsDown = op.outBool("Button Is Down", false),
+    outIsUp = op.outBool("Button Is Up", false),
+    outScrollDeltaX = op.outNumber("Scroll Delta X", 0),
+    outScrollDeltaY = op.outNumber("Scroll Delta Y", 0),
+    outRunning = op.outBool("Running", false),
+    outStatus = op.outString("Status", "Stopped");
 
 let childProc = null;
 
@@ -16,6 +21,8 @@ function stopProcess() {
         childProc.kill();
         childProc = null;
     }
+    outRunning.set(false);
+    outStatus.set("Stopped");
 }
 
 function startProcess() {
@@ -27,6 +34,8 @@ function startProcess() {
 
     try {
         childProc = spawn(pythonExe, [scriptPath, "1", "1", "1", "20"]);
+        outRunning.set(true);
+        outStatus.set("Running");
         
         childProc.stdout.on('data', (data) => {
             const lines = data.toString().split('\n');
@@ -43,11 +52,14 @@ function startProcess() {
                     } else if (msg.type === 'mouseClick') {
                         outPosX.set(msg.data.x);
                         outPosY.set(msg.data.y);
-                        // Output the button and its state (e.g., "MB1 down", "MB2 up")
-                        outClick.set(`${msg.data.button} ${msg.data.pressed ? 'down' : 'up'}`);
+                        const buttonNum = msg.data.button ? parseInt(msg.data.button.substring(2), 10) : 0;
+                        outButton.set(buttonNum);
+                        outIsDown.set(msg.data.pressed);
+                        outIsUp.set(!msg.data.pressed);
                         updated = true;
                     } else if (msg.type === 'mouseScroll') {
-                        outScrollDelta.set(msg.data.dy);
+                        outScrollDeltaX.set(msg.data.dx || 0);
+                        outScrollDeltaY.set(msg.data.dy || 0);
                         outPosX.set(msg.data.x);
                         outPosY.set(msg.data.y);
                         updated = true;
@@ -68,6 +80,8 @@ function startProcess() {
 
         childProc.on('close', () => {
             childProc = null;
+            outRunning.set(false);
+            outStatus.set("Stopped");
         });
     } catch (e) {
         op.logError("Failed to start python process:", e);
@@ -104,3 +118,11 @@ op.onDelete = () => {
         } catch (e) {}
     }
 };
+
+outButton.set(0);
+outIsDown.set(false);
+outIsUp.set(false);
+outScrollDeltaX.set(0);
+outScrollDeltaY.set(0);
+outRunning.set(false);
+outStatus.set("Stopped");

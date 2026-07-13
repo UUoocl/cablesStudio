@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Magic Wand Overlay</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        canvas {
+            display: block;
+            background: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+
+    </main>
+
+    <script>
+        let mousePosX = 0, mousePosY = 0;
+
+        // Configuration object synced from Cables
+        window.magicWandConfig = {
+            colorMove: [255, 255, 0],
+            colorClick: [255, 0, 255],
+            starSize: 10,
+            starDecay: 5
+        };
+
+        // --- COMMUNICATION BRIDGE ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialWidth = parseInt(urlParams.get('width')) || window.innerWidth;
+        const initialHeight = parseInt(urlParams.get('height')) || window.innerHeight;
+
+        let pubChannel = null;
+        let syncChannel = null;
+        let wsInstance = null;
+
+        // If the query parameter includes 'bc', start the Broadcast Channel
+        if (urlParams.has('bc')) {
+            let channelName = urlParams.get('bc');
+            if (!channelName || channelName === 'true') {
+                channelName = 'magicwand-sync';
+            }
+            // console.log(`[Magic Wand] Starting BroadcastChannel: ${channelName}`);
+            pubChannel = new BroadcastChannel('pub-' + channelName);
+            syncChannel = new BroadcastChannel('sub-' + channelName);
+
+            // Listen for updates from the Cables operator / payload compositor
+            syncChannel.onmessage = (event) => {
+                if (!event.data) return;
+                //console.log("[Magic Wand] Received via BroadcastChannel:", event.data);
+                handleMessage(event.data);
+            };
+        }
+
+        // If the query parameter includes 'ws', start the WebSocket connection
+        if (urlParams.has('ws')) {
+            startWebSocket();
+        }
+
+        function startWebSocket() {
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            // Fallback for file protocol
+            const wsHost = window.location.host || '127.0.0.1:8080';
+            const wsUrl = `${wsProtocol}//${wsHost}`;
+            console.log("[Magic Wand] Connecting to WebSocket:", wsUrl);
+
+            const ws = new WebSocket(wsUrl);
+            wsInstance = ws;
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    // console.log("[Magic Wand] Received via WebSocket:", data);
+                    handleMessage(data.data);
+                } catch (e) {
+                    console.warn("[Magic Wand] WebSocket message not JSON, parsing as raw text:", event.data);
+                }
+            };
+
+            ws.onopen = () => {
+                console.log("[Magic Wand] WebSocket connected!");
+                ws.send(JSON.stringify({ type: 'ready' }));
+            };
+
+            ws.onclose = () => {
+                console.log("[Magic Wand] WebSocket disconnected, reconnecting in 3 seconds...");
+                setTimeout(startWebSocket, 3000);
+            };
+
+            ws.onerror = (err) => {
+                console.error("[Magic Wand] WebSocket error:", err);
+                ws.close();
+            };
+        }
+
+        window.addEventListener('message', (event) => {
+            if (!event.data) return;
+
+            if (event.data.type === 'resize') {
+                if (typeof resizeCanvas === 'function') {
+                    resizeCanvas(event.data.w, event.data.h);
+                }
+            }
+
+            if (event.data.type === 'settings' && event.data.payload) {
+                handleMessage(event.data.payload);
+            }
+
+            // Also handle directly passing messages if type is present
+            if (event.data.type && event.data.type !== 'resize') {
+                handleMessage(event.data);
+            }
+        });
+
+        function handleMessage(data) {
+            // console.log("handleMessage", data);
+            // console.log("Message data", !data ? "no data" : "data");
+            // console.log("Message type", data.type);
+            if (!data || !data.type) return;
+
+            switch (data.type) {
+                case 'mouse_move':
+                    if (data.normalized) {
+                        mousePosX = Math.round(data.x * window.innerWidth);
+                        mousePosY = Math.round(data.y * window.innerHeight);
+                    } else {
+                        mousePosX = Math.round(data.x);
+                        mousePosY = Math.round(data.y);
+                    }
+                    break;
+
+                case 'mouse_click':
+                    if (data.pressed) {
+                        console.log("button press", data.button);
+                        if (typeof mousePressed === 'function') {
+                            mousePressed(data.button) // || 'MB1');
+                        }
+                    }
+                    break;
+
+                case 'config':
+                    // console.log('Received config update:', data);
+                    if (data.colorMove) window.magicWandConfig.colorMove = data.colorMove;
+                    if (data.colorClick) window.magicWandConfig.colorClick = data.colorClick;
+                    if (typeof data.starSize === 'number') window.magicWandConfig.starSize = data.starSize;
+                    if (typeof data.starDecay === 'number') window.magicWandConfig.starDecay = data.starDecay;
+                    break;
+            }
+        }
+
+        function captureFrame() {
+            if (pubChannel) {
+                pubChannel.postMessage({ type: 'draw' });
+            }
+            if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
+                wsInstance.send(JSON.stringify({ type: 'draw' }));
+            }
+        }
+
+        function signalReady() {
+            console.log("[Magic Wand] Sending ready signal...");
+            if (pubChannel) {
+                pubChannel.postMessage({ type: 'ready' });
+            }
+            if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
+                wsInstance.send(JSON.stringify({ type: 'ready' }));
+            }
+        }
+    </script>
+    <script src="lib/p5.min.js"></script>
+    <script src="sketch/magicWandMouse_Sketch.js"></script>
+    <script src="sketch/magicWandMouse_Class.js"></script>
+</body>
+
+</html>

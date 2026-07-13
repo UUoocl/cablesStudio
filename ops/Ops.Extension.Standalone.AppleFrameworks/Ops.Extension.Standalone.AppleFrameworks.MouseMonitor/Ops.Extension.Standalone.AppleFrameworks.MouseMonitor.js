@@ -5,10 +5,14 @@ const
     inActive = op.inBool("Active", false),
     inPps = op.inInt("PPS Limit", 20),
 
-    outUpdate = op.outTrigger("On Update"),
+    outTriggerMove = op.outTrigger("On Move"),
+    outTriggerClick = op.outTrigger("On Click"),
+    outTriggerScroll = op.outTrigger("On Scroll"),
     outPosX = op.outNumber("Pos X", 0),
     outPosY = op.outNumber("Pos Y", 0),
-    outClick = op.outString("Click", ""),
+    outButton = op.outNumber("Button", 0),
+    outIsDown = op.outBool("Button Is Down", false),
+    outIsUp = op.outBool("Button Is Up", false),
     outScrollDeltaX = op.outNumber("Scroll Delta X", 0),
     outScrollDeltaY = op.outNumber("Scroll Delta Y", 0),
 
@@ -96,28 +100,26 @@ function stop() {
 function handleEvent(event) {
     if (!event || !event.type) return;
     
-    let updated = false;
     const msg = event; // Event matches { type: "...", data: { ... } }
 
     if (msg.type === "mousePosition") {
         outPosX.set(msg.data.x);
         outPosY.set(msg.data.y);
-        updated = true;
+        outTriggerMove.trigger();
     } else if (msg.type === "mouseClick") {
         outPosX.set(msg.data.x);
         outPosY.set(msg.data.y);
-        outClick.set(`${msg.data.button} ${msg.data.pressed ? "down" : "up"}`);
-        updated = true;
+        const buttonNum = msg.data.button ? parseInt(msg.data.button.substring(2), 10) : 0;
+        outButton.set(buttonNum);
+        outIsDown.set(msg.data.pressed);
+        outIsUp.set(!msg.data.pressed);
+        outTriggerClick.trigger();
     } else if (msg.type === "mouseScroll") {
         outPosX.set(msg.data.x);
         outPosY.set(msg.data.y);
         outScrollDeltaX.set(msg.data.dx);
         outScrollDeltaY.set(msg.data.dy);
-        updated = true;
-    }
-
-    if (updated) {
-        outUpdate.trigger();
+        outTriggerScroll.trigger();
     }
 }
 
@@ -141,3 +143,6 @@ op.onDelete = () => {
 
 // Initialize status
 outStatus.set("Stopped");
+outButton.set(0);
+outIsDown.set(false);
+outIsUp.set(false);

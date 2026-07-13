@@ -27,7 +27,15 @@
         "portsOut": [
             {
                 "type": 1,
-                "name": "On Update"
+                "name": "On Move"
+            },
+            {
+                "type": 1,
+                "name": "On Click"
+            },
+            {
+                "type": 1,
+                "name": "On Scroll"
             },
             {
                 "type": 0,
@@ -40,8 +48,19 @@
                 "subType": "number"
             },
             {
-                "type": 5,
-                "name": "Click"
+                "type": 0,
+                "name": "Button",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Button Is Down",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Button Is Up",
+                "subType": "boolean"
             },
             {
                 "type": 0,
@@ -79,8 +98,16 @@
                 "text": "The maximum number of position update packets sent per second."
             },
             {
-                "name": "On Update",
-                "text": "Fires when any telemetry event (move, click, or scroll) is received."
+                "name": "On Move",
+                "text": "Fires when a mouse movement telemetry event is received."
+            },
+            {
+                "name": "On Click",
+                "text": "Fires when a mouse button click telemetry event is received."
+            },
+            {
+                "name": "On Scroll",
+                "text": "Fires when a mouse scroll telemetry event is received."
             },
             {
                 "name": "Pos X",
@@ -91,8 +118,16 @@
                 "text": "Absolute Y coordinate of the cursor on the primary display."
             },
             {
-                "name": "Click",
-                "text": "Mouse button state string (e.g. 'MB1 down', 'MB2 up')."
+                "name": "Button",
+                "text": "The mouse button index (e.g., 1 for MB1, 2 for MB2, etc.)."
+            },
+            {
+                "name": "Button Is Down",
+                "text": "True when the mouse button is pressed."
+            },
+            {
+                "name": "Button Is Up",
+                "text": "True when the mouse button is released."
             },
             {
                 "name": "Scroll Delta X",

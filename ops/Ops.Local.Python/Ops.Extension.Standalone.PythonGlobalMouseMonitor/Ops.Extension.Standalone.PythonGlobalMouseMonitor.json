@@ -27,10 +27,6 @@
                 "name": "On Update"
             },
             {
-                "type": 5,
-                "name": "Click"
-            },
-            {
                 "type": 0,
                 "name": "Pos X",
                 "subType": "number"
@@ -42,8 +38,37 @@
             },
             {
                 "type": 0,
-                "name": "Scroll Delta",
+                "name": "Button",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Button Is Down",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Button Is Up",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta X",
                 "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
             }
         ]
     }

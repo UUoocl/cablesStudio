@@ -1,244 +1,22 @@
 {
-    "_id": "6a47dd1f73db3b1e179c3fcb",
-    "shortId": "II3jko",
+    "_id": "6a5204fbf60143190aa7266b",
+    "shortId": "f4Hl3p",
     "name": "BlankPatch",
     "description": "",
-    "userId": "6a47dd1fb8988e6983c6e155",
+    "userId": "6a5204fba38f50d1a7edfab5",
     "cachedUsername": "",
-    "created": 1783094559381,
-    "updated": 1783301978807,
+    "created": 1783760123008,
+    "updated": 1783783677960,
     "visibility": "private",
     "ops": [
         {
-            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
-            "id": "8rmjepnch",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -708,
-                    "y": -47.38656697313024
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Max Pixel Density (DPR)",
-                    "value": 2
-                },
-                {
-                    "name": "FPS Limit",
-                    "value": 0
-                },
-                {
-                    "name": "Reduce FPS unfocussed",
-                    "value": 0
-                },
-                {
-                    "name": "Transparent",
-                    "value": 0
-                },
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Focus canvas",
-                    "value": 1
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "trigger",
-                    "links": [
-                        {
-                            "portIn": "Render",
-                            "portOut": "trigger",
-                            "objIn": "x2rvo8mdb",
-                            "objOut": "8rmjepnch"
-                        },
-                        {
-                            "portIn": "render",
-                            "portOut": "trigger",
-                            "objIn": "0kbua7p4w",
-                            "objOut": "8rmjepnch"
-                        },
-                        {
-                            "portIn": "Update",
-                            "portOut": "trigger",
-                            "objIn": "tnpy1bt4y",
-                            "objOut": "8rmjepnch"
-                        }
-                    ]
-                },
-                {
-                    "name": "width",
-                    "value": 670
-                },
-                {
-                    "name": "height",
-                    "value": 377
-                },
-                {
-                    "name": "Pixel Density",
-                    "value": 1
-                }
-            ]
-        },
-        {
-            "opId": "e4209c59-8d78-4fa9-95e4-805fa820c3b6",
-            "id": "x2rvo8mdb",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -708,
-                    "y": 27.079808632911742
-                },
-                "loading": false
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Generate Texture",
-                    "value": 1
-                },
-                {
-                    "name": "Webcam Input index",
-                    "value": 0
-                },
-                {
-                    "name": "Webcam Input",
-                    "value": "Default"
-                },
-                {
-                    "name": "Requested Width",
-                    "value": 1280
-                },
-                {
-                    "name": "Requested Height",
-                    "value": 720
-                },
-                {
-                    "name": "Flip X",
-                    "value": 0
-                },
-                {
-                    "name": "Flip Y",
-                    "value": 0
-                },
-                {
-                    "name": "Show HTML Element",
-                    "value": 0
-                },
-                {
-                    "name": "CSS",
-                    "value": "z-index:99999;\nposition:absolute;\n"
-                },
-                {
-                    "name": "Element Flip X",
-                    "value": 0
-                },
-                {
-                    "name": "Element Flip Y",
-                    "value": 0
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Next",
-                    "links": [
-                        {
-                            "portIn": "Force Update",
-                            "portOut": "Next",
-                            "objIn": "d7jbv5udv",
-                            "objOut": "x2rvo8mdb"
-                        }
-                    ]
-                },
-                {
-                    "name": "Ratio",
-                    "value": 1.7777777777777777
-                },
-                {
-                    "name": "Available",
-                    "value": 1
-                },
-                {
-                    "name": "Size Width",
-                    "value": 1280
-                },
-                {
-                    "name": "Size Height",
-                    "value": 720
-                },
-                {
-                    "name": "Error",
-                    "value": ""
-                },
-                {
-                    "name": "Active device",
-                    "value": "OBSBOT Tiny SE StreamCamera (3564:feff)"
-                }
-            ]
-        },
-        {
-            "opId": "c7a8b9f0-d1e2-43f4-b5a6-7c8d9e0f1a2c",
-            "id": "tnpy1bt4y",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -784.8874265589612,
-                    "y": 440.903443219658
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Broadcast Channel Name",
-                    "value": "texture-sync"
-                },
-                {
-                    "name": "Pos X",
-                    "value": 31
-                },
-                {
-                    "name": "Pos Y",
-                    "value": 321
-                },
-                {
-                    "name": "Width",
-                    "value": 800
-                },
-                {
-                    "name": "Height",
-                    "value": 480
-                },
-                {
-                    "name": "Smoothing",
-                    "value": 1
-                },
-                {
-                    "name": "Stretch",
-                    "value": 0
-                },
-                {
-                    "name": "Transparent background",
-                    "value": 1
-                },
-                {
-                    "name": "Title",
-                    "value": "cables texture"
-                }
-            ]
-        },
-        {
             "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
-            "id": "qyqy7xykr",
+            "id": "8335j8snw",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -494.01387197028345,
-                    "y": -30.928950368585376
+                    "x": -479.1382435282116,
+                    "y": 221.56855522845888
                 }
             },
             "portsIn": [
@@ -277,16 +55,12 @@
                 {
                     "name": "Enable WS",
                     "value": 1
-                },
-                {
-                    "name": "WS Channel",
-                    "value": "message"
                 }
             ],
             "portsOut": [
                 {
                     "name": "HTTP URL",
-                    "value": "/turbowarp/static/blocks-media/default/handdelete.cur"
+                    "value": "/apps/mouse_overlays/sketch/magicWandMouse_Class.js"
                 },
                 {
                     "name": "WS Message Channel",
@@ -294,7 +68,7 @@
                 },
                 {
                     "name": "WS Active Clients",
-                    "value": 3
+                    "value": 1
                 },
                 {
                     "name": "Error",
@@ -311,390 +85,1151 @@
             ]
         },
         {
-            "opId": "21630924-39e4-4df5-9965-b9136510d156",
-            "id": "jv0u1e3vx",
+            "opId": "eff161f2-6fe2-43a5-a884-af7e7a19a523",
+            "id": "qwr17v8gn",
             "attribs": {},
             "uiAttribs": {
+                "height": 55.490572228438026,
+                "width": 78.79392102136848,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
                 "translate": {
-                    "x": -494,
-                    "y": 50.48444700782795
-                }
-            }
-        },
-        {
-            "opId": "9e74b275-a1ed-4d10-aba4-4b3311363a99",
-            "id": "lxlv1prph",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -836.143047118871,
-                    "y": 208.0016378598411
-                }
+                    "x": -471.6381510685017,
+                    "y": -324.11860452377795
+                },
+                "extendTitle": null
             },
             "portsIn": [
                 {
-                    "name": "URL",
-                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/space_type_generator/stripes/index.html"
-                },
+                    "name": "value",
+                    "value": "magicwand"
+                }
+            ],
+            "portsOut": [
                 {
-                    "name": "ID",
-                    "value": "defaultCanvas0"
-                },
+                    "name": "String",
+                    "links": [
+                        {
+                            "portIn": "WS Channel",
+                            "portOut": "String",
+                            "objIn": "8335j8snw",
+                            "objOut": "qwr17v8gn"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "f19d27cc-981f-495d-ab90-50d4eb076412",
+            "id": "0f5sxntbg",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -305.11405326509,
+                    "y": -840.4932059112651
+                }
+            },
+            "portsIn": [
                 {
                     "name": "Active",
                     "value": 1
                 },
                 {
-                    "name": "Style",
-                    "value": "position:absolute;\nz-index:9999;\nborder:0;\nwidth:100%;\nheight:100%;\n//visibility:hidden;"
+                    "name": "PPS Limit",
+                    "value": 30
                 }
             ],
             "portsOut": [
                 {
-                    "name": "Element",
+                    "name": "Pos X",
                     "links": [
                         {
-                            "portIn": "Iframe Element",
-                            "portOut": "Element",
-                            "objIn": "cp1kzn66d",
-                            "objOut": "lxlv1prph"
+                            "portIn": "Value",
+                            "portOut": "Pos X",
+                            "objIn": "pd21e3lyz",
+                            "objOut": "0f5sxntbg"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos Y",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "Pos Y",
+                            "objIn": "trsiau60a",
+                            "objOut": "0f5sxntbg"
+                        }
+                    ]
+                },
+                {
+                    "name": "Click",
+                    "links": [
+                        {
+                            "portIn": "String 0",
+                            "portOut": "Click",
+                            "objIn": "ga3ezz5x7",
+                            "objOut": "0f5sxntbg"
+                        }
+                    ]
+                },
+                {
+                    "name": "Scroll Delta X",
+                    "value": 0
+                },
+                {
+                    "name": "Scroll Delta Y",
+                    "value": 0
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        },
+        {
+            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
+            "id": "3zhxtohmd",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -323.1382435282116,
+                    "y": -266.30579916399097
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Clear",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "es4yj8lko",
+                            "objOut": "3zhxtohmd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Result",
+                            "objIn": "q01ju04l9",
+                            "objOut": "3zhxtohmd"
                         }
                     ]
                 }
             ]
         },
         {
-            "opId": "cc8c3ede-7103-410b-849f-a645793cab39",
-            "id": "1jap5djv8",
+            "opId": "58a75bf7-6828-4190-a205-3b8037bc24d4",
+            "id": "es4yj8lko",
             "attribs": {},
             "uiAttribs": {
+                "extendTitlePort": "Key",
                 "translate": {
-                    "x": -681.8342300631575,
-                    "y": 150.4779638233757
+                    "x": -276.18655103184494,
+                    "y": -215.5533696434666
                 }
             },
             "portsIn": [
                 {
-                    "name": "render",
-                    "title": "Trigger"
-                },
-                {
-                    "name": "Render Mesh",
-                    "value": 1,
-                    "title": "Render"
-                },
-                {
-                    "name": "width",
-                    "value": 1
-                },
-                {
-                    "name": "height",
-                    "value": 1
-                },
-                {
-                    "name": "pivot x index",
-                    "value": 1
-                },
-                {
-                    "name": "pivot x",
-                    "value": "center"
-                },
-                {
-                    "name": "pivot y index",
-                    "value": 1
-                },
-                {
-                    "name": "pivot y",
-                    "value": "center"
-                },
-                {
-                    "name": "axis index",
-                    "value": 0
-                },
-                {
-                    "name": "axis",
-                    "value": "xy"
-                },
-                {
-                    "name": "Flip TexCoord X",
-                    "value": 0
-                },
-                {
-                    "name": "Flip TexCoord Y",
-                    "value": 1
-                },
-                {
-                    "name": "num columns",
-                    "value": 1
-                },
-                {
-                    "name": "num rows",
-                    "value": 1
-                }
-            ]
-        },
-        {
-            "opId": "650baeb1-db2d-4781-9af6-ab4e9d4277be",
-            "id": "0kbua7p4w",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -681.8342300631575,
-                    "y": 94.27222242597543
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "posX",
-                    "value": 0.69
-                },
-                {
-                    "name": "posY",
-                    "value": 0.52
-                },
-                {
-                    "name": "posZ",
-                    "value": 0
-                },
-                {
-                    "name": "scale",
-                    "value": 1
-                },
-                {
-                    "name": "rotX",
-                    "value": 0
-                },
-                {
-                    "name": "rotY",
-                    "value": 0
-                },
-                {
-                    "name": "rotZ",
-                    "value": 0
+                    "name": "Key",
+                    "value": "x"
                 }
             ],
             "portsOut": [
                 {
-                    "name": "trigger",
+                    "name": "Next",
                     "links": [
                         {
-                            "portIn": "render",
-                            "portOut": "trigger",
-                            "objIn": "1jap5djv8",
-                            "objOut": "0kbua7p4w"
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "z6pmx4i67",
+                            "objOut": "es4yj8lko"
                         }
                     ]
                 }
             ]
         },
         {
-            "opId": "2fbada6b-70fa-4b43-87db-8b0d9293990b",
-            "id": "d7jbv5udv",
+            "opId": "63ec7ad7-a436-4f72-8b5e-257cc20049d4",
+            "id": "pd21e3lyz",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -827.1171235965026,
-                    "y": 348.44416676920304
-                }
+                    "x": -323.1382435282116,
+                    "y": -528.9133637194427
+                },
+                "comment": "x"
             },
-            "portsIn": [
-                {
-                    "name": "filter index",
-                    "value": 1
-                },
-                {
-                    "name": "filter",
-                    "value": "linear"
-                },
-                {
-                    "name": "wrap index",
-                    "value": 0
-                },
-                {
-                    "name": "wrap",
-                    "value": "repeat"
-                },
-                {
-                    "name": "flip",
-                    "value": 0
-                },
-                {
-                    "name": "unpackPreMultipliedAlpha",
-                    "value": 0
-                }
-            ],
             "portsOut": [
                 {
-                    "name": "texture",
+                    "name": "Next",
                     "links": [
                         {
-                            "portIn": "Texture",
-                            "portOut": "texture",
-                            "objIn": "tnpy1bt4y",
-                            "objOut": "d7jbv5udv"
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "3zhxtohmd",
+                            "objOut": "pd21e3lyz"
                         }
                     ]
                 },
                 {
-                    "name": "width",
-                    "value": 670
-                },
-                {
-                    "name": "height",
-                    "value": 377
-                }
-            ]
-        },
-        {
-            "opId": "01094f4a-d0aa-4484-b50d-528c491a2fbf",
-            "id": "cp1kzn66d",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": -836.143047118871,
-                    "y": 270.39163543500536
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Selector",
-                    "value": "canvas"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Canvas Element",
+                    "name": "Number",
                     "links": [
                         {
-                            "portIn": "canvas",
-                            "portOut": "Canvas Element",
-                            "objIn": "d7jbv5udv",
-                            "objOut": "cp1kzn66d"
+                            "portIn": "value",
+                            "portOut": "Number",
+                            "objIn": "bvtzwlnj7",
+                            "objOut": "pd21e3lyz"
                         }
                     ]
                 }
             ]
         },
         {
-            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
-            "id": "9rb9zwd76",
+            "opId": "7f8a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+            "id": "jkqj95tcb",
             "attribs": {},
             "uiAttribs": {
-                "height": 150,
-                "resizable": true,
                 "translate": {
-                    "x": -442.6703080297542,
-                    "y": 459.266146819371
-                },
-                "extendTitle": ""
+                    "x": -542.8170063681328,
+                    "y": -705.6506498636656
+                }
             },
             "portsIn": [
                 {
-                    "name": "Show Info",
-                    "value": 0
+                    "name": "App Name",
+                    "value": "OBS"
                 },
                 {
-                    "name": "Visualize outside 0-1 index",
-                    "value": 1
+                    "name": "App Path",
+                    "value": ""
                 },
                 {
-                    "name": "Visualize outside 0-1",
-                    "value": "Anim"
+                    "name": "Collection",
+                    "value": "screenRecording"
                 },
                 {
-                    "name": "Alpha index",
-                    "value": 0
+                    "name": "Debug Port",
+                    "value": "9222"
                 },
                 {
-                    "name": "Alpha",
-                    "value": "A"
+                    "name": "WSS Port",
+                    "value": "4455"
                 },
                 {
-                    "name": "Convert RGBE",
-                    "value": 0
-                },
-                {
-                    "name": "Channels index",
-                    "value": 0
-                },
-                {
-                    "name": "Channels",
-                    "value": "RGB"
-                },
-                {
-                    "name": "Type index",
-                    "value": 0
-                },
-                {
-                    "name": "Type",
-                    "value": "Automatic"
-                },
-                {
-                    "name": "Show Color",
-                    "value": 0
-                },
-                {
-                    "name": "X",
-                    "value": 0.5
-                },
-                {
-                    "name": "Y",
-                    "value": 0.5
-                },
-                {
-                    "name": "Mip Level",
-                    "value": 0
+                    "name": "WSS Password",
+                    "value": "7bfb6fd2-25fc-4450-a2a0-08d79e99a07c"
                 }
             ],
             "portsOut": [
                 {
-                    "name": "Info",
+                    "name": "Success",
+                    "value": 1
+                },
+                {
+                    "name": "OBS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "Password",
+                    "value": "7bfb6fd2-25fc-4450-a2a0-08d79e99a07c"
+                },
+                {
+                    "name": "Error",
                     "value": ""
                 }
             ]
         },
         {
-            "opId": "c7a8b9f0-d1e2-43f4-b5a6-7c8d9e0f1a2f",
-            "id": "50c1pcdyo",
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "fizaufyjl",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -516,
-                    "y": 340
+                    "x": -323.1382435282116,
+                    "y": 40.17618958302947
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "Send WS Message",
+                            "portOut": "Changed",
+                            "objIn": "8335j8snw",
+                            "objOut": "fizaufyjl"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "WS Data",
+                            "portOut": "Result",
+                            "objIn": "8335j8snw",
+                            "objOut": "fizaufyjl"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "aher21yd9",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -276.18655103184494,
+                    "y": -112.87505982812576
                 }
             },
             "portsIn": [
                 {
-                    "name": "URL",
-                    "value": "http://127.0.0.1:8080/turbowarp/editor.html"
+                    "name": "Key",
+                    "value": "type"
                 },
                 {
-                    "name": "Broadcast Channel Name",
-                    "value": "url-sync"
+                    "name": "String",
+                    "value": "mouse_move"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "69c91j7yk",
+                            "objOut": "aher21yd9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
+            "id": "5417wwd6f",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 105.07874449026855,
+                    "y": -446.58443459744177
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Clear",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "6lbzy56rs",
+                            "objOut": "5417wwd6f"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "874380ae-4a10-4a53-92d9-4982f4c1f3a2",
+            "id": "z0agm8yn9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 106.23737962700511,
+                    "y": -587.4276353898254
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "Changed",
+                            "objIn": "88i7kak4u",
+                            "objOut": "z0agm8yn9"
+                        }
+                    ]
                 },
                 {
-                    "name": "Pos X",
-                    "value": 8
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Result",
+                            "objIn": "jue3er4ki",
+                            "objOut": "z0agm8yn9"
+                        },
+                        {
+                            "portIn": "String",
+                            "portOut": "Result",
+                            "objIn": "bq6o1m4av",
+                            "objOut": "z0agm8yn9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "6lbzy56rs",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 162.36696204782183,
+                    "y": -384.3230490550232
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "type"
                 },
                 {
-                    "name": "Pos Y",
+                    "name": "String",
+                    "value": "mouse_click"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "sifq33wz2",
+                            "objOut": "6lbzy56rs"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "sifq33wz2",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 162.36696204782183,
+                    "y": -322.4320037852736
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "button"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "eflg6bg5g",
+                            "objOut": "sifq33wz2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "5f0d1ef7-3d41-45df-8d26-6d354b0c0cd8",
+            "id": "eflg6bg5g",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 162.36696204782183,
+                    "y": -239.86686107352355
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "pressed"
+                },
+                {
+                    "name": "Boolean",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "58a75bf7-6828-4190-a205-3b8037bc24d4",
+            "id": "z6pmx4i67",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -276.18655103184494,
+                    "y": -162.1891947749628
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "y"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "aher21yd9",
+                            "objOut": "z6pmx4i67"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "63ec7ad7-a436-4f72-8b5e-257cc20049d4",
+            "id": "trsiau60a",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -264.18655103184494,
+                    "y": -394.4140267158019
+                },
+                "comment": "y"
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "3zhxtohmd",
+                            "objOut": "trsiau60a"
+                        }
+                    ]
+                },
+                {
+                    "name": "Number",
+                    "links": [
+                        {
+                            "portIn": "value",
+                            "portOut": "Number",
+                            "objIn": "5j8o1wmuo",
+                            "objOut": "trsiau60a"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
+            "id": "bvtzwlnj7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -311.1382435282116,
+                    "y": -476.90376286823005
+                },
+                "comment": "x"
+            },
+            "portsIn": [
+                {
+                    "name": "old min",
                     "value": 0
                 },
                 {
-                    "name": "Width",
-                    "value": 1258
+                    "name": "old max",
+                    "value": 1919
                 },
                 {
-                    "name": "Height",
-                    "value": 718
+                    "name": "new min",
+                    "value": 0
                 },
                 {
-                    "name": "Transparent background",
+                    "name": "new max",
                     "value": 1
                 },
                 {
-                    "name": "Title",
-                    "value": "cables window"
+                    "name": "Easing index",
+                    "value": 0
+                },
+                {
+                    "name": "Easing",
+                    "value": "Linear"
+                },
+                {
+                    "name": "Clamp",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "result",
+                            "objIn": "es4yj8lko",
+                            "objOut": "bvtzwlnj7"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
+            "id": "5j8o1wmuo",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -252.18655103184494,
+                    "y": -334.90406610699443
+                },
+                "comment": "y"
+            },
+            "portsIn": [
+                {
+                    "name": "old min",
+                    "value": 0
+                },
+                {
+                    "name": "old max",
+                    "value": 1200
+                },
+                {
+                    "name": "new min",
+                    "value": 0
+                },
+                {
+                    "name": "new max",
+                    "value": 1
+                },
+                {
+                    "name": "Easing index",
+                    "value": 0
+                },
+                {
+                    "name": "Easing",
+                    "value": "Linear"
+                },
+                {
+                    "name": "Clamp",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "result",
+                            "objIn": "z6pmx4i67",
+                            "objOut": "5j8o1wmuo"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "5f0d1ef7-3d41-45df-8d26-6d354b0c0cd8",
+            "id": "69c91j7yk",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -276.18655103184494,
+                    "y": -61.37255902432858
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "normalized"
+                },
+                {
+                    "name": "Boolean",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
+            "id": "87zauhuxj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -191.9042443815667,
+                    "y": 129.5521431884
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "JSON String",
+                    "value": "{\n  \"type\": \"config\",\n  \"colorMove\": [255, 0,255],\n  \"colorClick\": [255, 255, 0],\n  \"starSize\": 5,\n  \"starDecay\": 4\n}"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result",
+                            "objIn": "ooo6ezw35",
+                            "objOut": "87zauhuxj"
+                        }
+                    ]
+                },
+                {
+                    "name": "Valid",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "e437c074-190f-4adb-8265-3fddea27fe33",
+            "id": "ooo6ezw35",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -203.9042443815667,
+                    "y": 180
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Send WS Message",
+                            "portOut": "Next",
+                            "objIn": "8335j8snw",
+                            "objOut": "ooo6ezw35"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "WS Data",
+                            "portOut": "Result",
+                            "objIn": "8335j8snw",
+                            "objOut": "ooo6ezw35"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "0ce14933-2d91-4381-9d82-2304aae22c0e",
+            "id": "vbvd1uh36",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 106.23737962700511,
+                    "y": -643.4163480269524
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "When False index",
+                    "value": 0
+                },
+                {
+                    "name": "When False",
+                    "value": "keep last string"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String Out",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "String Out",
+                            "objIn": "z0agm8yn9",
+                            "objOut": "vbvd1uh36"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "fdeed3ad-42fd-478a-9a03-a95495dbb946",
+            "id": "iek1czyz7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 225.610535190633,
+                    "y": -708.106667012406
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Search",
+                    "value": "down"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Ends with",
+                    "links": [
+                        {
+                            "portIn": "Pass Through",
+                            "portOut": "Ends with",
+                            "objIn": "vbvd1uh36",
+                            "objOut": "iek1czyz7"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "6e994ba8-01d1-4da6-98b4-af7e822a2e6c",
+            "id": "jue3er4ki",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 242.1737197655049,
+                    "y": -522.8885326345902
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Start",
+                    "value": 0
+                },
+                {
+                    "name": "End",
+                    "value": 3
+                },
+                {
+                    "name": "End of string",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Result",
+                            "objIn": "sifq33wz2",
+                            "objOut": "jue3er4ki"
+                        },
+                        {
+                            "portIn": "String",
+                            "portOut": "Result",
+                            "objIn": "6569uvqvp",
+                            "objOut": "jue3er4ki"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "76c7d6a7-64c9-4a95-bc92-c68213601d28",
+            "id": "q01ju04l9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -323.1382435282116,
+                    "y": -6.240080515982708
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Output 0",
+                            "objIn": "fizaufyjl",
+                            "objOut": "q01ju04l9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ee0459bd-3dc1-4b32-b6c1-01f98d06eebd",
+            "id": "ga3ezz5x7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 18.779256137678033,
+                    "y": -775.2454243150859
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "String 1"
+                },
+                {
+                    "name": "String 2",
+                    "value": ""
+                },
+                {
+                    "name": "String 3",
+                    "value": ""
+                },
+                {
+                    "name": "String 4",
+                    "value": ""
+                },
+                {
+                    "name": "String 5",
+                    "value": ""
+                },
+                {
+                    "name": "String 6",
+                    "value": ""
+                },
+                {
+                    "name": "String 7",
+                    "value": ""
+                },
+                {
+                    "name": "String 8",
+                    "value": ""
+                },
+                {
+                    "name": "String 9",
+                    "value": ""
+                },
+                {
+                    "name": "String 10",
+                    "value": ""
+                },
+                {
+                    "name": "String 11",
+                    "value": ""
+                },
+                {
+                    "name": "String 12",
+                    "value": ""
+                },
+                {
+                    "name": "String 13",
+                    "value": ""
+                },
+                {
+                    "name": "String 14",
+                    "value": ""
+                },
+                {
+                    "name": "String 15",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Output 0",
+                            "objIn": "iek1czyz7",
+                            "objOut": "ga3ezz5x7"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 1",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Output 1",
+                            "objIn": "cz89biphx",
+                            "objOut": "ga3ezz5x7"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 2",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 3",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 4",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 5",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 6",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 7",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 8",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 9",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 10",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 11",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 12",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 13",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 14",
+                    "value": "MB1 up"
+                },
+                {
+                    "name": "Output 15",
+                    "value": "MB1 up"
+                }
+            ]
+        },
+        {
+            "opId": "874380ae-4a10-4a53-92d9-4982f4c1f3a2",
+            "id": "cz89biphx",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 30.779256137678033,
+                    "y": -711.4967589856475
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "String In",
+                            "portOut": "Result",
+                            "objIn": "vbvd1uh36",
+                            "objOut": "cz89biphx"
+                        },
+                        {
+                            "portIn": "Custom Value",
+                            "portOut": "Result",
+                            "objIn": "vbvd1uh36",
+                            "objOut": "cz89biphx"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "4533060f-3cd4-4572-ac78-dad0710a3f7a",
+            "id": "88i7kak4u",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 100,
+                "width": 130,
+                "resizable": true,
+                "translate": {
+                    "x": -47.772647878173615,
+                    "y": -520.7091067510153
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Count Overlay",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Count",
+                    "value": 366
+                }
+            ]
+        },
+        {
+            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
+            "id": "bq6o1m4av",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 646.9612457059704,
+                "width": 261.97719931468805,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 550.925770451233,
+                    "y": -577.8775812716526
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
+            "id": "6569uvqvp",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 412.3921108599211,
+                "width": 154.44873906710157,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 421.32325665906893,
+                    "y": -463.9739596308137
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
                 }
             ]
         }
@@ -705,13 +1240,13 @@
     "userList": [
         {
             "username": "",
-            "_id": "6a47dd1fb8988e6983c6e155",
+            "_id": "6a5204fba38f50d1a7edfab5",
             "profile_theme": "dark",
             "isStaff": false,
             "usernameLowercase": "",
             "isAdmin": false,
             "theme": "dark",
-            "created": 1783094559381
+            "created": 1783760123008
         }
     ],
     "teams": [],
@@ -719,8 +1254,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 670,
-            "h": 377,
+            "w": 424,
+            "h": 164,
             "s": 1
         },
         "timeline": {},
@@ -728,9 +1263,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -504.9542763306133,
-                "y": 411.9691676570416,
-                "z": 392.1497022145182
+                "x": 222.21854014554953,
+                "y": -630.6273923170866,
+                "z": 1112.2897312671132
             }
         },
         "outline": {
@@ -751,45 +1286,45 @@
     "summary": {
         "title": "BlankPatch"
     },
-    "opsHash": "e6830284735a96ea4c43c4f23efa0ef358366977",
+    "opsHash": "893ce1bd8f47fcade29e9c23c7ff7cbca18e991f",
     "buildInfo": {
         "updateWarning": false,
         "core": {
-            "timestamp": 1777512526532,
-            "created": "2026-04-30T01:28:46.532Z",
+            "timestamp": 1782384754584,
+            "created": "2026-06-25T10:52:34.584Z",
             "git": {
                 "branch": "develop",
-                "commit": "db53c3e811af6d141da6584ec3ca94aeb6392246",
-                "date": "1777480946",
-                "message": "gltf parse"
+                "commit": "822accab1993d461dad3a870e6918463622523d8",
+                "date": "1782383076",
+                "message": "docs"
             }
         },
         "ui": {
-            "timestamp": 1777512532169,
-            "created": "2026-04-30T01:28:52.169Z",
+            "timestamp": 1782384773089,
+            "created": "2026-06-25T10:52:53.089Z",
             "git": {
                 "branch": "develop",
-                "commit": "45ce300547134b86a592a65d9ce08c50d359a46f",
-                "date": "1777401508",
-                "message": "cm update"
+                "commit": "89ee7fdb683f267af33d155006ac4aa6dbbef9dc",
+                "date": "1782377186",
+                "message": "Merge branch 'develop'"
             }
         },
         "api": {
-            "timestamp": 1783296151638,
-            "created": "2026-07-06T00:02:31.638Z",
+            "timestamp": 1782384790730,
+            "created": "2026-06-25T10:53:10.730Z",
             "git": {
-                "branch": "main",
-                "commit": "cd54ebcbc8bc17976a8a93943c388231aa0fefe7",
-                "date": "1780253941",
-                "message": "Add macOS privacy usage description keys to package.json extendInfo"
+                "branch": "develop",
+                "commit": "e9905b2dcd49c9dc4c8604859b957ce5f7591bb4",
+                "date": "1780928700",
+                "message": "edit opdependencies"
             },
             "platform": {
+                "os": ":mac",
                 "npm": "10.5.2",
                 "node": "20.13.1"
-            }
+            },
+            "version": "0.11.0"
         }
     },
-    "updatedByUser": "",
-    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAGH9JREFUeF7t2MFtXUkQBEHKE5oiU2QKTZEp9GwXlBGTBXQQ0LnmRf9DQr8+Pj7++/BHgAABAgQIECBwRuCXADxzax9KgAABAgQIEPgnIAD9EAgQIECAAAECxwQE4LGD+1wCBAgQIECAgAD0GyBAgAABAgQIHBMQgMcO7nMJECBAgAABAgLQb4AAAQIECBAgcExAAB47uM8lQIAAAQIECAhAvwECBAgQIECAwDEBAXjs4D6XAAECBAgQICAA/QYIECBAgAABAscEBOCxg/tcAgQIECBAgIAA9BsgQIAAAQIECBwTEIDHDu5zCRAgQIAAAQIC0G+AAAECBAgQIHBMQAAeO7jPJUCgF/j8/Pz4+eePQCnw/f1dztuOBQRgfADzBAjcE/iJvz9//tz7cF88JfD19TX1Ho95KyAA33pbI0CAwL///ROAfgi1gACsL9DuC8DW3zoBAgcFBODBow9+sgAcPMrDJwnAh9imCBAg8CMgAP0OFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPnCMDH4OYIECAgAP0GFgQE4MIVujcIwM7eMgECRwUE4NHDj322ABw7yOPn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",
-    "exports": 2
+    "updatedByUser": ""
 }

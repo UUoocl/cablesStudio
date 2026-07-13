@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Astro Bee Overlay</title>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+        canvas { display: block; background: transparent; }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import { create } from '../lib/slides-studio-client.js?v=1.0.5';
+        window.slidesStudioClient = { create };
+    </script>
+
+    <script>
+        let mousePosX = window.innerWidth / 2;
+        let mousePosY = window.innerHeight / 2;
+        let displayXmin = 0, displayXmax = 1920;
+        let displayYmin = 0, displayYmax = 1080;
+
+        const desktopBoundsChannel = new BroadcastChannel('desktop_bounds');
+
+        function remap(n, start1, stop1, start2, stop2) {
+            return (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+        }
+
+        desktopBoundsChannel.onmessage = (event) => {
+            if (event.data && typeof event.data.minX !== 'undefined') {
+                console.log('Received desktop bounds via BroadcastChannel:', event.data);
+                updateLocalBounds(event.data);
+            }
+        };
+
+        function updateLocalBounds(bounds) {
+            displayXmin = bounds.minX;
+            displayXmax = bounds.maxX;
+            displayYmin = bounds.minY;
+            displayYmax = bounds.maxY;
+        }
+
+        let socket;
+
+        async function initSocket() {
+            if (!window.slidesStudioClient) {
+                setTimeout(initSocket, 100);
+                return;
+            }
+
+            socket = window.slidesStudioClient.create({
+                hostname: window.location.hostname,
+                port: window.location.port,
+                path: '/websocket/',
+                authToken: { name: 'P5AstroBee' }
+            });
+
+            socket.on('error', (err) => {
+                console.error('WebSocket error:', err);
+            });
+
+            socket.on('connect', () => {
+                console.log('Connected to WebSocket');
+                // Request bounds from other apps first
+                desktopBoundsChannel.postMessage('request_bounds');
+                // Fetch from OBS as fallback after a short delay if no one responded
+                setTimeout(() => {
+                    if (displayXmax === 1920 && displayYmax === 1080) {
+                        fetchDesktopBounds();
+                    }
+                }, 500);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from WebSocket');
+            });
+
+            // Subscribe to mouse position updates
+            const posChannel = socket.subscribe('mousePosition');
+            posChannel.on('message', (data) => {
+                mousePosX = Math.round(remap(data.x, displayXmin, displayXmax, 0, window.innerWidth));
+                mousePosY = Math.round(remap(data.y, displayYmin, displayYmax, 0, window.innerHeight));
+            });
+
+            // Subscribe to mouse click updates
+            const clickChannel = socket.subscribe('mouseClick');
+            clickChannel.on('message', (data) => {
+                if (data.pressed) {
+                    if (typeof triggerClickEffect === 'function') {
+                        triggerClickEffect();
+                    }
+                }
+            });
+
+            // Subscribe to keyboard press updates
+            const kbChannel = socket.subscribe('keyboardPress');
+            kbChannel.on('message', (data) => {
+                const key = data.key;
+                if (key === '+' || key === '=') {
+                    if (typeof updateZoom === 'function') updateZoom(20);
+                } else if (key === '-') {
+                    if (typeof updateZoom === 'function') updateZoom(-20);
+                }
+            });
+        }
+
+        async function fetchDesktopBounds() {
+            if (!socket) return;
+            try {
+                const data = await socket.invoke('obsRequest', {
+                    requestType: 'GetMonitorList'
+                });
+                const monitors = data.monitors || [];
+                if (monitors.length > 0) {
+                    const bounds = {
+                        minX: Math.min(...monitors.map(m => m.monitorPositionX)),
+                        maxX: Math.max(...monitors.map(m => m.monitorPositionX + m.monitorWidth)),
+                        minY: Math.min(...monitors.map(m => m.monitorPositionY)),
+                        maxY: Math.max(...monitors.map(m => m.monitorPositionY + m.monitorHeight))
+                    };
+                    updateLocalBounds(bounds);
+                }
+            } catch (e) {
+                console.error("Failed to fetch desktop bounds from WebSocket", e);
+            }
+        }
+
+        // Initial setup
+        initSocket();
+    </script>
+    <script src="../lib/p5.min.js"></script>
+    <script src="./sketch/astroBee_Sketch.js"></script>
+</body>
+</html>

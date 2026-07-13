@@ -1,0 +1,1167 @@
+{
+    "_id": "6a5204fbf60143190aa7266b",
+    "shortId": "f4Hl3p",
+    "name": "mouseMonitor click and move map",
+    "description": "",
+    "userId": "6a5204fba38f50d1a7edfab5",
+    "cachedUsername": "",
+    "created": 1783760123008,
+    "updated": 1783901871259,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "rpqqb5vt9",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Normalize Position",
+                "title": "Normalize Position",
+                "translate": {
+                    "x": -278.4268302831015,
+                    "y": -323.1169366189155
+                },
+                "area": {
+                    "w": 432.5031019745726,
+                    "h": 354.5911125904306,
+                    "id": "ws5j4r0os"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Normalize Position"
+                }
+            ]
+        },
+        {
+            "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
+            "id": "tlp71xqbo",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -22.583484666177554,
+                    "y": -231.58104074387109
+                },
+                "comment": "y"
+            },
+            "portsIn": [
+                {
+                    "name": "old min",
+                    "value": 1200
+                },
+                {
+                    "name": "old max",
+                    "value": 2279
+                },
+                {
+                    "name": "new min",
+                    "value": 0
+                },
+                {
+                    "name": "new max",
+                    "value": 1
+                },
+                {
+                    "name": "Easing index",
+                    "value": 0
+                },
+                {
+                    "name": "Easing",
+                    "value": "Linear"
+                },
+                {
+                    "name": "Clamp",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "result",
+                            "objIn": "u0lclr813",
+                            "objOut": "tlp71xqbo"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
+            "id": "8ye22u2py",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -233.16973152385958,
+                    "y": -224.70075001418894
+                },
+                "comment": "x"
+            },
+            "portsIn": [
+                {
+                    "name": "old min",
+                    "value": 1512
+                },
+                {
+                    "name": "old max",
+                    "value": 3431
+                },
+                {
+                    "name": "new min",
+                    "value": 0
+                },
+                {
+                    "name": "new max",
+                    "value": 1
+                },
+                {
+                    "name": "Easing index",
+                    "value": 0
+                },
+                {
+                    "name": "Easing",
+                    "value": "Linear"
+                },
+                {
+                    "name": "Clamp",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "result",
+                            "objIn": "85dri5jqb",
+                            "objOut": "8ye22u2py"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "93492eeb-bf35-4a62-98f7-d85b0b79bfe5",
+            "id": "cgyu7l3j5",
+            "attribs": {},
+            "uiAttribs": {
+                "comment_title": "mapRange",
+                "comment_text": "Set the old min and max to the screen area to capture.\nExample. main screen \nx min 0, max 1920\ny min 0, max 1200\n\nset the new min and max to 0 and 1.    ",
+                "translate": {
+                    "x": -239.94644812282283,
+                    "y": -182.27847928762503
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "title",
+                    "value": "mapRange"
+                },
+                {
+                    "name": "text",
+                    "value": "Set the old min and max to the screen area to capture.\nExample. main screen \nx min 0, max 1920\ny min 0, max 1200\n\nset the new min and max to 0 and 1.    "
+                }
+            ]
+        },
+        {
+            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
+            "id": "d4gzvdftq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 364.51252006883,
+                    "y": -72.11368927312745
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Clear",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "j6jr0vha8",
+                            "objOut": "d4gzvdftq"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Number 15",
+                            "portOut": "Result",
+                            "objIn": "q5bk4k020",
+                            "objOut": "d4gzvdftq"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result",
+                            "objIn": "4ugys390h",
+                            "objOut": "d4gzvdftq"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "5f0d1ef7-3d41-45df-8d26-6d354b0c0cd8",
+            "id": "4us0b48uy",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 419.66203295606226,
+                    "y": 95.76257842396807
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "pressed"
+                },
+                {
+                    "name": "Boolean",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "l76hy3cih",
+                            "objOut": "4us0b48uy"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "l76hy3cih",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 419.66203295606226,
+                    "y": 150.98453471266748
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "type"
+                },
+                {
+                    "name": "String",
+                    "value": "mouse_click"
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "j6jr0vha8",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 419.66203295606226,
+                    "y": 40.10154838070319
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "button"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "4us0b48uy",
+                            "objOut": "j6jr0vha8"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "5c6d375a-82db-4366-8013-93f56b4061a9",
+            "id": "er7pdsfag",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 609.6467598617834,
+                    "y": -84.43709651462292
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Decimal Places",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Strings_1",
+                            "portOut": "Result",
+                            "objIn": "u6w8zlk6q",
+                            "objOut": "er7pdsfag"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "f44bfe36-c44a-45f3-a2e7-a71399c22733",
+            "id": "u6w8zlk6q",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 585.6467598617834,
+                    "y": -23.5496002414207
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Strings",
+                    "multiPortNum": 3,
+                    "multiPortManual": true
+                },
+                {
+                    "name": "Seperator index",
+                    "value": 0
+                },
+                {
+                    "name": "Seperator",
+                    "value": "None"
+                },
+                {
+                    "name": "Strings_0",
+                    "value": "MB"
+                },
+                {
+                    "name": "Strings_2",
+                    "value": "",
+                    "title": "add port"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "String",
+                            "objIn": "j6jr0vha8",
+                            "objOut": "u6w8zlk6q"
+                        }
+                    ]
+                },
+                {
+                    "name": "Num Strings",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "opId": "6468b7c1-f63e-4db4-b809-4b203d27ead3",
+            "id": "y55r5obu0",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -203.50448544592882,
+                    "y": 224.91913576609696
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": "fastfluid"
+                },
+                {
+                    "name": "Syntax index",
+                    "value": 0
+                },
+                {
+                    "name": "Syntax",
+                    "value": "text"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "WS Channel",
+                            "portOut": "Result",
+                            "objIn": "9bxygf9vy",
+                            "objOut": "y55r5obu0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "c780i67mu",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Clicks",
+                "title": "Clicks",
+                "translate": {
+                    "x": 325.0626079409039,
+                    "y": -316.7113702453018
+                },
+                "area": {
+                    "w": 446.4126564291751,
+                    "h": 529.3379223118407,
+                    "id": "zh95yiads"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Clicks"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "h698pl8hn",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Position",
+                "title": "Position",
+                "translate": {
+                    "x": -729.1270527225583,
+                    "y": -330.33707865168543
+                },
+                "area": {
+                    "w": 350.31571800818267,
+                    "h": 527.110356375489,
+                    "id": "8u2fy7b9b"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Position"
+                }
+            ]
+        },
+        {
+            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
+            "id": "04uxqjw5l",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -655.0318704248924,
+                    "y": -203.58804714561313
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Clear",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "Next",
+                            "objIn": "ektxmgb81",
+                            "objOut": "04uxqjw5l"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Result",
+                            "objIn": "q5bk4k020",
+                            "objOut": "04uxqjw5l"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "5f0d1ef7-3d41-45df-8d26-6d354b0c0cd8",
+            "id": "g3r11m2cj",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -655.0318704248924,
+                    "y": 75.72755319074724
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "normalized"
+                },
+                {
+                    "name": "Boolean",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "plvebotrw",
+                            "objOut": "g3r11m2cj"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "58a75bf7-6828-4190-a205-3b8037bc24d4",
+            "id": "85dri5jqb",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -655.0318704248924,
+                    "y": -32.38798453991501
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "x"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "u0lclr813",
+                            "objOut": "85dri5jqb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "plvebotrw",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -655.0318704248924,
+                    "y": 143.4541967404615
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "type"
+                },
+                {
+                    "name": "String",
+                    "value": "mouse_move"
+                }
+            ]
+        },
+        {
+            "opId": "58a75bf7-6828-4190-a205-3b8037bc24d4",
+            "id": "u0lclr813",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -655.0318704248924,
+                    "y": 19.47398314418035
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "y"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "g3r11m2cj",
+                            "objOut": "u0lclr813"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a466bc1f-06e9-4595-8849-bffb9fe22f99",
+            "id": "ektxmgb81",
+            "attribs": {},
+            "uiAttribs": {
+                "resizable": true,
+                "resizableY": false,
+                "stretchPorts": true,
+                "translate": {
+                    "x": -655.0318704248924,
+                    "y": -121.69377967084517
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "trigger 0",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "trigger 0",
+                            "objIn": "85dri5jqb",
+                            "objOut": "ektxmgb81"
+                        }
+                    ]
+                },
+                {
+                    "name": "trigger 1",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "trigger 1",
+                            "objIn": "k09z85wa2",
+                            "objOut": "ektxmgb81"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "f19d27cc-981f-495d-ab90-50d4eb076412",
+            "id": "f27ep9bir",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -132.99411731543552,
+                    "y": -476.7823406711143
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "PPS Limit",
+                    "value": 20
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "On Move",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "On Move",
+                            "objIn": "04uxqjw5l",
+                            "objOut": "f27ep9bir"
+                        }
+                    ]
+                },
+                {
+                    "name": "On Click",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "On Click",
+                            "objIn": "773k4oenn",
+                            "objOut": "f27ep9bir"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos X",
+                    "links": [
+                        {
+                            "portIn": "value",
+                            "portOut": "Pos X",
+                            "objIn": "8ye22u2py",
+                            "objOut": "f27ep9bir"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos Y",
+                    "links": [
+                        {
+                            "portIn": "value",
+                            "portOut": "Pos Y",
+                            "objIn": "tlp71xqbo",
+                            "objOut": "f27ep9bir"
+                        }
+                    ]
+                },
+                {
+                    "name": "Button",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Button",
+                            "objIn": "er7pdsfag",
+                            "objOut": "f27ep9bir"
+                        }
+                    ]
+                },
+                {
+                    "name": "Button Is Down",
+                    "links": [
+                        {
+                            "portIn": "boolean",
+                            "portOut": "Button Is Down",
+                            "objIn": "773k4oenn",
+                            "objOut": "f27ep9bir"
+                        }
+                    ]
+                },
+                {
+                    "name": "Button Is Up",
+                    "value": true
+                },
+                {
+                    "name": "Scroll Delta X",
+                    "value": 0
+                },
+                {
+                    "name": "Scroll Delta Y",
+                    "value": -4.5251617431640625
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "9bxygf9vy",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -258.7673821873031,
+                    "y": 337.0295463364968
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Hostname",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "name": "Port",
+                    "value": 8080
+                },
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "SSE Event Name",
+                    "value": "message"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "HTTP URL",
+                    "value": "/apps/mouse_overlays/lib/p5.min.js"
+                },
+                {
+                    "name": "WS Message Channel",
+                    "value": ""
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 2
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "76c7d6a7-64c9-4a95-bc92-c68213601d28",
+            "id": "q5bk4k020",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -90.7673821873031,
+                    "y": 121.06078457029244
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "WS Data",
+                            "portOut": "Output 0",
+                            "objIn": "9bxygf9vy",
+                            "objOut": "q5bk4k020"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Output 0",
+                            "objIn": "w5ylrk0ds",
+                            "objOut": "q5bk4k020"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "a466bc1f-06e9-4595-8849-bffb9fe22f99",
+            "id": "k09z85wa2",
+            "attribs": {},
+            "uiAttribs": {
+                "resizable": true,
+                "resizableY": false,
+                "stretchPorts": true,
+                "translate": {
+                    "x": -80.67052457377193,
+                    "y": 60.42677289696098
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "trigger 0",
+                    "links": [
+                        {
+                            "portIn": "Send WS Message",
+                            "portOut": "trigger 0",
+                            "objIn": "9bxygf9vy",
+                            "objOut": "k09z85wa2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "9549e2ed-a544-4d33-a672-05c7854ccf5d",
+            "id": "773k4oenn",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 364.51252006883,
+                    "y": -162.96683915898947
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "then",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "then",
+                            "objIn": "d4gzvdftq",
+                            "objOut": "773k4oenn"
+                        }
+                    ]
+                },
+                {
+                    "name": "else",
+                    "links": [
+                        {
+                            "portIn": "Reset",
+                            "portOut": "else",
+                            "objIn": "d4gzvdftq",
+                            "objOut": "773k4oenn"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "4ugys390h",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 166.33464364704227,
+                    "y": -1.4320915473588514
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "exe 14",
+                            "portOut": "Changed",
+                            "objIn": "k09z85wa2",
+                            "objOut": "4ugys390h"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "7f8a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+            "id": "7x4vi10nq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -156,
+                    "y": 420
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "App Name",
+                    "value": "OBS"
+                },
+                {
+                    "name": "App Path",
+                    "value": ""
+                },
+                {
+                    "name": "Collection",
+                    "value": "screenRecording"
+                },
+                {
+                    "name": "Debug Port",
+                    "value": "9222"
+                },
+                {
+                    "name": "WSS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "WSS Password",
+                    "value": "ad6bb443-548c-4732-83a1-08758bc3cdb7"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 1
+                },
+                {
+                    "name": "OBS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "Password",
+                    "value": "ad6bb443-548c-4732-83a1-08758bc3cdb7"
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "w5ylrk0ds",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 92.52978837544822,
+                    "y": 220.7471146645137
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a5204fba38f50d1a7edfab5",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1783760123008
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 424,
+            "h": 164,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 219.53759970931515,
+                "y": -22.926658159688586,
+                "z": 937.9818000823977
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "mouseMonitor click and move map"
+    },
+    "opsHash": "7b3d84b5ded8162cd040291307d6d3c456d79e5a",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1782384754584,
+            "created": "2026-06-25T10:52:34.584Z",
+            "git": {
+                "branch": "develop",
+                "commit": "822accab1993d461dad3a870e6918463622523d8",
+                "date": "1782383076",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1782384773089,
+            "created": "2026-06-25T10:52:53.089Z",
+            "git": {
+                "branch": "develop",
+                "commit": "89ee7fdb683f267af33d155006ac4aa6dbbef9dc",
+                "date": "1782377186",
+                "message": "Merge branch 'develop'"
+            }
+        },
+        "api": {
+            "timestamp": 1782384790730,
+            "created": "2026-06-25T10:53:10.730Z",
+            "git": {
+                "branch": "develop",
+                "commit": "e9905b2dcd49c9dc4c8604859b957ce5f7591bb4",
+                "date": "1780928700",
+                "message": "edit opdependencies"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.11.0"
+        }
+    },
+    "updatedByUser": ""
+}
