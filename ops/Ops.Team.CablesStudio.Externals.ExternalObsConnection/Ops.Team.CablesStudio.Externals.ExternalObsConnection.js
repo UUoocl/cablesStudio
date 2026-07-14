@@ -14,6 +14,23 @@ const
     inReqName = op.inString("Request Name", ""),
     inReqData = op.inObject("Request Data", null),
 
+    inSubGeneral = op.inBool("Sub General", true),
+    inSubConfig = op.inBool("Sub Config", true),
+    inSubScenes = op.inBool("Sub Scenes", true),
+    inSubInputs = op.inBool("Sub Inputs", true),
+    inSubTransitions = op.inBool("Sub Transitions", true),
+    inSubFilters = op.inBool("Sub Filters", true),
+    inSubOutputs = op.inBool("Sub Outputs", true),
+    inSubSceneItems = op.inBool("Sub SceneItems", true),
+    inSubMediaInputs = op.inBool("Sub MediaInputs", true),
+    inSubVendors = op.inBool("Sub Vendors", true),
+    inSubUi = op.inBool("Sub UI", true),
+
+    inSubVol = op.inBool("Sub Volume Meters", false),
+    inSubActive = op.inBool("Sub Input Active", false),
+    inSubShow = op.inBool("Sub Input Show", false),
+    inSubTransform = op.inBool("Sub Item Transform", false),
+
     outPopupOpen = op.outBoolNum("Popup Open", false),
     outConnected = op.outBoolNum("Connected", false),
     outSuccess = op.outBoolNum("Response Success", false),
@@ -25,6 +42,12 @@ const
     outError = op.outString("Error", "");
 
 op.setPortGroup("Connection", [inHost, inPort, inPassword, inChannelName, inAutoConnect, inOpen, inClose]);
+op.setPortGroup("Subscriptions", [
+    inSubGeneral, inSubConfig, inSubScenes, inSubInputs,
+    inSubTransitions, inSubFilters, inSubOutputs, inSubSceneItems,
+    inSubMediaInputs, inSubVendors, inSubUi,
+    inSubVol, inSubActive, inSubShow, inSubTransform
+]);
 op.setPortGroup("Request", [inSend, inReqName, inReqData]);
 
 let bc = null;
@@ -279,7 +302,11 @@ const templateHtml = `<!DOCTYPE html>
                         return originalEmit.apply(this, arguments);
                     };
                     
-                    await obs.connect("ws://" + msg.host + ":" + msg.port, msg.password);
+                    const connectOptions = {};
+                    if (msg.eventSubscriptions !== undefined) {
+                        connectOptions.eventSubscriptions = msg.eventSubscriptions;
+                    }
+                    await obs.connect("ws://" + msg.host + ":" + msg.port, msg.password, connectOptions);
                     
                 } catch (err) {
                     log("Failed to connect: " + err.message, "error");
@@ -420,11 +447,30 @@ function closeBroadcastChannel() {
 
 function sendConnectionConfig() {
     if (bc && childWindow && !childWindow.closed) {
+        let subs = 0;
+        if (inSubGeneral.get()) subs |= OBSWebSocket.EventSubscription.General;
+        if (inSubConfig.get()) subs |= OBSWebSocket.EventSubscription.Config;
+        if (inSubScenes.get()) subs |= OBSWebSocket.EventSubscription.Scenes;
+        if (inSubInputs.get()) subs |= OBSWebSocket.EventSubscription.Inputs;
+        if (inSubTransitions.get()) subs |= OBSWebSocket.EventSubscription.Transitions;
+        if (inSubFilters.get()) subs |= OBSWebSocket.EventSubscription.Filters;
+        if (inSubOutputs.get()) subs |= OBSWebSocket.EventSubscription.Outputs;
+        if (inSubSceneItems.get()) subs |= OBSWebSocket.EventSubscription.SceneItems;
+        if (inSubMediaInputs.get()) subs |= OBSWebSocket.EventSubscription.MediaInputs;
+        if (inSubVendors.get()) subs |= OBSWebSocket.EventSubscription.Vendors;
+        if (inSubUi.get()) subs |= OBSWebSocket.EventSubscription.Ui;
+
+        if (inSubVol.get()) subs |= OBSWebSocket.EventSubscription.InputVolumeMeters;
+        if (inSubActive.get()) subs |= OBSWebSocket.EventSubscription.InputActiveStateChanged;
+        if (inSubShow.get()) subs |= OBSWebSocket.EventSubscription.InputShowStateChanged;
+        if (inSubTransform.get()) subs |= OBSWebSocket.EventSubscription.SceneItemTransformChanged;
+
         bc.postMessage({
             type: "connect",
             host: inHost.get(),
             port: inPort.get(),
-            password: inPassword.get()
+            password: inPassword.get(),
+            eventSubscriptions: subs
         });
     }
 }
@@ -432,6 +478,13 @@ function sendConnectionConfig() {
 inHost.onChange = sendConnectionConfig;
 inPort.onChange = sendConnectionConfig;
 inPassword.onChange = sendConnectionConfig;
+
+[
+    inSubGeneral, inSubConfig, inSubScenes, inSubInputs,
+    inSubTransitions, inSubFilters, inSubOutputs, inSubSceneItems,
+    inSubMediaInputs, inSubVendors, inSubUi,
+    inSubVol, inSubActive, inSubShow, inSubTransform
+].forEach(p => p.onChange = sendConnectionConfig);
 
 inOpen.onTriggered = () => {
     if (childWindow && !childWindow.closed) {
@@ -499,14 +552,37 @@ inSend.onTriggered = () => {
     }
 
     const reqName = inReqName.get();
-    const reqData = inReqData.get() || {};
+    const reqData = inReqData.get();
 
+    // Hybrid approach: request name is empty, but data is present
+    if (!reqName && reqData) {
+        const isBatch = Array.isArray(reqData) || (reqData && Array.isArray(reqData.requests));
+        if (isBatch) {
+            bc.postMessage({
+                type: "request",
+                isBatch: true,
+                requestData: reqData
+            });
+        } else if (reqData && reqData.requestType) {
+            bc.postMessage({
+                type: "request",
+                requestType: reqData.requestType,
+                requestData: reqData.requestData || {},
+                isBatch: false
+            });
+        } else {
+            outError.set("Invalid consolidated request object (missing requestType).");
+        }
+        return;
+    }
+
+    // Standard mode (backward compatible)
     const isBatch = (reqName === "RequestBatch") || Array.isArray(reqData) || (reqData && Array.isArray(reqData.requests));
 
     bc.postMessage({
         type: "request",
-        requestType: reqName,
-        requestData: reqData,
+        requestType: reqName || "",
+        requestData: reqData || {},
         isBatch: isBatch
     });
 };
