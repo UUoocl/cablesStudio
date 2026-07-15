@@ -12,6 +12,7 @@ const
     inDataToSend = op.inString("Data to Send", ""),
     inTargetCanvas = op.inObject("Target Canvas Object", null),
     inTargetAudio = op.inObject("Target Audio Stream", null),
+    inVideoEncoding = op.inValueSelect("Video Encoding", ["H.264 no alpha", "VP9 with alpha", "HEVC with Alpha"], "H.264 no alpha"),
 
     outLocalSdp = op.outString("Local SDP Output", ""),
     outOnSdpGenerated = op.outTrigger("On SDP Generated"),
@@ -151,6 +152,7 @@ function createOffer() {
 
         // Process canvas and audio stream if attached
         addMediaTracks();
+        applyCodecPreferences();
 
         pc.createOffer().then((offer) => {
             return pc.setLocalDescription(offer);
@@ -227,6 +229,7 @@ function setRemoteSdp() {
             pc.setRemoteDescription(new RTCSessionDescription(descObj)).then(() => {
                 // Add tracks on receiver before creating the answer so they are negotiated
                 addMediaTracks();
+                applyCodecPreferences();
                 return pc.createAnswer();
             }).then((answer) => {
                 return pc.setLocalDescription(answer);
@@ -334,6 +337,68 @@ function addMediaTracks() {
         } catch (err) {
             op.logError("[WebRTC] Failed to add audio track:", err.message);
         }
+    }
+}
+
+function setCodecPreference(transceiver, encodingName) {
+    if (!RTCRtpReceiver || typeof RTCRtpReceiver.getCapabilities !== "function") {
+        op.logWarn("[WebRTC] RTCRtpReceiver.getCapabilities is not supported by this browser.");
+        return;
+    }
+    const capabilities = RTCRtpReceiver.getCapabilities("video");
+    if (!capabilities || !capabilities.codecs) {
+        op.logWarn("[WebRTC] No video codecs found in capabilities.");
+        return;
+    }
+
+    let targetMimes = [];
+    if (encodingName === "H.264 no alpha") {
+        targetMimes.push("video/h264");
+    } else if (encodingName === "VP9 with alpha") {
+        targetMimes.push("video/vp9");
+    } else if (encodingName === "HEVC with Alpha") {
+        targetMimes.push("video/hevc", "video/h265");
+    }
+
+    if (targetMimes.length === 0) return;
+
+    const codecs = capabilities.codecs;
+    const preferred = codecs.filter(c => targetMimes.includes(c.mimeType.toLowerCase()));
+    const others = codecs.filter(c => !targetMimes.includes(c.mimeType.toLowerCase()));
+
+    if (preferred.length === 0) {
+        op.logWarn(`[WebRTC] Preferred codec ${targetMimes.join("/")} is not supported by this browser.`);
+        return;
+    }
+
+    const orderedCodecs = [...preferred, ...others];
+    try {
+        if (typeof transceiver.setCodecPreferences === "function") {
+            transceiver.setCodecPreferences(orderedCodecs);
+            op.log(`[WebRTC] Set codec preferences to prefer: ${targetMimes.join("/")}`);
+        } else {
+            op.logWarn("[WebRTC] RTCRtpTransceiver.setCodecPreferences is not supported by this browser.");
+        }
+    } catch (err) {
+        op.logError(`[WebRTC] Failed to set codec preferences: ${err.message}`);
+    }
+}
+
+function applyCodecPreferences() {
+    if (!pc) return;
+    const encoding = inVideoEncoding.get();
+    if (!encoding) return;
+
+    const transceivers = pc.getTransceivers();
+    const videoTransceiver = transceivers.find(t => 
+        (t.receiver && t.receiver.track && t.receiver.track.kind === "video") || 
+        (t.sender && t.sender.track && t.sender.track.kind === "video")
+    );
+
+    if (videoTransceiver) {
+        setCodecPreference(videoTransceiver, encoding);
+    } else {
+        op.log("[WebRTC] No active video transceiver found to apply codec preferences.");
     }
 }
 

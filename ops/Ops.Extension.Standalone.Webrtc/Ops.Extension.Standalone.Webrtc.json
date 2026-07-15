@@ -52,6 +52,16 @@
             {
                 "type": 2,
                 "name": "Target Audio Stream"
+            },
+            {
+                "type": 5,
+                "name": "Video Encoding",
+                "values": ["H.264 no alpha", "VP9 with alpha", "HEVC with Alpha"]
+            },
+            {
+                "type": 0,
+                "name": "Video Encoding index",
+                "subType": "integer"
             }
         ],
         "portsOut": [
@@ -130,6 +140,10 @@
             {
                 "name": "Target Audio Stream",
                 "text": "Optional. Accepts a Web Audio API MediaStream object to stream audio frames."
+            },
+            {
+                "name": "Video Encoding",
+                "text": "Select video encoding preferences for the WebRTC connection: H.264 no alpha, VP9 with alpha, or HEVC with Alpha."
             },
             {
                 "name": "Local SDP Output",
