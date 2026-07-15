@@ -1,0 +1,940 @@
+{
+    "_id": "6a575e09457ee126bd454f31",
+    "shortId": "Yzg4rp",
+    "name": "OBS_BrowserSource_API",
+    "description": "",
+    "userId": "6a575e09be9a3bc30c21c73e",
+    "cachedUsername": "",
+    "created": 1784110601765,
+    "updated": 1784118110642,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "545e7225-73b0-4d40-923b-4b39940403a8",
+            "id": "o1qta2lxh",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -803.7654727996446,
+                    "y": -81.3171450212351
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "f44bfe36-c44a-45f3-a2e7-a71399c22733",
+            "id": "t0nucksf8",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -791.7654727996446,
+                    "y": -165.68558201022614
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Strings",
+                    "multiPortNum": 4,
+                    "multiPortManual": true
+                },
+                {
+                    "name": "Seperator index",
+                    "value": 0
+                },
+                {
+                    "name": "Seperator",
+                    "value": "None"
+                },
+                {
+                    "name": "Strings_0",
+                    "value": "Is OBS Browser Source?"
+                },
+                {
+                    "name": "Strings_2",
+                    "value": ""
+                },
+                {
+                    "name": "Strings_3",
+                    "value": "",
+                    "title": "add port"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "String",
+                            "objIn": "o1qta2lxh",
+                            "objOut": "t0nucksf8"
+                        }
+                    ]
+                },
+                {
+                    "name": "Num Strings",
+                    "value": 3
+                }
+            ]
+        },
+        {
+            "opId": "5c6d375a-82db-4366-8013-93f56b4061a9",
+            "id": "dyygyd4sk",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -767.7654727996446,
+                    "y": -257.51257557507626
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Decimal Places",
+                    "value": 4
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Strings_1",
+                            "portOut": "Result",
+                            "objIn": "t0nucksf8",
+                            "objOut": "dyygyd4sk"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "545e7225-73b0-4d40-923b-4b39940403a8",
+            "id": "tzmnf2h7m",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -474.0852972744118,
+                    "y": -266.22853791516434
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "4r9x08lyi",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -570.8678662666009,
+                    "y": -140.9194707924691
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "hjxcw5btd",
+                            "objOut": "4r9x08lyi"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 640
+                },
+                {
+                    "name": "height",
+                    "value": 320
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "2c042efa-3604-4717-b8f4-5ad08d6740e5",
+            "id": "hjxcw5btd",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -463.12052253963776,
+                    "y": -67.55623529434374
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Draw Mesh",
+                    "value": 1
+                },
+                {
+                    "name": "Scale Mesh",
+                    "value": 0.5
+                },
+                {
+                    "name": "Size index",
+                    "value": 0
+                },
+                {
+                    "name": "Size",
+                    "value": "Auto"
+                },
+                {
+                    "name": "Width",
+                    "value": 512
+                },
+                {
+                    "name": "Height",
+                    "value": 512
+                },
+                {
+                    "name": "Auto Height",
+                    "value": 1
+                },
+                {
+                    "name": "Auto Line Breaks",
+                    "value": 1
+                },
+                {
+                    "name": "font",
+                    "value": "Arial"
+                },
+                {
+                    "name": "weight",
+                    "value": "normal"
+                },
+                {
+                    "name": "fontSize",
+                    "value": 100
+                },
+                {
+                    "name": "align index",
+                    "value": 1
+                },
+                {
+                    "name": "align",
+                    "value": "center"
+                },
+                {
+                    "name": "Vertical align index",
+                    "value": 0
+                },
+                {
+                    "name": "Vertical align",
+                    "value": "Top"
+                },
+                {
+                    "name": "Letter Spacing",
+                    "value": 0
+                },
+                {
+                    "name": "Line Height Add",
+                    "value": 0
+                },
+                {
+                    "name": "Padding Y Top",
+                    "value": 3
+                },
+                {
+                    "name": "Padding Y Bottom",
+                    "value": 3
+                },
+                {
+                    "name": "Padding X",
+                    "value": 0
+                },
+                {
+                    "name": "filter index",
+                    "value": 1
+                },
+                {
+                    "name": "filter",
+                    "value": "linear"
+                },
+                {
+                    "name": "Wrap index",
+                    "value": 2
+                },
+                {
+                    "name": "Wrap",
+                    "value": "clamp to edge"
+                },
+                {
+                    "name": "Anisotropic index",
+                    "value": 0
+                },
+                {
+                    "name": "Anisotropic",
+                    "value": 0
+                },
+                {
+                    "name": "Reuse Texture",
+                    "value": 1
+                },
+                {
+                    "name": "Show Debug",
+                    "value": 0
+                },
+                {
+                    "name": "Redraw On Font Load",
+                    "value": 1
+                },
+                {
+                    "name": "r",
+                    "value": 1
+                },
+                {
+                    "name": "g",
+                    "value": 1
+                },
+                {
+                    "name": "b",
+                    "value": 1
+                },
+                {
+                    "name": "Opacity",
+                    "value": 1
+                },
+                {
+                    "name": "background R",
+                    "value": 0
+                },
+                {
+                    "name": "background G",
+                    "value": 0
+                },
+                {
+                    "name": "background B",
+                    "value": 0
+                },
+                {
+                    "name": "background A",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "Next",
+                            "objIn": "25vapmj0i",
+                            "objOut": "hjxcw5btd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Ratio",
+                    "value": null
+                },
+                {
+                    "name": "texture",
+                    "links": [
+                        {
+                            "portIn": "texture",
+                            "portOut": "texture",
+                            "objIn": "25vapmj0i",
+                            "objOut": "hjxcw5btd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Aspect",
+                    "value": 0
+                },
+                {
+                    "name": "Num Lines",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "ec55d252-3843-41b1-b731-0482dbd9e72b",
+            "id": "25vapmj0i",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -461.9621260319921,
+                    "y": 6.08631830690814
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "r",
+                    "value": 0.8043224985466351
+                },
+                {
+                    "name": "g",
+                    "value": 0.6155333961839728
+                },
+                {
+                    "name": "b",
+                    "value": 0.40707578896713836
+                },
+                {
+                    "name": "a",
+                    "value": 1
+                },
+                {
+                    "name": "colorizeTexture",
+                    "value": 0
+                },
+                {
+                    "name": "Vertex Colors",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source",
+                    "value": "Luminance"
+                },
+                {
+                    "name": "Opacity TexCoords Transform",
+                    "value": 0
+                },
+                {
+                    "name": "Discard Transparent Pixels",
+                    "value": 0
+                },
+                {
+                    "name": "diffuseRepeatX",
+                    "value": 1
+                },
+                {
+                    "name": "diffuseRepeatY",
+                    "value": 1
+                },
+                {
+                    "name": "Tex Offset X",
+                    "value": 0
+                },
+                {
+                    "name": "Tex Offset Y",
+                    "value": 0
+                },
+                {
+                    "name": "Crop TexCoords",
+                    "value": 0
+                },
+                {
+                    "name": "billboard",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "oz608dltv",
+                            "objOut": "25vapmj0i"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "650baeb1-db2d-4781-9af6-ab4e9d4277be",
+            "id": "oz608dltv",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -461.9621260319921,
+                    "y": 70.46315317454724
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "posX",
+                    "value": 0
+                },
+                {
+                    "name": "posY",
+                    "value": 0
+                },
+                {
+                    "name": "posZ",
+                    "value": 0
+                },
+                {
+                    "name": "scale",
+                    "value": 1
+                },
+                {
+                    "name": "rotX",
+                    "value": 0
+                },
+                {
+                    "name": "rotY",
+                    "value": 0
+                },
+                {
+                    "name": "rotZ",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "hbaltwfqr",
+                            "objOut": "oz608dltv"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "cc8c3ede-7103-410b-849f-a645793cab39",
+            "id": "hbaltwfqr",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -461.9621260319921,
+                    "y": 144.46941746387398
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "render",
+                    "title": "Trigger"
+                },
+                {
+                    "name": "Render Mesh",
+                    "value": 1,
+                    "title": "Render"
+                },
+                {
+                    "name": "width",
+                    "value": 1
+                },
+                {
+                    "name": "height",
+                    "value": 1
+                },
+                {
+                    "name": "pivot x index",
+                    "value": 1
+                },
+                {
+                    "name": "pivot x",
+                    "value": "center"
+                },
+                {
+                    "name": "pivot y index",
+                    "value": 1
+                },
+                {
+                    "name": "pivot y",
+                    "value": "center"
+                },
+                {
+                    "name": "axis index",
+                    "value": 0
+                },
+                {
+                    "name": "axis",
+                    "value": "xy"
+                },
+                {
+                    "name": "Flip TexCoord X",
+                    "value": 0
+                },
+                {
+                    "name": "Flip TexCoord Y",
+                    "value": 1
+                },
+                {
+                    "name": "num columns",
+                    "value": 1
+                },
+                {
+                    "name": "num rows",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "6468b7c1-f63e-4db4-b809-4b203d27ead3",
+            "id": "hz1puz8dq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -540,
+                    "y": -400
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": "myCustomEvent"
+                },
+                {
+                    "name": "Syntax index",
+                    "value": 0
+                },
+                {
+                    "name": "Syntax",
+                    "value": "text"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Custom Events",
+                            "portOut": "Result",
+                            "objIn": "fejx8jqp3",
+                            "objOut": "hz1puz8dq"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "545e7225-73b0-4d40-923b-4b39940403a8",
+            "id": "09e4vq7h3",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -285.5048947650936,
+                    "y": -222.64910485978862
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "89fc70ea-2350-4a0e-9a24-4efca10cced6",
+            "id": "hs3hd6z4i",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -156,
+                    "y": -260
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Beautify",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Result",
+                            "objIn": "3jzjyoq9x",
+                            "objOut": "hs3hd6z4i"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "545e7225-73b0-4d40-923b-4b39940403a8",
+            "id": "3jzjyoq9x",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -156,
+                    "y": -140
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "d7cfbe98-cf2d-45bf-ad98-c11df5a8e0cb",
+            "id": "fejx8jqp3",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -767.7654727996446,
+                    "y": -330.6140402036399
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Scene Name",
+                    "value": ""
+                },
+                {
+                    "name": "Transition Name",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is OBS Browser Source",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Is OBS Browser Source",
+                            "objIn": "dyygyd4sk",
+                            "objOut": "fejx8jqp3"
+                        }
+                    ]
+                },
+                {
+                    "name": "Plugin Version",
+                    "value": ""
+                },
+                {
+                    "name": "Control Level",
+                    "value": 0
+                },
+                {
+                    "name": "Recording",
+                    "value": 0
+                },
+                {
+                    "name": "Recording Paused",
+                    "value": 0
+                },
+                {
+                    "name": "Streaming",
+                    "value": 0
+                },
+                {
+                    "name": "Replay Buffer",
+                    "value": 0
+                },
+                {
+                    "name": "Virtual Cam",
+                    "value": 0
+                },
+                {
+                    "name": "Current Scene Name",
+                    "value": ""
+                },
+                {
+                    "name": "Current Scene Width",
+                    "value": 0
+                },
+                {
+                    "name": "Current Scene Height",
+                    "value": 0
+                },
+                {
+                    "name": "Current Transition",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": "Not running in OBS Browser Source (window.obsstudio not found)"
+                },
+                {
+                    "name": "Scene Changed Name",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Scene Changed Name",
+                            "objIn": "tzmnf2h7m",
+                            "objOut": "fejx8jqp3"
+                        },
+                        {
+                            "portIn": "text",
+                            "portOut": "Scene Changed Name",
+                            "objIn": "hjxcw5btd",
+                            "objOut": "fejx8jqp3"
+                        }
+                    ]
+                },
+                {
+                    "name": "Transition Changed Name",
+                    "value": ""
+                },
+                {
+                    "name": "Source Visible",
+                    "value": 0
+                },
+                {
+                    "name": "Source Active",
+                    "value": 0
+                },
+                {
+                    "name": "Custom Event Name",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Custom Event Name",
+                            "objIn": "09e4vq7h3",
+                            "objOut": "fejx8jqp3"
+                        }
+                    ]
+                },
+                {
+                    "name": "Custom Event Detail",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Custom Event Detail",
+                            "objIn": "hs3hd6z4i",
+                            "objOut": "fejx8jqp3"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a575e09be9a3bc30c21c73e",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1784110601765
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -187.0485276867201,
+                "y": -301.6836323851149,
+                "z": 819.0314766476646
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "OBS_BrowserSource_API"
+    },
+    "opsHash": "147fe4fd56734acf191a635db0b890ab83448918",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1782384754584,
+            "created": "2026-06-25T10:52:34.584Z",
+            "git": {
+                "branch": "develop",
+                "commit": "822accab1993d461dad3a870e6918463622523d8",
+                "date": "1782383076",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1782384773089,
+            "created": "2026-06-25T10:52:53.089Z",
+            "git": {
+                "branch": "develop",
+                "commit": "89ee7fdb683f267af33d155006ac4aa6dbbef9dc",
+                "date": "1782377186",
+                "message": "Merge branch 'develop'"
+            }
+        },
+        "api": {
+            "timestamp": 1782384790730,
+            "created": "2026-06-25T10:53:10.730Z",
+            "git": {
+                "branch": "develop",
+                "commit": "e9905b2dcd49c9dc4c8604859b957ce5f7591bb4",
+                "date": "1780928700",
+                "message": "edit opdependencies"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.11.0"
+        }
+    },
+    "updatedByUser": "",
+    "exports": 8,
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEn1JREFUeF7t1sENADAMAjG6/9Ct1DXO2QCTB2fbnSNAgAABAgQIEMgIHAMw07WgBAgQIECAAIEvYAB6BAIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgACBBx1VaBA+Pro5AAAAAElFTkSuQmCC"
+}

@@ -28,6 +28,7 @@ inRequest.onTriggered = () => {
     let requestId = rawData.requestId || null;
     let params = {};
     let finalRequestType = "";
+    let hasExplicitRequestData = false;
     
     // Detect if rawData is an HTTP request container (from HttpFileServer)
     const isHttpRequest = rawData.method && rawData.headers;
@@ -39,8 +40,10 @@ inRequest.onTriggered = () => {
         finalRequestType = body.requestType || rawData.requestType || "";
         if (body.requestData && typeof body.requestData === "object") {
             params = body.requestData;
+            hasExplicitRequestData = true;
         } else if (rawData.requestData && typeof rawData.requestData === "object") {
             params = rawData.requestData;
+            hasExplicitRequestData = true;
         } else if (typeof body === "object") {
             params = body;
         }
@@ -50,6 +53,7 @@ inRequest.onTriggered = () => {
         // Standard payload or manual parameters
         if (rawData.requestData && typeof rawData.requestData === "object" && !Array.isArray(rawData.requestData)) {
             params = rawData.requestData;
+            hasExplicitRequestData = true;
         } else {
             params = rawData;
         }
@@ -70,9 +74,12 @@ inRequest.onTriggered = () => {
     if (isBatch) {
         const rawRequests = Array.isArray(params) ? params : (params.requests || body.requests || []);
         requests = rawRequests.map(req => {
+            const hasExplicitReqData = !!req.requestData;
             const reqCopy = Object.assign({}, req.requestData || req || {});
             delete reqCopy.requestId;
-            delete reqCopy.requestType;
+            if (!hasExplicitReqData) {
+                delete reqCopy.requestType;
+            }
             
             // Clean up using same sanitization logic
             let cleanReqData = {};
@@ -105,7 +112,9 @@ inRequest.onTriggered = () => {
         // Create copy and remove control/HTTP parameter pollution
         const requestData = Object.assign({}, params);
         delete requestData.requestId;
-        delete requestData.requestType;
+        if (!hasExplicitRequestData) {
+            delete requestData.requestType;
+        }
         delete requestData.type;
         delete requestData.method;
         delete requestData.url;

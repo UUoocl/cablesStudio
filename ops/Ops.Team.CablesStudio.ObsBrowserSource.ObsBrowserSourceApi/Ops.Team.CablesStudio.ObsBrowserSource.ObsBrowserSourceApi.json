@@ -1,0 +1,460 @@
+{
+    "id": "d7cfbe98-cf2d-45bf-ad98-c11df5a8e0cb",
+    "created": 1784090000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1784090000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Update Status"
+            },
+            {
+                "type": 1,
+                "name": "Save Replay Buffer",
+                "group": "Replay Buffer"
+            },
+            {
+                "type": 1,
+                "name": "Start Replay Buffer",
+                "group": "Replay Buffer"
+            },
+            {
+                "type": 1,
+                "name": "Stop Replay Buffer",
+                "group": "Replay Buffer"
+            },
+            {
+                "type": 1,
+                "name": "Start Streaming",
+                "group": "Streaming & Recording"
+            },
+            {
+                "type": 1,
+                "name": "Stop Streaming",
+                "group": "Streaming & Recording"
+            },
+            {
+                "type": 1,
+                "name": "Start Recording",
+                "group": "Streaming & Recording"
+            },
+            {
+                "type": 1,
+                "name": "Stop Recording",
+                "group": "Streaming & Recording"
+            },
+            {
+                "type": 1,
+                "name": "Pause Recording",
+                "group": "Streaming & Recording"
+            },
+            {
+                "type": 1,
+                "name": "Unpause Recording",
+                "group": "Streaming & Recording"
+            },
+            {
+                "type": 1,
+                "name": "Start Virtualcam",
+                "group": "Virtual Camera"
+            },
+            {
+                "type": 1,
+                "name": "Stop Virtualcam",
+                "group": "Virtual Camera"
+            },
+            {
+                "type": 1,
+                "name": "Set Scene",
+                "group": "Scenes & Transitions"
+            },
+            {
+                "type": 5,
+                "name": "Scene Name",
+                "group": "Scenes & Transitions"
+            },
+            {
+                "type": 1,
+                "name": "Set Transition",
+                "group": "Scenes & Transitions"
+            },
+            {
+                "type": 5,
+                "name": "Transition Name",
+                "group": "Scenes & Transitions"
+            },
+            {
+                "type": 5,
+                "name": "Custom Events",
+                "group": "Custom Events"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Is OBS Browser Source",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Plugin Version"
+            },
+            {
+                "type": 0,
+                "name": "Control Level",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Recording",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Recording Paused",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Streaming",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Replay Buffer",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Virtual Cam",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Current Scene Name"
+            },
+            {
+                "type": 0,
+                "name": "Current Scene Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Current Scene Height",
+                "subType": "number"
+            },
+            {
+                "type": 3,
+                "name": "Scenes"
+            },
+            {
+                "type": 3,
+                "name": "Transitions"
+            },
+            {
+                "type": 5,
+                "name": "Current Transition"
+            },
+            {
+                "type": 1,
+                "name": "On Status Updated"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            },
+            {
+                "type": 1,
+                "name": "Scene Changed"
+            },
+            {
+                "type": 5,
+                "name": "Scene Changed Name"
+            },
+            {
+                "type": 2,
+                "name": "Scene Changed Detail"
+            },
+            {
+                "type": 1,
+                "name": "Scene List Changed"
+            },
+            {
+                "type": 1,
+                "name": "Transition Changed"
+            },
+            {
+                "type": 5,
+                "name": "Transition Changed Name"
+            },
+            {
+                "type": 1,
+                "name": "Transition List Changed"
+            },
+            {
+                "type": 1,
+                "name": "Visible Changed"
+            },
+            {
+                "type": 0,
+                "name": "Source Visible",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Active Changed"
+            },
+            {
+                "type": 0,
+                "name": "Source Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Streaming Starting"
+            },
+            {
+                "type": 1,
+                "name": "Streaming Started"
+            },
+            {
+                "type": 1,
+                "name": "Streaming Stopping"
+            },
+            {
+                "type": 1,
+                "name": "Streaming Stopped"
+            },
+            {
+                "type": 1,
+                "name": "Recording Starting"
+            },
+            {
+                "type": 1,
+                "name": "Recording Started"
+            },
+            {
+                "type": 1,
+                "name": "Recording Paused Event"
+            },
+            {
+                "type": 1,
+                "name": "Recording Unpaused"
+            },
+            {
+                "type": 1,
+                "name": "Recording Stopping"
+            },
+            {
+                "type": 1,
+                "name": "Recording Stopped"
+            },
+            {
+                "type": 1,
+                "name": "Replay Buffer Starting"
+            },
+            {
+                "type": 1,
+                "name": "Replay Buffer Started"
+            },
+            {
+                "type": 1,
+                "name": "Replay Buffer Saved"
+            },
+            {
+                "type": 1,
+                "name": "Replay Buffer Stopping"
+            },
+            {
+                "type": 1,
+                "name": "Replay Buffer Stopped"
+            },
+            {
+                "type": 1,
+                "name": "Virtual Cam Started"
+            },
+            {
+                "type": 1,
+                "name": "Virtual Cam Stopped"
+            },
+            {
+                "type": 1,
+                "name": "Exit"
+            },
+            {
+                "type": 1,
+                "name": "Custom Event Received"
+            },
+            {
+                "type": 5,
+                "name": "Custom Event Name"
+            },
+            {
+                "type": 2,
+                "name": "Custom Event Detail"
+            }
+        ]
+    },
+    "summary": "Wraps all standard events and requests of the OBS Browser Source API (window.obsstudio) for deep integration with OBS.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Update Status",
+                "text": "Triggers a full query of all current OBS status information (scenes, transitions, streaming/recording states, etc.)."
+            },
+            {
+                "name": "Save Replay Buffer",
+                "text": "Tells OBS to save the current replay buffer. Requires BASIC control level permissions."
+            },
+            {
+                "name": "Start Replay Buffer",
+                "text": "Starts the replay buffer. Requires ADVANCED control level permissions."
+            },
+            {
+                "name": "Stop Replay Buffer",
+                "text": "Stops the replay buffer. Requires ADVANCED control level permissions."
+            },
+            {
+                "name": "Start Streaming",
+                "text": "Starts live streaming. Requires ALL control level permissions."
+            },
+            {
+                "name": "Stop Streaming",
+                "text": "Stops live streaming. Requires ALL control level permissions."
+            },
+            {
+                "name": "Start Recording",
+                "text": "Starts local video recording. Requires ALL control level permissions."
+            },
+            {
+                "name": "Stop Recording",
+                "text": "Stops local video recording. Requires ALL control level permissions."
+            },
+            {
+                "name": "Pause Recording",
+                "text": "Pauses local recording if active. Requires ALL control level permissions."
+            },
+            {
+                "name": "Unpause Recording",
+                "text": "Resumes local recording if paused. Requires ALL control level permissions."
+            },
+            {
+                "name": "Start Virtualcam",
+                "text": "Starts the virtual camera output. Requires ALL control level permissions."
+            },
+            {
+                "name": "Stop Virtualcam",
+                "text": "Stops the virtual camera output. Requires ALL control level permissions."
+            },
+            {
+                "name": "Set Scene",
+                "text": "Switches the active scene in OBS to the scene specified in the Scene Name input port. Requires ADVANCED control level permissions."
+            },
+            {
+                "name": "Scene Name",
+                "text": "The name of the scene to switch to."
+            },
+            {
+                "name": "Set Transition",
+                "text": "Switches the active scene transition to the transition specified in the Transition Name input port. Requires ADVANCED control level permissions."
+            },
+            {
+                "name": "Transition Name",
+                "text": "The name of the transition to switch to."
+            },
+            {
+                "name": "Custom Events",
+                "text": "A comma or space-separated list of custom events (e.g. emitted from obs-websocket) to register and listen to."
+            },
+            {
+                "name": "Is OBS Browser Source",
+                "text": "Outputs true if running inside OBS CEF."
+            },
+            {
+                "name": "Plugin Version",
+                "text": "The version of the OBS Browser source plugin."
+            },
+            {
+                "name": "Control Level",
+                "text": "The permission level granted to this page: 0 (NONE), 1 (READ_OBS), 2 (READ_USER), 3 (BASIC), 4 (ADVANCED), 5 (ALL)."
+            },
+            {
+                "name": "Recording",
+                "text": "Outputs true if OBS is currently recording."
+            },
+            {
+                "name": "Recording Paused",
+                "text": "Outputs true if OBS recording is currently paused."
+            },
+            {
+                "name": "Recording Paused Event",
+                "text": "Fires when OBS recording is paused."
+            },
+            {
+                "name": "Streaming",
+                "text": "Outputs true if OBS is currently live streaming."
+            },
+            {
+                "name": "Replay Buffer",
+                "text": "Outputs true if the Replay Buffer is currently running."
+            },
+            {
+                "name": "Virtual Cam",
+                "text": "Outputs true if Virtual Camera is active."
+            },
+            {
+                "name": "Current Scene Name",
+                "text": "The name of the currently active scene."
+            },
+            {
+                "name": "Current Scene Width",
+                "text": "Width of the current scene in pixels."
+            },
+            {
+                "name": "Current Scene Height",
+                "text": "Height of the current scene in pixels."
+            },
+            {
+                "name": "Scenes",
+                "text": "An array of all scene names configured in OBS."
+            },
+            {
+                "name": "Transitions",
+                "text": "An array of all transition names configured in OBS."
+            },
+            {
+                "name": "Current Transition",
+                "text": "The name of the currently active transition."
+            },
+            {
+                "name": "On Status Updated",
+                "text": "Fires when status query callbacks complete."
+            },
+            {
+                "name": "Error",
+                "text": "Holds permission or connection failure messages."
+            },
+            {
+                "name": "Custom Event Received",
+                "text": "Fires when any registered custom event is received."
+            },
+            {
+                "name": "Custom Event Name",
+                "text": "Name of the received custom event."
+            },
+            {
+                "name": "Custom Event Detail",
+                "text": "The detail object/payload from the custom event."
+            }
+        ]
+    }
+}

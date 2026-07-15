@@ -1,0 +1,510 @@
+{
+    "_id": "6a57659fa94866575ee0920f",
+    "shortId": "5Opcrp",
+    "name": "OBS_Remote_Control",
+    "description": "",
+    "userId": "6a57659f5c9a2521d716c223",
+    "cachedUsername": "",
+    "created": 1784112543662,
+    "updated": 1784118106718,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "75afpeeor",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -570.7333174449035,
+                    "y": -234.9208538170459
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "width",
+                    "value": 337
+                },
+                {
+                    "name": "height",
+                    "value": 165
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "7f8a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+            "id": "12zmfgwam",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -717.6353650621851,
+                    "y": -197.4419248639045
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "App Name",
+                    "value": "OBS"
+                },
+                {
+                    "name": "App Path",
+                    "value": ""
+                },
+                {
+                    "name": "Collection",
+                    "value": "CablesStudio"
+                },
+                {
+                    "name": "Debug Port",
+                    "value": "9222"
+                },
+                {
+                    "name": "WSS Port",
+                    "value": "4455"
+                },
+                {
+                    "name": "WSS Password",
+                    "value": "59373785-6d97-4504-a4ae-e0d0845d9ca2"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 1
+                },
+                {
+                    "name": "OBS Port",
+                    "links": [
+                        {
+                            "portIn": "Port",
+                            "portOut": "OBS Port",
+                            "objIn": "uddbobgse",
+                            "objOut": "12zmfgwam"
+                        }
+                    ]
+                },
+                {
+                    "name": "Password",
+                    "links": [
+                        {
+                            "portIn": "Password",
+                            "portOut": "Password",
+                            "objIn": "uddbobgse",
+                            "objOut": "12zmfgwam"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+            "id": "uddbobgse",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -717.6353650621851,
+                    "y": -121.91855635207165
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "IP",
+                    "value": "localhost"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 0
+                },
+                {
+                    "name": "Connection Name",
+                    "value": "Default"
+                },
+                {
+                    "name": "Sub General",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Config",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Scenes",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Inputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Transitions",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Filters",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Outputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub SceneItems",
+                    "value": 1
+                },
+                {
+                    "name": "Sub MediaInputs",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Vendors",
+                    "value": 1
+                },
+                {
+                    "name": "Sub UI",
+                    "value": 1
+                },
+                {
+                    "name": "Sub Volume Meters",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Active",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Input Show",
+                    "value": 0
+                },
+                {
+                    "name": "Sub Item Transform",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connected",
+                    "value": 1
+                },
+                {
+                    "name": "obsConnection",
+                    "links": [
+                        {
+                            "portIn": "obsConnection",
+                            "portOut": "obsConnection",
+                            "objIn": "q7qwynmot",
+                            "objOut": "uddbobgse"
+                        }
+                    ]
+                },
+                {
+                    "name": "Obs event",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Obs event",
+                            "objIn": "q3rxg23or",
+                            "objOut": "uddbobgse"
+                        }
+                    ]
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+            "id": "q7qwynmot",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -1084.1777598008514,
+                    "y": 156.92523661927294
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Request Rate (Hz)",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Success",
+                    "value": 1
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result",
+                            "objIn": "21t0mfn12",
+                            "objOut": "q7qwynmot"
+                        }
+                    ]
+                },
+                {
+                    "name": "Request Type Output",
+                    "value": "CallVendorRequestResponse"
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "q3rxg23or",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -681.6353650621851,
+                    "y": 60.806634967151865
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "21t0mfn12",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 244.11218802384667,
+                "width": 609.3304083152898,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -1072.1777598008514,
+                    "y": 260.5597850076015
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
+            "id": "degxa46jv",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -1060.1777598008514,
+                    "y": 90.80217048929535
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "JSON String",
+                    "value": "{\n  \"requestType\": \"CallVendorRequest\",\n  \"requestData\": {\n    \"vendorName\": \"obs-browser\",\n    \"requestType\": \"emit_event\",\n    \"requestData\": {\n      \"event_name\": \"myCustomEvent\",\n      \"event_data\": {\n        \"pw\": \"myPassword123\",\n        \"port\": 4455\n      }\n    }\n  }\n}"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Request Data",
+                            "portOut": "Result",
+                            "objIn": "q7qwynmot",
+                            "objOut": "degxa46jv"
+                        }
+                    ]
+                },
+                {
+                    "name": "Valid",
+                    "value": 1
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a57659f5c9a2521d716c223",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1784112543662
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 337,
+            "h": 165,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -258.25203388241596,
+                "y": 169.19813942840628,
+                "z": 1199.999525506086
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "OBS_Remote_Control"
+    },
+    "opsHash": "b52bc5d868b2e9324038451bcab8336e66d54879",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1782384754584,
+            "created": "2026-06-25T10:52:34.584Z",
+            "git": {
+                "branch": "develop",
+                "commit": "822accab1993d461dad3a870e6918463622523d8",
+                "date": "1782383076",
+                "message": "docs"
+            }
+        },
+        "ui": {
+            "timestamp": 1782384773089,
+            "created": "2026-06-25T10:52:53.089Z",
+            "git": {
+                "branch": "develop",
+                "commit": "89ee7fdb683f267af33d155006ac4aa6dbbef9dc",
+                "date": "1782377186",
+                "message": "Merge branch 'develop'"
+            }
+        },
+        "api": {
+            "timestamp": 1782384790730,
+            "created": "2026-06-25T10:53:10.730Z",
+            "git": {
+                "branch": "develop",
+                "commit": "e9905b2dcd49c9dc4c8604859b957ce5f7591bb4",
+                "date": "1780928700",
+                "message": "edit opdependencies"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "10.5.2",
+                "node": "20.13.1"
+            },
+            "version": "0.11.0"
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFoCAYAAADHMkpRAAAAAXNSR0IArs4c6QAAEn1JREFUeF7t1sENADAMAjG6/9Ct1DXO2QCTB2fbnSNAgAABAgQIEMgIHAMw07WgBAgQIECAAIEvYAB6BAIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgAABA9APECBAgAABAgRiAgZgrHBxCRAgQIAAAQIGoB8gQIAAAQIECMQEDMBY4eISIECAAAECBAxAP0CAAAECBAgQiAkYgLHCxSVAgAABAgQIGIB+gAABAgQIECAQEzAAY4WLS4AAAQIECBAwAP0AAQIECBAgQCAmYADGCheXAAECBAgQIGAA+gECBAgQIECAQEzAAIwVLi4BAgQIECBAwAD0AwQIECBAgACBmIABGCtcXAIECBAgQICAAegHCBAgQIAAAQIxAQMwVri4BAgQIECAAAED0A8QIECAAAECBGICBmCscHEJECBAgAABAgagHyBAgAABAgQIxAQMwFjh4hIgQIAAAQIEDEA/QIAAAQIECBCICRiAscLFJUCAAAECBAgYgH6AAAECBAgQIBATMABjhYtLgAABAgQIEDAA/QABAgQIECBAICZgAMYKF5cAAQIECBAgYAD6AQIECBAgQIBATMAAjBUuLgECBAgQIEDAAPQDBAgQIECAAIGYgAEYK1xcAgQIECBAgIAB6AcIECBAgAABAjEBAzBWuLgECBAgQIAAAQPQDxAgQIAAAQIEYgIGYKxwcQkQIECAAAECBqAfIECAAAECBAjEBAzAWOHiEiBAgAABAgQMQD9AgAABAgQIEIgJGICxwsUlQIAAAQIECBiAfoAAAQIECBAgEBMwAGOFi0uAAAECBAgQMAD9AAECBAgQIEAgJmAAxgoXlwABAgQIECBgAPoBAgQIECBAgEBMwACMFS4uAQIECBAgQMAA9AMECBAgQIAAgZiAARgrXFwCBAgQIECAgAHoBwgQIECAAAECMQEDMFa4uAQIECBAgACBBx1VaBA+Pro5AAAAAElFTkSuQmCC"
+}
