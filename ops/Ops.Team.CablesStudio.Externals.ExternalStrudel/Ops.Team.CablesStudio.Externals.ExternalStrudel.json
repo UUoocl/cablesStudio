@@ -43,6 +43,18 @@
                 "name": "Strudel CSS Variables",
                 "group": "Settings",
                 "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "group": "Audio",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Popup Sound Output",
+                "group": "Audio",
+                "subType": "boolean"
             }
         ],
         "portsOut": [
@@ -58,10 +70,14 @@
             {
                 "type": 2,
                 "name": "Canvas Element"
+            },
+            {
+                "type": 2,
+                "name": "Audio Node"
             }
         ]
     },
-    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding and real-time audio output",
+    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding and real-time audio output streaming",
     "docs": {
         "ports": [
             {
@@ -93,6 +109,14 @@
                 "text": "CSS string containing :root CSS variable overrides for the Strudel editor theme."
             },
             {
+                "name": "Volume",
+                "text": "Volume scaling factor (0.0 to 1.0+) for the streamed WebAudio output node."
+            },
+            {
+                "name": "Popup Sound Output",
+                "text": "Toggle local speaker sound playback in the pop-up window. When disabled, pop-up speakers are muted while the WebAudio output stream to Cables continues."
+            },
+            {
                 "name": "Is Open",
                 "text": "Outputs true when the pop-up window is active and open."
             },
@@ -103,6 +127,10 @@
             {
                 "name": "Canvas Element",
                 "text": "Outputs the HTMLCanvasElement reference from the pop-up window."
+            },
+            {
+                "name": "Audio Node",
+                "text": "Outputs the Cables WebAudio GainNode connected to the live audio stream from the pop-up window."
             }
         ]
     },
@@ -115,6 +143,12 @@
             "type": "new op",
             "author": "Strudel for Cables",
             "date": 1783336000000
+        },
+        {
+            "message": "added real-time audio output streaming from popup to Cables Audio Node port and popup sound toggle",
+            "type": "update",
+            "author": "Strudel for Cables",
+            "date": 1783340000000
         }
     ],
     "license": "MIT",

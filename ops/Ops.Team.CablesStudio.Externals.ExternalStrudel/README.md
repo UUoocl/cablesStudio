@@ -19,11 +19,14 @@ The `Ops.Strudel` op opens a pop-up window in the browser containing the embedde
 - **Height** (`Number`, default: `750`): Height in pixels of the pop-up window.
 - **Window Title** (`String`, default: `"Strudel REPL"`): Title of the pop-up window.
 - **Strudel CSS Variables** (`String Editor / JSON`): JSON object containing `:root` CSS variable key-value pairs (e.g. `{"--background": "#22200000 !important", ...}`) broadcasted live via BroadcastChannel API (`strudel_theme_channel`) and applied automatically when the Strudel editor finishes loading.
+- **Volume** (`Number`, default: `1.0`): Master volume scaling factor for the output WebAudio node.
+- **Popup Sound Output** (`Boolean`, default: `true`): Toggles local speaker sound playback in the pop-up window. When disabled (`false`), local pop-up speakers are muted while the live WebAudio stream to Cables continues.
 
 ### Operator Outputs:
 - **Is Open** (`Boolean`): `true` when the pop-up window is active and open.
 - **Window Object** (`Object`): Reference to the pop-up `Window` instance.
 - **Canvas Element** (`Object`): Reference to the `HTMLCanvasElement` (`#html-canvas`) in the pop-up window.
+- **Audio Node** (`Object`): WebAudio GainNode reference streaming live audio from the pop-up window into Cables WebAudio graph.
 
 ---
 
@@ -36,3 +39,4 @@ The `Ops.Strudel` op opens a pop-up window in the browser containing the embedde
 2. **Playback Controls**: Dedicated **▶ Play** and **⏹ Stop** buttons calling `repl.editor.evaluate()` and `repl.editor.stop()`.
 3. **Live Sound Updates**: Automatic debounced evaluation on user live edits.
 4. **Preset Selector**: Quick preset loading buttons.
+5. **Real-time WebAudio Stream**: Dual-routing into `MediaStreamDestinationNode` for streaming to parent window while maintaining optional local speaker output.

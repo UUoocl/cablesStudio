@@ -22,15 +22,25 @@ const defaultCssVarsObj = {
 const defaultCssVars = JSON.stringify(defaultCssVarsObj, null, 2);
 
 const inCssVars = op.inStringEditor("Strudel CSS Variables", defaultCssVars, "json");
+const inVolume = op.inFloat("Volume", 1.0);
+const inPopupAudio = op.inBool("Popup Sound Output", true);
 
 // Define Operator Outputs
 const outIsOpen = op.outBoolNum("Is Open");
 const outWindow = op.outObject("Window Object");
 const outCanvas = op.outObject("Canvas Element");
+const outAudioNode = op.outObject("Audio Node");
+
+op.setPortGroup("Controls", [inOpen, inClose]);
+op.setPortGroup("Settings", [inAutoOpen, inWidth, inHeight, inTitle, inCssVars]);
+op.setPortGroup("Audio", [inVolume, inPopupAudio]);
 
 let popupWindow = null;
 let checkClosedInterval = null;
 let currentBlobUrl = null;
+let parentAudioCtx = null;
+let mediaStreamSource = null;
+let parentGainNode = null;
 
 let themeChannel = null;
 if (typeof BroadcastChannel !== "undefined") {
@@ -345,11 +355,81 @@ stack(
       document.head.appendChild(styleEl);
     };
 
+    // Web Audio Stream Capture & Speaker Control
+    window.strudelAudioStream = null;
+    window.strudelAudioContext = null;
+    window.popupSpeakerGain = null;
+    window.streamDestNode = null;
+    window.popupSoundEnabled = true;
+
+    window.setPopupSoundOutput = function(enabled) {
+      window.popupSoundEnabled = !!enabled;
+      if (window.popupSpeakerGain && window.strudelAudioContext) {
+        try {
+          window.popupSpeakerGain.gain.setValueAtTime(
+            window.popupSoundEnabled ? 1.0 : 0.0,
+            window.strudelAudioContext.currentTime
+          );
+        } catch (e) {}
+      }
+    };
+
+    function setupStreamForContext(ctx) {
+      if (!ctx || ctx._strudelStreamSetup) return;
+      ctx._strudelStreamSetup = true;
+      window.strudelAudioContext = ctx;
+
+      try {
+        const streamDest = ctx.createMediaStreamDestination();
+        const speakerGain = ctx.createGain();
+        speakerGain.gain.setValueAtTime(
+          window.popupSoundEnabled ? 1.0 : 0.0,
+          ctx.currentTime
+        );
+        speakerGain.connect(ctx.destination);
+
+        const strudelMasterGain = ctx.createGain();
+        strudelMasterGain.connect(speakerGain);
+        strudelMasterGain.connect(streamDest);
+
+        ctx.destinationNode = strudelMasterGain;
+        window.popupSpeakerGain = speakerGain;
+        window.streamDestNode = streamDest;
+        window.strudelAudioStream = streamDest.stream;
+
+        const origConnect = AudioNode.prototype.connect;
+        AudioNode.prototype.connect = function(destination, output, input) {
+          if (destination === ctx.destination) {
+            return origConnect.call(this, strudelMasterGain, output, input);
+          }
+          return origConnect.call(this, destination, output, input);
+        };
+
+        window.dispatchEvent(new CustomEvent('strudel-audio-ready'));
+      } catch (e) {
+        console.warn('Error setting up Strudel WebAudio stream:', e);
+      }
+    }
+
+    const OrigAudioContext = window.AudioContext || window.webkitAudioContext;
+    if (OrigAudioContext) {
+      window.AudioContext = function(...args) {
+        const ctx = new OrigAudioContext(...args);
+        setupStreamForContext(ctx);
+        return ctx;
+      };
+      window.AudioContext.prototype = OrigAudioContext.prototype;
+      if (window.webkitAudioContext) window.webkitAudioContext = window.AudioContext;
+    }
+
     // Detect when Strudel REPL has finished loading
     window.isStrudelLoaded = false;
     function checkStrudelLoaded() {
       if (replElement && replElement.editor) {
         window.isStrudelLoaded = true;
+        if (replElement.editor.repl && replElement.editor.repl.audioContext) {
+          setupStreamForContext(replElement.editor.repl.audioContext);
+        }
         window.dispatchEvent(new CustomEvent('strudel-loaded'));
       } else {
         setTimeout(checkStrudelLoaded, 50);
@@ -426,6 +506,9 @@ stack(
     // Playback Controls
     document.getElementById('btn-play').addEventListener('click', async () => {
       if (replElement.editor) {
+        if (replElement.editor.repl && replElement.editor.repl.audioContext) {
+          setupStreamForContext(replElement.editor.repl.audioContext);
+        }
         await replElement.editor.evaluate();
       }
     });
@@ -508,6 +591,58 @@ stack(
 </html>
 `;
 
+function cleanupParentAudio() {
+  outAudioNode.set(null);
+  if (mediaStreamSource) {
+    try { mediaStreamSource.disconnect(); } catch (e) {}
+    mediaStreamSource = null;
+  }
+  if (parentGainNode) {
+    try { parentGainNode.disconnect(); } catch (e) {}
+    parentGainNode = null;
+  }
+  parentAudioCtx = null;
+}
+
+function setupParentAudioStream() {
+  if (!popupWindow || popupWindow.closed) return;
+
+  if (typeof popupWindow.setPopupSoundOutput === "function") {
+    popupWindow.setPopupSoundOutput(inPopupAudio.get());
+  }
+
+  const stream = popupWindow.strudelAudioStream;
+  if (!stream || mediaStreamSource) return;
+
+  if (!parentAudioCtx) {
+    try {
+      parentAudioCtx = CABLES.WEBAUDIO.createAudioContext(op);
+    } catch (err) {
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtxClass) parentAudioCtx = new AudioCtxClass();
+    }
+  }
+
+  if (!parentAudioCtx) return;
+
+  if (parentAudioCtx.state === "suspended") {
+    parentAudioCtx.resume().catch((err) => { op.log("Failed to resume parent AudioContext:", err); });
+  }
+
+  if (!parentGainNode) {
+    parentGainNode = parentAudioCtx.createGain();
+    parentGainNode.gain.setValueAtTime(inVolume.get(), parentAudioCtx.currentTime);
+  }
+
+  try {
+    mediaStreamSource = parentAudioCtx.createMediaStreamSource(stream);
+    mediaStreamSource.connect(parentGainNode);
+    outAudioNode.set(parentGainNode);
+  } catch (e) {
+    op.log("Error connecting MediaStream to parent AudioContext:", e);
+  }
+}
+
 function startCheckClosedTimer() {
   if (checkClosedInterval) clearInterval(checkClosedInterval);
   checkClosedInterval = setInterval(() => {
@@ -517,12 +652,14 @@ function startCheckClosedTimer() {
         outIsOpen.set(false);
         outWindow.set(null);
         outCanvas.set(null);
+        cleanupParentAudio();
         if (checkClosedInterval) clearInterval(checkClosedInterval);
       } else {
         outIsOpen.set(true);
         outWindow.set(popupWindow);
         const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
         outCanvas.set(canvasEl);
+        setupParentAudioStream();
       }
     }
   }, 500);
@@ -537,6 +674,7 @@ function openPopupWindow() {
     outWindow.set(popupWindow);
     const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
     outCanvas.set(canvasEl);
+    setupParentAudioStream();
     return;
   }
 
@@ -562,6 +700,7 @@ function openPopupWindow() {
     if (op.setUiError) op.setUiError("popup_error", "Failed to open popup window: " + err.message);
     outIsOpen.set(false);
     outCanvas.set(null);
+    cleanupParentAudio();
     return;
   }
 
@@ -569,6 +708,7 @@ function openPopupWindow() {
     if (op.setUiError) op.setUiError("popup_error", "Popup window blocked by browser. Please allow popups for this site.");
     outIsOpen.set(false);
     outCanvas.set(null);
+    cleanupParentAudio();
     return;
   }
 
@@ -643,6 +783,7 @@ function closePopupWindow() {
   outIsOpen.set(false);
   outWindow.set(null);
   outCanvas.set(null);
+  cleanupParentAudio();
   if (checkClosedInterval) clearInterval(checkClosedInterval);
 }
 
@@ -663,6 +804,18 @@ const handleCssVarsChange = () => {
 inCssVars.onChange = handleCssVarsChange;
 inCssVars.onValueChanged = handleCssVarsChange;
 
+inVolume.onChange = () => {
+  if (parentGainNode && parentAudioCtx) {
+    parentGainNode.gain.linearRampToValueAtTime(inVolume.get(), parentAudioCtx.currentTime + 0.05);
+  }
+};
+
+inPopupAudio.onChange = () => {
+  if (popupWindow && !popupWindow.closed && typeof popupWindow.setPopupSoundOutput === "function") {
+    popupWindow.setPopupSoundOutput(inPopupAudio.get());
+  }
+};
+
 op.onLoaded = () => {
   if (inAutoOpen.get()) {
     openPopupWindow();
@@ -674,4 +827,5 @@ op.onDelete = () => {
     try { themeChannel.close(); } catch (e) {}
   }
   closePopupWindow();
+  cleanupParentAudio();
 };
