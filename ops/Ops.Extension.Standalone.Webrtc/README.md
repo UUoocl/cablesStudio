@@ -16,7 +16,7 @@ Signaling is completely decoupled from any specific transport. You can perform t
 *   **Data to Send** (String): The text or JSON payload to transmit.
 *   **Target Canvas Object** (Object): *Optional.* Connect a canvas reference (e.g. from `RenderTarget`). Captures the WebGL visual frame stream (`m=video`).
 *   **Target Audio Stream** (Object): *Optional.* Connect a Web Audio API `MediaStream` reference to append audio (`m=audio`).
-*   **Video Encoding** (Dropdown): Select the video encoding / codec preferences for WebRTC connection: `H.264 no alpha`, `VP9 with alpha`, or `HEVC with Alpha`. Prioritizes the chosen codec in WebRTC transceiver preferences.
+*   **Video Encoding** (Dropdown): Select the video encoding / codec preferences for WebRTC connection: `H.264`, `VP9`, or `HEVC`. Prioritizes the chosen codec in WebRTC transceiver preferences.
 
 ### 📤 Output Ports (Right Side)
 *   **Local SDP Output** (String): Exposes the generated local SDP profile (JSON description).

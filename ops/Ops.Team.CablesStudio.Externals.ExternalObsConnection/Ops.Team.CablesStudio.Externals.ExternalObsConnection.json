@@ -163,6 +163,15 @@
             },
             {
                 "type": 5,
+                "name": "Request Type"
+            },
+            {
+                "type": 0,
+                "name": "Request Status Result",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
                 "name": "Event Name"
             },
             {

@@ -14,3 +14,26 @@ Sends a request to the connected OBS instance.
 - **Success**: Boolean indicating if the request was successful.
 - **Result**: The data returned by OBS in response to the request.
 - **Error**: String containing error messages if the request fails.
+
+
+## Examples
+
+### CallVendorRequest
+```json
+{
+  "requestType": "CallVendorRequest",
+  "requestData": {
+    "vendorName": "obs-browser",
+    "requestType": "emit_event",
+    "requestData": {
+      "event_name": "ObsWsCredentials",
+      "event_data": {
+        "requestName": "ObsWsCredentials",
+        "port": "4455",
+        "password": "59373785-6d97-4504-a4ae-e0d0845d9ca2"
+      }
+    }
+  }
+}
+
+```

@@ -30,7 +30,7 @@ op.setOutData = (data) => { outData.set(data); };
 async function loadP5() {
     const p5Url = inP5Url.get();
     if (!p5Url) return false;
-    
+
     try {
         let resp = null;
         for (let i = 0; i < 3; i++) {
@@ -42,7 +42,7 @@ async function loadP5() {
                 await new Promise(r => setTimeout(r, 500));
             }
         }
-        
+
         if (!resp || !resp.ok) throw new Error(`HTTP Error ${resp ? resp.status : 'No Response'}`);
 
         try {
@@ -61,11 +61,11 @@ async function loadP5() {
                 document.head.appendChild(script);
             });
         }
-        
+
         if (typeof p5Module !== 'function') {
             throw new Error("P5 library not found after loading.");
         }
-        
+
         return true;
     } catch (e) {
         outError.set(`Failed to load P5: ${e.message} (URL: ${p5Url})`);
@@ -111,8 +111,8 @@ async function initSketch() {
         container.style.position = "absolute";
         container.style.top = "0";
         container.style.left = "0";
-        container.style.width = "1px";
-        container.style.height = "1px";
+        container.style.width = inWidth.get() + "px";
+        container.style.height = inHeight.get() + "px";
         container.style.overflow = "hidden";
         container.style.opacity = "0.001"; // Nearly invisible but 'visible' to avoid throttling
         container.style.pointerEvents = "none";
@@ -121,10 +121,11 @@ async function initSketch() {
 
         p5Instance = new p5Module((p) => {
             sketchFn(p, op, inWidth.get(), inHeight.get());
-            
+
             const originalSetup = p.setup;
             p.setup = () => {
                 if (originalSetup) originalSetup();
+                p.resizeCanvas(inWidth.get(), inHeight.get());
                 p.loop();
             };
 
@@ -145,6 +146,7 @@ async function initSketch() {
                                     "texture": canvas,
                                     "flip": inFlipY.get()
                                 });
+                                texture.setSize(inWidth.get(), inHeight.get());
                                 outTexture.set(texture);
                             } else {
                                 outError.set("Cables Texture class not found.");
@@ -166,7 +168,7 @@ async function initSketch() {
 
             if (p.onDataChange) p.onDataChange(inData.get());
         }, container);
-        
+
         outError.set("");
     } catch (e) {
         outError.set("Failed to load sketch: " + e.message);
@@ -181,12 +183,16 @@ inTrigger.onTriggered = () => {
 inReload.onTriggered = initSketch;
 inSketchUrl.onChange = initSketch;
 inP5Url.onChange = () => { p5Module = null; initSketch(); };
-inData.onChange = () => { 
+inData.onChange = () => {
     if (p5Instance && p5Instance.onDataChange) {
         p5Instance.onDataChange(inData.get());
     }
 };
 inWidth.onChange = inHeight.onChange = () => {
+    if (container) {
+        container.style.width = inWidth.get() + "px";
+        container.style.height = inHeight.get() + "px";
+    }
     if (p5Instance) {
         if (p5Instance.resizeCanvas) p5Instance.resizeCanvas(inWidth.get(), inHeight.get());
         if (p5Instance.onResize) p5Instance.onResize(inWidth.get(), inHeight.get());
@@ -194,8 +200,8 @@ inWidth.onChange = inHeight.onChange = () => {
     }
 };
 inFlipY.onChange = () => { if (texture) texture.flip = inFlipY.get(); };
-op.onDelete = () => { 
-    if (p5Instance) p5Instance.remove(); 
+op.onDelete = () => {
+    if (p5Instance) p5Instance.remove();
     if (texture) texture.dispose();
     if (container) container.remove();
 };

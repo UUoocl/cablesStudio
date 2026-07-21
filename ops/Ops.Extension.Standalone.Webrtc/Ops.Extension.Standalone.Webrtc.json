@@ -54,11 +54,6 @@
                 "name": "Target Audio Stream"
             },
             {
-                "type": 5,
-                "name": "Video Encoding",
-                "values": ["H.264 no alpha", "VP9 with alpha", "HEVC with Alpha"]
-            },
-            {
                 "type": 0,
                 "name": "Video Encoding index",
                 "subType": "integer"
@@ -143,7 +138,7 @@
             },
             {
                 "name": "Video Encoding",
-                "text": "Select video encoding preferences for the WebRTC connection: H.264 no alpha, VP9 with alpha, or HEVC with Alpha."
+                "text": "Select video encoding preferences for the WebRTC connection: H.264, VP9, or HEVC."
             },
             {
                 "name": "Local SDP Output",

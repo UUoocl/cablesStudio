@@ -92,6 +92,17 @@ function start()
 
     server = http.createServer({ "noDelay": true, "keepAlive": true }, (req, res) =>
     {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Range");
+
+        if (req.method === "OPTIONS")
+        {
+            res.statusCode = 204;
+            res.end();
+            return;
+        }
+
         const parsedUrl = url.parse(req.url);
         let pathname = parsedUrl.pathname;
 

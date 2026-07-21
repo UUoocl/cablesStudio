@@ -84,6 +84,22 @@
                 "type": 2,
                 "name": "Element",
                 "objType": "element"
+            },
+            {
+                "type": 5,
+                "name": "Window Title"
+            },
+            {
+                "type": 0,
+                "name": "Window Number"
+            },
+            {
+                "type": 5,
+                "name": "Window Name"
+            },
+            {
+                "type": 1,
+                "name": "Window Created"
             }
         ]
     },

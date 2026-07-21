@@ -12,7 +12,7 @@ const
     inDataToSend = op.inString("Data to Send", ""),
     inTargetCanvas = op.inObject("Target Canvas Object", null),
     inTargetAudio = op.inObject("Target Audio Stream", null),
-    inVideoEncoding = op.inValueSelect("Video Encoding", ["H.264 no alpha", "VP9 with alpha", "HEVC with Alpha"], "H.264 no alpha"),
+    inVideoEncoding = op.inValueSelect("Video Encoding", ["H.264", "VP9", "HEVC"], "H.264"),
 
     outLocalSdp = op.outString("Local SDP Output", ""),
     outOnSdpGenerated = op.outTrigger("On SDP Generated"),
@@ -63,7 +63,7 @@ function disconnect() {
             if (remoteVideoElement.parentNode) {
                 remoteVideoElement.parentNode.removeChild(remoteVideoElement);
             }
-        } catch (e) {}
+        } catch (e) { }
         remoteVideoElement = null;
     }
     outRemoteVideoElement.set(null);
@@ -71,7 +71,7 @@ function disconnect() {
     if (remoteStream) {
         try {
             remoteStream.getTracks().forEach(track => track.stop());
-        } catch (e) {}
+        } catch (e) { }
         remoteStream = null;
     }
     outRemoteAudioStream.set(null);
@@ -96,12 +96,12 @@ function setupPeerConnectionListeners() {
 
     pc.ontrack = (event) => {
         op.log(`[WebRTC] Received remote track: ${event.track.kind}`);
-        
+
         if (!remoteStream) {
             remoteStream = new MediaStream();
             outRemoteAudioStream.set(remoteStream);
         }
-        
+
         remoteStream.addTrack(event.track);
 
         if (event.track.kind === "video") {
@@ -110,7 +110,7 @@ function setupPeerConnectionListeners() {
                 remoteVideoElement.autoplay = true;
                 remoteVideoElement.playsInline = true;
                 remoteVideoElement.muted = true; // Mute to support browser autoplay policies
-                
+
                 // Keep offscreen/hidden unless styled by the user
                 remoteVideoElement.style.position = "absolute";
                 remoteVideoElement.style.top = "-9999px";
@@ -119,12 +119,12 @@ function setupPeerConnectionListeners() {
                 remoteVideoElement.style.height = "1px";
                 document.body.appendChild(remoteVideoElement);
             }
-            
+
             remoteVideoElement.srcObject = remoteStream;
             remoteVideoElement.play().catch(err => {
                 op.logWarn("[WebRTC] Error playing video element:", err.message);
             });
-            
+
             outRemoteVideoElement.set(remoteVideoElement);
             op.log("[WebRTC] Configured Remote Video Element.");
         }
@@ -171,6 +171,15 @@ function createOffer() {
     }
 }
 
+function sanitizeSdp(sdp) {
+    if (!sdp) return sdp;
+    if (!sdp.includes("\n") && !sdp.includes("\r")) {
+        op.log("[WebRTC] Flat SDP detected (no newlines). Restoring line endings...");
+        return sdp.replace(/ ([vosiuepcbtrzkam])=/g, "\r\n$1=");
+    }
+    return sdp;
+}
+
 function setRemoteSdp() {
     const remoteSdpStr = inRemoteSdp.get();
     if (!remoteSdpStr) {
@@ -203,6 +212,10 @@ function setRemoteSdp() {
     if (!descObj || !descObj.type || !descObj.sdp) {
         op.logError("[WebRTC] Invalid SDP object structure.");
         return;
+    }
+
+    if (typeof descObj.sdp === "string") {
+        descObj.sdp = sanitizeSdp(descObj.sdp);
     }
 
     if (descObj.type === "offer") {
@@ -268,7 +281,7 @@ function setRemoteSdp() {
 
 function outputLocalSdp() {
     if (!pc || !pc.localDescription) return;
-    const sdpStr = JSON.stringify(pc.localDescription, null, 2);
+    const sdpStr = JSON.stringify(pc.localDescription);
     outLocalSdp.set(sdpStr);
     updateTrackInspectors();
     outOnSdpGenerated.trigger();
@@ -312,14 +325,14 @@ function addMediaTracks() {
                 if (typeof MediaStream !== "undefined" && stream instanceof MediaStream) {
                     isMediaStream = true;
                 }
-            } catch (e) {}
+            } catch (e) { }
 
             let isWrappedMediaStream = false;
             try {
                 if (stream.stream && typeof MediaStream !== "undefined" && stream.stream instanceof MediaStream) {
                     isWrappedMediaStream = true;
                 }
-            } catch (e) {}
+            } catch (e) { }
 
             if (isWrappedMediaStream) {
                 stream = stream.stream;
@@ -352,11 +365,11 @@ function setCodecPreference(transceiver, encodingName) {
     }
 
     let targetMimes = [];
-    if (encodingName === "H.264 no alpha") {
+    if (encodingName === "H.264") {
         targetMimes.push("video/h264");
-    } else if (encodingName === "VP9 with alpha") {
+    } else if (encodingName === "VP9") {
         targetMimes.push("video/vp9");
-    } else if (encodingName === "HEVC with Alpha") {
+    } else if (encodingName === "HEVC") {
         targetMimes.push("video/hevc", "video/h265");
     }
 
@@ -390,8 +403,8 @@ function applyCodecPreferences() {
     if (!encoding) return;
 
     const transceivers = pc.getTransceivers();
-    const videoTransceiver = transceivers.find(t => 
-        (t.receiver && t.receiver.track && t.receiver.track.kind === "video") || 
+    const videoTransceiver = transceivers.find(t =>
+        (t.receiver && t.receiver.track && t.receiver.track.kind === "video") ||
         (t.sender && t.sender.track && t.sender.track.kind === "video")
     );
 

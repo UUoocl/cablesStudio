@@ -36,6 +36,8 @@ const
     outSuccess = op.outBoolNum("Response Success", false),
     outResponse = op.outObject("Response Data", null),
     outOnResponse = op.outTrigger("On Response"),
+    outReqType = op.outString("Request Type", ""),
+    outReqStatusResult = op.outBoolNum("Request Status Result", false),
     outEvtName = op.outString("Event Name", ""),
     outEvtData = op.outObject("Event Data", null),
     outOnEvent = op.outTrigger("On Event"),
@@ -223,6 +225,7 @@ const templateHtml = `<!DOCTYPE html>
         }
         
         let obs = null;
+        let lastResponse = null;
         
         function updateStatus(state, errorMsg = "") {
             const badge = document.getElementById("status-badge");
@@ -266,6 +269,14 @@ const templateHtml = `<!DOCTYPE html>
                     
                     updateStatus("connecting");
                     obs = new ParentOBSWebSocket();
+                    
+                    const originalInternalEmit = obs.internalListeners.emit;
+                    obs.internalListeners.emit = function(event, data) {
+                        if (event.startsWith("res:") && data) {
+                            lastResponse = data;
+                        }
+                        return originalInternalEmit.apply(this, arguments);
+                    };
                     
                     // Bind events before connecting
                     obs.on("ConnectionOpened", () => {
@@ -340,6 +351,8 @@ const templateHtml = `<!DOCTYPE html>
                         bc.postMessage({
                             type: "response",
                             success: true,
+                            requestType: msg.requestType || "RequestBatch",
+                            requestStatus: { result: true },
                             responseData: results
                         });
                     } catch (err) {
@@ -347,24 +360,31 @@ const templateHtml = `<!DOCTYPE html>
                         bc.postMessage({
                             type: "response",
                             success: false,
+                            requestType: msg.requestType || "RequestBatch",
+                            requestStatus: { result: false },
                             error: err.message
                         });
                     }
                 } else {
                     log("Sending request: " + msg.requestType, "request");
+                    lastResponse = null;
                     try {
                         const response = await obs.call(msg.requestType, msg.requestData);
                         log("Response success for: " + msg.requestType, "success");
                         bc.postMessage({
                             type: "response",
                             success: true,
+                            requestType: lastResponse ? lastResponse.requestType : msg.requestType,
+                            requestStatus: lastResponse ? lastResponse.requestStatus : { result: true },
                             responseData: response
                         });
                     } catch (err) {
-                        log("Request  + msg.requestType +  failed: " + err.message, "error");
+                        log("Request " + msg.requestType + " failed: " + err.message, "error");
                         bc.postMessage({
                             type: "response",
                             success: false,
+                            requestType: lastResponse ? lastResponse.requestType : msg.requestType,
+                            requestStatus: lastResponse ? lastResponse.requestStatus : { result: false },
                             error: err.message
                         });
                     }
@@ -417,6 +437,12 @@ function setupBroadcastChannel() {
                 outOnEvent.trigger();
                 break;
             case "response":
+                outReqType.set(msg.requestType || "");
+                if (msg.requestStatus && msg.requestStatus.result !== undefined) {
+                    outReqStatusResult.set(msg.requestStatus.result);
+                } else {
+                    outReqStatusResult.set(msg.success);
+                }
                 if (msg.success) {
                     outSuccess.set(true);
                     outResponse.set(msg.responseData || null);

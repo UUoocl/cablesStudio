@@ -15,6 +15,10 @@ const
     inFull = op.inTriggerButton("Fullscreen"),
     outEle = op.outObject("Element", null, "element"),
     outMode = op.outString("Mode", "None"),
+    outWinTitle = op.outString("Window Title", ""),
+    outWinNum = op.outNumber("Window Number", 0),
+    outWinName = op.outString("Window Name", ""),
+    outWinCreated = op.outTrigger("Window Created"),
     inClose = op.inTriggerButton("Close");
 
 const cgl = op.patch.cgl;
@@ -26,6 +30,7 @@ let origWidth = 800, origHeight = 480;
 let subWindow = null;
 let x = 0;
 let y = 0;
+let windowCounter = 0;
 
 let fb = null;
 let pixelData = null;
@@ -96,7 +101,11 @@ function move()
 
 inTitle.onChange = () =>
 {
-    if (subWindow) subWindow.document.title = inTitle.get();
+    if (subWindow)
+    {
+        subWindow.document.title = inTitle.get();
+        outWinTitle.set(inTitle.get());
+    }
 };
 
 function close()
@@ -112,6 +121,9 @@ function close()
     webgpuBindGroup = null;
     lastGpuTexture = null;
     outMode.set("Inactive");
+    outWinTitle.set("");
+    outWinName.set("");
+    outWinNum.set(0);
 }
 
 function resize(useWinSize)
@@ -203,6 +215,11 @@ inOpen.onTriggered = () =>
     {
         fullscreen();
     });
+
+    outWinTitle.set(inTitle.get());
+    outWinName.set("view#" + id);
+    outWinNum.set(++windowCounter);
+    outWinCreated.trigger();
 };
 
 function renderWebGPU(device, presentationFormat, sourceGpuTexture) {

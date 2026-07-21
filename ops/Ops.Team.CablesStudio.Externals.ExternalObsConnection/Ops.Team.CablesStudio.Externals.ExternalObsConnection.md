@@ -40,6 +40,8 @@ To dispatch multiple operations concurrently in a single batch, pass an Array of
 * **Response Success**: True if the last API request completed successfully.
 * **Response Data**: Returns the response payload from OBS (either an object or an array of batch results).
 * **On Response**: Triggers when a request response returns from the server.
+* **Request Type**: The request type/name of the completed request.
+* **Request Status Result**: True if the request status result was successful, false if it failed.
 * **Event Name**: Emitted event name from OBS (e.g. `CurrentProgramSceneChanged`).
 * **Event Data**: Emitted event payload.
 * **On Event**: Triggers when any subscribed event is broadcast by OBS.

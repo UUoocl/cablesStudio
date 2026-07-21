@@ -6,7 +6,7 @@ This operator establishes a peer-to-peer WebRTC connection between two local/net
 - **Generic Signaling**: Zero dependencies on Node.js file system APIs. Exposes raw SDP inputs/outputs, allowing deployment on standard browser patches.
 - **Vanilla ICE Strategy**: Gathers all local ICE candidates into a single, complete SDP description before generating the final string. This avoids Trickle ICE candidate synchronization issues, making copy-paste connections simple and reliable.
 - **Media Streaming Support**: Optional input ports to accept canvas elements (to stream WebGL/render textures) and audio MediaStreams.
-- **Video Encoding & Alpha Selection**: Supports prioritizing H.264 (no alpha), VP9 (with alpha), and HEVC (with alpha) codecs to allow transparent video streaming.
+- **Video Encoding Selection**: Supports prioritizing H.264, VP9, and HEVC codecs.
 - **Track Capability Inspector**: Built-in inspector booleans indicating whether the processed connection string config includes active audio, video, or data streams.
 - **Bi-directional Data Channel**: Sends and receives character payloads (JSON, text messages, trigger coordinates) between peers.
 
@@ -64,7 +64,7 @@ To stream video from a webcam and render it on the remote machine:
 - **Data to Send** (String): The text/JSON payload to transmit.
 - **Target Canvas Object** (Object): *Optional.* Connect a canvas reference (e.g. from `RenderTarget`). If provided, captures and streams the WebGL visual frames (`m=video`).
 - **Target Audio Stream** (Object): *Optional.* Connect a Web Audio API `MediaStream` reference. If active, streams audio frames (`m=audio`).
-- **Video Encoding** (Dropdown): Select the video encoding / codec preferences for WebRTC connection: `H.264 no alpha`, `VP9 with alpha`, or `HEVC with Alpha`. Prioritizes the chosen codec in WebRTC transceiver preferences.
+- **Video Encoding** (Dropdown): Select the video encoding / codec preferences for WebRTC connection: `H.264`, `VP9`, or `HEVC`. Prioritizes the chosen codec in WebRTC transceiver preferences.
 
 ### 📤 Outputs
 - **Local SDP Output** (String): Exposes the generated local SDP profile (JSON description).
