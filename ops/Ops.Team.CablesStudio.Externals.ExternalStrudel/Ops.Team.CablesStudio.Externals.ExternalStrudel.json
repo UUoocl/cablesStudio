@@ -46,6 +46,12 @@
             },
             {
                 "type": 0,
+                "name": "Pattern Code",
+                "group": "Settings",
+                "subType": "string"
+            },
+            {
+                "type": 0,
                 "name": "Volume",
                 "group": "Audio",
                 "subType": "number"
@@ -74,10 +80,79 @@
             {
                 "type": 2,
                 "name": "Audio Node"
+            },
+            {
+                "type": 0,
+                "name": "Current Pattern",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Is Playing",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Active Notes"
+            },
+            {
+                "type": 2,
+                "name": "Active MIDI Notes"
+            },
+            {
+                "type": 2,
+                "name": "Active Note Names"
+            },
+            {
+                "type": 0,
+                "name": "Active Note Count",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Note Event"
+            },
+            {
+                "type": 0,
+                "name": "CPS",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "BPM",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Cycle Progress",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Current Cycle",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Cycle"
+            },
+            {
+                "type": 2,
+                "name": "Last Event"
+            },
+            {
+                "type": 0,
+                "name": "Last Sound",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Error",
+                "subType": "string"
             }
         ]
     },
-    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding and real-time audio output streaming",
+    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding, real-time audio output streaming, bi-directional BroadcastChannel pattern sync, and live pattern telemetry",
     "docs": {
         "ports": [
             {
@@ -109,6 +184,10 @@
                 "text": "CSS string containing :root CSS variable overrides for the Strudel editor theme."
             },
             {
+                "name": "Pattern Code",
+                "text": "Strudel JS pattern code string. Changes to this port broadcast live to the pop-up REPL via BroadcastChannel API."
+            },
+            {
                 "name": "Volume",
                 "text": "Volume scaling factor (0.0 to 1.0+) for the streamed WebAudio output node."
             },
@@ -131,6 +210,66 @@
             {
                 "name": "Audio Node",
                 "text": "Outputs the Cables WebAudio GainNode connected to the live audio stream from the pop-up window."
+            },
+            {
+                "name": "Current Pattern",
+                "text": "Outputs the active Strudel pattern code string currently loaded and live-coded in the pop-up REPL."
+            },
+            {
+                "name": "Is Playing",
+                "text": "Outputs true when the Strudel pattern scheduler is actively playing."
+            },
+            {
+                "name": "Active Notes",
+                "text": "Outputs an array of objects representing currently sounding note events ([{ note, midi, sound, gain, velocity, duration }, ...])."
+            },
+            {
+                "name": "Active MIDI Notes",
+                "text": "Outputs an array of active MIDI note numbers (e.g. [60, 64, 67])."
+            },
+            {
+                "name": "Active Note Names",
+                "text": "Outputs an array of active note name strings (e.g. [\"C4\", \"E4\", \"G4\"])."
+            },
+            {
+                "name": "Active Note Count",
+                "text": "Outputs the integer count of currently active sounding notes."
+            },
+            {
+                "name": "On Note Event",
+                "text": "Trigger fired whenever a new note/hap event is played in Strudel."
+            },
+            {
+                "name": "CPS",
+                "text": "Outputs the current Cycles Per Second value of the Strudel pattern."
+            },
+            {
+                "name": "BPM",
+                "text": "Outputs the calculated Beats Per Minute (CPS * 120)."
+            },
+            {
+                "name": "Cycle Progress",
+                "text": "Outputs normalized 0.0 to 1.0 progress within the active cycle."
+            },
+            {
+                "name": "Current Cycle",
+                "text": "Outputs the total elapsed cycle timestamp."
+            },
+            {
+                "name": "On Cycle",
+                "text": "Trigger fired on every integer cycle boundary (downbeat)."
+            },
+            {
+                "name": "Last Event",
+                "text": "Outputs the complete JSON object of the last triggered hap/note event."
+            },
+            {
+                "name": "Last Sound",
+                "text": "Outputs the sample or synth sound name of the last triggered event."
+            },
+            {
+                "name": "Error",
+                "text": "Outputs any active evaluation or runtime error message string."
             }
         ]
     },
@@ -149,6 +288,18 @@
             "type": "update",
             "author": "Strudel for Cables",
             "date": 1783340000000
+        },
+        {
+            "message": "added active notes tracking, MIDI outputs, CPS/BPM clock progress, triggers, and live pattern telemetry",
+            "type": "update",
+            "author": "Strudel for Cables",
+            "date": 1783350000000
+        },
+        {
+            "message": "added Pattern Code input port, Current Pattern output port, and bi-directional BroadcastChannel pattern sync",
+            "type": "update",
+            "author": "Strudel for Cables",
+            "date": 1783360000000
         }
     ],
     "license": "MIT",

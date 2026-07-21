@@ -21,7 +21,23 @@ const defaultCssVarsObj = {
 
 const defaultCssVars = JSON.stringify(defaultCssVarsObj, null, 2);
 
+const defaultPatternCode = `// Sample Strudel Pattern (@strudel/repl)
+setcps(1)
+
+stack(
+  s("bd*2, ~ rim*<1!3 2>, hh*4").bank('RolandTR909')
+  .off(-1/8, set(speed("1.5").gain(.25))),
+  n("<0 1 2 3 4>*8").scale('G4 minor')
+  .s("gm_lead_6_voice")
+  .clip(sine.range(.2,.8).slow(8))
+  .jux(rev)
+  .room(2)
+  .sometimes(add(note("12")))
+  .lpf(perlin.range(200,20000).slow(4))
+)`;
+
 const inCssVars = op.inStringEditor("Strudel CSS Variables", defaultCssVars, "json");
+const inPattern = op.inStringEditor("Pattern Code", defaultPatternCode, "js");
 const inVolume = op.inFloat("Volume", 1.0);
 const inPopupAudio = op.inBool("Popup Sound Output", true);
 
@@ -30,9 +46,28 @@ const outIsOpen = op.outBoolNum("Is Open");
 const outWindow = op.outObject("Window Object");
 const outCanvas = op.outObject("Canvas Element");
 const outAudioNode = op.outObject("Audio Node");
+const outPattern = op.outString("Current Pattern");
+
+outPattern.set(defaultPatternCode);
+
+// Telemetry Outputs
+const outIsPlaying = op.outBoolNum("Is Playing");
+const outActiveNotes = op.outArray("Active Notes");
+const outActiveMidi = op.outArray("Active MIDI Notes");
+const outActiveNames = op.outArray("Active Note Names");
+const outActiveCount = op.outNumber("Active Note Count");
+const outOnNote = op.outTrigger("On Note Event");
+const outCPS = op.outNumber("CPS");
+const outBPM = op.outNumber("BPM");
+const outCycleProgress = op.outNumber("Cycle Progress");
+const outCurrentCycle = op.outNumber("Current Cycle");
+const outOnCycle = op.outTrigger("On Cycle");
+const outLastEvent = op.outObject("Last Event");
+const outLastSound = op.outString("Last Sound");
+const outError = op.outString("Error");
 
 op.setPortGroup("Controls", [inOpen, inClose]);
-op.setPortGroup("Settings", [inAutoOpen, inWidth, inHeight, inTitle, inCssVars]);
+op.setPortGroup("Settings", [inAutoOpen, inWidth, inHeight, inTitle, inCssVars, inPattern]);
 op.setPortGroup("Audio", [inVolume, inPopupAudio]);
 
 let popupWindow = null;
@@ -59,6 +94,34 @@ function broadcastCssVars() {
   if (themeChannel) {
     try {
       themeChannel.postMessage({ type: "update-theme", data: cssData });
+    } catch (e) {}
+  }
+}
+
+let patternChannel = null;
+if (typeof BroadcastChannel !== "undefined") {
+  try {
+    patternChannel = new BroadcastChannel("strudel_pattern_channel");
+    patternChannel.onmessage = (event) => {
+      if (event.data) {
+        if (event.data.type === "request-pattern") {
+          broadcastPattern();
+        } else if (event.data.type === "pattern-changed") {
+          if (event.data.data !== undefined) {
+            outPattern.set(event.data.data);
+          }
+        }
+      }
+    };
+  } catch (e) {}
+}
+
+function broadcastPattern() {
+  const code = inPattern.get() || defaultPatternCode;
+  outPattern.set(code);
+  if (patternChannel) {
+    try {
+      patternChannel.postMessage({ type: "update-pattern", data: code });
     } catch (e) {}
   }
 }
@@ -355,6 +418,151 @@ stack(
       document.head.appendChild(styleEl);
     };
 
+    // Real-time Telemetry & Active Notes Tracking Hub
+    window.strudelState = {
+      isPlaying: false,
+      cps: 1.0,
+      bpm: 120.0,
+      cycle: 0.0,
+      cycleProgress: 0.0,
+      activeNotes: [],
+      activeMidiNotes: [],
+      activeNoteNames: [],
+      activeNoteCount: 0,
+      lastEvent: null,
+      lastSound: "",
+      error: "",
+      noteEventCounter: 0,
+      cycleEventCounter: 0
+    };
+
+    let activeNotesList = [];
+
+    function midiToNoteName(midi) {
+      if (typeof midi !== 'number' || isNaN(midi)) return "";
+      const names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+      const octave = Math.floor(midi / 12) - 1;
+      const noteName = names[Math.round(midi) % 12];
+      return noteName + octave;
+    }
+
+    function parseMidiNote(n, freq) {
+      if (typeof n === 'number' && !isNaN(n)) return Math.round(n);
+      if (typeof freq === 'number' && freq > 0) {
+        return Math.round(69 + 12 * Math.log2(freq / 440));
+      }
+      if (!n) return null;
+      if (typeof n === 'string') {
+        if (!isNaN(n)) return Math.round(parseFloat(n));
+        const noteMap = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
+        const match = n.toString().trim().toLowerCase().match(/^([a-g])([#s|b]?)(-?\d+)$/);
+        if (match) {
+          let semitone = noteMap[match[1]];
+          if (match[2] === '#' || match[2] === 's') semitone += 1;
+          if (match[2] === 'b') semitone -= 1;
+          const octave = parseInt(match[3], 10);
+          return (octave + 1) * 12 + semitone;
+        }
+      }
+      return null;
+    }
+
+    function updateActiveNotesPool() {
+      window.strudelState.activeNotes = activeNotesList.map(item => item.data);
+      window.strudelState.activeMidiNotes = activeNotesList.map(item => item.data.midi).filter(m => m !== null);
+      window.strudelState.activeNoteNames = activeNotesList.map(item => item.data.note).filter(n => n !== "");
+      window.strudelState.activeNoteCount = window.strudelState.activeNotes.length;
+    }
+
+    function handleStrudelHap(doughEvent, duration, cps) {
+      if (!doughEvent || typeof doughEvent !== 'object') return;
+      const valueObj = (doughEvent.value && typeof doughEvent.value === 'object') ? doughEvent.value : doughEvent;
+
+      const soundName = valueObj.s || valueObj.bank || "";
+      const rawNote = valueObj.note !== undefined ? valueObj.note : (valueObj.n !== undefined ? valueObj.n : valueObj.freq);
+      const midi = parseMidiNote(rawNote, valueObj.freq);
+      let noteName = "";
+      if (valueObj.note) {
+        noteName = valueObj.note.toString().toUpperCase();
+      } else if (midi !== null) {
+        noteName = midiToNoteName(midi);
+      }
+
+      const hapDur = duration || doughEvent.duration;
+      const durSec = hapDur ? Math.max(0.05, hapDur / (cps || window.strudelState.cps || 1)) : 0.25;
+      const noteItem = {
+        id: Symbol(),
+        data: {
+          note: noteName,
+          midi: midi,
+          sound: soundName,
+          gain: valueObj.gain !== undefined ? valueObj.gain : 1.0,
+          velocity: valueObj.velocity !== undefined ? valueObj.velocity : 1.0,
+          orbit: valueObj.orbit !== undefined ? valueObj.orbit : 1,
+          duration: durSec
+        }
+      };
+
+      activeNotesList.push(noteItem);
+      window.strudelState.lastEvent = valueObj;
+      window.strudelState.lastSound = soundName;
+      window.strudelState.noteEventCounter++;
+      updateActiveNotesPool();
+
+      setTimeout(() => {
+        activeNotesList = activeNotesList.filter(item => item.id !== noteItem.id);
+        updateActiveNotesPool();
+      }, Math.max(50, durSec * 1000));
+    }
+
+    function hookHapListeners() {
+      if (replElement && replElement.editor && replElement.editor.repl) {
+        const repl = replElement.editor.repl;
+        if (typeof repl.on === 'function' && !repl._cablesHapHooked) {
+          repl._cablesHapHooked = true;
+          repl.on('hap', (hap) => {
+            if (hap) {
+              window.strudelState.isPlaying = true;
+              handleStrudelHap(hap, hap.duration, repl.cps || window.strudelState.cps);
+            }
+          });
+        }
+      }
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.dough) {
+        window.strudelState.isPlaying = true;
+        handleStrudelHap(event.data.dough, event.data.duration, event.data.cps);
+      }
+    });
+
+    let lastCycleInt = -1;
+    function pollStrudelTelemetry() {
+      hookHapListeners();
+      if (replElement && replElement.editor && replElement.editor.repl) {
+        const repl = replElement.editor.repl;
+        const isStarted = repl.scheduler ? repl.scheduler.started : window.strudelState.isPlaying;
+        window.strudelState.isPlaying = !!isStarted;
+
+        const time = (repl.getTime ? repl.getTime() : (repl.scheduler ? repl.scheduler.getTime() : 0)) || 0;
+        const cps = (repl.cps !== undefined ? repl.cps : (repl.scheduler ? repl.scheduler.cps : 1)) || 1;
+        
+        window.strudelState.cps = cps;
+        window.strudelState.bpm = cps * 120;
+        window.strudelState.cycle = time;
+        window.strudelState.cycleProgress = time >= 0 ? (time % 1.0) : 0;
+
+        const currentCycleInt = Math.floor(time);
+        if (currentCycleInt > lastCycleInt) {
+          lastCycleInt = currentCycleInt;
+          window.strudelState.cycleEventCounter++;
+        }
+      }
+      requestAnimationFrame(pollStrudelTelemetry);
+    }
+    requestAnimationFrame(pollStrudelTelemetry);
+
     // Web Audio Stream Capture & Speaker Control
     window.strudelAudioStream = null;
     window.strudelAudioContext = null;
@@ -437,7 +645,7 @@ stack(
     }
     checkStrudelLoaded();
 
-    // BroadcastChannel theme synchronization
+    // BroadcastChannel theme & pattern synchronization
     if ('BroadcastChannel' in window) {
       const themeChannel = new BroadcastChannel('strudel_theme_channel');
       themeChannel.onmessage = (event) => {
@@ -448,6 +656,24 @@ stack(
       window.addEventListener('strudel-loaded', () => {
         themeChannel.postMessage({ type: 'request-theme' });
       });
+
+      const patternChannel = new BroadcastChannel('strudel_pattern_channel');
+      patternChannel.onmessage = (event) => {
+        if (event.data && event.data.type === 'update-pattern') {
+          if (typeof event.data.data === 'string') {
+            loadCode(event.data.data);
+          }
+        }
+      };
+      window.addEventListener('strudel-loaded', () => {
+        patternChannel.postMessage({ type: 'request-pattern' });
+      });
+
+      window.broadcastPatternChanged = function(code) {
+        try {
+          patternChannel.postMessage({ type: 'pattern-changed', data: code });
+        } catch (e) {}
+      };
     }
 
     // Setup HTML-in-Canvas feature handler with High-DPI resolution scaling
@@ -519,9 +745,41 @@ stack(
       }
     });
 
-    // Live Auto-Evaluation on User Edits
+    // Live Auto-Evaluation & Code Sync on User Edits
     let liveEvalTimeout = null;
+    let isUpdatingFromParent = false;
+
+    function getEditorCode() {
+      if (!replElement) return '';
+      if (replElement.editor) {
+        if (typeof replElement.editor.getCode === 'function') {
+          return replElement.editor.getCode();
+        }
+        if (typeof replElement.editor.code === 'string') {
+          return replElement.editor.code;
+        }
+        if (replElement.editor.state && replElement.editor.state.doc) {
+          return replElement.editor.state.doc.toString();
+        }
+      }
+      if (typeof replElement.code === 'string') {
+        return replElement.code;
+      }
+      return replElement.getAttribute('code') || '';
+    }
+
+    function notifyPatternChanged() {
+      if (isUpdatingFromParent) return;
+      if (typeof window.broadcastPatternChanged === 'function') {
+        const code = getEditorCode();
+        if (code !== undefined && code !== null) {
+          window.broadcastPatternChanged(code);
+        }
+      }
+    }
+
     function scheduleLiveEval() {
+      notifyPatternChanged();
       if (!chkLiveEval.checked) return;
       clearTimeout(liveEvalTimeout);
       liveEvalTimeout = setTimeout(async () => {
@@ -575,11 +833,29 @@ stack(
     };
 
     function loadCode(code) {
-      if (replElement.editor) {
-        replElement.editor.setCode(code);
-        scheduleLiveEval();
-      } else {
-        replElement.setAttribute('code', code);
+      if (code === undefined || code === null) return;
+      const currentCode = getEditorCode();
+      if (currentCode === code) return;
+      isUpdatingFromParent = true;
+      try {
+        if (replElement.editor) {
+          if (typeof replElement.editor.setCode === 'function') {
+            replElement.editor.setCode(code);
+          } else if (replElement.editor.dispatch && replElement.editor.state) {
+            replElement.editor.dispatch({
+              changes: { from: 0, to: replElement.editor.state.doc.length, insert: code }
+            });
+          } else {
+            replElement.setAttribute('code', code);
+          }
+          scheduleLiveEval();
+        } else {
+          replElement.setAttribute('code', code);
+        }
+      } catch (e) {
+        console.warn('Error loading code into Strudel editor:', e);
+      } finally {
+        isUpdatingFromParent = false;
       }
     }
 
@@ -590,6 +866,61 @@ stack(
 </body>
 </html>
 `;
+
+let lastNoteCounter = -1;
+let lastCycleCounter = -1;
+
+function resetTelemetryOutputs() {
+  outIsPlaying.set(false);
+  outActiveNotes.set([]);
+  outActiveMidi.set([]);
+  outActiveNames.set([]);
+  outActiveCount.set(0);
+  outCPS.set(1.0);
+  outBPM.set(120.0);
+  outCycleProgress.set(0.0);
+  outCurrentCycle.set(0.0);
+  outLastEvent.set(null);
+  outLastSound.set("");
+  outError.set("");
+  lastNoteCounter = -1;
+  lastCycleCounter = -1;
+}
+
+function updateTelemetry() {
+  if (!popupWindow || popupWindow.closed || !popupWindow.strudelState) {
+    resetTelemetryOutputs();
+    return;
+  }
+
+  const state = popupWindow.strudelState;
+  outIsPlaying.set(state.isPlaying);
+  outActiveNotes.set(state.activeNotes || []);
+  outActiveMidi.set(state.activeMidiNotes || []);
+  outActiveNames.set(state.activeNoteNames || []);
+  outActiveCount.set(state.activeNoteCount || 0);
+  outCPS.set(state.cps !== undefined ? state.cps : 1.0);
+  outBPM.set(state.bpm !== undefined ? state.bpm : 120.0);
+  outCycleProgress.set(state.cycleProgress !== undefined ? state.cycleProgress : 0.0);
+  outCurrentCycle.set(state.cycle !== undefined ? state.cycle : 0.0);
+  outLastEvent.set(state.lastEvent || null);
+  outLastSound.set(state.lastSound || "");
+  outError.set(state.error || "");
+
+  if (state.noteEventCounter !== lastNoteCounter) {
+    if (lastNoteCounter !== -1) {
+      outOnNote.trigger();
+    }
+    lastNoteCounter = state.noteEventCounter;
+  }
+
+  if (state.cycleEventCounter !== lastCycleCounter) {
+    if (lastCycleCounter !== -1) {
+      outOnCycle.trigger();
+    }
+    lastCycleCounter = state.cycleEventCounter;
+  }
+}
 
 function cleanupParentAudio() {
   outAudioNode.set(null);
@@ -602,6 +933,7 @@ function cleanupParentAudio() {
     parentGainNode = null;
   }
   parentAudioCtx = null;
+  resetTelemetryOutputs();
 }
 
 function setupParentAudioStream() {
@@ -653,6 +985,7 @@ function startCheckClosedTimer() {
         outWindow.set(null);
         outCanvas.set(null);
         cleanupParentAudio();
+        resetTelemetryOutputs();
         if (checkClosedInterval) clearInterval(checkClosedInterval);
       } else {
         outIsOpen.set(true);
@@ -660,9 +993,10 @@ function startCheckClosedTimer() {
         const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
         outCanvas.set(canvasEl);
         setupParentAudioStream();
+        updateTelemetry();
       }
     }
-  }, 500);
+  }, 50);
 }
 
 function openPopupWindow() {
@@ -675,6 +1009,7 @@ function openPopupWindow() {
     const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
     outCanvas.set(canvasEl);
     setupParentAudioStream();
+    updateTelemetry();
     return;
   }
 
@@ -701,6 +1036,7 @@ function openPopupWindow() {
     outIsOpen.set(false);
     outCanvas.set(null);
     cleanupParentAudio();
+    resetTelemetryOutputs();
     return;
   }
 
@@ -709,6 +1045,7 @@ function openPopupWindow() {
     outIsOpen.set(false);
     outCanvas.set(null);
     cleanupParentAudio();
+    resetTelemetryOutputs();
     return;
   }
 
@@ -784,6 +1121,7 @@ function closePopupWindow() {
   outWindow.set(null);
   outCanvas.set(null);
   cleanupParentAudio();
+  resetTelemetryOutputs();
   if (checkClosedInterval) clearInterval(checkClosedInterval);
 }
 
@@ -816,7 +1154,18 @@ inPopupAudio.onChange = () => {
   }
 };
 
+const handlePatternChange = () => {
+  broadcastPattern();
+  if (popupWindow && !popupWindow.closed && typeof popupWindow.loadCode === "function") {
+    popupWindow.loadCode(inPattern.get());
+  }
+};
+
+inPattern.onChange = handlePatternChange;
+inPattern.onValueChanged = handlePatternChange;
+
 op.onLoaded = () => {
+  broadcastPattern();
   if (inAutoOpen.get()) {
     openPopupWindow();
   }
@@ -826,6 +1175,10 @@ op.onDelete = () => {
   if (themeChannel) {
     try { themeChannel.close(); } catch (e) {}
   }
+  if (patternChannel) {
+    try { patternChannel.close(); } catch (e) {}
+  }
   closePopupWindow();
   cleanupParentAudio();
+  resetTelemetryOutputs();
 };
