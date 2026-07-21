@@ -7,13 +7,12 @@ This directory contains the `Ops.Strudel` Cables operator and its embedded sampl
 - [Strudel Technical Manual: Project Start - @strudel/repl](https://strudel.cc/technical-manual/project-start/#strudelrepl)
 - [@strudel/repl Package README](https://codeberg.org/uzu/strudel/src/branch/main/packages/repl#strudel-repl)
 
-## Cables Operator: `Ops.Strudel`
-
-The `Ops.Strudel` op opens a pop-up window in the browser containing the embedded [`sample.html`](file:///Users/jonwood/Github_local_dev/strudel%20for%20cables/Ops/Ops.Strudel/sample.html) page.
+The `Ops.Strudel` op opens an always-on-top Document Picture-in-Picture (PiP) window in the browser containing the embedded sample page. Using the Document Picture-in-Picture API enables direct GPU context sharing, zero-copy canvas texture access into Cables, and native floating window behavior.
 
 ### Operator Inputs:
-- **Open REPL Window** (`Trigger`): Opens or focuses the pop-up window containing the Strudel REPL.
+- **Open REPL Window** (`Trigger`): Opens or focuses the Document Picture-in-Picture window containing the Strudel REPL.
 - **Close REPL Window** (`Trigger`): Closes the active pop-up window.
+- **Play / Stop** (`Boolean`, default: `true`): Checkbox toggle to start (play) or stop (hush) Strudel pattern evaluation.
 - **Auto Open On Load** (`Boolean`): Automatically launches the pop-up window when the patch loads.
 - **Width** (`Number`, default: `1000`): Width in pixels of the pop-up window.
 - **Height** (`Number`, default: `750`): Height in pixels of the pop-up window.

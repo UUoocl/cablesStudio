@@ -3,6 +3,7 @@
 // Define Operator Inputs
 const inOpen = op.inTriggerButton("Open REPL Window");
 const inClose = op.inTriggerButton("Close REPL Window");
+const inPlay = op.inBool("Play / Stop", true);
 const inAutoOpen = op.inBool("Auto Open On Load", false);
 const inWidth = op.inInt("Width", 1000);
 const inHeight = op.inInt("Height", 750);
@@ -66,7 +67,7 @@ const outLastEvent = op.outObject("Last Event");
 const outLastSound = op.outString("Last Sound");
 const outError = op.outString("Error");
 
-op.setPortGroup("Controls", [inOpen, inClose]);
+op.setPortGroup("Controls", [inOpen, inClose, inPlay]);
 op.setPortGroup("Settings", [inAutoOpen, inWidth, inHeight, inTitle, inCssVars, inPattern]);
 op.setPortGroup("Audio", [inVolume, inPopupAudio]);
 
@@ -123,6 +124,30 @@ function broadcastPattern() {
     try {
       patternChannel.postMessage({ type: "update-pattern", data: code });
     } catch (e) {}
+  }
+}
+
+let controlChannel = null;
+if (typeof BroadcastChannel !== "undefined") {
+  try {
+    controlChannel = new BroadcastChannel("strudel_control_channel");
+    controlChannel.onmessage = (event) => {
+      if (event.data && event.data.type === "request-play") {
+        broadcastPlayState();
+      }
+    };
+  } catch (e) {}
+}
+
+function broadcastPlayState() {
+  const play = inPlay.get();
+  if (controlChannel) {
+    try {
+      controlChannel.postMessage({ type: "set-play", data: play });
+    } catch (e) {}
+  }
+  if (popupWindow && !popupWindow.closed && typeof popupWindow.setPlayState === "function") {
+    popupWindow.setPlayState(play);
   }
 }
 
@@ -674,6 +699,16 @@ stack(
           patternChannel.postMessage({ type: 'pattern-changed', data: code });
         } catch (e) {}
       };
+
+      const controlChannel = new BroadcastChannel('strudel_control_channel');
+      controlChannel.onmessage = (event) => {
+        if (event.data && event.data.type === 'set-play') {
+          window.setPlayState(event.data.data);
+        }
+      };
+      window.addEventListener('strudel-loaded', () => {
+        controlChannel.postMessage({ type: 'request-play' });
+      });
     }
 
     // Setup HTML-in-Canvas feature handler with High-DPI resolution scaling
@@ -729,20 +764,36 @@ stack(
     const canvasObserver = new MutationObserver(removeUnnecessaryCanvas);
     canvasObserver.observe(document.body, { childList: true, subtree: true });
 
-    // Playback Controls
-    document.getElementById('btn-play').addEventListener('click', async () => {
-      if (replElement.editor) {
+    window.evaluatePattern = async function() {
+      if (replElement && replElement.editor) {
         if (replElement.editor.repl && replElement.editor.repl.audioContext) {
           setupStreamForContext(replElement.editor.repl.audioContext);
         }
         await replElement.editor.evaluate();
       }
+    };
+
+    window.stopPattern = async function() {
+      if (replElement && replElement.editor) {
+        await replElement.editor.stop();
+      }
+    };
+
+    window.setPlayState = function(play) {
+      if (play) {
+        window.evaluatePattern();
+      } else {
+        window.stopPattern();
+      }
+    };
+
+    // Playback Controls
+    document.getElementById('btn-play').addEventListener('click', async () => {
+      await window.evaluatePattern();
     });
 
     document.getElementById('btn-stop').addEventListener('click', async () => {
-      if (replElement.editor) {
-        await replElement.editor.stop();
-      }
+      await window.stopPattern();
     });
 
     // Live Auto-Evaluation & Code Sync on User Edits
@@ -1051,6 +1102,7 @@ function openPopupWindow() {
 
   popupWindow.focus();
   applyThemeWhenStrudelLoaded();
+  broadcastPlayState();
 
   outIsOpen.set(true);
   outWindow.set(popupWindow);
@@ -1140,7 +1192,6 @@ const handleCssVarsChange = () => {
 };
 
 inCssVars.onChange = handleCssVarsChange;
-inCssVars.onValueChanged = handleCssVarsChange;
 
 inVolume.onChange = () => {
   if (parentGainNode && parentAudioCtx) {
@@ -1162,10 +1213,16 @@ const handlePatternChange = () => {
 };
 
 inPattern.onChange = handlePatternChange;
-inPattern.onValueChanged = handlePatternChange;
+
+const handlePlayChange = () => {
+  broadcastPlayState();
+};
+
+inPlay.onChange = handlePlayChange;
 
 op.onLoaded = () => {
   broadcastPattern();
+  broadcastPlayState();
   if (inAutoOpen.get()) {
     openPopupWindow();
   }
@@ -1177,6 +1234,9 @@ op.onDelete = () => {
   }
   if (patternChannel) {
     try { patternChannel.close(); } catch (e) {}
+  }
+  if (controlChannel) {
+    try { controlChannel.close(); } catch (e) {}
   }
   closePopupWindow();
   cleanupParentAudio();

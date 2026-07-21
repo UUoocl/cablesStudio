@@ -16,6 +16,12 @@
             },
             {
                 "type": 0,
+                "name": "Play / Stop",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
                 "name": "Auto Open On Load",
                 "group": "Settings",
                 "subType": "boolean"
@@ -61,6 +67,12 @@
                 "name": "Popup Sound Output",
                 "group": "Audio",
                 "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Texture",
+                "subType": "boolean"
             }
         ],
         "portsOut": [
@@ -75,7 +87,16 @@
             },
             {
                 "type": 2,
-                "name": "Canvas Element"
+                "name": "Image Bitmap"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "subType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "Texture Updated"
             },
             {
                 "type": 2,
@@ -152,7 +173,7 @@
             }
         ]
     },
-    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding, real-time audio output streaming, bi-directional BroadcastChannel pattern sync, and live pattern telemetry",
+    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with createImageBitmap() and BroadcastChannel streaming for high-performance zero-copy GPU texture integration, CodeMirror live coding, real-time audio output streaming, and live pattern telemetry",
     "docs": {
         "ports": [
             {
@@ -162,6 +183,10 @@
             {
                 "name": "Close REPL Window",
                 "text": "Trigger button to close the Strudel REPL pop-up window."
+            },
+            {
+                "name": "Play / Stop",
+                "text": "Checkbox toggle to start (play) or stop (hush) Strudel pattern evaluation."
             },
             {
                 "name": "Auto Open On Load",
@@ -204,8 +229,16 @@
                 "text": "Outputs the JavaScript Window reference of the opened pop-up window."
             },
             {
-                "name": "Canvas Element",
-                "text": "Outputs the HTMLCanvasElement reference from the pop-up window."
+                "name": "Image Bitmap",
+                "text": "Outputs the latest 60 FPS ImageBitmap object received over strudel_bitmap_channel BroadcastChannel for zero-copy GPU texture binding."
+            },
+            {
+                "name": "Texture",
+                "text": "Outputs a native Cables CGL.Texture created from the received ImageBitmap for direct connection to WebGL materials, shaders, and preview ops."
+            },
+            {
+                "name": "Texture Updated",
+                "text": "Trigger fired whenever a new ImageBitmap texture frame is uploaded to WebGL VRAM."
             },
             {
                 "name": "Audio Node",
@@ -300,6 +333,24 @@
             "type": "update",
             "author": "Strudel for Cables",
             "date": 1783360000000
+        },
+        {
+            "message": "added Play / Stop checkbox input port to start and stop pattern evaluation",
+            "type": "update",
+            "author": "Strudel for Cables",
+            "date": 1783370000000
+        },
+        {
+            "message": "updated to use createImageBitmap() and BroadcastChannel (strudel_bitmap_channel) for zero-copy GPU texture streaming",
+            "type": "update",
+            "author": "Strudel for Cables",
+            "date": 1783390000000
+        },
+        {
+            "message": "added native Cables CGL.Texture output port and Texture Updated trigger",
+            "type": "update",
+            "author": "Strudel for Cables",
+            "date": 1783400000000
         }
     ],
     "license": "MIT",
