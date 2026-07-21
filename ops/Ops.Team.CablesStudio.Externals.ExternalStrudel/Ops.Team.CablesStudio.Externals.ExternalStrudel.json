@@ -1,0 +1,122 @@
+{
+    "id": "a8f2c1d3-9e4b-4c5a-8b1e-7f6a5b4c3d2e",
+    "authorName": "Strudel for Cables",
+    "created": 1783336000000,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Open REPL Window",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Close REPL Window",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Auto Open On Load",
+                "group": "Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Settings",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Settings",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Window Title",
+                "group": "Settings",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Strudel CSS Variables",
+                "group": "Settings",
+                "subType": "string"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Is Open",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Window Object"
+            },
+            {
+                "type": 2,
+                "name": "Canvas Element"
+            }
+        ]
+    },
+    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding and real-time audio output",
+    "docs": {
+        "ports": [
+            {
+                "name": "Open REPL Window",
+                "text": "Trigger button to open or focus the Strudel REPL pop-up window."
+            },
+            {
+                "name": "Close REPL Window",
+                "text": "Trigger button to close the Strudel REPL pop-up window."
+            },
+            {
+                "name": "Auto Open On Load",
+                "text": "When enabled, automatically opens the pop-up window when the patch or op loads."
+            },
+            {
+                "name": "Width",
+                "text": "Pixel width of the pop-up window."
+            },
+            {
+                "name": "Height",
+                "text": "Pixel height of the pop-up window."
+            },
+            {
+                "name": "Window Title",
+                "text": "Title string for the pop-up window."
+            },
+            {
+                "name": "Strudel CSS Variables",
+                "text": "CSS string containing :root CSS variable overrides for the Strudel editor theme."
+            },
+            {
+                "name": "Is Open",
+                "text": "Outputs true when the pop-up window is active and open."
+            },
+            {
+                "name": "Window Object",
+                "text": "Outputs the JavaScript Window reference of the opened pop-up window."
+            },
+            {
+                "name": "Canvas Element",
+                "text": "Outputs the HTMLCanvasElement reference from the pop-up window."
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "changelog": [
+        {
+            "message": "op created with embedded sample.html pop-up window functionality",
+            "type": "new op",
+            "author": "Strudel for Cables",
+            "date": 1783336000000
+        }
+    ],
+    "license": "MIT",
+    "isReleased": true
+}
