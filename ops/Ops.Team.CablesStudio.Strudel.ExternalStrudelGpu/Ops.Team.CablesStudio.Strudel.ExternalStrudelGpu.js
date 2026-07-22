@@ -540,16 +540,17 @@ stack(
       if (typeof freq === 'number' && freq > 0) {
         return Math.round(69 + 12 * Math.log2(freq / 440));
       }
-      if (!n) return null;
+      if (n === null || n === undefined || n === "") return null;
       if (typeof n === 'string') {
-        if (!isNaN(n)) return Math.round(parseFloat(n));
+        const s = n.trim().toLowerCase();
+        if (!isNaN(s) && s !== "") return Math.round(parseFloat(s));
         const noteMap = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
-        const match = n.toString().trim().toLowerCase().match(/^([a-g])([#s|b]?)(-?\d+)$/);
+        const match = s.match(/^([a-g])([#s|b]?)(-?\d+)?$/);
         if (match) {
           let semitone = noteMap[match[1]];
           if (match[2] === '#' || match[2] === 's') semitone += 1;
           if (match[2] === 'b') semitone -= 1;
-          const octave = parseInt(match[3], 10);
+          const octave = match[3] !== undefined ? parseInt(match[3], 10) : 3;
           return (octave + 1) * 12 + semitone;
         }
       }
@@ -561,17 +562,34 @@ stack(
       window.strudelState.activeMidiNotes = activeNotesList.map(item => item.data.midi).filter(m => m !== null);
       window.strudelState.activeNoteNames = activeNotesList.map(item => item.data.note).filter(n => n !== "");
       window.strudelState.activeNoteCount = window.strudelState.activeNotes.length;
+      if (typeof window.broadcastTelemetry === 'function') window.broadcastTelemetry();
     }
 
     function handleStrudelHap(doughEvent, duration, cps) {
-      if (!doughEvent || typeof doughEvent !== 'object') return;
-      const valueObj = (doughEvent.value && typeof doughEvent.value === 'object') ? doughEvent.value : doughEvent;
+      if (!doughEvent) return;
+      const valueObj = (doughEvent.value !== undefined) ? doughEvent.value : doughEvent;
+      if (valueObj === null || valueObj === undefined) return;
 
-      const soundName = valueObj.s || valueObj.bank || "";
-      const rawNote = valueObj.note !== undefined ? valueObj.note : (valueObj.n !== undefined ? valueObj.n : valueObj.freq);
-      const midi = parseMidiNote(rawNote, valueObj.freq);
+      let soundName = "";
+      let rawNote = undefined;
+      let gain = 1.0;
+      let velocity = 1.0;
+      let orbit = 1;
+
+      if (typeof valueObj === 'object') {
+        soundName = valueObj.s || valueObj.bank || valueObj.sound || "";
+        rawNote = valueObj.note !== undefined ? valueObj.note : (valueObj.n !== undefined ? valueObj.n : valueObj.freq);
+        if (valueObj.gain !== undefined) gain = Number(valueObj.gain);
+        if (valueObj.velocity !== undefined) velocity = Number(valueObj.velocity);
+        if (valueObj.orbit !== undefined) orbit = Number(valueObj.orbit);
+      } else {
+        rawNote = valueObj;
+        soundName = String(valueObj);
+      }
+
+      const midi = parseMidiNote(rawNote, (typeof valueObj === 'object') ? valueObj.freq : undefined);
       let noteName = "";
-      if (valueObj.note) {
+      if (typeof valueObj === 'object' && valueObj.note) {
         noteName = valueObj.note.toString().toUpperCase();
       } else if (midi !== null) {
         noteName = midiToNoteName(midi);
@@ -585,15 +603,15 @@ stack(
           note: noteName,
           midi: midi,
           sound: soundName,
-          gain: valueObj.gain !== undefined ? valueObj.gain : 1.0,
-          velocity: valueObj.velocity !== undefined ? valueObj.velocity : 1.0,
-          orbit: valueObj.orbit !== undefined ? valueObj.orbit : 1,
+          gain: gain,
+          velocity: velocity,
+          orbit: orbit,
           duration: durSec
         }
       };
 
       activeNotesList.push(noteItem);
-      window.strudelState.lastEvent = valueObj;
+      window.strudelState.lastEvent = (typeof valueObj === 'object') ? valueObj : { value: valueObj };
       window.strudelState.lastSound = soundName;
       window.strudelState.noteEventCounter++;
       updateActiveNotesPool();
@@ -604,17 +622,92 @@ stack(
       }, Math.max(50, durSec * 1000));
     }
 
+    const onHapTriggered = function(arg1, arg2, arg3) {
+      let hap = null;
+      let deadline = 0;
+      let duration = 0.25;
+
+      if (arg1 && typeof arg1 === 'object') {
+        hap = arg1;
+        deadline = typeof arg2 === 'number' ? arg2 : 0;
+        duration = typeof arg3 === 'number' ? arg3 : (hap.duration || 0.25);
+      } else if (this && typeof this === 'object' && (this.value !== undefined || this.whole !== undefined)) {
+        hap = this;
+        deadline = typeof arg1 === 'number' ? arg1 : 0;
+        duration = typeof arg2 === 'number' ? arg2 : (hap.duration || 0.25);
+      }
+
+      if (!hap) return;
+      if (hap._cablesProcessed) return;
+      hap._cablesProcessed = true;
+
+      window.strudelState.isPlaying = true;
+      const cps = (replElement?.editor?.repl?.cps) || (replElement?.editor?.repl?.scheduler?.cps) || window.strudelState.cps || 1;
+      handleStrudelHap(hap, duration, cps);
+    };
+
     function hookHapListeners() {
-      if (replElement && replElement.editor && replElement.editor.repl) {
-        const repl = replElement.editor.repl;
-        if (typeof repl.on === 'function' && !repl._cablesHapHooked) {
-          repl._cablesHapHooked = true;
-          repl.on('hap', (hap) => {
-            if (hap) {
-              window.strudelState.isPlaying = true;
-              handleStrudelHap(hap, hap.duration, repl.cps || window.strudelState.cps);
-            }
-          });
+      if (!replElement || !replElement.editor) return;
+      const editor = replElement.editor;
+      const repl = editor.repl;
+
+      const samplePattern = repl?.pattern || editor?.pattern || (repl?.scheduler?.pattern);
+      const PatternClass = window.Pattern || (repl && repl.Pattern) || (samplePattern && samplePattern.constructor);
+      if (PatternClass && PatternClass.prototype && !PatternClass.prototype._cablesPatched) {
+        PatternClass.prototype._cablesPatched = true;
+        const origQueryArc = PatternClass.prototype.queryArc;
+        PatternClass.prototype.queryArc = function(begin, end, ...args) {
+          const haps = origQueryArc.apply(this, [begin, end, ...args]);
+          if (Array.isArray(haps)) {
+            haps.forEach(hap => {
+              if (hap && !hap._cablesHooked) {
+                hap._cablesHooked = true;
+                const origOnTrigger = hap.onTrigger;
+                hap.onTrigger = function(deadline, duration, ...tArgs) {
+                  onHapTriggered.call(this, deadline, duration, ...tArgs);
+                  if (typeof origOnTrigger === 'function') {
+                    return origOnTrigger.apply(this, [deadline, duration, ...tArgs]);
+                  }
+                };
+              }
+            });
+          }
+          return haps;
+        };
+      }
+
+      if (repl && !repl._cablesHapHooked) {
+        repl._cablesHapHooked = true;
+        if (typeof repl.on === 'function') {
+          try { repl.on('hap', onHapTriggered); } catch(e) {}
+          try { repl.on('trigger', onHapTriggered); } catch(e) {}
+        }
+      }
+
+      if (repl && repl.scheduler && !repl.scheduler._cablesHapHooked) {
+        repl.scheduler._cablesHapHooked = true;
+        if (typeof repl.scheduler.on === 'function') {
+          try { repl.scheduler.on('hap', onHapTriggered); } catch(e) {}
+          try { repl.scheduler.on('trigger', onHapTriggered); } catch(e) {}
+        }
+        if (typeof repl.scheduler.onTrigger === 'function') {
+          try { repl.scheduler.onTrigger((...args) => onHapTriggered(...args)); } catch(e) {}
+        }
+        if (typeof repl.scheduler.trigger === 'function' && !repl.scheduler._cablesTriggerPatched) {
+          repl.scheduler._cablesTriggerPatched = true;
+          const origTrigger = repl.scheduler.trigger;
+          repl.scheduler.trigger = function(hap, ...args) {
+            onHapTriggered(hap);
+            return origTrigger.apply(this, [hap, ...args]);
+          };
+        }
+      }
+
+      if (editor && !editor._cablesHapHooked) {
+        editor._cablesHapHooked = true;
+        if (typeof editor.on === 'function') {
+          try { editor.on('hap', onHapTriggered); } catch(e) {}
+          try { editor.on('trigger', onHapTriggered); } catch(e) {}
         }
       }
     }
@@ -626,26 +719,50 @@ stack(
       }
     });
 
+    let lastQueryTime = -1;
     let lastCycleInt = -1;
     function pollStrudelTelemetry() {
       hookHapListeners();
-      if (replElement && replElement.editor && replElement.editor.repl) {
-        const repl = replElement.editor.repl;
-        const isStarted = repl.scheduler ? repl.scheduler.started : window.strudelState.isPlaying;
-        window.strudelState.isPlaying = !!isStarted;
+      if (replElement && replElement.editor) {
+        const editor = replElement.editor;
+        const repl = editor.repl;
 
-        const time = (repl.getTime ? repl.getTime() : (repl.scheduler ? repl.scheduler.getTime() : 0)) || 0;
-        const cps = (repl.cps !== undefined ? repl.cps : (repl.scheduler ? repl.scheduler.cps : 1)) || 1;
-        
-        window.strudelState.cps = cps;
-        window.strudelState.bpm = cps * 120;
-        window.strudelState.cycle = time;
-        window.strudelState.cycleProgress = time >= 0 ? (time % 1.0) : 0;
+        if (repl) {
+          const isStarted = repl.scheduler ? repl.scheduler.started : window.strudelState.isPlaying;
+          window.strudelState.isPlaying = !!isStarted;
 
-        const currentCycleInt = Math.floor(time);
-        if (currentCycleInt > lastCycleInt) {
-          lastCycleInt = currentCycleInt;
-          window.strudelState.cycleEventCounter++;
+          const time = (repl.getTime ? repl.getTime() : (repl.scheduler ? repl.scheduler.getTime() : 0)) || 0;
+          const cps = (repl.cps !== undefined ? repl.cps : (repl.scheduler ? repl.scheduler.cps : 1)) || 1;
+          
+          window.strudelState.cps = cps;
+          window.strudelState.bpm = cps * 120;
+          window.strudelState.cycle = time;
+          window.strudelState.cycleProgress = time >= 0 ? (time % 1.0) : 0;
+
+          // Direct pattern query for 100% active hap coverage
+          const activePattern = repl.pattern || editor.pattern || (repl.scheduler && repl.scheduler.pattern);
+          if (isStarted && activePattern && typeof activePattern.queryArc === 'function') {
+            if (lastQueryTime >= 0 && time > lastQueryTime && (time - lastQueryTime) < 1.0) {
+              try {
+                const haps = activePattern.queryArc(lastQueryTime, time);
+                if (Array.isArray(haps) && haps.length > 0) {
+                  haps.forEach(hap => {
+                    onHapTriggered(hap);
+                  });
+                }
+              } catch(e) {}
+            }
+            lastQueryTime = time;
+          } else {
+            lastQueryTime = time;
+          }
+
+          const currentCycleInt = Math.floor(time);
+          if (currentCycleInt > lastCycleInt) {
+            lastCycleInt = currentCycleInt;
+            window.strudelState.cycleEventCounter++;
+          }
+          if (typeof window.broadcastTelemetry === 'function') window.broadcastTelemetry();
         }
       }
       requestAnimationFrame(pollStrudelTelemetry);
@@ -773,6 +890,16 @@ stack(
       window.addEventListener('strudel-loaded', () => {
         controlChannel.postMessage({ type: 'request-play' });
       });
+
+      const telemetryChannel = new BroadcastChannel('strudel_telemetry_channel');
+      window.broadcastTelemetry = function() {
+        try {
+          telemetryChannel.postMessage({
+            type: 'update-telemetry',
+            data: window.strudelState
+          });
+        } catch (e) {}
+      };
 
       const bitmapChannel = new BroadcastChannel('strudel_bitmap_channel');
 
@@ -1035,14 +1162,21 @@ function resetTelemetryOutputs() {
   lastCycleCounter = -1;
 }
 
-function updateTelemetry() {
-  if (!popupWindow || popupWindow.closed || !popupWindow.strudelState) {
-    resetTelemetryOutputs();
-    return;
-  }
+let telemetryChannel = null;
+if (typeof BroadcastChannel !== "undefined") {
+  try {
+    telemetryChannel = new BroadcastChannel("strudel_telemetry_channel");
+    telemetryChannel.onmessage = (event) => {
+      if (event.data && event.data.type === "update-telemetry" && event.data.data) {
+        applyTelemetryState(event.data.data);
+      }
+    };
+  } catch (e) {}
+}
 
-  const state = popupWindow.strudelState;
-  outIsPlaying.set(state.isPlaying);
+function applyTelemetryState(state) {
+  if (!state) return;
+  outIsPlaying.set(!!state.isPlaying);
   outActiveNotes.set(state.activeNotes || []);
   outActiveMidi.set(state.activeMidiNotes || []);
   outActiveNames.set(state.activeNoteNames || []);
@@ -1067,6 +1201,14 @@ function updateTelemetry() {
       outOnCycle.trigger();
     }
     lastCycleCounter = state.cycleEventCounter;
+  }
+}
+
+function updateTelemetry() {
+  if (popupWindow && !popupWindow.closed && popupWindow.strudelState) {
+    applyTelemetryState(popupWindow.strudelState);
+  } else if (!popupWindow || popupWindow.closed) {
+    resetTelemetryOutputs();
   }
 }
 
@@ -1324,6 +1466,9 @@ op.onDelete = () => {
   }
   if (controlChannel) {
     try { controlChannel.close(); } catch (e) {}
+  }
+  if (telemetryChannel) {
+    try { telemetryChannel.close(); } catch (e) {}
   }
   if (bitmapChannel) {
     try { bitmapChannel.close(); } catch (e) {}

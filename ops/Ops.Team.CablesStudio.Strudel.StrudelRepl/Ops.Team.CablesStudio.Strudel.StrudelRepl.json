@@ -1,0 +1,162 @@
+{
+    "id": "e7b1a2c3-5d4e-4f6a-8b9c-0d1e2f3a4b5d",
+    "authorName": "Strudel for Cables",
+    "created": 1783337000000,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Show UI",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Play / Stop",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Position X",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Position Y",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Opacity",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Strudel CSS Variables",
+                "group": "Settings",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Pattern Code",
+                "group": "Settings",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "group": "Audio",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Popup Sound Output",
+                "group": "Audio",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Element"
+            },
+            {
+                "type": 2,
+                "name": "Audio Node"
+            }
+        ]
+    },
+    "summary": "Strudel REPL operator that creates a DOM container for the Strudel REPL editor and outputs the container element and audio node for downstream use in cables patches.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Show UI",
+                "text": "Toggle visibility of the Strudel REPL editor container."
+            },
+            {
+                "name": "Play / Stop",
+                "text": "Toggle to evaluate (play) or stop the pattern."
+            },
+            {
+                "name": "Width",
+                "text": "Width of the editor container."
+            },
+            {
+                "name": "Height",
+                "text": "Height of the editor container."
+            },
+            {
+                "name": "Position X",
+                "text": "X position offset of the container on the screen."
+            },
+            {
+                "name": "Position Y",
+                "text": "Y position offset of the container on the screen."
+            },
+            {
+                "name": "Opacity",
+                "text": "Opacity of the container."
+            },
+            {
+                "name": "Strudel CSS Variables",
+                "text": "Custom CSS variables to style the Strudel REPL editor."
+            },
+            {
+                "name": "Pattern Code",
+                "text": "Strudel pattern code to evaluate."
+            },
+            {
+                "name": "Volume",
+                "text": "Master volume multiplier for the output GainNode."
+            },
+            {
+                "name": "Popup Sound Output",
+                "text": "Toggle whether Strudel audio is sent directly to the device speakers (true) or muted so it only outputs through Cables WebAudio (false)."
+            },
+            {
+                "name": "Element",
+                "text": "The mounted DOM container element."
+            },
+            {
+                "name": "Audio Node",
+                "text": "The WebAudio GainNode forwarding Strudel's audio output."
+            }
+        ]
+    },
+    "changelog": [
+        {
+            "message": "Initial release of the container-only Strudel REPL operator",
+            "type": "feature",
+            "author": "Strudel for Cables",
+            "date": 1783337000000
+        },
+        {
+            "message": "Add WebAudio output routing and Volume control",
+            "type": "feature",
+            "author": "Strudel for Cables",
+            "date": 1783338000000
+        },
+        {
+            "message": "Add Popup Sound Output toggle and intercept AudioContext early to fix silent Cables audio node capture",
+            "type": "feature",
+            "author": "Strudel for Cables",
+            "date": 1783339000000
+        }
+    ]
+}

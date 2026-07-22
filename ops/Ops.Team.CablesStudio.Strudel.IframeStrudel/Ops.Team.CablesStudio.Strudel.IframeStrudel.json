@@ -1,0 +1,259 @@
+{
+    "id": "e7b1a2c3-5d4e-4f6a-8b9c-0d1e2f3a4b5c",
+    "authorName": "Strudel for Cables",
+    "created": 1783337000000,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Show Iframe",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Play / Stop",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Iframe Position",
+                "group": "Layout",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Opacity",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Strudel CSS Variables",
+                "group": "Settings",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Pattern Code",
+                "group": "Settings",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Volume",
+                "group": "Audio",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Texture",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Is Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Iframe Element"
+            },
+            {
+                "type": 2,
+                "name": "Image Bitmap"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "subType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "Texture Updated"
+            },
+            {
+                "type": 2,
+                "name": "Audio Node"
+            },
+            {
+                "type": 0,
+                "name": "Current Pattern",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Is Playing",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Active Notes"
+            },
+            {
+                "type": 2,
+                "name": "Active MIDI Notes"
+            },
+            {
+                "type": 2,
+                "name": "Active Note Names"
+            },
+            {
+                "type": 0,
+                "name": "Active Note Count",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Note Event"
+            },
+            {
+                "type": 0,
+                "name": "CPS",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "BPM",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Cycle Progress",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Current Cycle",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Cycle"
+            },
+            {
+                "type": 2,
+                "name": "Last Event"
+            },
+            {
+                "type": 0,
+                "name": "Last Sound",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Error",
+                "subType": "string"
+            }
+        ]
+    },
+    "summary": "AGPL-3.0 / MIT Compatible Embedded Iframe Strudel REPL Operator for Cables.gl. Mounts an isolated DOM iframe element with zero-copy createImageBitmap GPU texture generation, WebAudio routing, live code editing, and BroadcastChannel telemetry",
+    "docs": {
+        "ports": [
+            {
+                "name": "Show Iframe",
+                "text": "Toggle visibility of the embedded HTML iframe element in the Cables canvas UI."
+            },
+            {
+                "name": "Play / Stop",
+                "text": "Checkbox toggle to start (play) or stop (hush) Strudel pattern evaluation."
+            },
+            {
+                "name": "Width",
+                "text": "Pixel width of the iframe container."
+            },
+            {
+                "name": "Height",
+                "text": "Pixel height of the iframe container."
+            },
+            {
+                "name": "Iframe Position",
+                "text": "Position mode for the iframe element on the DOM overlay (Top-Right, Top-Left, Bottom-Right, Bottom-Left, Center, Hidden)."
+            },
+            {
+                "name": "Opacity",
+                "text": "Opacity of the iframe DOM overlay (0.0 - 1.0)."
+            },
+            {
+                "name": "Strudel CSS Variables",
+                "text": "Custom CSS variable definitions for editor theme customization."
+            },
+            {
+                "name": "Pattern Code",
+                "text": "Strudel live coding pattern string to evaluate."
+            },
+            {
+                "name": "Volume",
+                "text": "Master volume float for the operator output GainNode."
+            },
+            {
+                "name": "Flip Y",
+                "text": "Flips the Y axis during WebGL texture upload."
+            },
+            {
+                "name": "Is Active",
+                "text": "Outputs true when the iframe is mounted and running."
+            },
+            {
+                "name": "Iframe Element",
+                "text": "Reference to the DOM HTMLIFrameElement."
+            },
+            {
+                "name": "Image Bitmap",
+                "text": "Outputs latest zero-copy ImageBitmap frame captured from the iframe canvas."
+            },
+            {
+                "name": "Texture",
+                "text": "Native CGL.Texture object for direct WebGL rendering in Cables shaders."
+            },
+            {
+                "name": "Texture Updated",
+                "text": "Trigger fired whenever a new GPU texture frame is uploaded."
+            },
+            {
+                "name": "Audio Node",
+                "text": "WebAudio GainNode forwarding Strudel's audio output."
+            },
+            {
+                "name": "Active Notes",
+                "text": "Array of currently sounding active note objects."
+            },
+            {
+                "name": "Active MIDI Notes",
+                "text": "Array of active MIDI note numbers (e.g. [48, 52])."
+            },
+            {
+                "name": "Active Note Names",
+                "text": "Array of active note names (e.g. ['C3', 'E3'])."
+            },
+            {
+                "name": "On Note Event",
+                "text": "Trigger fired when a note event occurs."
+            }
+        ]
+    },
+    "changelog": [
+        {
+            "message": "Initial release of AGPL / MIT compatible embedded IframeStrudel operator for Cables.gl with BroadcastChannel IPC, WebGL CGL.Texture upload, and WebAudio stream forwarding",
+            "type": "feature",
+            "author": "Strudel for Cables",
+            "date": 1783337000000
+        }
+    ]
+}
