@@ -60,6 +60,12 @@
             },
             {
                 "type": 0,
+                "name": "Enable Telemetry",
+                "group": "Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
                 "name": "Volume",
                 "group": "Audio",
                 "subType": "number"
@@ -79,10 +85,79 @@
             {
                 "type": 2,
                 "name": "Audio Node"
+            },
+            {
+                "type": 0,
+                "name": "Current Pattern",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Is Playing",
+                "subType": "boolean"
+            },
+            {
+                "type": 2,
+                "name": "Active Notes"
+            },
+            {
+                "type": 2,
+                "name": "Active MIDI Notes"
+            },
+            {
+                "type": 2,
+                "name": "Active Note Names"
+            },
+            {
+                "type": 0,
+                "name": "Active Note Count",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Note Event"
+            },
+            {
+                "type": 0,
+                "name": "CPS",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "BPM",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Cycle Progress",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Current Cycle",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "On Cycle"
+            },
+            {
+                "type": 2,
+                "name": "Last Event"
+            },
+            {
+                "type": 0,
+                "name": "Last Sound",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Error",
+                "subType": "string"
             }
         ]
     },
-    "summary": "Strudel REPL operator that creates a DOM container for the Strudel REPL editor and outputs the container element and audio node for downstream use in cables patches.",
+    "summary": "Strudel REPL operator that creates a DOM container for the Strudel REPL editor and outputs the container element, audio node, and note telemetry details for downstream use in cables patches.",
     "docs": {
         "ports": [
             {
@@ -122,6 +197,10 @@
                 "text": "Strudel pattern code to evaluate."
             },
             {
+                "name": "Enable Telemetry",
+                "text": "Checkbox to enable or disable gathering note-level telemetry outputs to save CPU cycles."
+            },
+            {
                 "name": "Volume",
                 "text": "Master volume multiplier for the output GainNode."
             },
@@ -136,6 +215,66 @@
             {
                 "name": "Audio Node",
                 "text": "The WebAudio GainNode forwarding Strudel's audio output."
+            },
+            {
+                "name": "Current Pattern",
+                "text": "The code text currently typed into the Strudel editor."
+            },
+            {
+                "name": "Is Playing",
+                "text": "Boolean output stating whether Strudel is actively playing a pattern."
+            },
+            {
+                "name": "Active Notes",
+                "text": "Array of active note event telemetry details currently playing."
+            },
+            {
+                "name": "Active MIDI Notes",
+                "text": "Array of MIDI note numbers of currently active notes."
+            },
+            {
+                "name": "Active Note Names",
+                "text": "Array of note names (e.g. ['C4', 'E4']) of currently active notes."
+            },
+            {
+                "name": "Active Note Count",
+                "text": "Number of currently active notes."
+            },
+            {
+                "name": "On Note Event",
+                "text": "Trigger fired whenever a note event starts."
+            },
+            {
+                "name": "CPS",
+                "text": "Current cycles per second (tempo)."
+            },
+            {
+                "name": "BPM",
+                "text": "Current beats per minute (tempo)."
+            },
+            {
+                "name": "Cycle Progress",
+                "text": "Current phase progress (0.0 - 1.0) inside the active cycle."
+            },
+            {
+                "name": "Current Cycle",
+                "text": "Total cycle index elapsed."
+            },
+            {
+                "name": "On Cycle",
+                "text": "Trigger fired at the start of each new cycle."
+            },
+            {
+                "name": "Last Event",
+                "text": "The event object of the last triggered hap note."
+            },
+            {
+                "name": "Last Sound",
+                "text": "The sound bank name of the last triggered note."
+            },
+            {
+                "name": "Error",
+                "text": "Syntax or evaluation error message string if Strudel code fails compile."
             }
         ]
     },
@@ -157,6 +296,12 @@
             "type": "feature",
             "author": "Strudel for Cables",
             "date": 1783339000000
+        },
+        {
+            "message": "Add full note telemetry support and Enable Telemetry performance toggle",
+            "type": "feature",
+            "author": "Strudel for Cables",
+            "date": 1783340000000
         }
     ]
 }

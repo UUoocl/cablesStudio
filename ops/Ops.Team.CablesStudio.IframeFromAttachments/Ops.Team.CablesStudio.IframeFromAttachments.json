@@ -1,0 +1,211 @@
+{
+    "id": "e5c7b2a9-df1e-450f-aa4b-6f81b3c94d0c",
+    "authorName": "Cables Studio",
+    "created": 1784700000000,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "HTML Attachment",
+                "group": "Source",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Iframe ID",
+                "group": "Source",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Target Object Scope",
+                "group": "IPC",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Broadcast Channel",
+                "group": "IPC",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Show UI",
+                "group": "Layout",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Position X",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Position Y",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Position Z",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Opacity",
+                "group": "Layout",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Texture",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Texture Out",
+                "subType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "Texture Updated"
+            },
+            {
+                "type": 2,
+                "name": "Audio Node Out"
+            },
+            {
+                "type": 2,
+                "name": "Iframe Element"
+            },
+            {
+                "type": 2,
+                "name": "Message Out"
+            },
+            {
+                "type": 1,
+                "name": "Message Received"
+            }
+        ]
+    },
+    "summary": "Unified Iframe Engine Bridge with automatic attachment dependency resolution. Loads and runs standard HTML/JS attachments inside an isolated iframe, extracting low-latency GPU canvas frames using VideoFrame and routing Web Audio Context audio outputs directly to Cables.gl.",
+    "docs": {
+        "ports": [
+            {
+                "name": "HTML Attachment",
+                "text": "Name of the uploaded HTML file attachment (e.g., index.html) to render."
+            },
+            {
+                "name": "Iframe ID",
+                "text": "The DOM ID attribute set on the iframe element (useful for targeted CSS styling or query selector lookup)."
+            },
+            {
+                "name": "Target Object Scope",
+                "text": "Path to the target object inside the iframe to write variables to (e.g., 'window' or 'p5.instance')."
+            },
+            {
+                "name": "Broadcast Channel",
+                "text": "BroadcastChannel name used for IPC to set variables in the iframe."
+            },
+            {
+                "name": "Show UI",
+                "text": "Toggle visibility of the HTML iframe overlay in the Cables workspace."
+            },
+            {
+                "name": "Width",
+                "text": "Pixel width of the iframe container."
+            },
+            {
+                "name": "Height",
+                "text": "Pixel height of the iframe container."
+            },
+            {
+                "name": "Position X",
+                "text": "X coordinate in pixels for the iframe position."
+            },
+            {
+                "name": "Position Y",
+                "text": "Y coordinate in pixels for the iframe position."
+            },
+            {
+                "name": "Position Z",
+                "text": "CSS z-index parameter set on the iframe UI overlay (controls layer layering with editor panes)."
+            },
+            {
+                "name": "Opacity",
+                "text": "CSS opacity of the iframe element (0.0 to 1.0)."
+            },
+            {
+                "name": "Flip Y",
+                "text": "Flips the Y axis of the frame during WebGL texture upload."
+            },
+            {
+                "name": "Texture Out",
+                "text": "Native Cables CGL.Texture object populated directly with GPU frames from the iframe's canvas."
+            },
+            {
+                "name": "Texture Updated",
+                "text": "Trigger fired whenever a new GPU frame has been successfully uploaded to the texture."
+            },
+            {
+                "name": "Audio Node Out",
+                "text": "Web Audio API AudioNode capturing and forwarding all Web Audio output from the iframe."
+            },
+            {
+                "name": "Iframe Element",
+                "text": "Reference to the created HTMLIframeElement."
+            },
+            {
+                "name": "Message Out",
+                "text": "Outputs the last message received from the iframe over the BroadcastChannel."
+            },
+            {
+                "name": "Message Received",
+                "text": "Trigger fired whenever a new message is received from the iframe over the BroadcastChannel."
+            }
+        ]
+    },
+    "changelog": [
+        {
+            "message": "Initial release of the Unified Iframe Engine Bridge operator with HTML attachment support, WebCodecs VideoFrame zero-copy GPU texture streaming, BroadcastChannel IPC, and prototype-level WebAudio capture.",
+            "type": "feature",
+            "author": "Cables Studio",
+            "date": 1784700000000
+        },
+        {
+            "message": "Added Iframe ID input port for custom DOM element mapping.",
+            "type": "feature",
+            "author": "Cables Studio",
+            "date": 1784700000001
+        },
+        {
+            "message": "Added Message Out and Message Received ports to enable bi-directional BroadcastChannel communications.",
+            "type": "feature",
+            "author": "Cables Studio",
+            "date": 1784700000002
+        },
+        {
+            "message": "Added Position Z input port to allow user control of the iframe DOM z-index.",
+            "type": "feature",
+            "author": "Cables Studio",
+            "date": 1784700000003
+        }
+    ]
+}
