@@ -12,6 +12,17 @@
             },
             {
                 "type": 0,
+                "name": "Files",
+                "group": "Source",
+                "subType": "string"
+            },
+            {
+                "type": 1,
+                "name": "Reload",
+                "group": "Source"
+            },
+            {
+                "type": 0,
                 "name": "Iframe ID",
                 "group": "Source",
                 "subType": "string"
@@ -110,7 +121,15 @@
         "ports": [
             {
                 "name": "HTML Attachment",
-                "text": "Name of the uploaded HTML file attachment (e.g., index.html) to render."
+                "text": "Name of the main HTML file (default: index.html) loaded from the 'Files' list slots."
+            },
+            {
+                "name": "Files",
+                "text": "Dynamic multiport string slots. Paste your code inside them and rename the parameter titles in the inspector to represent their virtual filenames (e.g. index.html, sketch.js, cablesBridge.js)."
+            },
+            {
+                "name": "Reload",
+                "text": "Click this button to manually recompile and load code changes into the iframe, preventing automatic refreshes on every keystroke."
             },
             {
                 "name": "Iframe ID",

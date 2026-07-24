@@ -19,7 +19,9 @@
 ## Input Ports
 
 ### Source
-- `HTML Attachment` (String): The filename of the uploaded Cables HTML attachment to load (e.g. `index.html`).
+- `HTML Attachment` (String): The virtual filename of the HTML page in the `Files` list to load as the main iframe entry point (e.g. `index.html`).
+- `Files` (MultiPort String): A dynamic list of text inputs containing your HTML, Javascript, and CSS code. Rename each port's parameter title in the Cables inspector panel to represent its filename (e.g., `index.html`, `sketch.js`, `cablesBridge.js`). Script/CSS tags inside your HTML are automatically inlined using these titles.
+- `Reload` (Trigger Button): Click this button to manually recompile and load code changes into the iframe, preventing automatic refreshes on every keystroke.
 - `Iframe ID` (String): The DOM `id` attribute set on the iframe element (useful for targeted CSS styling or query selector lookup).
 
 ### IPC

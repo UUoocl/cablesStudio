@@ -1,0 +1,85 @@
+{
+    "id": "2f28bcf6-a8a2-4a58-8bdf-5b9487c67295",
+    "created": 1784755200000,
+    "license": "MIT",
+    "authorName": "Cables Studio",
+    "changelog": [
+        {
+            "message": "op created with multiport sketch load support",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1784755200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Canvas Width",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Canvas Height",
+                "subType": "integer"
+            },
+            {
+                "type": 2,
+                "name": "Input Data"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 1,
+                "name": "Manual Reload"
+            },
+            {
+                "type": 0,
+                "name": "Sketch Files",
+                "subType": "string"
+            },
+            {
+                "type": 0,
+                "name": "Main Script",
+                "subType": "string"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Rendered Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 2,
+                "name": "Canvas"
+            },
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 0,
+                "name": "Output Data",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Error",
+                "subType": "string"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "summary": "Run a P5.js sketch in instance mode using multiport files input and output canvas / WebGL texture",
+    "isReleased": true
+}

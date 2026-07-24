@@ -8,7 +8,7 @@ if (!window._cablesFontFacePatched) {
     window._cablesFontFacePatched = true;
     const OriginalFontFace = window.FontFace;
     if (typeof OriginalFontFace === "function") {
-        window.FontFace = function(family, source, descriptors) {
+        window.FontFace = function (family, source, descriptors) {
             const fontFace = new OriginalFontFace(family, source, descriptors);
             window._cablesLoadedFonts.push({
                 family: family,
@@ -31,6 +31,8 @@ const inHtmlAttachment = op.inString("HTML Attachment", "index.html");
 const inIframeId = op.inString("Iframe ID", "cables_iframe");
 const inTargetScope = op.inString("Target Object Scope", "window"); // e.g., "window", "p5.instance"
 const inChannelName = op.inString("Broadcast Channel", "cables_iframe_channel");
+const inStrings = op.inMultiPort2("Files", CABLES.OP_PORT_TYPE_STRING, { "display": "editor" });
+const inReload = op.inTriggerButton("Reload");
 
 // UI and layout controls
 const inShowUI = op.inBool("Show UI", false);
@@ -64,7 +66,7 @@ let checkAudioInterval = null;
 let onParentFontsLoaded = null;
 
 // Register listeners
-inHtmlAttachment.onChange = updateIframe;
+inReload.onTrigger = updateIframe;
 inChannelName.onChange = setupBroadcastChannel;
 inIframeId.onChange = updateIframeId;
 
@@ -86,11 +88,11 @@ inOpacity.onChange = updateIframeLayout;
 // Helper to resolve the root patch assets path as a fully qualified absolute URL
 function getAssetsPath() {
     let dummyPath = op.patch.getFilePath("dummy.txt") || "";
-    
+
     // Resolve directory portion by stripping filename and suffix parameters
     const lastSlash = dummyPath.lastIndexOf("/");
     let dir = lastSlash !== -1 ? dummyPath.substring(0, lastSlash + 1) : "";
-    
+
     // Force absolute HTTP/HTTPS URL scheme to prevent browser SyntaxErrors in blob URL frames
     if (dir && dir.indexOf("http:") !== 0 && dir.indexOf("https:") !== 0) {
         if (dir.indexOf("/") === 0) {
@@ -139,38 +141,79 @@ function updateIframe() {
     if (!fileName) return;
 
     let htmlContent = null;
-    const attachmentKey = fileName.replace(/\./g, "_");
 
-    // Check if the HTML is embedded directly as an Op Attachment
-    if (typeof attachments !== "undefined" && attachments && attachments[attachmentKey]) {
-        htmlContent = attachments[attachmentKey];
+    // 1. Search inside the MultiPort string ports (Strategy A)
+    const stringPorts = inStrings.get();
+    for (let i = 0; i < stringPorts.length; i++) {
+        const port = stringPorts[i];
+        if (port.getTitle() === fileName) {
+            htmlContent = port.get() || "";
+            break;
+        }
     }
 
     if (htmlContent !== null) {
-        // --- Strategy A: Load from Op Attachments (Synchronous & Offline-friendly) ---
+        if (!htmlContent.trim()) {
+            loadHtmlIntoIframe("<html><body>Files list slot is empty...</body></html>");
+            return;
+        }
+
         let modifiedHtml = htmlContent;
 
-        // Auto-inline javascript attachments and rewrite let/const to var (order-independent attribute matching)
+        // Auto-inline javascript dependencies from the multiport and rewrite let/const to var (order-independent attribute matching)
         const scriptRegex = /<script\b(?:[^>]*?\bsrc\s*=\s*["']([^"']+)["'])[^>]*>\s*<\/script>/gi;
         modifiedHtml = modifiedHtml.replace(scriptRegex, (match, src) => {
-            const srcKey = src.replace(/\./g, "_");
-            if (typeof attachments !== "undefined" && attachments && attachments[srcKey]) {
-                let jsContent = attachments[srcKey];
+            // Ignore absolute URLs (CDNs, etc.)
+            if (src.indexOf("http:") === 0 || src.indexOf("https:") === 0 || src.indexOf("//") === 0) {
+                return match;
+            }
+
+            let jsContent = null;
+            const ports = inStrings.get();
+            for (let i = 0; i < ports.length; i++) {
+                const port = ports[i];
+                if (port.getTitle() === src) {
+                    jsContent = port.get() || "";
+                    break;
+                }
+            }
+            if (jsContent !== null) {
                 // Automatically convert top-level or general let/const declarations to var to expose them on window
                 jsContent = jsContent.replace(/\b(let|const)\s+/g, "var ");
+                // Automatically convert ES6 exports to window.sketchFunction global assignment to support p5 instance mode
+                jsContent = jsContent.replace(/\bexport\s+default\b/g, "window.sketchFunction =");
                 return `<script>${jsContent}</script>`;
             }
-            return match;
+
+            // Log warning and comment out missing local script to avoid network 404 HTML-as-JS syntax errors
+            op.logWarn("Local script dependency '" + src + "' not found in 'Files' multiport list.");
+            return `<!-- missing script dependency ${src} -->`;
         });
 
-        // Auto-inline CSS attachments (order-independent attribute matching)
+        // Auto-inline CSS dependencies from the multiport
         const cssRegex = /<link\b(?:[^>]*?\bhref\s*=\s*["']([^"']+)["'])[^>]*>/gi;
         modifiedHtml = modifiedHtml.replace(cssRegex, (match, href) => {
-            const hrefKey = href.replace(/\./g, "_");
-            if (typeof attachments !== "undefined" && attachments && attachments[hrefKey]) {
-                return `<style>${attachments[hrefKey]}</style>`;
+            // Ignore absolute URLs
+            if (href.indexOf("http:") === 0 || href.indexOf("https:") === 0 || href.indexOf("//") === 0) {
+                return match;
             }
-            return match;
+
+            let cssContent = null;
+            const ports = inStrings.get();
+            for (let i = 0; i < ports.length; i++) {
+                const port = ports[i];
+                if (port.getTitle() === href) {
+                    cssContent = port.get() || "";
+                    break;
+                }
+            }
+            if (cssContent !== null) {
+                return `<style>${cssContent}</style>`;
+            }
+
+            // Log warning and comment out missing local CSS to avoid network 404 stylesheet requests
+            op.logWarn("Local stylesheet dependency '" + href + "' not found in 'Files' multiport list.");
+            return `<!-- missing stylesheet dependency ${href} -->`;
         });
 
         loadHtmlIntoIframe(modifiedHtml);
@@ -178,17 +221,30 @@ function updateIframe() {
         // --- Strategy B: Fallback to Patch Asset File (Asynchronous & Network-fetched) ---
         const htmlPath = op.patch.getFilePath(fileName);
         if (!htmlPath) {
-            op.logError("Attachment not found in op.attachments or patch files: " + fileName);
+            op.logError("Attachment not found in 'Files' ports list or patch files: " + fileName);
             return;
         }
 
         fetch(htmlPath)
-            .then((res) => res.text())
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("HTTP status " + res.status);
+                }
+                return res.text();
+            })
             .then((fetchedHtml) => {
+                // Check if the server returned the editor bootstrap page (SPA fallback) instead of the actual file
+                if (fetchedHtml.includes("CABLESUILOADER") || fetchedHtml.includes("TalkerAPI") || fetchedHtml.includes("cables_settings")) {
+                    throw new Error("Editor bootstrap page returned instead of file asset");
+                }
                 loadHtmlIntoIframe(fetchedHtml);
             })
             .catch((err) => {
-                op.logError("Failed to fetch HTML patch asset:", err);
+                if (err.message && err.message.includes("Editor bootstrap page")) {
+                    op.logWarn("HTML file '" + fileName + "' not found. Please add a slot named '" + fileName + "' to the 'Files' multiport list.");
+                } else {
+                    op.logError("Failed to fetch HTML patch asset '" + fileName + "':", err);
+                }
             });
     }
 }
@@ -528,9 +584,9 @@ function syncParentFontsToIframe(iframe) {
                             win.redraw();
                         }
                     }
-                }).catch(() => {});
+                }).catch(() => { });
             }
-        }).catch(() => {});
+        }).catch(() => { });
     }
 }
 
@@ -605,12 +661,12 @@ op.onDelete = () => {
     if (broadcastChannel) broadcastChannel.close();
     if (audioSourceNode) audioSourceNode.disconnect();
     if (cglTexture) {
-        try { cglTexture.delete(); } catch (e) {}
+        try { cglTexture.delete(); } catch (e) { }
     }
     if (onParentFontsLoaded && document.fonts && typeof document.fonts.removeEventListener === "function") {
         try {
             document.fonts.removeEventListener("loadingdone", onParentFontsLoaded);
-        } catch (e) {}
+        } catch (e) { }
     }
 };
 
@@ -623,7 +679,7 @@ onParentFontsLoaded = () => {
 if (document.fonts && typeof document.fonts.addEventListener === "function") {
     try {
         document.fonts.addEventListener("loadingdone", onParentFontsLoaded);
-    } catch (e) {}
+    } catch (e) { }
 }
 
 setupBroadcastChannel();
