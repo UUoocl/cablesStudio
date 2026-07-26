@@ -46,6 +46,7 @@ const inPopupAudio = op.inBool("Popup Sound Output", true);
 const outIsOpen = op.outBoolNum("Is Open");
 const outWindow = op.outObject("Window Object");
 const outCanvas = op.outObject("Canvas Element");
+const outElement = op.outObject("Element");
 const outAudioNode = op.outObject("Audio Node");
 const outPattern = op.outString("Current Pattern");
 
@@ -87,7 +88,7 @@ if (typeof BroadcastChannel !== "undefined") {
         broadcastCssVars();
       }
     };
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function broadcastCssVars() {
@@ -95,7 +96,7 @@ function broadcastCssVars() {
   if (themeChannel) {
     try {
       themeChannel.postMessage({ type: "update-theme", data: cssData });
-    } catch (e) {}
+    } catch (e) { }
   }
 }
 
@@ -114,7 +115,7 @@ if (typeof BroadcastChannel !== "undefined") {
         }
       }
     };
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function broadcastPattern() {
@@ -123,7 +124,7 @@ function broadcastPattern() {
   if (patternChannel) {
     try {
       patternChannel.postMessage({ type: "update-pattern", data: code });
-    } catch (e) {}
+    } catch (e) { }
   }
 }
 
@@ -136,7 +137,7 @@ if (typeof BroadcastChannel !== "undefined") {
         broadcastPlayState();
       }
     };
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function broadcastPlayState() {
@@ -144,7 +145,7 @@ function broadcastPlayState() {
   if (controlChannel) {
     try {
       controlChannel.postMessage({ type: "set-play", data: play });
-    } catch (e) {}
+    } catch (e) { }
   }
   if (popupWindow && !popupWindow.closed && typeof popupWindow.setPlayState === "function") {
     popupWindow.setPlayState(play);
@@ -414,6 +415,76 @@ stack(
     const chkLiveEval = document.getElementById('chk-live-eval');
 
     // Helper to apply CSS Theme variables from JSON or object once loaded
+    const strudelPresetThemes = {
+      nord: {
+        "--background": "#2e344000",
+        "--lineBackground": "#2e3440",
+        "--foreground": "#d8dee9",
+        "--caret": "#88c0d0",
+        "--selection": "rgba(76, 86, 106, 0.5)",
+        "--selectionMatch": "rgba(136, 192, 208, 0.3)",
+        "--lineHighlight": "#3b4252",
+        "--gutterBackground": "#2e3440",
+        "--gutterForeground": "#4c566a"
+      },
+      dracula: {
+        "--background": "#282a3600",
+        "--lineBackground": "#282a36",
+        "--foreground": "#f8f8f2",
+        "--caret": "#f8f8f0",
+        "--selection": "rgba(68, 71, 90, 0.5)",
+        "--selectionMatch": "rgba(241, 250, 140, 0.3)",
+        "--lineHighlight": "#44475a",
+        "--gutterBackground": "#282a36",
+        "--gutterForeground": "#6272a4"
+      },
+      blackscreen: {
+        "--background": "#00000000",
+        "--lineBackground": "#000000",
+        "--foreground": "#ffffff",
+        "--caret": "#ffffff",
+        "--selection": "rgba(255, 255, 255, 0.2)",
+        "--selectionMatch": "rgba(255, 255, 255, 0.15)",
+        "--lineHighlight": "#111111",
+        "--gutterBackground": "#000000",
+        "--gutterForeground": "#555555"
+      },
+      bluescreen: {
+        "--background": "#0000aa00",
+        "--lineBackground": "#0000aa",
+        "--foreground": "#ffffff",
+        "--caret": "#ffffff",
+        "--selection": "rgba(255, 255, 255, 0.3)",
+        "--selectionMatch": "rgba(255, 255, 255, 0.2)",
+        "--lineHighlight": "#000088",
+        "--gutterBackground": "#0000aa",
+        "--gutterForeground": "#aaaaaa"
+      },
+      twilight: {
+        "--background": "#1e1e1e00",
+        "--lineBackground": "#010000ff",
+        "--foreground": "#c5c5c5",
+        "--caret": "#fcac66",
+        "--selection": "rgba(221, 240, 255, 0.2)",
+        "--selectionMatch": "rgba(221, 240, 255, 0.1)",
+        "--lineHighlight": "#2c2c2c",
+        "--gutterBackground": "#1e1e1e",
+        "--gutterForeground": "#868686"
+      },
+      monokai: {
+        "--background": "#27282200",
+        "--lineBackground": "#272822",
+        "--foreground": "#f8f8f2",
+        "--caret": "#f8f8f0",
+        "--selection": "rgba(73, 72, 62, 0.9)",
+        "--selectionMatch": "rgba(241, 250, 140, 0.3)",
+        "--lineHighlight": "#3e3d32",
+        "--gutterBackground": "#272822",
+        "--gutterForeground": "#75715e"
+      }
+    };
+
+    // Helper to apply CSS Theme variables from JSON or object once loaded
     window.applyStrudelTheme = function(vars) {
       if (!vars) return;
       let obj = vars;
@@ -424,24 +495,51 @@ stack(
           obj = null;
         }
       }
+      window.currentThemeVars = vars;
       let cssString = '';
       if (obj && typeof obj === 'object') {
         const rules = Object.entries(obj)
-          .map(function(pair) { return '  ' + pair[0] + ': ' + pair[1] + ';'; })
+          .map(function(pair) {
+            let cleanVal = String(pair[1]).trim();
+            if (cleanVal.toLowerCase().endsWith('!important')) {
+              cleanVal = cleanVal.slice(0, -10).trim();
+            }
+            return '  ' + pair[0] + ': ' + cleanVal + ';';
+          })
           .join('\\n');
-        cssString = ':root, strudel-editor, .editor-wrapper, .cm-editor {\\n' + rules + '\\n}';
+        cssString = ':root {\\n' + rules + '\\n}';
       } else if (typeof vars === 'string') {
         cssString = vars;
       }
 
-      let styleEl = document.getElementById('custom-strudel-theme-vars');
-      if (!styleEl) {
-        styleEl = document.createElement('style');
-        styleEl.id = 'custom-strudel-theme-vars';
+      let styleEl = document.getElementById('strudel-theme-vars');
+      if (styleEl) {
+        styleEl.textContent = cssString;
       }
-      styleEl.textContent = cssString;
-      document.head.appendChild(styleEl);
     };
+
+    // Observer to capture dynamic theme style insertion by repl bundle in popup
+    const headObserver = new MutationObserver((mutations) => {
+      let hasThemeVarsAdded = false;
+      for (const mutation of mutations) {
+        if (mutation.addedNodes) {
+          for (const node of mutation.addedNodes) {
+            if (node.id === "strudel-theme-vars") {
+              hasThemeVarsAdded = true;
+              break;
+            }
+          }
+        }
+        if (hasThemeVarsAdded) break;
+      }
+      if (hasThemeVarsAdded) {
+        const el = document.getElementById("strudel-theme-vars");
+        if (el && window.applyStrudelTheme) {
+          window.applyStrudelTheme(window.currentThemeVars);
+        }
+      }
+    });
+    headObserver.observe(document.head, { childList: true });
 
     // Real-time Telemetry & Active Notes Tracking Hub
     window.strudelState = {
@@ -577,6 +675,62 @@ stack(
       if (hap._cablesProcessed) return;
       hap._cablesProcessed = true;
 
+      const valueObj = (hap.value !== undefined) ? hap.value : hap;
+      const themeVal = (valueObj && valueObj.theme) || hap.theme || (hap.value && hap.value.theme);
+      if (themeVal && typeof themeVal === 'string') {
+        const cleanTheme = themeVal.toLowerCase().trim();
+        const themeMap = {
+          nord: 'nord',
+          dracula: 'dracula',
+          blackscreen: 'blackscreen',
+          bluescreen: 'bluescreen',
+          twilight: 'sublime',
+          monokai: 'monokai',
+          bluescreenlight: 'bluescreenlight',
+          whitescreen: 'whitescreen',
+          teletext: 'teletext',
+          algoboy: 'algoboy',
+          cutiepi: 'CutiePi',
+          sonicpink: 'sonicPink',
+          redtext: 'redText',
+          greentext: 'greenText',
+          archbtw: 'archBtw',
+          fruitdaw: 'fruitDaw',
+          androidstudio: 'androidstudio',
+          atomone: 'atomone',
+          aura: 'aura',
+          darcula: 'darcula',
+          duotonedark: 'duotoneDark',
+          eclipse: 'eclipse',
+          githubdark: 'githubDark',
+          githublight: 'githubLight',
+          gruvboxdark: 'gruvboxDark',
+          gruvboxlight: 'gruvboxLight',
+          materialdark: 'materialDark',
+          materiallight: 'materialLight',
+          noctislilac: 'noctisLilac',
+          solarizeddark: 'solarizedDark',
+          solarizedlight: 'solarizedLight',
+          sublime: 'sublime',
+          tokyonight: 'tokyoNight',
+          tokyonightstorm: 'tokyoNightStorm',
+          tokyonightday: 'tokyoNightDay',
+          vscodedark: 'vscodeDark',
+          vscodelight: 'vscodeLight',
+          xcodelight: 'xcodeLight',
+          bbedit: 'bbedit'
+        };
+        const mappedTheme = themeMap[cleanTheme] || cleanTheme;
+        if (replElement && replElement.editor && typeof replElement.editor.setTheme === 'function') {
+          replElement.editor.setTheme(mappedTheme);
+        } else {
+          const themeVars = strudelPresetThemes[cleanTheme];
+          if (themeVars && window.applyStrudelTheme) {
+            window.applyStrudelTheme(themeVars);
+          }
+        }
+      }
+
       window.strudelState.isPlaying = true;
       const cps = (replElement?.editor?.repl?.cps) || (replElement?.editor?.repl?.scheduler?.cps) || window.strudelState.cps || 1;
       handleStrudelHap(hap, duration, cps);
@@ -591,11 +745,34 @@ stack(
       const PatternClass = window.Pattern || (repl && repl.Pattern) || (samplePattern && samplePattern.constructor);
       if (PatternClass && PatternClass.prototype && !PatternClass.prototype._cablesPatched) {
         PatternClass.prototype._cablesPatched = true;
+
+        PatternClass.prototype.theme = function(name) {
+          this._cablesTheme = name;
+          if (typeof this.set === 'function') {
+            try {
+              const res = this.set('theme', name);
+              if (res) {
+                res._cablesTheme = name;
+                return res;
+              }
+            } catch (e) {}
+          }
+          return this;
+        };
+
         const origQueryArc = PatternClass.prototype.queryArc;
         PatternClass.prototype.queryArc = function(begin, end, ...args) {
           const haps = origQueryArc.apply(this, [begin, end, ...args]);
           if (Array.isArray(haps)) {
             haps.forEach(hap => {
+              if (this._cablesTheme !== undefined) {
+                if (hap.value && typeof hap.value === 'object') {
+                  hap.value.theme = this._cablesTheme;
+                } else {
+                  hap.theme = this._cablesTheme;
+                }
+              }
+
               if (hap && !hap._cablesHooked) {
                 hap._cablesHooked = true;
                 const origOnTrigger = hap.onTrigger;
@@ -657,6 +834,7 @@ stack(
 
     let lastQueryTime = -1;
     let lastCycleInt = -1;
+    let isEditorConfigured = false;
     function pollStrudelTelemetry() {
       hookHapListeners();
       if (replElement && replElement.editor) {
@@ -664,6 +842,12 @@ stack(
         const repl = editor.repl;
 
         if (repl) {
+          if (!isEditorConfigured) {
+            isEditorConfigured = true;
+            if (window.applyStrudelTheme) {
+              window.applyStrudelTheme(window.currentThemeVars);
+            }
+          }
           const isStarted = repl.scheduler ? repl.scheduler.started : window.strudelState.isPlaying;
           window.strudelState.isPlaying = !!isStarted;
 
@@ -843,31 +1027,33 @@ stack(
     const editorWrapper = document.querySelector('.editor-wrapper');
     
     if (htmlCanvas && htmlCanvas.getContext) {
-      const updateCanvasResolution = () => {
-        const dpr = window.devicePixelRatio || 1;
-        const rect = htmlCanvas.getBoundingClientRect();
-        const contentHeight = editorWrapper ? editorWrapper.offsetHeight : rect.height;
-        const targetWidth = Math.max(300, Math.round(rect.width * dpr));
-        const targetHeight = Math.max(300, Math.round(contentHeight * dpr));
-        
-        if (htmlCanvas.width !== targetWidth || htmlCanvas.height !== targetHeight) {
-          htmlCanvas.width = targetWidth;
-          htmlCanvas.height = targetHeight;
-        }
-      };
-
-      updateCanvasResolution();
-      const resizeObserver = new ResizeObserver(() => {
-        updateCanvasResolution();
-        if (typeof htmlCanvas.requestPaint === 'function') {
-          htmlCanvas.requestPaint();
-        }
-      });
-      resizeObserver.observe(htmlCanvas);
-      if (editorWrapper) resizeObserver.observe(editorWrapper);
-
       const ctx = htmlCanvas.getContext('2d');
-      if (ctx && typeof ctx.drawElementImage === 'function') {
+      const isHtmlInCanvasSupported = !!(ctx && typeof ctx.drawElementImage === 'function');
+      
+      if (isHtmlInCanvasSupported) {
+        const updateCanvasResolution = () => {
+          const dpr = window.devicePixelRatio || 1;
+          const rect = htmlCanvas.getBoundingClientRect();
+          const contentHeight = editorWrapper ? editorWrapper.offsetHeight : rect.height;
+          const targetWidth = Math.max(300, Math.round(rect.width * dpr));
+          const targetHeight = Math.max(300, Math.round(contentHeight * dpr));
+          
+          if (htmlCanvas.width !== targetWidth || htmlCanvas.height !== targetHeight) {
+            htmlCanvas.width = targetWidth;
+            htmlCanvas.height = targetHeight;
+          }
+        };
+
+        updateCanvasResolution();
+        const resizeObserver = new ResizeObserver(() => {
+          updateCanvasResolution();
+          if (typeof htmlCanvas.requestPaint === 'function') {
+            htmlCanvas.requestPaint();
+          }
+        });
+        resizeObserver.observe(htmlCanvas);
+        if (editorWrapper) resizeObserver.observe(editorWrapper);
+
         htmlCanvas.onpaint = () => {
           updateCanvasResolution();
           ctx.reset();
@@ -877,6 +1063,12 @@ stack(
             targetEl.style.transform = transform.toString();
           }
         };
+      } else {
+        // Fallback: unwrap editor-wrapper from canvas and hide canvas
+        if (htmlCanvas.parentNode && editorWrapper) {
+          htmlCanvas.parentNode.insertBefore(editorWrapper, htmlCanvas);
+        }
+        htmlCanvas.style.display = 'none';
       }
     }
 
@@ -1074,7 +1266,7 @@ if (typeof BroadcastChannel !== "undefined") {
         applyTelemetryState(event.data.data);
       }
     };
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function applyTelemetryState(state) {
@@ -1118,11 +1310,11 @@ function updateTelemetry() {
 function cleanupParentAudio() {
   outAudioNode.set(null);
   if (mediaStreamSource) {
-    try { mediaStreamSource.disconnect(); } catch (e) {}
+    try { mediaStreamSource.disconnect(); } catch (e) { }
     mediaStreamSource = null;
   }
   if (parentGainNode) {
-    try { parentGainNode.disconnect(); } catch (e) {}
+    try { parentGainNode.disconnect(); } catch (e) { }
     parentGainNode = null;
   }
   parentAudioCtx = null;
@@ -1177,6 +1369,7 @@ function startCheckClosedTimer() {
         outIsOpen.set(false);
         outWindow.set(null);
         outCanvas.set(null);
+        outElement.set(null);
         cleanupParentAudio();
         resetTelemetryOutputs();
         if (checkClosedInterval) clearInterval(checkClosedInterval);
@@ -1184,7 +1377,14 @@ function startCheckClosedTimer() {
         outIsOpen.set(true);
         outWindow.set(popupWindow);
         const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
-        outCanvas.set(canvasEl);
+        let isHtmlCanvasEnabled = false;
+        if (canvasEl && canvasEl.getContext) {
+          const ctx = canvasEl.getContext("2d");
+          isHtmlCanvasEnabled = !!(ctx && typeof ctx.drawElementImage === "function");
+        }
+        outCanvas.set(isHtmlCanvasEnabled ? canvasEl : null);
+        const editorEl = popupWindow.document ? (popupWindow.document.querySelector('.editor-wrapper') || popupWindow.document.getElementById('repl')) : null;
+        outElement.set(editorEl);
         setupParentAudioStream();
         updateTelemetry();
       }
@@ -1200,7 +1400,14 @@ function openPopupWindow() {
     outIsOpen.set(true);
     outWindow.set(popupWindow);
     const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
-    outCanvas.set(canvasEl);
+    let isHtmlCanvasEnabled = false;
+    if (canvasEl && canvasEl.getContext) {
+      const ctx = canvasEl.getContext("2d");
+      isHtmlCanvasEnabled = !!(ctx && typeof ctx.drawElementImage === "function");
+    }
+    outCanvas.set(isHtmlCanvasEnabled ? canvasEl : null);
+    const editorEl = popupWindow.document ? (popupWindow.document.querySelector('.editor-wrapper') || popupWindow.document.getElementById('repl')) : null;
+    outElement.set(editorEl);
     setupParentAudioStream();
     updateTelemetry();
     return;
@@ -1228,6 +1435,7 @@ function openPopupWindow() {
     if (op.setUiError) op.setUiError("popup_error", "Failed to open popup window: " + err.message);
     outIsOpen.set(false);
     outCanvas.set(null);
+    outElement.set(null);
     cleanupParentAudio();
     resetTelemetryOutputs();
     return;
@@ -1237,6 +1445,7 @@ function openPopupWindow() {
     if (op.setUiError) op.setUiError("popup_error", "Popup window blocked by browser. Please allow popups for this site.");
     outIsOpen.set(false);
     outCanvas.set(null);
+    outElement.set(null);
     cleanupParentAudio();
     resetTelemetryOutputs();
     return;
@@ -1249,7 +1458,14 @@ function openPopupWindow() {
   outIsOpen.set(true);
   outWindow.set(popupWindow);
   const canvasEl = popupWindow.document ? popupWindow.document.getElementById("html-canvas") : null;
-  outCanvas.set(canvasEl);
+  let isHtmlCanvasEnabled = false;
+  if (canvasEl && canvasEl.getContext) {
+    const ctx = canvasEl.getContext("2d");
+    isHtmlCanvasEnabled = !!(ctx && typeof ctx.drawElementImage === "function");
+  }
+  outCanvas.set(isHtmlCanvasEnabled ? canvasEl : null);
+  const editorEl = popupWindow.document ? (popupWindow.document.querySelector('.editor-wrapper') || popupWindow.document.getElementById('repl')) : null;
+  outElement.set(editorEl);
   startCheckClosedTimer();
 }
 
@@ -1259,20 +1475,22 @@ function updateCssVars() {
     if (typeof popupWindow.applyStrudelTheme === "function") {
       popupWindow.applyStrudelTheme(inCssVars.get());
     } else {
-      let styleEl = popupWindow.document.getElementById("custom-strudel-theme-vars");
-      if (!styleEl) {
-        styleEl = popupWindow.document.createElement("style");
-        styleEl.id = "custom-strudel-theme-vars";
-        popupWindow.document.head.appendChild(styleEl);
+      const styleEl = popupWindow.document.getElementById("strudel-theme-vars");
+      if (styleEl) {
+        try {
+          const obj = JSON.parse(inCssVars.get());
+          const rules = Object.entries(obj).map(function (pair) {
+            let cleanVal = String(pair[1]).trim();
+            if (cleanVal.toLowerCase().endsWith('!important')) {
+              cleanVal = cleanVal.slice(0, -10).trim();
+            }
+            return "  " + pair[0] + ": " + cleanVal + ";";
+          }).join("\n");
+          styleEl.textContent = ":root {\n" + rules + "\n}";
+        } catch (e) {
+          styleEl.textContent = inCssVars.get() || "";
+        }
       }
-      try {
-        const obj = JSON.parse(inCssVars.get());
-        const rules = Object.entries(obj).map(function (pair) { return "  " + pair[0] + ": " + pair[1] + ";"; }).join("\n");
-        styleEl.textContent = ":root, strudel-editor, .editor-wrapper, .cm-editor {\n" + rules + "\n}";
-      } catch (e) {
-        styleEl.textContent = inCssVars.get() || "";
-      }
-      popupWindow.document.head.appendChild(styleEl);
     }
   }
 }
@@ -1314,6 +1532,7 @@ function closePopupWindow() {
   outIsOpen.set(false);
   outWindow.set(null);
   outCanvas.set(null);
+  outElement.set(null);
   cleanupParentAudio();
   resetTelemetryOutputs();
   if (checkClosedInterval) clearInterval(checkClosedInterval);
@@ -1372,16 +1591,16 @@ op.onLoaded = () => {
 
 op.onDelete = () => {
   if (themeChannel) {
-    try { themeChannel.close(); } catch (e) {}
+    try { themeChannel.close(); } catch (e) { }
   }
   if (patternChannel) {
-    try { patternChannel.close(); } catch (e) {}
+    try { patternChannel.close(); } catch (e) { }
   }
   if (controlChannel) {
-    try { controlChannel.close(); } catch (e) {}
+    try { controlChannel.close(); } catch (e) { }
   }
   if (telemetryChannel) {
-    try { telemetryChannel.close(); } catch (e) {}
+    try { telemetryChannel.close(); } catch (e) { }
   }
   closePopupWindow();
   cleanupParentAudio();

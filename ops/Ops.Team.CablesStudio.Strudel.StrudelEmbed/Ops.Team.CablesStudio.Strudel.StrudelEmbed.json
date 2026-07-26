@@ -1,7 +1,7 @@
 {
-    "id": "e7b1a2c3-5d4e-4f6a-8b9c-0d1e2f3a4b5d",
+    "id": "b3b8c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
     "authorName": "Strudel for Cables",
-    "created": 1783337000000,
+    "created": 1783427000000,
     "layout": {
         "portsIn": [
             {
@@ -28,19 +28,13 @@
                 "group": "Layout",
                 "subType": "number"
             },
-
             {
                 "type": 0,
                 "name": "Opacity",
                 "group": "Layout",
                 "subType": "number"
             },
-            {
-                "type": 0,
-                "name": "Strudel CSS Variables",
-                "group": "Settings",
-                "subType": "string"
-            },
+
             {
                 "type": 0,
                 "name": "Pattern Code",
@@ -61,8 +55,20 @@
             },
             {
                 "type": 0,
-                "name": "Popup Sound Output",
+                "name": "Sound Output",
                 "group": "Audio",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Transparent Background",
+                "group": "Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Show Line Numbers",
+                "group": "Settings",
                 "subType": "boolean"
             }
         ],
@@ -131,6 +137,18 @@
                 "name": "On Cycle"
             },
             {
+                "type": 1,
+                "name": "On Play"
+            },
+            {
+                "type": 1,
+                "name": "On Stop"
+            },
+            {
+                "type": 1,
+                "name": "On Error"
+            },
+            {
                 "type": 2,
                 "name": "Last Event"
             },
@@ -146,7 +164,7 @@
             }
         ]
     },
-    "summary": "Strudel REPL operator that creates a DOM container for the Strudel REPL editor and outputs the container element, audio node, and note telemetry details for downstream use in cables patches.",
+    "summary": "Strudel REPL operator that embeds the Strudel editor in an iframe, forwarding WebAudio stream, UI element, and note-level telemetry outputs.",
     "docs": {
         "ports": [
             {
@@ -165,15 +183,11 @@
                 "name": "Height",
                 "text": "Height of the editor container."
             },
-
             {
                 "name": "Opacity",
                 "text": "Opacity of the container."
             },
-            {
-                "name": "Strudel CSS Variables",
-                "text": "Custom CSS variables to style the Strudel REPL editor."
-            },
+
             {
                 "name": "Pattern Code",
                 "text": "Strudel pattern code to evaluate."
@@ -187,12 +201,20 @@
                 "text": "Master volume multiplier for the output GainNode."
             },
             {
-                "name": "Popup Sound Output",
+                "name": "Sound Output",
                 "text": "Toggle whether Strudel audio is sent directly to the device speakers (true) or muted so it only outputs through Cables WebAudio (false)."
             },
             {
+                "name": "Transparent Background",
+                "text": "Make the editor background transparent."
+            },
+            {
+                "name": "Show Line Numbers",
+                "text": "Toggle display of line numbers in the editor."
+            },
+            {
                 "name": "Element",
-                "text": "The mounted DOM container element."
+                "text": "The mounted DOM container element containing the iframe."
             },
             {
                 "name": "Audio Node",
@@ -247,6 +269,18 @@
                 "text": "Trigger fired at the start of each new cycle."
             },
             {
+                "name": "On Play",
+                "text": "Trigger fired whenever the pattern starts playing."
+            },
+            {
+                "name": "On Stop",
+                "text": "Trigger fired whenever the pattern stops playing."
+            },
+            {
+                "name": "On Error",
+                "text": "Trigger fired whenever an evaluation error is encountered."
+            },
+            {
                 "name": "Last Event",
                 "text": "The event object of the last triggered hap note."
             },
@@ -256,34 +290,16 @@
             },
             {
                 "name": "Error",
-                "text": "Syntax or evaluation error message string if Strudel code fails compile."
+                "text": "Syntax or evaluation error message string if Strudel code fails to compile."
             }
         ]
     },
     "changelog": [
         {
-            "message": "Initial release of the container-only Strudel REPL operator",
+            "message": "Initial release of the iframe-embedded Strudel operator with triggers",
             "type": "feature",
             "author": "Strudel for Cables",
-            "date": 1783337000000
-        },
-        {
-            "message": "Add WebAudio output routing and Volume control",
-            "type": "feature",
-            "author": "Strudel for Cables",
-            "date": 1783338000000
-        },
-        {
-            "message": "Add Popup Sound Output toggle and intercept AudioContext early to fix silent Cables audio node capture",
-            "type": "feature",
-            "author": "Strudel for Cables",
-            "date": 1783339000000
-        },
-        {
-            "message": "Add full note telemetry support and Enable Telemetry performance toggle",
-            "type": "feature",
-            "author": "Strudel for Cables",
-            "date": 1783340000000
+            "date": 1783427000000
         }
     ]
 }

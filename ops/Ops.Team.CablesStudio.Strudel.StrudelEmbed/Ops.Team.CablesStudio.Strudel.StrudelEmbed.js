@@ -1,28 +1,15 @@
-// Ops.Team.CablesStudio.Strudel.StrudelRepl.js
-// HTML Wrapped Strudel REPL Operator for Cables.gl
+// Ops.Team.CablesStudio.Strudel.StrudelEmbed.js
+// HTML Wrapped Strudel REPL Operator inside an iframe for Cables.gl
 
 const inShowUI = op.inBool("Show UI", true);
 const inPlay = op.inBool("Play / Stop", true);
 const inWidth = op.inFloat("Width", 800);
 const inHeight = op.inFloat("Height", 500);
 const inOpacity = op.inFloat("Opacity", 1.0);
-const defaultCssVarsObj = {
-  "--background": "#181825 !important",
-  "--lineBackground": "#22222200 !important",
-  "--foreground": "#cdd6f4 !important",
-  "--caret": "#ffcc00 !important",
-  "--selection": "rgba(128, 203, 196, 0.5) !important",
-  "--selectionMatch": "#036dd626 !important",
-  "--lineHighlight": "#00000050 !important",
-  "--gutterBackground": "transparent !important",
-  "--gutterForeground": "#8a919966 !important"
-};
-const defaultStrudelCss = JSON.stringify(defaultCssVarsObj, null, 2);
-const inCssVars = op.inStringEditor("Strudel CSS Variables", defaultStrudelCss, "json");
 const inCode = op.inStringEditor("Pattern Code", 's("bd*2, ~ rim*<1!3 2>, hh*4").bank(\'RolandTR909\')\n.off(-1/8, set(speed("1.5").gain(.25)))\n\nn("<0 1 2 3 4>*8").scale(\'G4 minor\')\n.s("gm_lead_6_voice")', "js");
-const inVolume = op.inFloat("Volume", 0.8);
-const inPopupAudio = op.inBool("Popup Sound Output", false);
 const inEnableTelemetry = op.inBool("Enable Telemetry", true);
+const inVolume = op.inFloat("Volume", 0.8);
+const inSoundOutput = op.inBool("Sound Output", false);
 const inTransparent = op.inBool("Transparent Background", false);
 const inShowLineNumbers = op.inBool("Show Line Numbers", true);
 
@@ -43,21 +30,30 @@ const outBPM = op.outNumber("BPM");
 const outCycleProgress = op.outNumber("Cycle Progress");
 const outCurrentCycle = op.outNumber("Current Cycle");
 const outOnCycle = op.outTrigger("On Cycle");
+
+// Triggers for play / stop / error
+const outOnPlay = op.outTrigger("On Play");
+const outOnStop = op.outTrigger("On Stop");
+const outOnError = op.outTrigger("On Error");
+
 const outLastEvent = op.outObject("Last Event");
 const outLastSound = op.outString("Last Sound");
 const outError = op.outString("Error");
 
 op.setPortGroup("Controls", [inShowUI, inPlay]);
 op.setPortGroup("Layout", [inWidth, inHeight, inOpacity]);
-op.setPortGroup("Settings", [inCssVars, inCode, inEnableTelemetry, inTransparent, inShowLineNumbers]);
-op.setPortGroup("Audio", [inVolume, inPopupAudio]);
+op.setPortGroup("Settings", [inCode, inEnableTelemetry, inTransparent, inShowLineNumbers]);
+op.setPortGroup("Audio", [inVolume, inSoundOutput]);
 
 let containerEl = null;
-let replElement = null;
+let iframeEl = null;
 let styleElement = null;
 let opGainNode = null;
 let mediaSource = null;
 let isAudioRouted = false;
+let replElement = null;
+let iframeLoaded = false;
+let parentAudioCtx = null;
 
 // Telemetry State
 let activeNotesList = [];
@@ -83,119 +79,13 @@ const strudelState = {
   cycleEventCounter: 0
 };
 
-const strudelPresetThemes = {
-  nord: {
-    "--background": "#2e3440",
-    "--lineBackground": "#2e3440",
-    "--foreground": "#d8dee9",
-    "--caret": "#88c0d0",
-    "--selection": "rgba(76, 86, 106, 0.5)",
-    "--selectionMatch": "rgba(136, 192, 208, 0.3)",
-    "--lineHighlight": "#3b4252",
-    "--gutterBackground": "#2e3440",
-    "--gutterForeground": "#4c566a"
-  },
-  dracula: {
-    "--background": "#282a36",
-    "--lineBackground": "#282a36",
-    "--foreground": "#f8f8f2",
-    "--caret": "#f8f8f0",
-    "--selection": "rgba(68, 71, 90, 0.5)",
-    "--selectionMatch": "rgba(241, 250, 140, 0.3)",
-    "--lineHighlight": "#44475a",
-    "--gutterBackground": "#282a36",
-    "--gutterForeground": "#6272a4"
-  },
-  blackscreen: {
-    "--background": "#000000",
-    "--lineBackground": "#000000",
-    "--foreground": "#ffffff",
-    "--caret": "#ffffff",
-    "--selection": "rgba(255, 255, 255, 0.2)",
-    "--selectionMatch": "rgba(255, 255, 255, 0.15)",
-    "--lineHighlight": "#111111",
-    "--gutterBackground": "#000000",
-    "--gutterForeground": "#555555"
-  },
-  bluescreen: {
-    "--background": "#0000aa",
-    "--lineBackground": "#0000aa",
-    "--foreground": "#ffffff",
-    "--caret": "#ffffff",
-    "--selection": "rgba(255, 255, 255, 0.3)",
-    "--selectionMatch": "rgba(255, 255, 255, 0.2)",
-    "--lineHighlight": "#000088",
-    "--gutterBackground": "#0000aa",
-    "--gutterForeground": "#aaaaaa"
-  },
-  twilight: {
-    "--background": "#1e1e1e",
-    "--lineBackground": "#1e1e1e",
-    "--foreground": "#c5c5c5",
-    "--caret": "#fcac66",
-    "--selection": "rgba(221, 240, 255, 0.2)",
-    "--selectionMatch": "rgba(221, 240, 255, 0.1)",
-    "--lineHighlight": "#2c2c2c",
-    "--gutterBackground": "#1e1e1e",
-    "--gutterForeground": "#868686"
-  },
-  monokai: {
-    "--background": "#272822",
-    "--lineBackground": "#272822",
-    "--foreground": "#f8f8f2",
-    "--caret": "#f8f8f0",
-    "--selection": "rgba(73, 72, 62, 0.9)",
-    "--selectionMatch": "rgba(241, 250, 140, 0.3)",
-    "--lineHighlight": "#3e3d32",
-    "--gutterBackground": "#272822",
-    "--gutterForeground": "#75715e"
-  }
-};
-
-function applyInlineStrudelTheme(themeVarsOrJson) {
-  let parsedRules = '';
-  let obj = themeVarsOrJson;
-  if (typeof themeVarsOrJson === 'string') {
-    try {
-      obj = JSON.parse(themeVarsOrJson);
-    } catch (e) {
-      obj = null;
-    }
-  }
-
-  if (obj && typeof obj === 'object') {
-    parsedRules = Object.entries(obj)
-      .map(([key, val]) => {
-        let cleanVal = String(val).trim();
-        if (cleanVal.toLowerCase().endsWith('!important')) {
-          cleanVal = cleanVal.slice(0, -10).trim();
-        }
-        return `  ${key}: ${cleanVal};`;
-      })
-      .join('\n');
-  } else if (typeof themeVarsOrJson === 'string') {
-    parsedRules = themeVarsOrJson;
-  }
-
-  const globalThemeStyle = document.getElementById("strudel-theme-vars");
-  if (globalThemeStyle) {
-    globalThemeStyle.textContent = `:root {\n${parsedRules}\n}`;
-  }
-}
-
 function updateCssStyles() {
-  const rawVars = inCssVars.get() || defaultStrudelCss;
-  applyInlineStrudelTheme(rawVars);
-
   if (!styleElement) return;
 
   const transparentBg = inTransparent.get();
   const transparentRules = transparentBg ? `
     #strudel-container-${op.id},
-    #strudel-container-${op.id} strudel-editor,
-    #strudel-container-${op.id} .cm-editor,
-    #strudel-container-${op.id} .cm-scroller,
-    #strudel-container-${op.id} .cm-gutters {
+    #strudel-container-${op.id} iframe {
       background: transparent !important;
       background-color: transparent !important;
     }
@@ -212,25 +102,10 @@ function updateCssStyles() {
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      position: relative !important;
-      z-index: -10 !important;
-    }
-    #strudel-container-${op.id} strudel-editor {
-      display: none;
-    }
-    #strudel-container-${op.id} .cm-editor {
-      min-height: 100% !important;
-      height: 100% !important;
-      flex: 1 !important;
-    }
-    #strudel-container-${op.id} .cm-scroller {
-      height: 100% !important;
-    }
-    #strudel-container-${op.id} canvas#test-canvas, 
-    #strudel-container-${op.id} canvas[style*="fixed"] {
-      display: none !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
+      position: absolute !important;
+      top: 20px;
+      left: 20px;
+      z-index: 10 !important;
     }
     ${transparentRules}
   `;
@@ -255,126 +130,40 @@ function updateContainerPositionStyles() {
   }
 }
 
-function ensureStrudelScriptsLoaded() {
-  if (!document.getElementById("strudel-repl-bundle-script")) {
-    interceptAudioContext();
-
-    const script = document.createElement("script");
-    script.id = "strudel-repl-bundle-script";
-    script.src = "https://unpkg.com/@strudel/repl@latest";
-    script.type = "module";
-    document.head.appendChild(script);
-  }
-}
-
 function initOpAudio() {
   if (!opGainNode) {
-    let cablesCtx = null;
-    try {
-      cablesCtx = CABLES.WEBAUDIO.createAudioContext(op);
-    } catch (e) {
-      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtxClass) cablesCtx = new AudioCtxClass();
+    if (!parentAudioCtx) {
+      try {
+        parentAudioCtx = CABLES.WEBAUDIO.createAudioContext(op);
+      } catch (e) {
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtxClass) parentAudioCtx = new AudioCtxClass();
+      }
     }
 
-    if (cablesCtx) {
-      opGainNode = cablesCtx.createGain();
-      opGainNode.gain.setValueAtTime(inVolume.get(), cablesCtx.currentTime);
+    if (parentAudioCtx) {
+      opGainNode = parentAudioCtx.createGain();
+      opGainNode.gain.setValueAtTime(inVolume.get(), parentAudioCtx.currentTime);
       outAudioNode.set(opGainNode);
     }
   }
 }
 
-function ensureAudioNodePatch() {
-  if (!AudioNode.prototype._strudelPatched) {
-    AudioNode.prototype._strudelPatched = true;
-    const origConnect = AudioNode.prototype.connect;
-    AudioNode.prototype.connect = function (destination, output, input) {
-      if (this.context && this.context.destinationNode) {
-        if (destination === this.context.destination) {
-          return origConnect.call(this, this.context.destinationNode, output, input);
-        }
-      }
-      return origConnect.call(this, destination, output, input);
-    };
-  }
-}
-
-function setupStreamForContext(ctx) {
-  if (!ctx || ctx._strudelStreamSetup) return;
-  ctx._strudelStreamSetup = true;
-
-  try {
-    const streamDest = ctx.createMediaStreamDestination();
-    const speakerGain = ctx.createGain();
-
-    speakerGain.gain.setValueAtTime(
-      inPopupAudio.get() ? 1.0 : 0.0,
-      ctx.currentTime
-    );
-    speakerGain.connect(ctx.destination);
-
-    const strudelMasterGain = ctx.createGain();
-    strudelMasterGain.connect(speakerGain);
-    strudelMasterGain.connect(streamDest);
-
-    ctx.destinationNode = strudelMasterGain;
-
-    if (!window._strudelDestinations) window._strudelDestinations = new Map();
-    window._strudelDestinations.set(ctx, streamDest);
-
-    if (!window._strudelSpeakerGains) window._strudelSpeakerGains = new Map();
-    window._strudelSpeakerGains.set(ctx, speakerGain);
-
-    setTimeout(() => {
-      setupAudioRouting(ctx);
-    }, 0);
-  } catch (e) {
-    op.log("Error setting up Strudel AudioContext stream:", e);
-  }
-}
-
-function interceptAudioContext() {
-  ensureAudioNodePatch();
-
-  const OrigAudioContext = window.AudioContext || window.webkitAudioContext;
-  if (OrigAudioContext && !window.AudioContext._strudelPatched) {
-    window.AudioContext = function (...args) {
-      const ctx = new OrigAudioContext(...args);
-      setupStreamForContext(ctx);
-      return ctx;
-    };
-    window.AudioContext.prototype = OrigAudioContext.prototype;
-    window.AudioContext._strudelPatched = true;
-    if (window.webkitAudioContext) window.webkitAudioContext = window.AudioContext;
-  }
-}
-
 function setupAudioRouting(strudelCtx) {
-  if (isAudioRouted || !strudelCtx) return;
+  if (isAudioRouted || !strudelCtx || !iframeEl || !iframeEl.contentWindow) return;
 
-  let streamDest = null;
-  if (window._strudelDestinations) {
-    streamDest = window._strudelDestinations.get(strudelCtx);
-  }
+  const iframeWin = iframeEl.contentWindow;
+  const stream = iframeWin.strudelAudioStream;
 
-  if (streamDest) {
+  if (stream) {
     initOpAudio();
 
-    let cablesCtx = null;
-    try {
-      cablesCtx = CABLES.WEBAUDIO.createAudioContext(op);
-    } catch (e) {
-      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtxClass) cablesCtx = new AudioCtxClass();
-    }
-
-    if (cablesCtx && opGainNode) {
+    if (parentAudioCtx && opGainNode) {
       try {
         if (mediaSource) {
           try { mediaSource.disconnect(); } catch (e) { }
         }
-        mediaSource = cablesCtx.createMediaStreamSource(streamDest.stream);
+        mediaSource = parentAudioCtx.createMediaStreamSource(stream);
         mediaSource.connect(opGainNode);
         isAudioRouted = true;
       } catch (e) {
@@ -549,12 +338,6 @@ const onHapTriggered = function (arg1, arg2, arg3) {
     const mappedTheme = themeMap[cleanTheme] || cleanTheme;
     if (replElement && replElement.editor && typeof replElement.editor.setTheme === 'function') {
       replElement.editor.setTheme(mappedTheme);
-      updateCssStyles();
-    } else {
-      const themeVars = strudelPresetThemes[cleanTheme];
-      if (themeVars) {
-        applyInlineStrudelTheme(themeVars);
-      }
     }
   }
 
@@ -566,13 +349,14 @@ const onHapTriggered = function (arg1, arg2, arg3) {
 };
 
 function hookHapListeners() {
-  if (!replElement || !replElement.editor) return;
+  if (!replElement || !replElement.editor || !iframeEl || !iframeEl.contentWindow) return;
+  const iframeWin = iframeEl.contentWindow;
   const editor = replElement.editor;
   const repl = editor.repl;
   if (!repl) return;
 
   const samplePattern = repl.pattern || editor.pattern || (repl.scheduler?.pattern);
-  const PatternClass = window.Pattern || (repl.Pattern) || (samplePattern && samplePattern.constructor);
+  const PatternClass = iframeWin.Pattern || (repl.Pattern) || (samplePattern && samplePattern.constructor);
   if (PatternClass && PatternClass.prototype && !PatternClass.prototype._cablesPatched) {
     PatternClass.prototype._cablesPatched = true;
 
@@ -698,15 +482,26 @@ function applyTelemetryOutputs() {
 }
 
 function pollStrudelTelemetry() {
-  if (!inEnableTelemetry.get()) return;
+  if (!inEnableTelemetry.get() || !iframeEl || !iframeEl.contentWindow) return;
 
+  const iframeWin = iframeEl.contentWindow;
   hookHapListeners();
+
   if (replElement && replElement.editor) {
     const editor = replElement.editor;
     const repl = editor.repl;
 
     if (repl) {
       const isStarted = repl.scheduler ? repl.scheduler.started : strudelState.isPlaying;
+
+      if (isStarted !== strudelState.isPlaying) {
+        if (isStarted) {
+          outOnPlay.trigger();
+        } else {
+          outOnStop.trigger();
+        }
+      }
+
       strudelState.isPlaying = !!isStarted;
 
       const time = (repl.getTime ? repl.getTime() : (repl.scheduler ? repl.scheduler.getTime() : 0)) || 0;
@@ -770,6 +565,38 @@ function updatePatternOutput() {
   outCurrentPattern.set(code);
 }
 
+function checkAndHookIframe() {
+  if (!iframeEl || !iframeEl.contentWindow || !iframeEl.contentDocument) return;
+
+  const iframeDoc = iframeEl.contentDocument;
+  const iframeWin = iframeEl.contentWindow;
+
+  const el = iframeDoc.getElementById("repl-editor");
+  if (el && el.editor) {
+    replElement = el;
+    iframeLoaded = true;
+
+    // Sync initial settings
+    replElement.setAttribute("code", inCode.get() || "");
+    if (typeof replElement.editor.setCode === "function") {
+      replElement.editor.setCode(inCode.get() || "");
+    }
+
+    updateLineNumbers();
+    updateCssStyles();
+
+    if (typeof iframeWin.setPopupSoundOutput === "function") {
+      iframeWin.setPopupSoundOutput(inSoundOutput.get());
+    }
+
+    // Add typing event listeners inside the iframe
+    replElement.addEventListener('input', updatePatternOutput);
+    replElement.addEventListener('keyup', updatePatternOutput);
+  } else {
+    setTimeout(checkAndHookIframe, 50);
+  }
+}
+
 function mountContainer() {
   if (containerEl) return;
   initOpAudio();
@@ -782,23 +609,138 @@ function mountContainer() {
   containerEl.id = "strudel-container-" + op.id;
   containerEl.className = "strudel-container";
 
-  replElement = document.createElement("strudel-editor");
-  replElement.id = "strudel-repl-" + op.id;
-  const initialCode = inCode.get() || 's("bd*2, ~ rim*<1!3 2>, hh*4").bank(\'RolandTR909\')';
-  replElement.setAttribute("code", initialCode);
+  iframeEl = document.createElement("iframe");
+  iframeEl.id = "strudel-iframe-" + op.id;
+  iframeEl.style.width = "100%";
+  iframeEl.style.height = "100%";
+  iframeEl.style.border = "none";
+  iframeEl.style.background = "transparent";
+  iframeEl.setAttribute("allow", "autoplay");
 
-  containerEl.appendChild(replElement);
-  document.body.appendChild(containerEl);
+  // Write content to iframe using srcdoc
+  const iframeHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent !important;
+    }
+    strudel-editor {
+      min-height: 100% !important;
+      height: 100% !important;
+      width: 100% !important;
+    }
+    .cm-editor {
+      min-height: 100% !important;
+      height: 100% !important;
+      flex: 1 !important;
+    }
+    .cm-scroller {
+      height: 100% !important;
+    }
+    canvas#test-canvas, canvas[style*="fixed"] {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+  </style>
+  <script>
+    // Audio Context stream interception
+    window.strudelAudioStream = null;
+    window.strudelAudioContext = null;
+    window.popupSpeakerGain = null;
+    window.popupSoundEnabled = false;
+
+    window.setPopupSoundOutput = function(enabled) {
+      window.popupSoundEnabled = !!enabled;
+      if (window.popupSpeakerGain && window.strudelAudioContext) {
+        try {
+          window.popupSpeakerGain.gain.setValueAtTime(
+            window.popupSoundEnabled ? 1.0 : 0.0,
+            window.strudelAudioContext.currentTime
+          );
+        } catch (e) {}
+      }
+    };
+
+    function setupStreamForContext(ctx) {
+      if (!ctx || ctx._strudelStreamSetup) return;
+      ctx._strudelStreamSetup = true;
+      window.strudelAudioContext = ctx;
+
+      try {
+        const streamDest = ctx.createMediaStreamDestination();
+        const speakerGain = ctx.createGain();
+        speakerGain.gain.setValueAtTime(
+          window.popupSoundEnabled ? 1.0 : 0.0,
+          ctx.currentTime
+        );
+        speakerGain.connect(ctx.destination);
+
+        const strudelMasterGain = ctx.createGain();
+        strudelMasterGain.connect(speakerGain);
+        strudelMasterGain.connect(streamDest);
+
+        ctx.destinationNode = strudelMasterGain;
+        window.popupSpeakerGain = speakerGain;
+        window.strudelAudioStream = streamDest.stream;
+
+        const origConnect = AudioNode.prototype.connect;
+        AudioNode.prototype.connect = function(destination, output, input) {
+          if (destination === ctx.destination) {
+            return origConnect.call(this, strudelMasterGain, output, input);
+          }
+          return origConnect.call(this, destination, output, input);
+        };
+      } catch (e) {
+        console.warn('Error setting up Strudel WebAudio stream:', e);
+      }
+    }
+
+    const OrigAudioContext = window.AudioContext || window.webkitAudioContext;
+    if (OrigAudioContext) {
+      window.AudioContext = function(...args) {
+        const ctx = new OrigAudioContext(...args);
+        setupStreamForContext(ctx);
+        return ctx;
+      };
+      window.AudioContext.prototype = OrigAudioContext.prototype;
+      if (window.webkitAudioContext) window.webkitAudioContext = window.AudioContext;
+    }
+  </script>
+  <script src="https://unpkg.com/@strudel/repl@latest" type="module"></script>
+</head>
+<body>
+  <strudel-editor id="repl-editor"></strudel-editor>
+</body>
+</html>`;
+
+  iframeEl.srcdoc = iframeHtml;
+  containerEl.appendChild(iframeEl);
+
+  const cablesCanvas = op.patch && op.patch.cgl && op.patch.cgl.canvas;
+  const parentElement = cablesCanvas ? (cablesCanvas.parentElement || cablesCanvas.parentNode) : null;
+  if (parentElement) {
+    parentElement.appendChild(containerEl);
+  } else {
+    document.body.appendChild(containerEl);
+  }
 
   outElement.set(containerEl);
 
-  ensureStrudelScriptsLoaded();
   updateContainerPositionStyles();
   updatePatternOutput();
 
-  // Listen to typing events to update the Current Pattern output
-  replElement.addEventListener('input', updatePatternOutput);
-  replElement.addEventListener('keyup', updatePatternOutput);
+  // Watch for load event on iframe to hook listeners
+  iframeEl.addEventListener('load', () => {
+    checkAndHookIframe();
+  });
 }
 
 function unmountContainer() {
@@ -809,8 +751,10 @@ function unmountContainer() {
     styleElement.parentNode.removeChild(styleElement);
   }
   containerEl = null;
-  replElement = null;
+  iframeEl = null;
   styleElement = null;
+  replElement = null;
+  iframeLoaded = false;
   outElement.set(null);
 }
 
@@ -820,8 +764,10 @@ async function evaluatePattern() {
       try {
         outError.set("");
         await replElement.editor.evaluate();
+        outOnPlay.trigger();
       } catch (e) {
         outError.set(e.message || String(e));
+        outOnError.trigger();
       }
     }
   }
@@ -830,7 +776,13 @@ async function evaluatePattern() {
 function stopPattern() {
   if (replElement && replElement.editor) {
     if (replElement.editor.stop) {
-      replElement.editor.stop();
+      try {
+        replElement.editor.stop();
+        outOnStop.trigger();
+      } catch (e) {
+        outError.set(e.message || String(e));
+        outOnError.trigger();
+      }
     }
   }
 }
@@ -839,7 +791,6 @@ inShowUI.onChange = () => updateContainerPositionStyles();
 inWidth.onChange = () => updateContainerPositionStyles();
 inHeight.onChange = () => updateContainerPositionStyles();
 inOpacity.onChange = () => updateContainerPositionStyles();
-inCssVars.onChange = () => updateCssStyles();
 inTransparent.onChange = () => updateCssStyles();
 
 function updateLineNumbers() {
@@ -865,27 +816,16 @@ inCode.onChange = () => {
 };
 
 inVolume.onChange = () => {
-  if (opGainNode) {
-    let cablesCtx = null;
-    try {
-      cablesCtx = CABLES.WEBAUDIO.createAudioContext(op);
-    } catch (e) {
-      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtxClass) cablesCtx = new AudioCtxClass();
-    }
-    const currentTime = cablesCtx ? cablesCtx.currentTime : 0;
+  if (opGainNode && parentAudioCtx) {
+    const currentTime = parentAudioCtx.currentTime;
     opGainNode.gain.linearRampToValueAtTime(inVolume.get(), currentTime + 0.05);
   }
 };
 
-inPopupAudio.onChange = () => {
-  const enabled = inPopupAudio.get();
-  if (window._strudelSpeakerGains) {
-    for (const [ctx, speakerGain] of window._strudelSpeakerGains.entries()) {
-      try {
-        speakerGain.gain.setValueAtTime(enabled ? 1.0 : 0.0, ctx.currentTime);
-      } catch (e) { }
-    }
+inSoundOutput.onChange = () => {
+  const enabled = inSoundOutput.get();
+  if (iframeEl && iframeEl.contentWindow && typeof iframeEl.contentWindow.setPopupSoundOutput === "function") {
+    iframeEl.contentWindow.setPopupSoundOutput(enabled);
   }
 };
 
@@ -899,13 +839,20 @@ mountContainer();
 
 let isEditorConfigured = false;
 op.onAnimFrame = () => {
-  if (replElement && replElement.editor && replElement.editor.repl && replElement.editor.repl.audioContext) {
-    setupAudioRouting(replElement.editor.repl.audioContext);
+  if (iframeEl && iframeEl.contentWindow) {
+    const iframeWin = iframeEl.contentWindow;
+    if (replElement && replElement.editor && replElement.editor.repl && replElement.editor.repl.audioContext) {
+      setupAudioRouting(replElement.editor.repl.audioContext);
+    } else if (iframeWin.strudelAudioContext) {
+      setupAudioRouting(iframeWin.strudelAudioContext);
+    }
   }
+
   if (replElement && replElement.editor && !isEditorConfigured) {
     isEditorConfigured = true;
     updateLineNumbers();
   }
+
   if (inEnableTelemetry.get()) {
     pollStrudelTelemetry();
   }
@@ -926,13 +873,18 @@ op.onDelete = () => {
     if (window._strudelDestinations) window._strudelDestinations.delete(ctx);
     if (window._strudelSpeakerGains) window._strudelSpeakerGains.delete(ctx);
   }
+  if (iframeEl && iframeEl.contentWindow && iframeEl.contentWindow.strudelAudioContext) {
+    const ctx = iframeEl.contentWindow.strudelAudioContext;
+    if (window._strudelDestinations) window._strudelDestinations.delete(ctx);
+    if (window._strudelSpeakerGains) window._strudelSpeakerGains.delete(ctx);
+  }
+  parentAudioCtx = null;
   if (window._strudelReplOps) {
     window._strudelReplOps.delete(op);
   }
   resetTelemetryOutputs();
 };
 
-// Register the operator instance to the global set for syncing themes
 if (!window._strudelReplOps) window._strudelReplOps = new Set();
 window._strudelReplOps.add(op);
 
@@ -947,27 +899,3 @@ window._cablesSyncStrudelThemes = () => {
 };
 
 op.updateCssStyles = updateCssStyles;
-
-// Setup a head observer to capture dynamic theme style insertion by unpkg/repl bundle
-if (!window._strudelThemeObserver) {
-  window._strudelThemeObserver = new MutationObserver((mutations) => {
-    let hasThemeVarsAdded = false;
-    for (const mutation of mutations) {
-      if (mutation.addedNodes) {
-        for (const node of mutation.addedNodes) {
-          if (node.id === "strudel-theme-vars") {
-            hasThemeVarsAdded = true;
-            break;
-          }
-        }
-      }
-      if (hasThemeVarsAdded) break;
-    }
-    if (hasThemeVarsAdded) {
-      if (typeof window._cablesSyncStrudelThemes === "function") {
-        window._cablesSyncStrudelThemes();
-      }
-    }
-  });
-  window._strudelThemeObserver.observe(document.head, { childList: true });
-}

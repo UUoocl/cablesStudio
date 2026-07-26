@@ -28,6 +28,7 @@ The `Ops.Strudel` op opens a pop-up window in the browser containing the embedde
 - **Is Open** (`Boolean`): `true` when the pop-up window is active and open.
 - **Window Object** (`Object`): Reference to the pop-up `Window` instance.
 - **Canvas Element** (`Object`): Reference to the `HTMLCanvasElement` (`#html-canvas`) in the pop-up window.
+- **Element** (`Object`): Reference to the HTMLElement of the Strudel editor wrapper (`.editor-wrapper` / `#repl`) from the pop-up window.
 - **Audio Node** (`Object`): WebAudio GainNode reference streaming live audio from the pop-up window into Cables WebAudio graph.
 - **Current Pattern** (`String`): Outputs the active Strudel pattern code string currently loaded and live-coded in the pop-up REPL.
 - **Is Playing** (`Boolean`): `true` when the Strudel pattern scheduler is active.

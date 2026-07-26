@@ -29,6 +29,11 @@
             },
             {
                 "type": 0,
+                "name": "Flip X",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
                 "name": "Flip Y",
                 "subType": "boolean"
             },
@@ -78,7 +83,8 @@
         ]
     },
     "coreLibs": [
-        "cgl"
+        "cgl",
+        "cgl_copytexture"
     ],
     "summary": "Run a P5.js sketch in instance mode using multiport files input and output canvas / WebGL texture",
     "isReleased": true

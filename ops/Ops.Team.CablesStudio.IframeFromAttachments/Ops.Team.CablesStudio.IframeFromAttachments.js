@@ -42,6 +42,7 @@ const inPosX = op.inFloat("Position X", 20.0);
 const inPosY = op.inFloat("Position Y", 20.0);
 const inPosZ = op.inFloat("Position Z", 9999.0);
 const inOpacity = op.inFloat("Opacity", 1.0);
+const inFlipX = op.inBool("Flip X", false);
 const inFlipY = op.inBool("Flip Y", false);
 
 // ---------------------------------------------------------------------------
@@ -61,6 +62,20 @@ let iframeEl = null;
 let blobUrl = null;
 let cglTexture = null;
 let broadcastChannel = null;
+let copyTexture = null;
+let flipXUniform = null;
+
+const flipXShaderSrc = `
+    UNI sampler2D tex;
+    IN vec2 texCoord;
+    UNI float flipX;
+    void main()
+    {
+        vec2 tc = texCoord;
+        if (flipX > 0.5) tc.x = 1.0 - tc.x;
+        outColor = texture(tex, tc);
+    }
+`;
 let audioSourceNode = null;
 let checkAudioInterval = null;
 let onParentFontsLoaded = null;
@@ -179,7 +194,11 @@ function updateIframe() {
             }
             if (jsContent !== null) {
                 // Automatically convert top-level or general let/const declarations to var to expose them on window
-                jsContent = jsContent.replace(/\b(let|const)\s+/g, "var ");
+                // Skip this for minified library files to prevent corrupting internal GLSL shader code
+                const isLib = src.endsWith(".min.js") || src.includes("lib/") || src.includes("libs/");
+                if (!isLib) {
+                    jsContent = jsContent.replace(/\b(let|const)\s+/g, "var ");
+                }
                 // Automatically convert ES6 exports to window.sketchFunction global assignment to support p5 instance mode
                 jsContent = jsContent.replace(/\bexport\s+default\b/g, "window.sketchFunction =");
                 return `<script>${jsContent}</script>`;
@@ -637,7 +656,23 @@ function updateTextureFromIframe() {
 
         gl.bindTexture(gl.TEXTURE_2D, null);
 
-        outTex.setRef(cglTexture);
+        if (inFlipX.get()) {
+            if (!copyTexture && op.patch.cgl) {
+                copyTexture = new CGL.CopyTexture(op.patch.cgl, "iframe_flip_x", {
+                    shader: flipXShaderSrc
+                });
+                flipXUniform = new CGL.Uniform(copyTexture.bgShader, "f", "flipX", 1.0);
+            }
+            if (copyTexture) {
+                flipXUniform.setValue(1.0);
+                const flippedTex = copyTexture.copy(cglTexture);
+                outTex.setRef(flippedTex);
+            } else {
+                outTex.setRef(cglTexture);
+            }
+        } else {
+            outTex.setRef(cglTexture);
+        }
         outTextureUpdated.trigger();
     } catch (e) {
         // Silently catch layout readback exceptions during fast load transitions
@@ -662,6 +697,9 @@ op.onDelete = () => {
     if (audioSourceNode) audioSourceNode.disconnect();
     if (cglTexture) {
         try { cglTexture.delete(); } catch (e) { }
+    }
+    if (copyTexture) {
+        try { copyTexture.dispose(); } catch (e) { }
     }
     if (onParentFontsLoaded && document.fonts && typeof document.fonts.removeEventListener === "function") {
         try {

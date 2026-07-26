@@ -7,6 +7,7 @@
 const inWidth = op.inInt("Canvas Width", 800);
 const inHeight = op.inInt("Canvas Height", 450);
 const inData = op.inObject("Input Data");
+const inFlipX = op.inBool("Flip X", false);
 const inFlipY = op.inBool("Flip Y", true);
 const inTrigger = op.inTrigger("Render");
 const inReload = op.inTriggerButton("Manual Reload");
@@ -23,6 +24,20 @@ let p5Instance = null;
 let texture = null;
 let container = null;
 let activeBlobUrls = {};
+let copyTexture = null;
+let flipXUniform = null;
+
+const flipXShaderSrc = `
+    UNI sampler2D tex;
+    IN vec2 texCoord;
+    UNI float flipX;
+    void main()
+    {
+        vec2 tc = texCoord;
+        if (flipX > 0.5) tc.x = 1.0 - tc.x;
+        outColor = texture(tex, tc);
+    }
+`;
 
 if (typeof p5Module !== 'undefined') {
     op.log("imported module", p5Module);
@@ -76,6 +91,11 @@ async function initSketch() {
         if (texture) {
             texture.dispose();
             texture = null;
+        }
+        if (copyTexture) {
+            copyTexture.dispose();
+            copyTexture = null;
+            flipXUniform = null;
         }
         if (container) {
             container.remove();
@@ -293,11 +313,36 @@ async function initSketch() {
                             texture.flip = inFlipY.get();
                             texture.initTexture(canvas);
                         }
-                    } else if (texture) {
-                        // Dispose internal texture if port is unlinked to save GPU memory
-                        texture.dispose();
-                        texture = null;
-                        outTexture.set(null);
+
+                        if (texture) {
+                            if (inFlipX.get()) {
+                                if (!copyTexture && op.patch.cgl) {
+                                    copyTexture = new CGL.CopyTexture(op.patch.cgl, "p5_flip_x", {
+                                        shader: flipXShaderSrc
+                                    });
+                                    flipXUniform = new CGL.Uniform(copyTexture.bgShader, "f", "flipX", 1.0);
+                                }
+                                if (copyTexture) {
+                                    flipXUniform.setValue(1.0);
+                                    const flippedTex = copyTexture.copy(texture);
+                                    outTexture.setRef(flippedTex);
+                                }
+                            } else {
+                                outTexture.set(texture);
+                            }
+                        }
+                    } else {
+                        if (texture) {
+                            // Dispose internal texture if port is unlinked to save GPU memory
+                            texture.dispose();
+                            texture = null;
+                            outTexture.set(null);
+                        }
+                        if (copyTexture) {
+                            copyTexture.dispose();
+                            copyTexture = null;
+                            flipXUniform = null;
+                        }
                     }
                 }
                 outNext.trigger();
@@ -332,6 +377,7 @@ inWidth.onChange = inHeight.onChange = () => {
         if (texture) texture.setSize(inWidth.get(), inHeight.get());
     }
 };
+inFlipX.onChange = () => { if (p5Instance && p5Instance.redraw) p5Instance.redraw(); };
 inFlipY.onChange = () => { if (texture) texture.flip = inFlipY.get(); };
 inSketchFiles.onChange = () => {
     const ports = inSketchFiles.get();
@@ -346,6 +392,7 @@ op.onDelete = () => {
     if (p5Instance) p5Instance.remove();
     if (texture) texture.dispose();
     if (container) container.remove();
+    if (copyTexture) copyTexture.dispose();
     clearBlobUrls();
 };
 

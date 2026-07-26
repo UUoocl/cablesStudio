@@ -1,7 +1,7 @@
 {
-    "id": "a8f2c1d3-9e4b-4c5a-8b1e-7f6a5b4c3d2e",
+    "id": "e8c2a3b4-5d6e-4f7a-8c9b-0d1e2f3a4b5d",
     "authorName": "Strudel for Cables",
-    "created": 1783336000000,
+    "created": 1783431000000,
     "layout": {
         "portsIn": [
             {
@@ -46,15 +46,15 @@
             },
             {
                 "type": 0,
-                "name": "Strudel CSS Variables",
+                "name": "Pattern Code",
                 "group": "Settings",
                 "subType": "string"
             },
             {
                 "type": 0,
-                "name": "Pattern Code",
+                "name": "Enable Telemetry",
                 "group": "Settings",
-                "subType": "string"
+                "subType": "boolean"
             },
             {
                 "type": 0,
@@ -64,25 +64,18 @@
             },
             {
                 "type": 0,
-                "name": "Popup Sound Output",
+                "name": "Sound Output",
                 "group": "Audio",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Show Line Numbers",
+                "group": "Settings",
                 "subType": "boolean"
             }
         ],
         "portsOut": [
-            {
-                "type": 0,
-                "name": "Is Open",
-                "subType": "boolean"
-            },
-            {
-                "type": 2,
-                "name": "Window Object"
-            },
-            {
-                "type": 2,
-                "name": "Canvas Element"
-            },
             {
                 "type": 2,
                 "name": "Element"
@@ -147,6 +140,18 @@
                 "name": "On Cycle"
             },
             {
+                "type": 1,
+                "name": "On Play"
+            },
+            {
+                "type": 1,
+                "name": "On Stop"
+            },
+            {
+                "type": 1,
+                "name": "On Error"
+            },
+            {
                 "type": 2,
                 "name": "Last Event"
             },
@@ -162,176 +167,145 @@
             }
         ]
     },
-    "summary": "Opens a pop-up window containing the embedded Strudel REPL sample page with CodeMirror live coding, real-time audio output streaming, bi-directional BroadcastChannel pattern sync, and live pattern telemetry",
+    "summary": "Strudel REPL operator that spawns the Strudel editor in an external popup window and outputs the editor element, audio node, and note telemetry.",
     "docs": {
         "ports": [
             {
                 "name": "Open REPL Window",
-                "text": "Trigger button to open or focus the Strudel REPL pop-up window."
+                "text": "Trigger to open the external Strudel REPL popup window."
             },
             {
                 "name": "Close REPL Window",
-                "text": "Trigger button to close the Strudel REPL pop-up window."
+                "text": "Trigger to close the external Strudel REPL popup window."
             },
             {
                 "name": "Play / Stop",
-                "text": "Checkbox toggle to start (play) or stop (hush) Strudel pattern evaluation."
+                "text": "Toggle to evaluate (play) or stop the pattern."
             },
             {
                 "name": "Auto Open On Load",
-                "text": "When enabled, automatically opens the pop-up window when the patch or op loads."
+                "text": "Open the popup window automatically on operator load."
             },
             {
                 "name": "Width",
-                "text": "Pixel width of the pop-up window."
+                "text": "Width of the popup window."
             },
             {
                 "name": "Height",
-                "text": "Pixel height of the pop-up window."
+                "text": "Height of the popup window."
             },
             {
                 "name": "Window Title",
-                "text": "Title string for the pop-up window."
-            },
-            {
-                "name": "Strudel CSS Variables",
-                "text": "CSS string containing :root CSS variable overrides for the Strudel editor theme."
+                "text": "Title of the popup window."
             },
             {
                 "name": "Pattern Code",
-                "text": "Strudel JS pattern code string. Changes to this port broadcast live to the pop-up REPL via BroadcastChannel API."
+                "text": "Strudel pattern code to evaluate."
+            },
+            {
+                "name": "Enable Telemetry",
+                "text": "Checkbox to enable or disable gathering note-level telemetry outputs to save CPU cycles."
             },
             {
                 "name": "Volume",
-                "text": "Volume scaling factor (0.0 to 1.0+) for the streamed WebAudio output node."
+                "text": "Master volume multiplier for the output GainNode."
             },
             {
-                "name": "Popup Sound Output",
-                "text": "Toggle local speaker sound playback in the pop-up window. When disabled, pop-up speakers are muted while the WebAudio output stream to Cables continues."
+                "name": "Sound Output",
+                "text": "Toggle whether Strudel audio is sent directly to the device speakers (true) or muted so it only outputs through Cables WebAudio (false)."
             },
             {
-                "name": "Is Open",
-                "text": "Outputs true when the pop-up window is active and open."
-            },
-            {
-                "name": "Window Object",
-                "text": "Outputs the JavaScript Window reference of the opened pop-up window."
-            },
-            {
-                "name": "Canvas Element",
-                "text": "Outputs the HTMLCanvasElement reference from the pop-up window."
+                "name": "Show Line Numbers",
+                "text": "Toggle display of line numbers in the editor."
             },
             {
                 "name": "Element",
-                "text": "Outputs the HTMLElement of the Strudel editor wrapper from the pop-up window."
+                "text": "The editor DOM element retrieved from the popup window."
             },
             {
                 "name": "Audio Node",
-                "text": "Outputs the Cables WebAudio GainNode connected to the live audio stream from the pop-up window."
+                "text": "The WebAudio GainNode forwarding Strudel's audio output."
             },
             {
                 "name": "Current Pattern",
-                "text": "Outputs the active Strudel pattern code string currently loaded and live-coded in the pop-up REPL."
+                "text": "The code text currently typed into the Strudel editor."
             },
             {
                 "name": "Is Playing",
-                "text": "Outputs true when the Strudel pattern scheduler is actively playing."
+                "text": "Boolean output stating whether Strudel is actively playing a pattern."
             },
             {
                 "name": "Active Notes",
-                "text": "Outputs an array of objects representing currently sounding note events ([{ note, midi, sound, gain, velocity, duration }, ...])."
+                "text": "Array of active note event telemetry details currently playing."
             },
             {
                 "name": "Active MIDI Notes",
-                "text": "Outputs an array of active MIDI note numbers (e.g. [60, 64, 67])."
+                "text": "Array of MIDI note numbers of currently active notes."
             },
             {
                 "name": "Active Note Names",
-                "text": "Outputs an array of active note name strings (e.g. [\"C4\", \"E4\", \"G4\"])."
+                "text": "Array of note names (e.g. ['C4', 'E4']) of currently active notes."
             },
             {
                 "name": "Active Note Count",
-                "text": "Outputs the integer count of currently active sounding notes."
+                "text": "Number of currently active notes."
             },
             {
                 "name": "On Note Event",
-                "text": "Trigger fired whenever a new note/hap event is played in Strudel."
+                "text": "Trigger fired whenever a note event starts."
             },
             {
                 "name": "CPS",
-                "text": "Outputs the current Cycles Per Second value of the Strudel pattern."
+                "text": "Current cycles per second (tempo)."
             },
             {
                 "name": "BPM",
-                "text": "Outputs the calculated Beats Per Minute (CPS * 120)."
+                "text": "Current beats per minute (tempo)."
             },
             {
                 "name": "Cycle Progress",
-                "text": "Outputs normalized 0.0 to 1.0 progress within the active cycle."
+                "text": "Current phase progress (0.0 - 1.0) inside the active cycle."
             },
             {
                 "name": "Current Cycle",
-                "text": "Outputs the total elapsed cycle timestamp."
+                "text": "Total cycle index elapsed."
             },
             {
                 "name": "On Cycle",
-                "text": "Trigger fired on every integer cycle boundary (downbeat)."
+                "text": "Trigger fired at the start of each new cycle."
+            },
+            {
+                "name": "On Play",
+                "text": "Trigger fired whenever the pattern starts playing."
+            },
+            {
+                "name": "On Stop",
+                "text": "Trigger fired whenever the pattern stops playing."
+            },
+            {
+                "name": "On Error",
+                "text": "Trigger fired whenever an evaluation error is encountered."
             },
             {
                 "name": "Last Event",
-                "text": "Outputs the complete JSON object of the last triggered hap/note event."
+                "text": "The event object of the last triggered hap note."
             },
             {
                 "name": "Last Sound",
-                "text": "Outputs the sample or synth sound name of the last triggered event."
+                "text": "The sound bank name of the last triggered note."
             },
             {
                 "name": "Error",
-                "text": "Outputs any active evaluation or runtime error message string."
+                "text": "Syntax or evaluation error message string if Strudel code fails to compile."
             }
         ]
     },
-    "coreLibs": [
-        "cgl"
-    ],
     "changelog": [
         {
-            "message": "op created with embedded sample.html pop-up window functionality",
-            "type": "new op",
+            "message": "Initial release of the popup-window Strudel operator with triggers",
+            "type": "feature",
             "author": "Strudel for Cables",
-            "date": 1783336000000
-        },
-        {
-            "message": "added real-time audio output streaming from popup to Cables Audio Node port and popup sound toggle",
-            "type": "update",
-            "author": "Strudel for Cables",
-            "date": 1783340000000
-        },
-        {
-            "message": "added active notes tracking, MIDI outputs, CPS/BPM clock progress, triggers, and live pattern telemetry",
-            "type": "update",
-            "author": "Strudel for Cables",
-            "date": 1783350000000
-        },
-        {
-            "message": "added Pattern Code input port, Current Pattern output port, and bi-directional BroadcastChannel pattern sync",
-            "type": "update",
-            "author": "Strudel for Cables",
-            "date": 1783360000000
-        },
-        {
-            "message": "added Play / Stop checkbox input port to start and stop pattern evaluation",
-            "type": "update",
-            "author": "Strudel for Cables",
-            "date": 1783370000000
-        },
-        {
-            "message": "added Element output port to expose the editor element/wrapper",
-            "type": "update",
-            "author": "Strudel for Cables",
-            "date": 1783380000000
+            "date": 1783431000000
         }
-    ],
-    "license": "MIT",
-    "isReleased": true
+    ]
 }

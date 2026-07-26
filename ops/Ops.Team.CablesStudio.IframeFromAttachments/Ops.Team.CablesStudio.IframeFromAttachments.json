@@ -83,6 +83,12 @@
             },
             {
                 "type": 0,
+                "name": "Flip X",
+                "group": "Texture",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
                 "name": "Flip Y",
                 "group": "Texture",
                 "subType": "boolean"
@@ -116,6 +122,10 @@
             }
         ]
     },
+    "coreLibs": [
+        "cgl",
+        "cgl_copytexture"
+    ],
     "summary": "Unified Iframe Engine Bridge with automatic attachment dependency resolution. Loads and runs standard HTML/JS attachments inside an isolated iframe, extracting low-latency GPU canvas frames using VideoFrame and routing Web Audio Context audio outputs directly to Cables.gl.",
     "docs": {
         "ports": [

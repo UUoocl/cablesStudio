@@ -52,3 +52,10 @@ It renders the REPL UI in the DOM, outputs the container element directly via th
 - `On Cycle` (Trigger): Fired at the boundary of each new cycle.
 - `Last Event` / `Last Sound` (Object/String): Last note event object / last sound bank name.
 - `Error` (String): Compile/evaluation error messages.
+
+---
+
+## Known Limitations
+
+- **Binary Background Transparency**: When mapping the HTML element container to a WebGL texture (e.g. using `HTMLInCanvas`), semi-transparent background colors (fractional alpha values between 0.01 and 0.99) are not preserved through the rendering pipeline. The background will render as either **0% visible** (completely transparent) or **100% visible** (fully opaque).
+
