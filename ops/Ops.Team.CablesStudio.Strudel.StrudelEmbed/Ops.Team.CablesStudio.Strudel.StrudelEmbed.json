@@ -11,6 +11,11 @@
                 "subType": "boolean"
             },
             {
+                "type": 1,
+                "name": "Update",
+                "group": "Controls"
+            },
+            {
                 "type": 0,
                 "name": "Play / Stop",
                 "group": "Controls",
@@ -170,6 +175,10 @@
             {
                 "name": "Show UI",
                 "text": "Toggle visibility of the Strudel REPL editor container."
+            },
+            {
+                "name": "Update",
+                "text": "Trigger to evaluate the current pattern code in the editor without stopping playback."
             },
             {
                 "name": "Play / Stop",

@@ -1,0 +1,125 @@
+{
+    "id": "a3b8d4f0-48e0-47b2-bdcf-8b6564e9a1c1",
+    "summary": "Convert textures and send color/grid messages to original Novation Launchpad (Mk1/Mini)",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "update"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Mode index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "MIDI Device index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Grid Size index",
+                "group": "Controls",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Brightness",
+                "group": "Controls",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Reset Device",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Clear Grid",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Scroll Text",
+                "group": "Scrolling Text"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Scroll",
+                "group": "Scrolling Text"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Speed",
+                "group": "Scrolling Text",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Character",
+                "group": "Single Character"
+            },
+            {
+                "type": 0,
+                "name": "Char Transition index",
+                "group": "Single Character",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Transition Duration",
+                "group": "Single Character",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Char Color index",
+                "group": "Single Character",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Char Rotation index",
+                "group": "Single Character",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "trigger"
+            },
+            {
+                "type": 2,
+                "name": "MIDI Messages"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "isReleased": true
+}

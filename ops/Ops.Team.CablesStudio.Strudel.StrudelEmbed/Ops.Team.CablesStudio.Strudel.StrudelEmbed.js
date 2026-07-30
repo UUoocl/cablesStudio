@@ -2,6 +2,7 @@
 // HTML Wrapped Strudel REPL Operator inside an iframe for Cables.gl
 
 const inShowUI = op.inBool("Show UI", true);
+const inUpdate = op.inTriggerButton("Update");
 const inPlay = op.inBool("Play / Stop", true);
 const inWidth = op.inFloat("Width", 800);
 const inHeight = op.inFloat("Height", 500);
@@ -40,7 +41,7 @@ const outLastEvent = op.outObject("Last Event");
 const outLastSound = op.outString("Last Sound");
 const outError = op.outString("Error");
 
-op.setPortGroup("Controls", [inShowUI, inPlay]);
+op.setPortGroup("Controls", [inShowUI, inUpdate, inPlay]);
 op.setPortGroup("Layout", [inWidth, inHeight, inOpacity]);
 op.setPortGroup("Settings", [inCode, inEnableTelemetry, inTransparent, inShowLineNumbers]);
 op.setPortGroup("Audio", [inVolume, inSoundOutput]);
@@ -799,6 +800,17 @@ function updateLineNumbers() {
   }
 }
 inShowLineNumbers.onChange = () => updateLineNumbers();
+
+inUpdate.onTriggered = () => {
+  if (replElement) {
+    replElement.setAttribute("code", inCode.get());
+    if (replElement.editor && typeof replElement.editor.setCode === "function") {
+      replElement.editor.setCode(inCode.get());
+    }
+    updatePatternOutput();
+    evaluatePattern();
+  }
+};
 
 inPlay.onChange = () => {
   if (inPlay.get()) evaluatePattern();

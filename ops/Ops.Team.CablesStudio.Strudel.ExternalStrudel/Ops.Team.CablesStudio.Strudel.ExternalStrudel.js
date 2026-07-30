@@ -3,6 +3,7 @@
 
 const inOpen = op.inTriggerButton("Open REPL Window");
 const inClose = op.inTriggerButton("Close REPL Window");
+const inUpdate = op.inTriggerButton("Update");
 const inPlay = op.inBool("Play / Stop", true);
 const inAutoOpen = op.inBool("Auto Open On Load", false);
 const inWidth = op.inFloat("Width", 1000);
@@ -41,7 +42,7 @@ const outLastEvent = op.outObject("Last Event");
 const outLastSound = op.outString("Last Sound");
 const outError = op.outString("Error");
 
-op.setPortGroup("Controls", [inOpen, inClose, inPlay]);
+op.setPortGroup("Controls", [inOpen, inClose, inUpdate, inPlay]);
 op.setPortGroup("Settings", [inAutoOpen, inWidth, inHeight, inTitle, inCode, inEnableTelemetry, inShowLineNumbers]);
 op.setPortGroup("Audio", [inVolume, inSoundOutput]);
 
@@ -796,6 +797,14 @@ async function stopPattern() {
 
 inOpen.onTriggered = () => openPopupWindow();
 inClose.onTriggered = () => closePopupWindow();
+inUpdate.onTriggered = () => {
+  if (popupWindow && !popupWindow.closed) {
+    if (typeof popupWindow.loadCode === "function") {
+      popupWindow.loadCode(inCode.get());
+    }
+    evaluatePattern();
+  }
+};
 
 inPlay.onChange = () => {
   if (inPlay.get()) evaluatePattern();
