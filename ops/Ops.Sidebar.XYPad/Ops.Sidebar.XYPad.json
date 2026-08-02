@@ -1,0 +1,148 @@
+{
+    "authorName": "pandur",
+    "id": "84f3d05f-0991-4721-88cb-66776b16a094",
+    "created": 1629451477333,
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Link"
+            },
+            {
+                "type": 5,
+                "name": "Text"
+            },
+            {
+                "type": 0,
+                "name": "Range index",
+                "values": [
+                    "0-1",
+                    "-1-1"
+                ],
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Input X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Input Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Flip X",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Set Default"
+            },
+            {
+                "type": 0,
+                "name": "Visible",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Children"
+            },
+            {
+                "type": 0,
+                "name": "X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Y",
+                "subType": "number"
+            },
+            {
+                "type": 2,
+                "name": "HTML Element",
+                "objType": "element"
+            }
+        ]
+    },
+    "summary": "2d coordinate input element",
+    "docs": {
+        "ports": [
+            {
+                "name": "Link",
+                "text": "Either a link to the sidebar or sidebar group"
+            },
+            {
+                "name": "Text",
+                "text": "The label text"
+            },
+            {
+                "name": "Children",
+                "text": "Here you can connect other sidebar ops"
+            }
+        ]
+    },
+    "changelog": [
+        {
+            "message": "cloned op from Ops.Sidebar.ColorPicker_v2",
+            "author": "pandur",
+            "date": 1629365132839
+        },
+        {
+            "message": " added lib: colorrick.js",
+            "author": "pandur",
+            "date": 1629365161529
+        },
+        {
+            "message": "Ops.User.pandur.ColorPicker2 renamed to Ops.Sidebar.ColorPicker_v3",
+            "author": "pandur",
+            "date": 1629366157692
+        },
+        {
+            "message": "cloned op from Ops.Sidebar.ColorPicker_v3",
+            "author": "pandur",
+            "date": 1629451477334
+        },
+        {
+            "message": "Ops.User.pandur.XYPad renamed to Ops.Sidebar.XYPad",
+            "author": "cables",
+            "date": 1629640022425
+        },
+        {
+            "message": "fix: also reacts on mousedown without dragging",
+            "author": "pandur",
+            "date": 1643616835193
+        },
+        {
+            "message": "react properly to disconnecting parent",
+            "author": "stephan",
+            "date": 1643888176881
+        },
+        {
+            "message": "added HTML element output of the canvas. can be used to listen to more events",
+            "type": "feature",
+            "author": "pandur",
+            "date": 1708338000568
+        },
+        {
+            "message": "added touch support via pointer events and touch-action: none",
+            "type": "feature",
+            "author": "Antigravity",
+            "date": 1785683494000
+        }
+    ],
+    "libs": [],
+    "issues": "",
+    "youtubeids": [],
+    "exampleProjectId": "0NF2FL",
+    "license": "MIT",
+    "isReleased": true
+}
