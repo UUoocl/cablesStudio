@@ -1,0 +1,102 @@
+{
+    "id": "c0326442-990a-4712-8822-771190bc7a3f",
+    "summary": "Control LEDs (knobs, buttons, navigation, transport) on the Novation LaunchControl XL mk3 MIDI controller.",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Mode index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "MIDI Device index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Target Mode index",
+                "group": "Target Selection",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Control index",
+                "group": "Individual Control",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Color Mode index",
+                "group": "Individual Control",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Palette Color",
+                "group": "Individual Control",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Red",
+                "group": "Individual Control",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Green",
+                "group": "Individual Control",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Blue",
+                "group": "Individual Control",
+                "subType": "number"
+            },
+            {
+                "type": 4,
+                "name": "Palette Array",
+                "group": "Bulk Array"
+            },
+            {
+                "type": 4,
+                "name": "RGB Array",
+                "group": "Bulk Array"
+            },
+            {
+                "type": 1,
+                "name": "Send",
+                "group": "Actions"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "MIDI Messages"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "isReleased": true
+}

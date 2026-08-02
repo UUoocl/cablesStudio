@@ -1,0 +1,98 @@
+{
+    "id": "45fbe2a0-43b8-468b-bfa2-8b839818817a",
+    "summary": "Configure Novation LaunchControl XL mk3 into DAW Mode and adjust relative faders, pickup, and touch configurations.",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Mode index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "MIDI Device index",
+                "group": "Connectivity",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "DAW Mode",
+                "group": "DAW Configuration",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Control Method index",
+                "group": "DAW Configuration",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Surface Mode index",
+                "group": "DAW Configuration",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Row 1 Relative",
+                "group": "Encoders & Features",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Row 2 Relative",
+                "group": "Encoders & Features",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Row 3 Relative",
+                "group": "Encoders & Features",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Fader Pickup",
+                "group": "Encoders & Features",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Touch Events",
+                "group": "Encoders & Features",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Send Message",
+                "group": "Actions"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "MIDI Messages"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "isReleased": true
+}
