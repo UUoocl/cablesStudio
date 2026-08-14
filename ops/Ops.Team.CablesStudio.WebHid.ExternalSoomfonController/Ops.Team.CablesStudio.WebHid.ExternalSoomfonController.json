@@ -1,0 +1,145 @@
+{
+    "id": "D92E47A3-20B1-48C9-A491-03D5E4628E11",
+    "created": 1782944200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for Ops.Team.CablesStudio.WebHid.ExternalSoomfonController",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782944200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Open Popup",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "group": "Settings",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Connection"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 2,
+                "name": "Device Info"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Key Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Knob Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Direction",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 0 Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 1 Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 2 Value",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Knob Click Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Pressed",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "summary": "Interfaces with Soomfon visual controllers via WebHID in a popup window to bypass iframe restriction constraints.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Activates the driver and opens the external WebHID helper window."
+            },
+            {
+                "name": "Open Popup",
+                "text": "Triggers or focuses the popup window for WebHID permission requests."
+            },
+            {
+                "name": "Device Index",
+                "text": "Selects which connected device to control."
+            },
+            {
+                "name": "Connection",
+                "text": "Outputs connection object for SoomfonKeyTexture / SoomfonStretchedTexture."
+            },
+            {
+                "name": "Is Connected",
+                "text": "True when connected."
+            },
+            {
+                "name": "Window Status",
+                "text": "Status of the popup window."
+            }
+        ]
+    }
+}

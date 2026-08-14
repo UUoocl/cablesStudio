@@ -1,0 +1,109 @@
+{
+    "id": "A71829B0-11E4-4D88-92A3-3112E5718291",
+    "created": 1782944500000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for Ops.Team.CablesStudio.WebHid.BmdSpeedEditor",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782944500000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Request Device",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "group": "Settings",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "Keys Pressed"
+            },
+            {
+                "type": 3,
+                "name": "Key Names"
+            },
+            {
+                "type": 5,
+                "name": "Last Key"
+            },
+            {
+                "type": 0,
+                "name": "Last Key Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned"
+            },
+            {
+                "type": 0,
+                "name": "Battery Level",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Charging",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "summary": "Interfaces with DaVinci Resolve Speed Editor using standard WebHID API.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Activates the driver."
+            },
+            {
+                "name": "Request Device",
+                "text": "Triggers browser permission picker for Speed Editor."
+            }
+        ]
+    }
+}

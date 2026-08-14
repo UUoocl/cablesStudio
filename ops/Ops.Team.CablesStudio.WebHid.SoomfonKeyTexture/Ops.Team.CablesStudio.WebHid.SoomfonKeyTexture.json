@@ -1,0 +1,93 @@
+{
+    "id": "E3A82D19-8B7C-4C9A-91D0-291759BC7C01",
+    "created": 1782944300000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for Ops.Team.CablesStudio.WebHid.SoomfonKeyTexture",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782944300000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Texture"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Target"
+            },
+            {
+                "type": 0,
+                "name": "Key Index",
+                "subType": "integer",
+                "group": "Target"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture",
+                "group": "Texture"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "subType": "number",
+                "group": "Texture"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            }
+        ]
+    },
+    "coreLibs": [
+        "cgl"
+    ],
+    "summary": "Sends a WebGL texture to a specific display key on a connected Soomfon controller via WebHID.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Render",
+                "text": "Triggers the rendering and upload pipeline."
+            },
+            {
+                "name": "Active",
+                "text": "True to run frame processing and upload, false to skip."
+            },
+            {
+                "name": "Connection",
+                "text": "Connect to Connection output port of SoomfonController or ExternalSoomfonController."
+            },
+            {
+                "name": "Key Index",
+                "text": "Index of the key display (0-5) to update."
+            },
+            {
+                "name": "Texture",
+                "text": "WebGL input texture to display."
+            },
+            {
+                "name": "JPEG Quality",
+                "text": "JPEG compression quality (0-1)."
+            },
+            {
+                "name": "Next",
+                "text": "Outward trigger cascading rendering loop."
+            }
+        ]
+    }
+}

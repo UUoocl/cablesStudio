@@ -1,0 +1,157 @@
+{
+    "id": "C817D5F3-512E-4D62-A3D9-92F0174A671B",
+    "created": 1782944100000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for Ops.Team.CablesStudio.WebHid.SoomfonController",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782944100000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Request Device",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "group": "Settings",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Connection"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 2,
+                "name": "Device Info"
+            },
+            {
+                "type": 1,
+                "name": "Key Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Key Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Pressed",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Knob Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Direction",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 0 Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 1 Value",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Knob 2 Value",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Knob Click Event"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Index",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Pressed",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "summary": "Interfaces natively with Soomfon visual controllers via standard WebHID API.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Activates the WebHID driver."
+            },
+            {
+                "name": "Request Device",
+                "text": "Triggers browser permission picker to select Soomfon device."
+            },
+            {
+                "name": "Device Index",
+                "text": "Device index selector."
+            },
+            {
+                "name": "Connection",
+                "text": "Outputs connection object for SoomfonKeyTexture / SoomfonStretchedTexture."
+            },
+            {
+                "name": "Is Connected",
+                "text": "True when connected."
+            },
+            {
+                "name": "Status",
+                "text": "Connection status string."
+            },
+            {
+                "name": "Device Info",
+                "text": "Device metadata object."
+            },
+            {
+                "name": "Key Event",
+                "text": "Fired on key press / release."
+            },
+            {
+                "name": "Knob Event",
+                "text": "Fired on knob rotation."
+            },
+            {
+                "name": "Knob Click Event",
+                "text": "Fired on knob button press."
+            }
+        ]
+    }
+}

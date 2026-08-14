@@ -1,0 +1,173 @@
+{
+    "id": "E2039182-41B0-4C91-9201-920391029412",
+    "created": 1782945200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for Ops.Team.CablesStudio.WebHid.ExternalEightBitDoXbox",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782945200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Open Popup",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "group": "Settings",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Window Status"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "A",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "B",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "X",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "LB",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "RB",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Back",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Start",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Xbox",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "LS",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "RS",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Up",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Down",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Left",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Right",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Left Stick X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Left Stick Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Right Stick X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Right Stick Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Left Trigger",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Right Trigger",
+                "subType": "number"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "summary": "Interfaces with 8BitDo Micro / Xbox Gamepad Controllers using WebHID in a popup window.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Activates driver and opens popup window."
+            },
+            {
+                "name": "Open Popup",
+                "text": "Triggers popup window for WebHID permissions."
+            }
+        ]
+    }
+}
