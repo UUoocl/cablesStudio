@@ -9,6 +9,12 @@
             "type": "new op",
             "author": "Antigravity",
             "date": 1782944900000
+        },
+        {
+            "message": "fixed USB jog wheel reporting and added LED / jog mode controls",
+            "type": "improvement",
+            "author": "Antigravity",
+            "date": 1786665600000
         }
     ],
     "layout": {
@@ -23,6 +29,29 @@
                 "type": 1,
                 "name": "Open Popup",
                 "group": "Controls"
+            },
+            {
+                "type": 3,
+                "name": "LEDs State",
+                "group": "LEDs & Mode"
+            },
+            {
+                "type": 0,
+                "name": "Button LEDs",
+                "group": "LEDs & Mode",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Jog LEDs",
+                "group": "LEDs & Mode",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Jog Mode",
+                "group": "LEDs & Mode",
+                "subType": "integer"
             },
             {
                 "type": 0,
@@ -107,6 +136,82 @@
             {
                 "name": "Open Popup",
                 "text": "Triggers popup window for WebHID permissions."
+            },
+            {
+                "name": "LEDs State",
+                "text": "Object dictionary of button LED keys and their active state (e.g. `{\"CUT\": true, \"JOG\": false}`)."
+            },
+            {
+                "name": "Button LEDs",
+                "text": "Raw bitfield for the buttons LEDs."
+            },
+            {
+                "name": "Jog LEDs",
+                "text": "Raw bitfield for the jog LEDs (Jog, Shuttle, Scroll)."
+            },
+            {
+                "name": "Jog Mode",
+                "text": "Selects the jog wheel mode (0 = relative ticks, 1 = absolute mode, etc)."
+            },
+            {
+                "name": "Device Index",
+                "text": "Index of the device to connect to if multiple are paired."
+            },
+            {
+                "name": "On Event",
+                "text": "Fires when any state, key, jog, or battery update arrives."
+            },
+            {
+                "name": "Status",
+                "text": "Connection status string."
+            },
+            {
+                "name": "Window Status",
+                "text": "Status of the popup window (Open, Closed, Blocked)."
+            },
+            {
+                "name": "Is Connected",
+                "text": "True if the Speed Editor is connected and authenticated."
+            },
+            {
+                "name": "Keys Pressed",
+                "text": "Array of raw key codes currently held down."
+            },
+            {
+                "name": "Key Names",
+                "text": "Array of friendly names of keys currently held down."
+            },
+            {
+                "name": "Last Key",
+                "text": "Name of the last key that triggered a press/release action."
+            },
+            {
+                "name": "Last Key Pressed",
+                "text": "True if the last key event was a press, false if release."
+            },
+            {
+                "name": "Key Event",
+                "text": "Fires when a key is pressed or released."
+            },
+            {
+                "name": "Jog Value",
+                "text": "Current position of the jog wheel."
+            },
+            {
+                "name": "Jog Delta",
+                "text": "Jog movement delta since last tick."
+            },
+            {
+                "name": "Jog Turned",
+                "text": "Fires when the jog wheel rotates."
+            },
+            {
+                "name": "Battery Level",
+                "text": "Battery charge level (0-100)."
+            },
+            {
+                "name": "Charging",
+                "text": "True if the device is plugged in and charging."
             }
         ]
     }

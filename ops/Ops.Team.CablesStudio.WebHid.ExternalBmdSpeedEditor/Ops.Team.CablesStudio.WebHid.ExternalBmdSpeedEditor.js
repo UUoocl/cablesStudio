@@ -8,6 +8,10 @@
 const
     inActive = op.inBool("Active", false),
     inOpenWindow = op.inTrigger("Open Popup"),
+    inLedsObj = op.inObject("LEDs State"),
+    inButtonLeds = op.inInt("Button LEDs", 0),
+    inJogLeds = op.inInt("Jog LEDs", 0),
+    inJogMode = op.inInt("Jog Mode", 0),
     inDeviceIndex = op.inInt("Device Index", 0),
 
     outEvent = op.outTrigger("On Event"),
@@ -26,11 +30,40 @@ const
     outCharging = op.outBool("Charging", false);
 
 op.setPortGroup("Controls", [inActive, inOpenWindow]);
+op.setPortGroup("LEDs & Mode", [inLedsObj, inButtonLeds, inJogLeds, inJogMode]);
 op.setPortGroup("Settings", [inDeviceIndex]);
 
 let childWindow = null;
 let windowPollInterval = null;
-let accumulatedJogValue = 0;
+
+const LED_MAP = {
+    "CLOSE_UP": 1 << 0,
+    "CUT": 1 << 1,
+    "DIS": 1 << 2,
+    "SMOOTH_CUT": 1 << 3,
+    "SMTH_CUT": 1 << 3,
+    "TRANS": 1 << 4,
+    "SNAP": 1 << 5,
+    "CAM7": 1 << 6,
+    "CAM8": 1 << 7,
+    "CAM9": 1 << 8,
+    "LIVE_OVERWRITE": 1 << 9,
+    "LIVE_OWR": 1 << 9,
+    "CAM4": 1 << 10,
+    "CAM5": 1 << 11,
+    "CAM6": 1 << 12,
+    "VIDEO_ONLY": 1 << 13,
+    "CAM1": 1 << 14,
+    "CAM2": 1 << 15,
+    "CAM3": 1 << 16,
+    "AUDIO_ONLY": 1 << 17
+};
+
+const JOG_LED_MAP = {
+    "JOG": 1 << 0,
+    "SHTL": 1 << 1,
+    "SCRL": 1 << 2
+};
 
 const POPUP_HTML = `<!DOCTYPE html>
 <html>
@@ -97,10 +130,11 @@ const POPUP_HTML = `<!DOCTYPE html>
             { vendorId: 0x1ebd }
         ];
 
-        let activeDevice = null;
+        let activeDevices = [];
         let isConnected = false;
         let prevJog = -1;
         let hasPrevJog = false;
+        let accumulatedJogValue = 0;
         let prevKeys = [];
 
         const statusEl = document.getElementById("status");
@@ -178,13 +212,47 @@ const POPUP_HTML = `<!DOCTYPE html>
             }
         }
 
+        async function setLeds(bitfield) {
+            const report = new Uint8Array([
+                bitfield & 0xff,
+                (bitfield >> 8) & 0xff,
+                (bitfield >> 16) & 0xff,
+                (bitfield >> 24) & 0xff
+            ]);
+            for (const dev of activeDevices) {
+                if (!dev.opened) continue;
+                try {
+                    await dev.sendReport(2, report);
+                } catch (e) {}
+            }
+        }
+
+        async function setJogLeds(bitfield) {
+            const report = new Uint8Array([bitfield & 0xff]);
+            for (const dev of activeDevices) {
+                if (!dev.opened) continue;
+                try {
+                    await dev.sendReport(4, report);
+                } catch (e) {}
+            }
+        }
+
+        async function setJogMode(mode) {
+            const report = new Uint8Array([mode & 0xff, 0, 0, 0, 0, 0xff]);
+            for (const dev of activeDevices) {
+                if (!dev.opened) continue;
+                try {
+                    await dev.sendReport(3, report);
+                } catch (e) {}
+            }
+        }
+
         function handleInputReport(event) {
-            if (!activeDevice) return;
             const { reportId, data } = event;
             const report = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
 
-            const rId = reportId > 0 ? reportId : report[0];
-            const payload = (reportId === 0 && report[0] === rId) ? report.subarray(1) : report;
+            const rId = reportId > 0 ? reportId : (report.length > 0 ? report[0] : 0);
+            const payload = (reportId === 0 && report.length > 0 && report[0] === rId) ? report.subarray(1) : report;
 
             // Report ID 4: Keys report (12 bytes payload: 6 uint16 keycodes)
             if (rId === 4) {
@@ -209,26 +277,31 @@ const POPUP_HTML = `<!DOCTYPE html>
             }
 
             // Report ID 3: Jog wheel report (5 bytes: mode byte + int32 value/delta)
-            if (rId === 3 || report[0] === 3) {
-                const jData = (rId === 3 && report[0] !== 3) ? report : report.subarray(1);
-                if (jData.length >= 5) {
-                    const jogMode = jData[0];
-                    const rawJv = jData[1] | (jData[2] << 8) | (jData[3] << 16) | (jData[4] << 24);
+            if (rId === 3) {
+                if (payload.length >= 5) {
+                    const jogMode = payload[0];
+                    const rawJv = payload[1] | (payload[2] << 8) | (payload[3] << 16) | (payload[4] << 24);
                     // Force signed int32 bitwise cast
                     const jv = rawJv | 0;
 
                     const isRelative = (jogMode === 0 || jogMode === 2);
                     let delta = 0;
+                    let finalValue = 0;
                     if (isRelative) {
                         delta = jv;
+                        accumulatedJogValue += delta;
+                        finalValue = accumulatedJogValue;
                     } else {
-                        if (hasPrevJog) delta = jv - prevJog;
+                        if (hasPrevJog) {
+                            delta = jv - prevJog;
+                        }
                         prevJog = jv;
                         hasPrevJog = true;
+                        finalValue = jv;
                     }
 
-                    if (delta !== 0 && window.opener && window.opener.speedEditorOpBridge_${op.id}) {
-                        window.opener.speedEditorOpBridge_${op.id}.onJogEvent(delta);
+                    if (window.opener && window.opener.speedEditorOpBridge_${op.id}) {
+                        window.opener.speedEditorOpBridge_${op.id}.onJogEvent(delta, finalValue);
                     }
                     return;
                 }
@@ -237,7 +310,9 @@ const POPUP_HTML = `<!DOCTYPE html>
             // Report ID 7: Battery report
             if (rId === 7 && payload.length >= 2) {
                 if (window.opener && window.opener.speedEditorOpBridge_${op.id}) {
-                    window.opener.speedEditorOpBridge_${op.id}.onBatteryEvent(payload[0], payload[1] !== 0);
+                    const charging = payload[0] !== 0;
+                    const level = payload[1];
+                    window.opener.speedEditorOpBridge_${op.id}.onBatteryEvent(level, charging);
                 }
                 return;
             }
@@ -247,10 +322,11 @@ const POPUP_HTML = `<!DOCTYPE html>
 
         function startAuthKeepalive() {
             stopAuthKeepalive();
-            // Re-authenticate every 5 minutes (300,000 ms), matching C++ 500-second timer
             authKeepaliveInterval = setInterval(async () => {
-                if (activeDevice && activeDevice.opened) {
-                    await authenticateDevice(activeDevice);
+                for (const dev of activeDevices) {
+                    if (dev && dev.opened) {
+                        await authenticateDevice(dev);
+                    }
                 }
             }, 300000);
         }
@@ -262,77 +338,66 @@ const POPUP_HTML = `<!DOCTYPE html>
             }
         }
 
-        async function disconnectDevice() {
+        async function disconnectDevices() {
             stopAuthKeepalive();
-            if (activeDevice) {
+            for (const dev of activeDevices) {
                 try {
-                    activeDevice.removeEventListener("inputreport", handleInputReport);
-                    if (activeDevice.opened) await activeDevice.close();
+                    dev.removeEventListener("inputreport", handleInputReport);
+                    if (dev.opened) await dev.close();
                 } catch (e) {}
             }
-            activeDevice = null;
+            activeDevices = [];
             isConnected = false;
+            prevJog = -1;
+            hasPrevJog = false;
+            accumulatedJogValue = 0;
+            prevKeys = [];
             if (window.opener && window.opener.speedEditorOpBridge_${op.id}) {
                 window.opener.speedEditorOpBridge_${op.id}.onDisconnect();
             }
         }
 
-        function isSpeedEditorControlInterface(d) {
-            if (!d.collections || d.collections.length === 0) return true;
-            const hasVendorPage = d.collections.some(c => c.usagePage >= 0xff00);
-            if (hasVendorPage) return true;
-            const isSystemKeyboard = d.collections.every(c => c.usagePage === 0x0001 || c.usagePage === 0x000c);
-            return !isSystemKeyboard;
-        }
-
         async function connectDevice(deviceIndex = 0) {
-            await disconnectDevice();
+            await disconnectDevices();
             if (!navigator.hid) { setStatus("WebHID Not Supported", "#f43f5e"); return; }
             try {
                 const devices = await navigator.hid.getDevices();
                 const bmdDevices = devices.filter(d => d.vendorId === 0x1edb || d.vendorId === 0x1ebd);
                 if (bmdDevices.length === 0) { setStatus("No paired devices found", "#eab308"); return; }
 
-                const controlDevs = bmdDevices.filter(isSpeedEditorControlInterface);
-                const candidates = controlDevs.length > 0 ? controlDevs : bmdDevices;
-
                 setStatus("Connecting...", "#3b82f6");
 
-                let activeDev = null;
-                for (const dev of candidates) {
+                const openedDevs = [];
+                for (const dev of bmdDevices) {
                     try {
                         if (!dev.opened) await dev.open();
-                        const ok = await authenticateDevice(dev);
-                        if (ok) {
-                            activeDev = dev;
-                            break;
-                        }
-                        await dev.close();
+                        await authenticateDevice(dev);
+                        dev.addEventListener("inputreport", handleInputReport);
+                        openedDevs.push(dev);
                     } catch (openErr) {
-                        console.warn("[WebHid.ExternalBmdSpeedEditor] Could not open candidate interface:", openErr.message);
-                        try { await dev.close(); } catch (_) {}
+                        console.warn("[WebHid.ExternalBmdSpeedEditor] Could not open interface:", openErr.message);
                     }
                 }
 
-                if (!activeDev) {
-                    setStatus("Authentication Failed", "#f43f5e");
-                    await disconnectDevice();
+                if (openedDevs.length === 0) {
+                    setStatus("Connection Failed: could not open interfaces", "#f43f5e");
+                    await disconnectDevices();
                     return;
                 }
 
-                activeDevice = activeDev;
-                activeDevice.addEventListener("inputreport", handleInputReport);
+                activeDevices = openedDevs;
                 startAuthKeepalive();
 
                 isConnected = true;
-                const modelName = activeDevice.productName || "Speed Editor";
-                setStatus("Connected to " + modelName, "#22c55e");
+                const modelName = activeDevices[0].productName || "Speed Editor";
+                const countStr = activeDevices.length > 1 ? " (" + activeDevices.length + " interfaces)" : "";
+                setStatus("Connected to " + modelName + countStr, "#22c55e");
                 if (window.opener && window.opener.speedEditorOpBridge_${op.id}) {
                     window.opener.speedEditorOpBridge_${op.id}.onConnect(modelName);
                 }
             } catch (e) {
                 setStatus("Connection Failed: " + e.message, "#f43f5e");
-                await disconnectDevice();
+                await disconnectDevices();
             }
         }
 
@@ -344,15 +409,68 @@ const POPUP_HTML = `<!DOCTYPE html>
             } catch (e) {}
         });
 
-        window.remoteBridge = { connect: (idx) => connectDevice(idx), disconnect: () => disconnectDevice() };
+        window.speedEditorPopupBridge = {
+            setLeds: (bitfield) => setLeds(bitfield),
+            setJogLeds: (bitfield) => setJogLeds(bitfield),
+            setJogMode: (mode) => setJogMode(mode),
+            connect: (idx) => connectDevice(idx),
+            disconnect: () => disconnectDevices()
+        };
+        window.remoteBridge = window.speedEditorPopupBridge;
+
         if (navigator.hid) {
             navigator.hid.addEventListener("connect", () => connectDevice(0));
-            navigator.hid.addEventListener("disconnect", () => disconnectDevice());
+            navigator.hid.addEventListener("disconnect", () => disconnectDevices());
         }
         connectDevice(0);
     </script>
 </body>
 </html>`;
+
+function updateLedsFromObject(obj) {
+    if (!childWindow || childWindow.closed || !childWindow.speedEditorPopupBridge || !obj || typeof obj !== "object") return;
+
+    let buttonBitfield = 0;
+    let jogBitfield = 0;
+    let hasButtonLed = false;
+    let hasJogLed = false;
+
+    for (const key in obj) {
+        const val = obj[key];
+        const active = (val === 1 || val === true || val === "1");
+
+        if (LED_MAP.hasOwnProperty(key)) {
+            hasButtonLed = true;
+            if (active) {
+                buttonBitfield |= LED_MAP[key];
+            }
+        } else if (JOG_LED_MAP.hasOwnProperty(key)) {
+            hasJogLed = true;
+            if (active) {
+                jogBitfield |= JOG_LED_MAP[key];
+            }
+        }
+    }
+
+    if (hasButtonLed) {
+        childWindow.speedEditorPopupBridge.setLeds(buttonBitfield);
+    }
+    if (hasJogLed) {
+        childWindow.speedEditorPopupBridge.setJogLeds(jogBitfield);
+    }
+}
+
+function syncControls() {
+    if (!childWindow || childWindow.closed || !childWindow.speedEditorPopupBridge) return;
+
+    if (inLedsObj.get() && typeof inLedsObj.get() === "object") {
+        updateLedsFromObject(inLedsObj.get());
+    } else {
+        childWindow.speedEditorPopupBridge.setLeds(inButtonLeds.get());
+        childWindow.speedEditorPopupBridge.setJogLeds(inJogLeds.get());
+    }
+    childWindow.speedEditorPopupBridge.setJogMode(inJogMode.get());
+}
 
 function setupOpBridge() {
     window[`speedEditorOpBridge_${op.id}`] = {
@@ -360,6 +478,7 @@ function setupOpBridge() {
         onConnect(name) {
             outIsConnected.set(true);
             outStatus.set("Connected to " + name);
+            syncControls();
         },
         onDisconnect() {
             outIsConnected.set(false);
@@ -375,10 +494,9 @@ function setupOpBridge() {
             outKeysPressed.set(keys);
             outKeyNames.set(names);
         },
-        onJogEvent(delta) {
-            accumulatedJogValue += delta;
+        onJogEvent(delta, finalVal) {
             outJogDelta.set(delta);
-            outJogValue.set(accumulatedJogValue);
+            outJogValue.set(finalVal);
             outJogTurned.trigger();
             outEvent.trigger();
         },
@@ -425,6 +543,30 @@ inOpenWindow.onTriggered = openPopupWindow;
 inActive.onChange = () => {
     if (inActive.get()) openPopupWindow();
     else if (childWindow && !childWindow.closed) childWindow.close();
+};
+
+inLedsObj.onChange = () => {
+    if (inLedsObj.get() && typeof inLedsObj.get() === "object") {
+        updateLedsFromObject(inLedsObj.get());
+    }
+};
+
+inButtonLeds.onChange = () => {
+    if (childWindow && !childWindow.closed && childWindow.speedEditorPopupBridge) {
+        childWindow.speedEditorPopupBridge.setLeds(inButtonLeds.get());
+    }
+};
+
+inJogLeds.onChange = () => {
+    if (childWindow && !childWindow.closed && childWindow.speedEditorPopupBridge) {
+        childWindow.speedEditorPopupBridge.setJogLeds(inJogLeds.get());
+    }
+};
+
+inJogMode.onChange = () => {
+    if (childWindow && !childWindow.closed && childWindow.speedEditorPopupBridge) {
+        childWindow.speedEditorPopupBridge.setJogMode(inJogMode.get());
+    }
 };
 
 op.onDelete = () => {
