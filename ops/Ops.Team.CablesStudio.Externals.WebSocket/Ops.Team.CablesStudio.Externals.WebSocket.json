@@ -1,0 +1,141 @@
+{
+    "id": "8e54cf90-0c4a-4a25-a6e1-95c5890d76fa",
+    "authorName": "Cables GL",
+    "description": "Connect to a local or remote WebSocket server via an external popup window bridge, bypassing mixed-content, HTTPS, or sandboxed iframe restrictions.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "WebSocket URL",
+                "group": "Connection"
+            },
+            {
+                "type": 5,
+                "name": "Protocols",
+                "group": "Connection"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name",
+                "group": "Connection"
+            },
+            {
+                "type": 0,
+                "name": "Auto Connect",
+                "group": "Connection",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Reconnect",
+                "group": "Connection",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Reconnect Interval (ms)",
+                "group": "Connection",
+                "subType": "integer"
+            },
+            {
+                "type": 1,
+                "name": "Open Popup",
+                "group": "Connection"
+            },
+            {
+                "type": 1,
+                "name": "Close Popup",
+                "group": "Connection"
+            },
+            {
+                "type": 1,
+                "name": "Connect",
+                "group": "Connection"
+            },
+            {
+                "type": 1,
+                "name": "Disconnect",
+                "group": "Connection"
+            },
+            {
+                "type": 1,
+                "name": "Send",
+                "group": "Send Message"
+            },
+            {
+                "type": 2,
+                "name": "Message Data",
+                "group": "Send Message"
+            },
+            {
+                "type": 5,
+                "name": "Message Text",
+                "group": "Send Message"
+            },
+            {
+                "type": 0,
+                "name": "Format",
+                "group": "Send Message",
+                "values": [
+                    "Auto",
+                    "Text / String",
+                    "JSON / Object"
+                ]
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Popup Open",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Connecting",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "On Message Received"
+            },
+            {
+                "type": 5,
+                "name": "Received Text"
+            },
+            {
+                "type": 2,
+                "name": "Received JSON"
+            },
+            {
+                "type": 1,
+                "name": "On Open"
+            },
+            {
+                "type": 1,
+                "name": "On Close"
+            },
+            {
+                "type": 1,
+                "name": "On Error"
+            },
+            {
+                "type": 0,
+                "name": "Close Code",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Close Reason"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}
