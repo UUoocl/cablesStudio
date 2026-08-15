@@ -1,0 +1,233 @@
+{
+    "id": "f4a8b72c-918d-4e92-bc2f-37e199d21c44",
+    "created": 1723746480000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "URL"
+            },
+            {
+                "type": 5,
+                "name": "Protocols"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Open Popup",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Reconnect",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Reconnect Interval",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Open Popup"
+            },
+            {
+                "type": 1,
+                "name": "Close Popup"
+            },
+            {
+                "type": 1,
+                "name": "Connect"
+            },
+            {
+                "type": 1,
+                "name": "Disconnect"
+            },
+            {
+                "type": 5,
+                "name": "Send Channel"
+            },
+            {
+                "type": 2,
+                "name": "Send Data"
+            },
+            {
+                "type": 5,
+                "name": "Send Text"
+            },
+            {
+                "type": 1,
+                "name": "Send"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Client Connection"
+            },
+            {
+                "type": 0,
+                "name": "Popup Open",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Connecting",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "On Connected"
+            },
+            {
+                "type": 1,
+                "name": "On Disconnected"
+            },
+            {
+                "type": 1,
+                "name": "On Message"
+            },
+            {
+                "type": 2,
+                "name": "Received Data"
+            },
+            {
+                "type": 5,
+                "name": "Raw Message"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "summary": "Establishes a popup bridge WebSocket client to connect to Cables Electron Standalone (e.g. HttpFileServer) from cables.gl in a Chrome browser with full pub/sub channel compatibility.",
+    "docs": {
+        "ports": [
+            {
+                "name": "URL",
+                "text": "The WebSocket server URL (e.g. ws://127.0.0.1:8080 or ws://localhost:8080)."
+            },
+            {
+                "name": "Protocols",
+                "text": "Optional subprotocol strings (comma-separated)."
+            },
+            {
+                "name": "Broadcast Channel Name",
+                "text": "Unique BroadcastChannel identifier linking the Cables patch and the popup bridge window."
+            },
+            {
+                "name": "Active",
+                "text": "Enable or disable connection."
+            },
+            {
+                "name": "Auto Open Popup",
+                "text": "Automatically opens the popup bridge window on patch load / active."
+            },
+            {
+                "name": "Auto Reconnect",
+                "text": "Automatically reconnects if the connection drops or server restarts."
+            },
+            {
+                "name": "Reconnect Interval",
+                "text": "Time in seconds to wait before attempting to reconnect."
+            },
+            {
+                "name": "Open Popup",
+                "text": "Trigger to open the popup bridge window."
+            },
+            {
+                "name": "Close Popup",
+                "text": "Trigger to close the popup bridge window."
+            },
+            {
+                "name": "Connect",
+                "text": "Trigger to connect the WebSocket."
+            },
+            {
+                "name": "Disconnect",
+                "text": "Trigger to disconnect the WebSocket."
+            },
+            {
+                "name": "Send Channel",
+                "text": "Channel name for direct sending/publishing."
+            },
+            {
+                "name": "Send Data",
+                "text": "Object payload for direct sending."
+            },
+            {
+                "name": "Send Text",
+                "text": "String payload for direct sending."
+            },
+            {
+                "name": "Send",
+                "text": "Trigger to publish the direct payload."
+            },
+            {
+                "name": "Client Connection",
+                "text": "Connection object reference compatible with WebSocketClientSub, WebSocketClientPub, WebSocketSub, or WebSocketPub ops."
+            },
+            {
+                "name": "Popup Open",
+                "text": "True when the popup window bridge is open."
+            },
+            {
+                "name": "Connected",
+                "text": "True when the WebSocket client is actively connected to the server."
+            },
+            {
+                "name": "Connecting",
+                "text": "True while the connection is being established."
+            },
+            {
+                "name": "On Connected",
+                "text": "Fires when connection is established."
+            },
+            {
+                "name": "On Disconnected",
+                "text": "Fires when connection is lost or closed."
+            },
+            {
+                "name": "On Message",
+                "text": "Fires on any incoming message received from the server."
+            },
+            {
+                "name": "Received Data",
+                "text": "Parsed JSON object or payload of the most recent message."
+            },
+            {
+                "name": "Raw Message",
+                "text": "Unparsed raw string received from the server."
+            },
+            {
+                "name": "Status",
+                "text": "Current status: 'connected', 'connecting', 'disconnected', 'popup open', 'popup closed', or 'error'."
+            },
+            {
+                "name": "Error",
+                "text": "Last error message if an error occurs."
+            }
+        ]
+    },
+    "isReleased": true
+}

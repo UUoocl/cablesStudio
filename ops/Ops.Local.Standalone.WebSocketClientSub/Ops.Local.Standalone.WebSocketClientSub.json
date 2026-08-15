@@ -1,0 +1,110 @@
+{
+    "id": "0d8f54b7-73d2-48d7-a8fa-b23dbbfab0b1",
+    "created": 1724238219450,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Client Connection"
+            },
+            {
+                "type": 5,
+                "name": "Channel"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Parse JSON",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Message"
+            },
+            {
+                "type": 5,
+                "name": "Message Channel"
+            },
+            {
+                "type": 2,
+                "name": "Data"
+            },
+            {
+                "type": 5,
+                "name": "Raw Message"
+            },
+            {
+                "type": 5,
+                "name": "Sender Client ID"
+            },
+            {
+                "type": 0,
+                "name": "Total Received",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Timestamp",
+                "subType": "number"
+            }
+        ]
+    },
+    "summary": "Subscribes a client Cables patch to a WebSocket channel/topic on a remote or localhost WebSocket server.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Client Connection",
+                "text": "The Client Connection object from Ops.Local.Standalone.WebSocketClient."
+            },
+            {
+                "name": "Channel",
+                "text": "The channel/topic to subscribe to. Use '*' to receive all messages."
+            },
+            {
+                "name": "Active",
+                "text": "Enable or disable message reception for this subscription."
+            },
+            {
+                "name": "Auto Parse JSON",
+                "text": "Automatically parses string payloads into JavaScript objects."
+            },
+            {
+                "name": "On Message",
+                "text": "Fires whenever a matching message arrives."
+            },
+            {
+                "name": "Message Channel",
+                "text": "The actual channel name of the received message."
+            },
+            {
+                "name": "Data",
+                "text": "The parsed data payload (object, array, string, number)."
+            },
+            {
+                "name": "Raw Message",
+                "text": "The raw string representation of the payload."
+            },
+            {
+                "name": "Sender Client ID",
+                "text": "ID of the client that sent this message ('patch' if emitted internally by the host)."
+            },
+            {
+                "name": "Total Received",
+                "text": "Cumulative count of messages received on this subscription."
+            },
+            {
+                "name": "Timestamp",
+                "text": "Timestamp when the message was dispatched."
+            }
+        ]
+    },
+    "isReleased": true
+}

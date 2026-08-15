@@ -1,0 +1,142 @@
+{
+    "id": "b37e114d-81bd-43af-a283-2ccf0b21cb69",
+    "created": 1724238219400,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "URL"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Reconnect",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Reconnect Interval",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Connect"
+            },
+            {
+                "type": 1,
+                "name": "Disconnect"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Client Connection"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "On Connected"
+            },
+            {
+                "type": 1,
+                "name": "On Disconnected"
+            },
+            {
+                "type": 1,
+                "name": "On Message"
+            },
+            {
+                "type": 2,
+                "name": "Received Data"
+            },
+            {
+                "type": 5,
+                "name": "Raw Message"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "summary": "Connects a Cables patch as a client to a WebSocket server broker with automatic reconnection and channel pub/sub management.",
+    "docs": {
+        "ports": [
+            {
+                "name": "URL",
+                "text": "The WebSocket server URL (e.g. ws://localhost:8080 or ws://192.168.1.10:8080)."
+            },
+            {
+                "name": "Active",
+                "text": "Enable or disable connection."
+            },
+            {
+                "name": "Auto Reconnect",
+                "text": "Automatically reconnect if the connection drops or the server restarts."
+            },
+            {
+                "name": "Reconnect Interval",
+                "text": "Time in seconds to wait before attempting to reconnect."
+            },
+            {
+                "name": "Connect",
+                "text": "Trigger manual connection attempt."
+            },
+            {
+                "name": "Disconnect",
+                "text": "Trigger manual disconnection."
+            },
+            {
+                "name": "Client Connection",
+                "text": "Connection object reference to pass to WebSocketClientSub, WebSocketClientPub, WebSocketSub, or WebSocketPub ops."
+            },
+            {
+                "name": "Connected",
+                "text": "True when the client is actively connected to the server."
+            },
+            {
+                "name": "On Connected",
+                "text": "Fires when connection is successfully established."
+            },
+            {
+                "name": "On Disconnected",
+                "text": "Fires when disconnected from the server."
+            },
+            {
+                "name": "On Message",
+                "text": "Fires on any incoming message from the server."
+            },
+            {
+                "name": "Received Data",
+                "text": "Parsed JSON object/payload of the most recent message."
+            },
+            {
+                "name": "Raw Message",
+                "text": "Unparsed raw string received from the server."
+            },
+            {
+                "name": "Status",
+                "text": "Current connection status: 'connected', 'connecting', 'disconnected', or 'error'."
+            },
+            {
+                "name": "Error",
+                "text": "Last error message if a connection error occurs."
+            }
+        ]
+    },
+    "isReleased": true
+}

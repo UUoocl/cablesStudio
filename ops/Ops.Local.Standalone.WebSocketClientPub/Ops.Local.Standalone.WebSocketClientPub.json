@@ -1,0 +1,102 @@
+{
+    "id": "a3e8d092-126d-4a5f-b71a-5c4f29d345d5",
+    "created": 1724238219500,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "Client Connection"
+            },
+            {
+                "type": 5,
+                "name": "Channel"
+            },
+            {
+                "type": 2,
+                "name": "Data"
+            },
+            {
+                "type": 1,
+                "name": "Publish"
+            },
+            {
+                "type": 5,
+                "name": "Target Client ID"
+            },
+            {
+                "type": 0,
+                "name": "Send to All Clients",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Send to All Channels",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Retain",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Published"
+            },
+            {
+                "type": 0,
+                "name": "Success",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "summary": "Publishes messages and data payloads to a WebSocket channel/topic from a client Cables patch.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Client Connection",
+                "text": "The Client Connection object from Ops.Local.Standalone.WebSocketClient."
+            },
+            {
+                "name": "Channel",
+                "text": "Name of the channel/topic to publish this message to."
+            },
+            {
+                "name": "Data",
+                "text": "The payload (object, array, string, number) to publish."
+            },
+            {
+                "name": "Publish",
+                "text": "Trigger to publish the data."
+            },
+            {
+                "name": "Target Client ID",
+                "text": "Optional specific client ID for direct unicast messaging."
+            },
+            {
+                "name": "Send to All Clients",
+                "text": "Broadcasts this message to all connected clients."
+            },
+            {
+                "name": "Send to All Channels",
+                "text": "Broadcasts this message across all channels/topics."
+            },
+            {
+                "name": "Retain",
+                "text": "If true, requests the broker to retain this message for new subscribers."
+            },
+            {
+                "name": "On Published",
+                "text": "Fires when the message is sent over the WebSocket connection."
+            },
+            {
+                "name": "Success",
+                "text": "True if the message was successfully dispatched."
+            }
+        ]
+    },
+    "isReleased": true
+}
