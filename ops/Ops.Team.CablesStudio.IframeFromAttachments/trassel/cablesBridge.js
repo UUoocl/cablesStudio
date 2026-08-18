@@ -35,6 +35,15 @@ function handleMode(mode) {
     }
 }
 
+function handleButton(btn) {
+    if (btn === undefined || btn === null) return;
+    if (typeof window.handleButtonInput === "function") {
+        window.handleButtonInput(btn);
+    } else if (typeof window.cycleMode === "function") {
+        window.cycleMode();
+    }
+}
+
 function handleReset() {
     if (typeof window.resetSketch === "function") {
         window.resetSketch();
@@ -80,27 +89,34 @@ channel.onmessage = (e) => {
         handleScroll(s.scrollY !== undefined ? s.scrollY : s.dy);
     }
 
-    // C. Mode switch or button triggers
+    // C. Mode switch
     if (data.mode !== undefined) {
         handleMode(data.mode);
-    } else if (data.button !== undefined && Number(data.button) > 0) {
-        if (typeof window.cycleMode === "function") {
-            window.cycleMode();
-        }
     }
 
-    // D. Reset
+    // D. Button triggers
+    if (data.button !== undefined) {
+        handleButton(data.button);
+    } else if (data.mouseButton !== undefined) {
+        const btn = typeof data.mouseButton === "object" && data.mouseButton !== null ? data.mouseButton.button : data.mouseButton;
+        handleButton(btn);
+    }
+
+    // E. Reset
     if (data.reset || data.type === "RESET") {
         handleReset();
     }
 
-    // E. Cables SET_VAR format
+    // F. Cables SET_VAR format
     if (data.type === "SET_VAR") {
         if (data.key === "mouseScrollY" || data.key === "scrollY") {
             const val = typeof data.value === "object" && data.value !== null ? (data.value.scrollY || data.value.dy) : data.value;
             handleScroll(val);
         } else if (data.key === "mode") {
             handleMode(data.value);
+        } else if (data.key === "button" || data.key === "mouseButton") {
+            const btn = typeof data.value === "object" && data.value !== null ? data.value.button : data.value;
+            handleButton(btn);
         } else if (data.key === "width") {
             handleDimension(data.value, window.SCENE_HEIGHT);
         } else if (data.key === "height") {
@@ -108,7 +124,7 @@ channel.onmessage = (e) => {
         }
     }
 
-    // F. Cables SET_VARS batch format
+    // G. Cables SET_VARS batch format
     if (data.type === "SET_VARS" && data.vars) {
         const vars = data.vars;
         if (vars.scrollY !== undefined) {
@@ -121,6 +137,12 @@ channel.onmessage = (e) => {
         }
         if (vars.mode !== undefined) {
             handleMode(vars.mode);
+        }
+        if (vars.button !== undefined) {
+            handleButton(vars.button);
+        } else if (vars.mouseButton !== undefined) {
+            const btn = typeof vars.mouseButton === "object" && vars.mouseButton !== null ? vars.mouseButton.button : vars.mouseButton;
+            handleButton(btn);
         }
         if (vars.width !== undefined || vars.height !== undefined) {
             handleDimension(vars.width, vars.height);

@@ -1,6 +1,6 @@
 /**
  * Trassel Generative Brush Art
- * Adapted for Cables.gl IframeFromAttachments (BroadcastChannel Mode)
+ * Adapted for Cables.gl IframeFromAttachments (High-Performance 4-Mode BroadcastChannel Mode)
  */
 
 (function () {
@@ -8,10 +8,10 @@
     const body = document.body;
 
     const modes = [
-        { id: 'brush', t: 0 },
-        { id: 'line', t: 0 },
-        { id: 'dash', t: 4 },
-        { id: 'worm', t: 4 }
+        { id: 'brush', t: 0, name: 'Brush Ribbon' },
+        { id: 'line', t: 0, name: 'Solid Line' },
+        { id: 'dash', t: 4, name: 'Cross Hatch Dash' },
+        { id: 'worm', t: 4, name: 'Beaded Worm' }
     ];
 
     let width = window.innerWidth || 1280;
@@ -36,6 +36,7 @@
     let virtualScrollTop = 0;
     let currentTop = 0;
     let lastTop = -1;
+    let currentModeIndex = 0;
     let currentMode = modes[0];
     let scrollMultiplier = 3.0;
 
@@ -129,6 +130,7 @@
                 trailsContext.beginPath();
 
                 if (currentMode.id === 'brush') {
+                    // Mode 1: Flowing smooth tapered ribbon
                     trailsContext.moveTo(p1.x - p1.w / 2, y1);
                     trailsContext.quadraticCurveTo(
                         p2.x - p2.w / 2, y2,
@@ -139,15 +141,19 @@
                         p2.x + p2.w / 2, y2,
                         p1.x + p1.w / 2, y1
                     );
+                    trailsContext.closePath();
                     trailsContext.fillStyle = brush.color;
                     trailsContext.fill();
                 } else if (currentMode.id === 'line') {
+                    // Mode 2: Solid smooth vector line
                     trailsContext.moveTo(p1.x, y1);
                     trailsContext.quadraticCurveTo(p2.x, y2, p3.x, y3);
                     trailsContext.strokeStyle = brush.color;
-                    trailsContext.lineWidth = 4;
+                    trailsContext.lineWidth = Math.max(3, p2.w * 0.35);
+                    trailsContext.lineCap = 'round';
                     trailsContext.stroke();
                 } else if (currentMode.id === 'dash') {
+                    // Mode 3: Cross-hatch angled dashes
                     if (p1.x < p3.x) {
                         trailsContext.moveTo(p3.x - p3.w / 2, y3);
                         trailsContext.lineTo(p1.x + p1.w / 2, y1);
@@ -156,19 +162,12 @@
                         trailsContext.lineTo(p1.x - p1.w / 2, y1);
                     }
                     trailsContext.strokeStyle = brush.color;
-                    trailsContext.lineWidth = 2;
+                    trailsContext.lineWidth = 2.5;
                     trailsContext.stroke();
                 } else if (currentMode.id === 'worm') {
-                    trailsContext.moveTo(p1.x - p1.w / 2, y1);
-                    trailsContext.quadraticCurveTo(
-                        p2.x - p2.w / 2, y2,
-                        p3.x - p3.w / 2, y3
-                    );
-                    trailsContext.lineTo(p3.x + p3.w / 2, y3);
-                    trailsContext.quadraticCurveTo(
-                        p2.x + p2.w / 2, y2,
-                        p1.x + p1.w / 2, y1
-                    );
+                    // Mode 4: Segmented circular beads / dots
+                    const radius = Math.max(2, p3.w * 0.45);
+                    trailsContext.arc(p3.x, y3, radius, 0, Math.PI * 2);
                     trailsContext.fillStyle = brush.color;
                     trailsContext.fill();
                 }
@@ -223,12 +222,48 @@
     };
 
     window.cycleMode = function () {
-        currentMode = modes[(modes.indexOf(currentMode) + 1) % modes.length];
+        currentModeIndex = (currentModeIndex + 1) % modes.length;
+        currentMode = modes[currentModeIndex];
+        console.log(`%c[trassel] Mode cycled to [${currentModeIndex + 1}/4]: ${currentMode.id} (${currentMode.name})`, "color: #00ffea; font-weight: bold;");
     };
 
-    window.setMode = function (modeId) {
-        const found = modes.find(m => m.id === String(modeId).toLowerCase());
-        if (found) currentMode = found;
+    window.setMode = function (modeInput) {
+        if (typeof modeInput === 'number') {
+            let idx = modeInput;
+            if (idx >= 1 && idx <= 4) {
+                idx = idx - 1; // Convert 1-based index (1..4) to 0-based
+            }
+            idx = ((idx % modes.length) + modes.length) % modes.length;
+            currentModeIndex = idx;
+            currentMode = modes[currentModeIndex];
+        } else if (typeof modeInput === 'string') {
+            const clean = modeInput.toLowerCase().trim();
+            const num = parseInt(clean, 10);
+            if (!isNaN(num)) {
+                let idx = num;
+                if (idx >= 1 && idx <= 4) idx = idx - 1;
+                idx = ((idx % modes.length) + modes.length) % modes.length;
+                currentModeIndex = idx;
+                currentMode = modes[currentModeIndex];
+            } else {
+                const foundIdx = modes.findIndex(m => m.id === clean);
+                if (foundIdx !== -1) {
+                    currentModeIndex = foundIdx;
+                    currentMode = modes[foundIdx];
+                }
+            }
+        }
+        console.log(`%c[trassel] Mode set to [${currentModeIndex + 1}/4]: ${currentMode.id} (${currentMode.name})`, "color: #ff00ea; font-weight: bold;");
+    };
+
+    window.handleButtonInput = function (btn) {
+        const num = Number(btn);
+        if (!isNaN(num) && num >= 1 && num <= 4) {
+            // Button 1..4 maps directly to Mode 1..4
+            window.setMode(num);
+        } else {
+            window.cycleMode();
+        }
     };
 
     window.resetSketch = function () {

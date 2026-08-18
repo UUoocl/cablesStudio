@@ -5,33 +5,52 @@ This directory contains the **Trassel** generative thread/brush painting animati
 ## Files
 
 - [index.html](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Team.CablesStudio.IframeFromAttachments/trassel/index.html): Main HTML entry point.
-- [cablesBridge.js](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Team.CablesStudio.IframeFromAttachments/trassel/cablesBridge.js): BroadcastChannel listener receiving `mouseScrollY`, mode changes, and resize events.
-- [trassel.js](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Team.CablesStudio.IframeFromAttachments/trassel/trassel.js): Generative brush art engine utilizing infinite virtual scrolling.
+- [cablesBridge.js](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Team.CablesStudio.IframeFromAttachments/trassel/cablesBridge.js): BroadcastChannel listener receiving `mouseScrollY`, mode changes, button triggers, and resize events.
+- [trassel.js](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Team.CablesStudio.IframeFromAttachments/trassel/trassel.js): Generative brush art engine supporting 4 distinct visual styles and infinite virtual scrolling.
 
-## How it works
+## 4 Available Rendering Modes
 
-The sketch runs in pure **BroadcastChannel** mode (default channel: `cables_iframe_channel`). Messages can be sent from a Cables patch via `Ops.Team.CablesStudio.BroadcastChannel.BroadcastChannelSend` or `IframeFromAttachments`.
+| Mode Index | Mode ID | Mode Name | Style Description | Button Number |
+| :---: | :---: | :---: | :---: | :---: |
+| `0` | `"brush"` | **Brush Ribbon** | Smooth, flowing tapered ribbons with organic fill | `button: 1` |
+| `1` | `"line"` | **Solid Line** | Crisp continuous smooth vector line | `button: 2` |
+| `2` | `"dash"` | **Cross Hatch Dash** | Dynamic angled diagonal dashed cross-hatching | `button: 3` |
+| `3` | `"worm"` | **Beaded Worm** | Segmented circular bead dots / caterpillar chain | `button: 4` |
 
-### Supported Broadcast Messages
+---
+
+## Supported Broadcast Messages
 
 #### 1. Mouse Scroll / Wheel Delta (`mouseScrollY`)
-Advances the generative painting threads based on the scroll velocity:
+Advances the generative painting threads:
 ```json
 {
   "scrollY": 8.788436889648438
 }
 ```
 
-#### 2. Mode Change (`mode`)
-Switches brush rendering style (`brush`, `line`, `dash`, `worm`):
+#### 2. Direct Mode Selection (`mode`)
+Set mode by name (`"brush"`, `"line"`, `"dash"`, `"worm"`) or 1-based / 0-based number:
 ```json
 {
-  "mode": "line"
+  "mode": "dash"
 }
 ```
-*(Or send `{ "button": 1 }` to cycle to the next mode)*
 
-#### 3. Reset (`reset`)
+#### 3. Button Mode Mapping / Cycling (`button`)
+- Send `button: 1` to switch to **Brush Ribbon**
+- Send `button: 2` to switch to **Solid Line**
+- Send `button: 3` to switch to **Cross Hatch Dash**
+- Send `button: 4` to switch to **Beaded Worm**
+- Or send repeating button pulses to cycle through all 4 modes sequentially (1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 1).
+
+```json
+{
+  "button": 3
+}
+```
+
+#### 4. Reset (`reset`)
 Clears existing canvas lines and re-initializes brushes:
 ```json
 {
@@ -47,4 +66,4 @@ Clears existing canvas lines and re-initializes brushes:
    - `index.html`
    - `cablesBridge.js`
    - `trassel.js`
-4. Use `BroadcastChannelSend` (Channel: `cables_iframe_channel`) to post event objects (`{ "scrollY": ... }`).
+4. Use `BroadcastChannelSend` (Channel: `cables_iframe_channel`) to post event objects (`{ "scrollY": ... }`, `{ "button": ... }`, `{ "mode": ... }`).
