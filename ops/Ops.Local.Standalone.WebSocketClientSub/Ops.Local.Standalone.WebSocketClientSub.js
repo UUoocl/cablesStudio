@@ -45,7 +45,8 @@ const handleMessage = (msgObj) =>
     }
 
     outData.set(payload);
-    outRaw.set(typeof msgObj.data === "object" ? JSON.stringify(msgObj.data) : String(msgObj.data));
+    const rawStr = msgObj.raw !== undefined ? String(msgObj.raw) : (typeof msgObj.data === "object" ? JSON.stringify(msgObj.data) : String(msgObj.data));
+    outRaw.set(rawStr);
 
     outMessage.trigger();
 };

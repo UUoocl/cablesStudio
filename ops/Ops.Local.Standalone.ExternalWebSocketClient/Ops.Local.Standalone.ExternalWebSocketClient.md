@@ -54,6 +54,7 @@ It exports a standard `Client Connection` object (`outConnection`), making it co
 - **`Reconnect Interval`**: Time in seconds between reconnect attempts.
 - **`Open Popup` / `Close Popup`**: Manual popup window controls.
 - **`Connect` / `Disconnect`**: Manual WebSocket connection triggers.
+- **`Enable Message Log`**: Toggle packet logging in the popup bridge window. Keep disabled for high-FPS streaming performance (e.g. 20-60 FPS mouse/sensor data).
 - **`Send Channel` / `Send Data` / `Send Text` / `Send`**: Direct publishing ports.
 
 ### Outputs

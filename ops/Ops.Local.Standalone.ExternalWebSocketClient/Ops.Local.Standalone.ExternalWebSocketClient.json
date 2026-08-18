@@ -54,6 +54,11 @@
                 "name": "Disconnect"
             },
             {
+                "type": 0,
+                "name": "Enable Message Log",
+                "subType": "boolean"
+            },
+            {
                 "type": 5,
                 "name": "Send Channel"
             },
@@ -166,6 +171,10 @@
             {
                 "name": "Disconnect",
                 "text": "Trigger to disconnect the WebSocket."
+            },
+            {
+                "name": "Enable Message Log",
+                "text": "Toggle packet logging in the popup bridge window. Keep disabled for high-FPS streaming performance (e.g. 20-60 FPS mouse/sensor data)."
             },
             {
                 "name": "Send Channel",

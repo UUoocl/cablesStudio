@@ -11,6 +11,9 @@ const
     inConnect = op.inTriggerButton("Connect"),
     inDisconnect = op.inTriggerButton("Disconnect"),
 
+    // Diagnostics / Performance
+    inEnablePopupLog = op.inBool("Enable Message Log", false),
+
     // Direct Send ports for convenience
     inSendChannel = op.inString("Send Channel", "message"),
     inSendData = op.inObject("Send Data", null),
@@ -35,6 +38,7 @@ op.setPortGroup("Connection", [
     inAutoOpen, inAutoReconnect, inReconnectInterval,
     inOpen, inClose, inConnect, inDisconnect
 ]);
+op.setPortGroup("Diagnostics", [inEnablePopupLog]);
 op.setPortGroup("Direct Send", [inSendChannel, inSendData, inSendText, inSend]);
 
 outConnection.ignoreValueSerialize = true;
@@ -443,6 +447,9 @@ const templateHtml = `<!DOCTYPE html>
         <button id="btn-clear">Clear Log</button>
         <div style="flex-grow: 1;"></div>
         <label style="font-size: 0.75rem; color: #94a3b8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" id="chk-enable-log"> Log Messages
+        </label>
+        <label style="font-size: 0.75rem; color: #94a3b8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
             <input type="checkbox" id="chk-autoscroll" checked> Auto-scroll
         </label>
     </div>
@@ -481,6 +488,9 @@ const templateHtml = `<!DOCTYPE html>
         let rxCount = 0;
         let txCount = 0;
         let intentionalClose = false;
+        let enableMessageLog = false;
+        let updateStatsPending = false;
+        const MAX_LOG_ROWS = 100;
         const activeSubscriptions = new Set();
 
         const logContainer = document.getElementById("log");
@@ -490,9 +500,21 @@ const templateHtml = `<!DOCTYPE html>
         const statRx = document.getElementById("stat-rx");
         const statTx = document.getElementById("stat-tx");
         const subsListEl = document.getElementById("subs-list");
+        const chkEnableLog = document.getElementById("chk-enable-log");
         const chkAutoscroll = document.getElementById("chk-autoscroll");
         const inputChannel = document.getElementById("input-channel");
         const inputTest = document.getElementById("input-test");
+
+        function scheduleStatsUpdate() {
+            if (!updateStatsPending) {
+                updateStatsPending = true;
+                requestAnimationFrame(() => {
+                    statRx.innerText = rxCount + " msgs";
+                    statTx.innerText = txCount + " msgs";
+                    updateStatsPending = false;
+                });
+            }
+        }
 
         function updateSubsUI() {
             if (activeSubscriptions.size === 0) {
@@ -509,6 +531,15 @@ const templateHtml = `<!DOCTYPE html>
         }
 
         function log(msg, tag = "SYS") {
+            const isDataPacket = (tag === "IN" || tag === "OUT" || tag === "PUB");
+            if (isDataPacket && !enableMessageLog) {
+                return;
+            }
+
+            while (logContainer.children.length >= MAX_LOG_ROWS) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+
             const row = document.createElement("div");
             row.className = "log-row";
 
@@ -611,7 +642,7 @@ const templateHtml = `<!DOCTYPE html>
 
                 ws.onmessage = (evt) => {
                     rxCount++;
-                    statRx.innerText = rxCount + " msgs";
+                    scheduleStatsUpdate();
 
                     let rawData = evt.data;
                     let rawStr = rawData !== undefined ? String(rawData) : "";
@@ -691,7 +722,7 @@ const templateHtml = `<!DOCTYPE html>
                 const str = typeof payload === "string" ? payload : JSON.stringify(payload);
                 ws.send(str);
                 txCount++;
-                statTx.innerText = txCount + " msgs";
+                scheduleStatsUpdate();
                 return true;
             } catch (err) {
                 log("Send failed: " + err.message, "ERR");
@@ -737,6 +768,14 @@ const templateHtml = `<!DOCTYPE html>
             log("Log cleared.", "SYS");
         };
 
+        chkEnableLog.onchange = () => {
+            enableMessageLog = chkEnableLog.checked;
+            bc.postMessage({
+                type: "toggle_log",
+                enabled: enableMessageLog
+            });
+        };
+
         function submitTestMessage() {
             const ch = inputChannel.value.trim() || "message";
             const val = inputTest.value.trim();
@@ -779,6 +818,10 @@ const templateHtml = `<!DOCTYPE html>
                 case "connect":
                     if (msg.autoReconnect !== undefined) autoReconnect = msg.autoReconnect;
                     if (msg.reconnectInterval !== undefined) reconnectInterval = msg.reconnectInterval;
+                    if (msg.enableMessageLog !== undefined) {
+                        enableMessageLog = Boolean(msg.enableMessageLog);
+                        chkEnableLog.checked = enableMessageLog;
+                    }
                     if (Array.isArray(msg.subscriptions)) {
                         msg.subscriptions.forEach(s => activeSubscriptions.add(s));
                         updateSubsUI();
@@ -836,6 +879,10 @@ const templateHtml = `<!DOCTYPE html>
                 case "config":
                     if (msg.autoReconnect !== undefined) autoReconnect = msg.autoReconnect;
                     if (msg.reconnectInterval !== undefined) reconnectInterval = msg.reconnectInterval;
+                    if (msg.enableMessageLog !== undefined) {
+                        enableMessageLog = Boolean(msg.enableMessageLog);
+                        chkEnableLog.checked = enableMessageLog;
+                    }
                     if (msg.url && msg.url !== targetUrl) {
                         targetUrl = msg.url;
                         statUrl.innerText = targetUrl;
@@ -962,6 +1009,7 @@ function sendConfigToPopup(triggerConnect = false) {
         const protocols = inProtocols.get();
         const autoRec = inAutoReconnect.get();
         const interval = Math.max(0.5, inReconnectInterval.get()) * 1000;
+        const enableLog = inEnablePopupLog.get();
         const subsArray = Array.from(clientInstance.subscriptions);
 
         if (triggerConnect) {
@@ -971,6 +1019,7 @@ function sendConfigToPopup(triggerConnect = false) {
                 "protocols": protocols,
                 "autoReconnect": autoRec,
                 "reconnectInterval": interval,
+                "enableMessageLog": enableLog,
                 "subscriptions": subsArray
             });
         } else {
@@ -979,7 +1028,8 @@ function sendConfigToPopup(triggerConnect = false) {
                 "url": url,
                 "protocols": protocols,
                 "autoReconnect": autoRec,
-                "reconnectInterval": interval
+                "reconnectInterval": interval,
+                "enableMessageLog": enableLog
             });
         }
     }
@@ -999,6 +1049,12 @@ function setupBroadcastChannel() {
         switch (msg.type) {
             case "ready":
                 sendConfigToPopup(inActive.get());
+                break;
+
+            case "toggle_log":
+                if (msg.enabled !== undefined && inEnablePopupLog.get() !== msg.enabled) {
+                    inEnablePopupLog.set(msg.enabled);
+                }
                 break;
 
             case "status":
@@ -1188,6 +1244,7 @@ inUrl.onChange = () => sendConfigToPopup(false);
 inProtocols.onChange = () => sendConfigToPopup(false);
 inAutoReconnect.onChange = () => sendConfigToPopup(false);
 inReconnectInterval.onChange = () => sendConfigToPopup(false);
+inEnablePopupLog.onChange = () => sendConfigToPopup(false);
 
 inChannelName.onChange = () => {
     setupBroadcastChannel();
@@ -1227,3 +1284,4 @@ op.onDelete = () => {
 if (inActive.get() && inAutoOpen.get()) {
     openPopup();
 }
+
