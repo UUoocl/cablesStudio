@@ -1,0 +1,149 @@
+{
+    "id": "e93a0b12-9c44-4821-b328-98e9bfa38699",
+    "created": 1787388000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "summary": "Opens a standalone Electron window with transparent Google Slides rendering, color-keyed background removal, and BroadcastChannel incremental navigation controls.",
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "changelog": [
+        {
+            "message": "op created as Ops.Extension.Standalone.Google.ExternalGoogleSlides with clean webview popout, background color stripping, and incremental wheel navigation",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1787388000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Presentation URL",
+                "group": "Presentation"
+            },
+            {
+                "type": 5,
+                "name": "Background Color to Remove",
+                "group": "Presentation"
+            },
+            {
+                "type": 1,
+                "name": "Remove Background Color",
+                "group": "Presentation"
+            },
+            {
+                "type": 1,
+                "name": "Open Window",
+                "group": "Window"
+            },
+            {
+                "type": 1,
+                "name": "Close Window",
+                "group": "Window"
+            },
+            {
+                "type": 1,
+                "name": "Next Slide",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Previous Slide",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel Name",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Window Title",
+                "group": "Window"
+            },
+            {
+                "type": 0,
+                "name": "Transparent Window",
+                "group": "Window",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Frameless Window",
+                "group": "Window",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Open",
+                "group": "Window",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Window Width",
+                "group": "Window",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Height",
+                "group": "Window",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window X",
+                "group": "Window",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Window Y",
+                "group": "Window",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Window Opened"
+            },
+            {
+                "type": 1,
+                "name": "On Window Closed"
+            },
+            {
+                "type": 1,
+                "name": "On Next Received"
+            },
+            {
+                "type": 1,
+                "name": "On Previous Received"
+            },
+            {
+                "type": 0,
+                "name": "Is Window Open",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Current Slide",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Broadcast Channel"
+            },
+            {
+                "type": 5,
+                "name": "Current URL"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}

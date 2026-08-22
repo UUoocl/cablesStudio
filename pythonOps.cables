@@ -1,0 +1,191 @@
+{
+    "_id": "6a84f8ceed28ffce0affe325",
+    "shortId": "rDIkHs",
+    "name": "pythonOps",
+    "description": "",
+    "userId": "6a84f8ce76b9a0355f10b104",
+    "cachedUsername": "",
+    "created": 1787099342160,
+    "updated": 1787099645663,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "a1b2c3d4-1111-4444-aaaa-000000000001",
+            "id": "uy1t62zd1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -454,
+                    "y": -638.7361164304864
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Python Install Location",
+                    "value": "/usr/bin/python3"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Found: Python 3.9.6"
+                },
+                {
+                    "name": "Found",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "opId": "a1b2c3d4-2222-4444-aaaa-000000000002",
+            "id": "qccxal91e",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -454,
+                    "y": -574.7759479126771
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Script Location",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Local.Python/Ops.Extension.Standalone.PythonGlobalMouseMonitor/python_script/mouse_monitor_cables.py"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Pos X",
+                    "value": 2745
+                },
+                {
+                    "name": "Pos Y",
+                    "value": -14
+                },
+                {
+                    "name": "Button",
+                    "value": 1
+                },
+                {
+                    "name": "Button Is Down",
+                    "value": false
+                },
+                {
+                    "name": "Button Is Up",
+                    "value": true
+                },
+                {
+                    "name": "Scroll Delta X",
+                    "value": 0
+                },
+                {
+                    "name": "Scroll Delta Y",
+                    "value": 0
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a84f8ce76b9a0355f10b104",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1787099342160
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -241.69259862121805,
+                "y": -490.1919157608695,
+                "z": 1200
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "pythonOps"
+    },
+    "opsHash": "ae67ef96918f66f09740bfd605235bb7072b0fdf",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1786848767833,
+            "created": "2026-08-16T02:52:47.833Z",
+            "git": {
+                "branch": "main",
+                "commit": "c65683f047a7024ebad874402c9830ff963b8377",
+                "date": "1786848219",
+                "message": "refactor: migrate and namespace standalone operations under Ops.Local.Standalone.Server and add ws library dependency"
+            }
+        },
+        "ui": {
+            "timestamp": 1786848773291,
+            "created": "2026-08-16T02:52:53.291Z",
+            "git": {
+                "branch": "main",
+                "commit": "c65683f047a7024ebad874402c9830ff963b8377",
+                "date": "1786848219",
+                "message": "refactor: migrate and namespace standalone operations under Ops.Local.Standalone.Server and add ws library dependency"
+            }
+        },
+        "api": {
+            "timestamp": 1786848796559,
+            "created": "2026-08-16T02:53:16.559Z",
+            "git": {
+                "branch": "main",
+                "commit": "c65683f047a7024ebad874402c9830ff963b8377",
+                "date": "1786848219",
+                "message": "refactor: migrate and namespace standalone operations under Ops.Local.Standalone.Server and add ws library dependency"
+            },
+            "platform": {
+                "os": ":mac",
+                "npm": "11.16.0",
+                "node": "24.18.1"
+            }
+        }
+    },
+    "updatedByUser": ""
+}

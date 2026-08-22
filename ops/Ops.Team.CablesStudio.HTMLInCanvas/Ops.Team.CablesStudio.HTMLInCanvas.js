@@ -136,6 +136,7 @@ inUpdate.onTriggered = () => {
         return;
     }
 
+    needsUpdate = true;
     // Request paint pass on the canvas to trigger onpaint event
     cgl.canvas.requestPaint();
 };

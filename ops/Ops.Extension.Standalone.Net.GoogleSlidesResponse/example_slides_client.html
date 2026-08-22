@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cables Google Slides Transparent Client</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0a0d14;
+            --bg-surface: rgba(18, 24, 38, 0.75);
+            --bg-surface-elevated: rgba(28, 38, 59, 0.65);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(99, 102, 241, 0.5);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-accent: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --cyan-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --emerald-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --rose-gradient: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.18) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 60%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation / Header */
+        header {
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(10, 13, 20, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        }
+
+        .brand-text h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #34d399;
+        }
+
+        .status-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.25);
+            color: #fbbf24;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.warning {
+            background-color: #f59e0b;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        /* Layout Grid */
+        .app-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 24px;
+            padding: 24px 32px 32px 32px;
+            max-width: 1920px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1100px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sidebar Control Panel */
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"], input[type="url"], select {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(10, 14, 23, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus, input[type="url"]:focus, select:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .color-picker-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn-preset {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-preset:hover {
+            border-color: var(--primary-accent);
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(10, 14, 23, 0.5);
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .switch-input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-accent);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-gradient);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            background: var(--bg-surface-elevated);
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .code-box {
+            background: rgba(7, 10, 17, 0.95);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: #38bdf8;
+            word-break: break-all;
+            user-select: all;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+
+        /* Preview Stage Area */
+        .preview-stage-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
+        }
+
+        .bg-mode-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-surface);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bg-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .bg-btn.active {
+            background: var(--primary-accent);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+        }
+
+        /* The Viewport Screen Box */
+        .stage-viewport-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        .stage-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+
+        /* Background themes for transparency proofing */
+        .backdrop-neon {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .backdrop-checkerboard {
+            background-color: #1e293b;
+            background-image: 
+                linear-gradient(45deg, #0f172a 25%, transparent 25%), 
+                linear-gradient(-45deg, #0f172a 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #0f172a 75%), 
+                linear-gradient(-45deg, transparent 75%, #0f172a 75%);
+            background-size: 24px 24px;
+            background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+        }
+
+        .backdrop-chroma {
+            background-color: #00b140; /* OBS Green Screen */
+        }
+
+        .backdrop-video {
+            background: #000;
+        }
+
+        video#webcamVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+            display: none;
+        }
+
+        /* The Slide Iframe Layer */
+        iframe#slideFrame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 10;
+            background: transparent;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 13, 20, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .loading-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Live Diagnostics Console */
+        .diag-console {
+            background: rgba(8, 12, 20, 0.95);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 14px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .diag-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 6px;
+        }
+
+        .diag-log {
+            max-height: 120px;
+            overflow-y: auto;
+            color: #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            line-height: 1.4;
+        }
+
+        .log-entry {
+            display: flex;
+            gap: 8px;
+        }
+
+        .log-time {
+            color: #64748b;
+        }
+
+        .log-info { color: #38bdf8; }
+        .log-success { color: #34d399; }
+        .log-warn { color: #fbbf24; }
+        .log-error { color: #f87171; }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 12px 20px;
+            background: #10b981;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <div class="brand-icon">G</div>
+            <div class="brand-text">
+                <h1>Google Slides Transparent Client</h1>
+                <p>Cables Standalone HTTP Server Feature Preview & Test Harness</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="btn-preset" onclick="runDirectApiDiagnostics()" style="padding: 7px 14px;">
+                🔍 Run Diagnostics Test
+            </button>
+            <div class="status-badge" id="serverStatusBadge">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Cables Op Ready</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-container">
+
+        <!-- Controls Sidebar -->
+        <aside class="controls-panel">
+            
+            <!-- Presentation Source Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">1. Presentation Deck</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="slideUrlInput">Published Google Slides URL</label>
+                    <input type="url" id="slideUrlInput" value="https://docs.google.com/presentation/d/e/2PACX-1vRVpsaZJbgTiremeDpWaIW3M2gt0rmSj4bf_ymuH5panELG2cZcL1dwwaKhA6jNjIMozaUBBx1sZ5gQ/pub" placeholder="https://docs.google.com/presentation/d/.../pub">
+                </div>
+
+                <div class="preset-buttons">
+                    <button class="btn-preset" onclick="setPreset('remote')">Live Published Deck</button>
+                    <button class="btn-preset" onclick="setPreset('local')">Local Offline Backup</button>
+                </div>
+            </div>
+
+            <!-- Server Endpoint Config Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">2. Server & Format Options</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="serverEndpointInput">Cables API Endpoint Route</label>
+                    <input type="text" id="serverEndpointInput" value="/api/slides" placeholder="/api/slides">
+                </div>
+
+                <div class="form-group">
+                    <label for="bgColorInput">Target Background Color</label>
+                    <div class="color-picker-row">
+                        <input type="color" id="bgPicker" value="#abcdef" oninput="document.getElementById('bgColorInput').value = this.value; updateGeneratedUrl();">
+                        <input type="text" id="bgColorInput" value="#abcdef" style="flex:1;" oninput="document.getElementById('bgPicker').value = this.value; updateGeneratedUrl();">
+                    </div>
+                </div>
+
+                <div class="toggle-switch">
+                    <label for="hideNavbarCheck" style="margin:0; cursor:pointer;">Hide Slide Navbar Controls</label>
+                    <input type="checkbox" id="hideNavbarCheck" class="switch-input" onchange="updateGeneratedUrl();">
+                </div>
+
+                <button class="btn-primary" onclick="loadInPreview()">
+                    <span>Load Transparent Preview</span>
+                </button>
+            </div>
+
+            <!-- OBS Browser Source Integration Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">3. OBS Browser Source URL</h2>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">
+                    Copy this URL directly into your OBS Studio <b>Browser Source</b> (Resolution: 1920x1080):
+                </p>
+                <div class="code-box" id="generatedUrlCode">
+                    Loading URL...
+                </div>
+                <button class="btn-secondary" onclick="copyObsUrl()">
+                    <span>Copy OBS Browser Source URL</span>
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- Live Preview Stage -->
+        <section class="preview-stage-container">
+            
+            <div class="stage-header">
+                <div style="font-weight:600; font-size: 0.95rem;">Live Broadcast Simulation</div>
+                
+                <div class="bg-mode-selector">
+                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 6px;">Background Behind Slides:</span>
+                    <button class="bg-btn active" onclick="setBackdrop('neon', this)">Animated Neon</button>
+                    <button class="bg-btn" onclick="setBackdrop('checkerboard', this)">Checkerboard</button>
+                    <button class="bg-btn" onclick="setBackdrop('chroma', this)">Chroma Green</button>
+                    <button class="bg-btn" onclick="toggleWebcam(this)">Webcam Video</button>
+                </div>
+            </div>
+
+            <!-- Viewport 16:9 Screen -->
+            <div class="stage-viewport-wrapper">
+                <!-- Background Layer (Simulating camera / video / graphics under transparent slides) -->
+                <div class="stage-backdrop backdrop-neon" id="stageBackdrop"></div>
+                <video id="webcamVideo" autoplay playsinline muted></video>
+
+                <!-- Foreground Transparent Slides Iframe -->
+                <iframe id="slideFrame" allowtransparency="true" src="about:blank"></iframe>
+
+                <!-- Loading Overlay -->
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="spinner"></div>
+                    <div style="font-size:0.9rem; font-weight:500;">Transforming Google Slides...</div>
+                </div>
+            </div>
+
+            <!-- Diagnostics Console -->
+            <div class="diag-console">
+                <div class="diag-header">
+                    <span>📡 Live Diagnostics & Network Console</span>
+                    <span id="diagStatusText">Ready</span>
+                </div>
+                <div class="diag-log" id="diagLogContainer">
+                    <div class="log-entry"><span class="log-time">[Init]</span> <span class="log-info">Diagnostics initialized. Ready for preview request.</span></div>
+                </div>
+            </div>
+
+            <!-- Information Card -->
+            <div class="card">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="font-size: 1.4rem;">💡</div>
+                    <div style="font-size: 0.84rem; line-height: 1.5; color: var(--text-muted);">
+                        <strong style="color: var(--text-main);">Cables Patch Wiring Requirement:</strong>
+                        <br>
+                        Connect <code style="color: #38bdf8;">HttpFileServer</code> outputs to <code style="color: #38bdf8;">GoogleSlidesResponse</code> inputs:
+                        <br>
+                        • <strong style="color:#f8fafc;">On HTTP Request</strong> ➔ <strong style="color:#f8fafc;">Trigger</strong>
+                        <br>
+                        • <strong style="color:#f8fafc;">HTTP Request Data</strong> ➔ <strong style="color:#f8fafc;">Request Data</strong>
+                        <br>
+                        • <strong style="color:#f8fafc;">HTTP Response Data</strong> ➔ <strong style="color:#f8fafc;">Response</strong>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toastNotice">Copied to Clipboard!</div>
+
+    <script>
+        const PRESETS = {
+            remote: "https://docs.google.com/presentation/d/e/2PACX-1vRVpsaZJbgTiremeDpWaIW3M2gt0rmSj4bf_ymuH5panELG2cZcL1dwwaKhA6jNjIMozaUBBx1sZ5gQ/pub",
+            local: "reference/googleslideDevTools/slides.html"
+        };
+
+        let webcamStream = null;
+
+        function logDiag(type, msg) {
+            const time = new Date().toLocaleTimeString();
+            const container = document.getElementById('diagLogContainer');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+
+            let typeClass = 'log-info';
+            if (type === 'success') typeClass = 'log-success';
+            else if (type === 'warn') typeClass = 'log-warn';
+            else if (type === 'error') typeClass = 'log-error';
+
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span class="${typeClass}">${msg}</span>`;
+            container.appendChild(entry);
+            container.scrollTop = container.scrollHeight;
+
+            if (type === 'error') console.error(`[GoogleSlides Client] ${msg}`);
+            else if (type === 'warn') console.warn(`[GoogleSlides Client] ${msg}`);
+            else console.log(`[GoogleSlides Client] ${msg}`);
+        }
+
+        function setPreset(type) {
+            document.getElementById('slideUrlInput').value = PRESETS[type] || PRESETS.remote;
+            updateGeneratedUrl();
+            loadInPreview();
+        }
+
+        function getFullApiUrl() {
+            const rawSlideUrl = document.getElementById('slideUrlInput').value.trim();
+            const endpoint = document.getElementById('serverEndpointInput').value.trim() || '/api/slides';
+            const bg = document.getElementById('bgColorInput').value.trim().replace(/^#/, '');
+            const hideNavbar = document.getElementById('hideNavbarCheck').checked ? '1' : '0';
+
+            const origin = window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'http://127.0.0.1:8080';
+            const cleanEndpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+            
+            const params = new URLSearchParams();
+            params.set('url', rawSlideUrl);
+            if (bg) params.set('bg', bg);
+            if (hideNavbar === '1') params.set('hideNavbar', '1');
+
+            return `${origin}${cleanEndpoint}?${params.toString()}`;
+        }
+
+        function updateGeneratedUrl() {
+            const url = getFullApiUrl();
+            document.getElementById('generatedUrlCode').innerText = url;
+        }
+
+        function loadInPreview() {
+            const url = getFullApiUrl();
+            const frame = document.getElementById('slideFrame');
+            const overlay = document.getElementById('loadingOverlay');
+
+            logDiag('info', `Loading preview from: ${url}`);
+            overlay.classList.add('visible');
+            frame.src = url;
+
+            frame.onload = () => {
+                setTimeout(() => {
+                    overlay.classList.remove('visible');
+                }, 400);
+            };
+
+            // Run background diagnostic fetch to check response headers and body
+            runDirectApiDiagnostics();
+        }
+
+        async function runDirectApiDiagnostics() {
+            const url = getFullApiUrl();
+            const badge = document.getElementById('serverStatusBadge');
+            const dot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            const diagStatus = document.getElementById('diagStatusText');
+
+            logDiag('info', `Sending diagnostics fetch to ${url}...`);
+
+            const startTime = performance.now();
+            try {
+                const res = await fetch(url);
+                const duration = Math.round(performance.now() - startTime);
+                const contentType = res.headers.get('content-type') || 'unknown';
+
+                logDiag('info', `HTTP Status: ${res.status} ${res.statusText} (${duration}ms), Content-Type: ${contentType}`);
+
+                if (!res.ok) {
+                    logDiag('error', `Server returned error status ${res.status}`);
+                    badge.className = 'status-badge warning';
+                    dot.className = 'status-dot warning';
+                    statusText.innerText = `HTTP Error ${res.status}`;
+                    diagStatus.innerText = `Error ${res.status}`;
+                    return;
+                }
+
+                const bodyText = await res.text();
+                logDiag('info', `Response length: ${bodyText.length} bytes`);
+
+                if (bodyText.includes('"note":"handled by timeout"')) {
+                    logDiag('warn', `⚠️ Received timeout fallback JSON: "${bodyText}".`);
+                    logDiag('warn', `Check Cables patch: Ensure Ops.Extension.Standalone.Net.GoogleSlidesResponse is placed and its ports (Trigger, Request Data, Response) are wired to HttpFileServer.`);
+                    badge.className = 'status-badge warning';
+                    dot.className = 'status-dot warning';
+                    statusText.innerText = 'Timeout Fallback Received';
+                    diagStatus.innerText = 'Fallback Received';
+                } else if (bodyText.includes('cables-transparent-slides-style')) {
+                    logDiag('success', `✔ Success: Google Slides HTML returned with transparent styles and observer active!`);
+                    badge.className = 'status-badge';
+                    dot.className = 'status-dot';
+                    statusText.innerText = 'Transparent Slides Active';
+                    diagStatus.innerText = 'Active (200 OK)';
+                } else {
+                    logDiag('info', `Received response snippet: ${bodyText.slice(0, 150)}...`);
+                    diagStatus.innerText = 'Received';
+                }
+            } catch (err) {
+                logDiag('error', `Fetch error: ${err.message}. Is HttpFileServer running on ${window.location.origin || '127.0.0.1:8080'}?`);
+                badge.className = 'status-badge warning';
+                dot.className = 'status-dot warning';
+                statusText.innerText = 'Server Offline';
+                diagStatus.innerText = 'Connection Failed';
+            }
+        }
+
+        function setBackdrop(type, btn) {
+            const backdrop = document.getElementById('stageBackdrop');
+            const video = document.getElementById('webcamVideo');
+
+            // Stop webcam if active
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(t => t.stop());
+                webcamStream = null;
+                video.style.display = 'none';
+            }
+
+            document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            backdrop.className = 'stage-backdrop';
+            if (type === 'neon') backdrop.classList.add('backdrop-neon');
+            else if (type === 'checkerboard') backdrop.classList.add('backdrop-checkerboard');
+            else if (type === 'chroma') backdrop.classList.add('backdrop-chroma');
+        }
+
+        async function toggleWebcam(btn) {
+            const video = document.getElementById('webcamVideo');
+            const backdrop = document.getElementById('stageBackdrop');
+
+            document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            try {
+                if (webcamStream) {
+                    webcamStream.getTracks().forEach(t => t.stop());
+                }
+                webcamStream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } });
+                video.srcObject = webcamStream;
+                video.style.display = 'block';
+                backdrop.className = 'stage-backdrop backdrop-video';
+            } catch (err) {
+                alert("Camera access denied or unavailable: " + err.message);
+                setBackdrop('neon', document.querySelector('.bg-btn'));
+            }
+        }
+
+        function copyObsUrl() {
+            const url = getFullApiUrl();
+            navigator.clipboard.writeText(url).then(() => {
+                showToast("OBS Browser Source URL copied to clipboard!");
+            }).catch(() => {
+                showToast("Failed to copy URL");
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotice');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateGeneratedUrl();
+            loadInPreview();
+        });
+    </script>
+</body>
+</html>

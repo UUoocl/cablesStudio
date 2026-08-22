@@ -9,6 +9,7 @@ const inWinWidth = op.inInt("Window Width", 1024);
 const inWinHeight = op.inInt("Window Height", 768);
 const inWinX = op.inInt("Window X", 100);
 const inWinY = op.inInt("Window Y", 100);
+const inTransparent = op.inBool("Transparent Window", false);
 
 const inOpen = op.inTriggerButton("Open Child Window");
 const inClose = op.inTriggerButton("Close Child Window");
@@ -33,7 +34,7 @@ const outEventName = op.outString("Event Name", "");
 const outOnEvent = op.outTrigger("On Event");
 
 // Port groupings
-op.setPortGroup("Settings", [inUrl, inChannelName, inCss, inWinName, inWinWidth, inWinHeight, inWinX, inWinY]);
+op.setPortGroup("Settings", [inUrl, inChannelName, inCss, inWinName, inWinWidth, inWinHeight, inWinX, inWinY, inTransparent]);
 op.setPortGroup("Controls", [inOpen, inClose, inNextSlide, inPrevSlide, inSlideIndex, inCreateIndex]);
 
 let bc = null;
@@ -460,9 +461,14 @@ inOpen.onTriggered = () => {
     const x = inWinX.get() ?? 100;
     const y = inWinY.get() ?? 100;
 
-    const features = `width=${w},height=${h},left=${x},top=${y},location=no,toolbar=no,menubar=no,status=no,popup=yes,scrollbars=no,resizable=yes`;
+    const isTrans = inTransparent.get();
+    const frameName = isTrans ? `view#transparent#reveal_${op.id}` : `reveal_slides_${op.id}`;
+    let features = `width=${w},height=${h},left=${x},top=${y},location=no,toolbar=no,menubar=no,status=no,popup=yes,scrollbars=no,resizable=yes`;
+    if (isTrans) {
+        features += ",transparent=yes,frame=no,hasShadow=no";
+    }
 
-    childWindow = window.open("", `reveal_slides_${op.id}`, features);
+    childWindow = window.open("", frameName, features);
     if (!childWindow) {
         outError.set("Popup blocked! Allow popups to open the slide window.");
         outWindowStatus.set("closed");
@@ -477,11 +483,17 @@ inOpen.onTriggered = () => {
     const doc = childWindow.document;
     doc.open();
 
-    const customizedTemplate = templateHtml
+    let customizedTemplate = templateHtml
         .replace("<title>RevealSlides Runner Window</title>", `<title>${winName}</title>`)
         .replace("var bcName = 'reveal-sync';", `var bcName = '${cName}';`)
         .replace("var slideUrl = '';", `var slideUrl = '${url}';`)
         .replace("var initialCss = 'width: 100%; height: 100%; border: none;';", `var initialCss = '${css.replace(/'/g, "\\'")}';`);
+
+    if (isTrans) {
+        customizedTemplate = customizedTemplate
+            .replace("background-color: #000;", "background: transparent !important; background-color: transparent !important;")
+            .replace('<iframe id="reveal-iframe" src="about:blank"></iframe>', '<iframe id="reveal-iframe" src="about:blank" allowtransparency="true" style="background: transparent !important; background-color: transparent !important;"></iframe>');
+    }
 
     doc.write(customizedTemplate);
     doc.close();

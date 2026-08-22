@@ -88,23 +88,35 @@ function fullscreen() {
 
 inOpen.onTriggered = () => {
     if (subWindow) close();
-    let id = CABLES.uuid();
-    subWindow = window.open("", "view#" + id, "width=" + inSizeX.get() + ",height=" + inSizeY.get() + ",directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=yes,popup=true");
+    const id = (typeof CABLES !== "undefined" && CABLES.uuid) ? CABLES.uuid() : op.id;
+    const isTrans = inTransparent.get();
+    const frameName = "view#" + (isTrans ? "transparent#" : "") + id;
+    let features = "width=" + inSizeX.get() + ",height=" + inSizeY.get() + ",directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=yes,popup=true";
+    if (isTrans) {
+        features += ",transparent=yes,frame=no,hasShadow=no";
+    }
+
+    subWindow = window.open("", frameName, features);
     if (!subWindow) return;
 
     let document = subWindow.document;
     document.title = inTitle.get();
 
+    if (isTrans && document.documentElement) {
+        document.documentElement.style = "padding:0px;margin:0px;background:transparent !important;background-color:transparent !important;overflow:hidden;";
+    }
+
     let body = document.body;
     let bgColor = "#000";
-    if (inTransparent.get()) bgColor = "transparent";
-    body.style = "padding:0px;margin:0px;background-color:" + bgColor + ";overflow:hidden;";
+    if (isTrans) bgColor = "transparent";
+    body.style = "padding:0px;margin:0px;background:" + bgColor + " !important;background-color:" + bgColor + " !important;overflow:hidden;";
 
     // Create iframe to host the target URL safely (blank window + iframe avoids Electron blocking external URLs)
     iframe = document.createElement("iframe");
     iframe.src = inUrl.get();
     iframe.style = "border:none;width:100%;height:100%;position:absolute;top:0;left:0;";
-    if (inTransparent.get()) {
+    if (isTrans) {
+        iframe.style.background = "transparent";
         iframe.style.backgroundColor = "transparent";
         iframe.setAttribute("allowtransparency", "true");
     }

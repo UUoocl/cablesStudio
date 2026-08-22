@@ -1,0 +1,621 @@
+{
+    "_id": "6a88eb92e9d13bb2317b5903",
+    "shortId": "hUqQYs",
+    "name": "GoogleSlides",
+    "description": "",
+    "userId": "6a88eb92e1ad29cf9c94b7c3",
+    "cachedUsername": "",
+    "created": 1787358098334,
+    "updated": 1787412838504,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "asvp3tewf",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -353.59801488833745,
+                    "y": -502.3195303373449
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 1
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "j7bkyt45w",
+                            "objOut": "asvp3tewf"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 640
+                },
+                {
+                    "name": "height",
+                    "value": 320
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "sr9pswqt1",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 426.54921702928664,
+                "resizable": true,
+                "translate": {
+                    "x": -285.65885472253177,
+                    "y": -98.57087016756685
+                },
+                "width": 679.8721629951893,
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "4533060f-3cd4-4572-ac78-dad0710a3f7a",
+            "id": "pnfzi9r2k",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 100,
+                "width": 130,
+                "resizable": true,
+                "translate": {
+                    "x": -721.7957112164586,
+                    "y": -383.86978615546025
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Count Overlay",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Count",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "4533060f-3cd4-4572-ac78-dad0710a3f7a",
+            "id": "s7hbq4qn8",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 100,
+                "width": 130,
+                "resizable": true,
+                "translate": {
+                    "x": 9.982847341337902,
+                    "y": -321.3722126929674
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Count Overlay",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Count",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "opId": "4533060f-3cd4-4572-ac78-dad0710a3f7a",
+            "id": "zt4lu1bty",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 100,
+                "width": 130,
+                "resizable": true,
+                "translate": {
+                    "x": -149,
+                    "y": -330.7913699223345
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Count Overlay",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Count",
+                    "value": 16
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "nxsj5jqti",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 150,
+                "resizable": true,
+                "translate": {
+                    "x": 257.8088652787369,
+                    "y": -459.1062288843271
+                },
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "ec55d252-3843-41b1-b731-0482dbd9e72b",
+            "id": "j7bkyt45w",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -441.28036599986615,
+                    "y": -374.4555327360049
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "r",
+                    "value": 0.3812238956000963
+                },
+                {
+                    "name": "g",
+                    "value": 0.15191377790420668
+                },
+                {
+                    "name": "b",
+                    "value": 0.21613425133601116
+                },
+                {
+                    "name": "a",
+                    "value": 1
+                },
+                {
+                    "name": "colorizeTexture",
+                    "value": 0
+                },
+                {
+                    "name": "Vertex Colors",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha Mask Source",
+                    "value": "Luminance"
+                },
+                {
+                    "name": "Opacity TexCoords Transform",
+                    "value": 0
+                },
+                {
+                    "name": "Discard Transparent Pixels",
+                    "value": 1
+                },
+                {
+                    "name": "diffuseRepeatX",
+                    "value": 1
+                },
+                {
+                    "name": "diffuseRepeatY",
+                    "value": 1
+                },
+                {
+                    "name": "Tex Offset X",
+                    "value": 0
+                },
+                {
+                    "name": "Tex Offset Y",
+                    "value": 0
+                },
+                {
+                    "name": "Crop TexCoords",
+                    "value": 0
+                },
+                {
+                    "name": "billboard",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "render",
+                            "portOut": "trigger",
+                            "objIn": "737gg4alc",
+                            "objOut": "j7bkyt45w"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "cc8c3ede-7103-410b-849f-a645793cab39",
+            "id": "737gg4alc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -472.775307679668,
+                    "y": -284.26316127972154
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "render",
+                    "title": "Trigger"
+                },
+                {
+                    "name": "Render Mesh",
+                    "value": 1,
+                    "title": "Render"
+                },
+                {
+                    "name": "width",
+                    "value": 1
+                },
+                {
+                    "name": "height",
+                    "value": 1
+                },
+                {
+                    "name": "pivot x index",
+                    "value": 1
+                },
+                {
+                    "name": "pivot x",
+                    "value": "center"
+                },
+                {
+                    "name": "pivot y index",
+                    "value": 1
+                },
+                {
+                    "name": "pivot y",
+                    "value": "center"
+                },
+                {
+                    "name": "axis index",
+                    "value": 0
+                },
+                {
+                    "name": "axis",
+                    "value": "xy"
+                },
+                {
+                    "name": "Flip TexCoord X",
+                    "value": 0
+                },
+                {
+                    "name": "Flip TexCoord Y",
+                    "value": 1
+                },
+                {
+                    "name": "num columns",
+                    "value": 1
+                },
+                {
+                    "name": "num rows",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "title": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "trigger",
+                            "objIn": "6rr7utnfb",
+                            "objOut": "737gg4alc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "7fdeec7a-43df-4e0c-bde5-d398b2151930",
+            "id": "6rr7utnfb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -472.775307679668,
+                    "y": -183.83400991985008
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Pos X",
+                    "value": 0
+                },
+                {
+                    "name": "Pos Y",
+                    "value": 0
+                },
+                {
+                    "name": "Width",
+                    "value": 800
+                },
+                {
+                    "name": "Height",
+                    "value": 480
+                },
+                {
+                    "name": "Smoothing",
+                    "value": 1
+                },
+                {
+                    "name": "Stretch",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent background",
+                    "value": 1
+                },
+                {
+                    "name": "Title",
+                    "value": "cables"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a88eb92e1ad29cf9c94b7c3",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1787358098334
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 387.1413666773103,
+                "y": -119.25005385918615,
+                "z": 1200
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "GoogleSlides"
+    },
+    "opsHash": "1ea5ab6729376a43940d4aaf2daa285e470f36a8",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1787409310659,
+            "created": "2026-08-22T14:35:10.659Z",
+            "git": {
+                "branch": "main",
+                "commit": "ba263e4d65af68141509e90d0611d8d70affb8ff",
+                "date": "1787375578",
+                "message": "feat: implement transparent background support for popout canvas windows and add command toggle"
+            }
+        },
+        "ui": {
+            "timestamp": 1787409316027,
+            "created": "2026-08-22T14:35:16.027Z",
+            "git": {
+                "branch": "main",
+                "commit": "ba263e4d65af68141509e90d0611d8d70affb8ff",
+                "date": "1787375578",
+                "message": "feat: implement transparent background support for popout canvas windows and add command toggle"
+            }
+        },
+        "api": {
+            "timestamp": 1787409386555,
+            "created": "2026-08-22T14:36:26.555Z",
+            "git": {
+                "branch": "main",
+                "commit": "ba263e4d65af68141509e90d0611d8d70affb8ff",
+                "date": "1787375578",
+                "message": "feat: implement transparent background support for popout canvas windows and add command toggle"
+            },
+            "platform": {
+                "npm": "11.16.0",
+                "node": "24.18.1"
+            }
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,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"
+}

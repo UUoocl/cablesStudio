@@ -356,13 +356,13 @@ function handleApiRequest(req, res, pathname)
             // Default response if not handled
             setTimeout(() =>
             {
-                if (!res.headersSent)
+                if (!res.headersSent && !res._handled && !res._cablesHandled)
                 {
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
                     res.end(JSON.stringify({ "status": "received", "path": pathname, "note": "handled by timeout" }));
                 }
-            }, 1000); // 1-second timeout to allow Cables patch triggers to resolve and respond
+            }, 30000); // 30-second timeout to allow Cables patch triggers to resolve and respond
         });
     }
     else
@@ -383,21 +383,24 @@ function handleApiRequest(req, res, pathname)
             "query": queryParams
         }, queryParams);
 
-        op.log("[HttpFileServer] GET request received. pathname:", pathname);
+        op.log("[HttpFileServer] GET request received. pathname:", pathname, "query.url:", queryParams.url || "(none)");
+        op.log("[HttpFileServer] Setting outHttpResData and outHttpReqData...");
+        outHttpResData.set(res);
         outHttpReqData.set(reqInfo);
+        op.log("[HttpFileServer] Triggering outHttpRequest port...");
         outHttpRequest.trigger();
 
         setTimeout(() =>
         {
-            op.log("[HttpFileServer] Timeout evaluated. res.headersSent:", res.headersSent);
-            if (!res.headersSent)
+            op.log("[HttpFileServer] Timeout evaluated at 30s. res.headersSent:", res.headersSent, "res._handled:", res._handled, "res._cablesHandled:", res._cablesHandled);
+            if (!res.headersSent && !res._handled && !res._cablesHandled)
             {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
                 res.end(JSON.stringify({ "status": "ok", "path": pathname, "note": "handled by timeout" }));
                 op.log("[HttpFileServer] Sent timeout fallback response for path:", pathname);
             }
-        }, 1000); // 1-second timeout to allow Cables patch triggers to resolve and respond
+        }, 30000); // 30-second timeout to allow Cables patch triggers to resolve and respond
     }
 }
 

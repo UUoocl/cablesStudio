@@ -1,0 +1,134 @@
+{
+    "id": "e982c7a1-8d2a-4f51-b8ef-12a86cf33490",
+    "created": 1724285000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1724285000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Trigger"
+            },
+            {
+                "type": 2,
+                "name": "Request Data"
+            },
+            {
+                "type": 2,
+                "name": "Response"
+            },
+            {
+                "type": 5,
+                "name": "API Route"
+            },
+            {
+                "type": 5,
+                "name": "Target Background Color"
+            },
+            {
+                "type": 0,
+                "name": "Hide Viewer Navbar",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Fetch URL Direct"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Direct Fetch"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Success"
+            },
+            {
+                "type": 1,
+                "name": "On Error"
+            },
+            {
+                "type": 2,
+                "name": "Element"
+            },
+            {
+                "type": 5,
+                "name": "Transformed HTML"
+            },
+            {
+                "type": 5,
+                "name": "Last Slide URL"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "summary": "Serves published Google Slides with background elements (#abcdef) removed for transparent video overlay.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Trigger",
+                "text": "Executes request handling when connected to HttpFileServer's 'On HTTP Request'."
+            },
+            {
+                "name": "Request Data",
+                "text": "Request object from HttpFileServer ('HTTP Request Data') containing query parameters and pathname."
+            },
+            {
+                "name": "Response",
+                "text": "HTTP ServerResponse object from HttpFileServer ('HTTP Response Data')."
+            },
+            {
+                "name": "API Route",
+                "text": "The endpoint route to handle (default: '/api/slides')."
+            },
+            {
+                "name": "Target Background Color",
+                "text": "Background hex color formatted in Google Slides to remove (default: '#abcdef')."
+            },
+            {
+                "name": "Hide Viewer Navbar",
+                "text": "If true, hides the bottom Google Slides presentation controls."
+            },
+            {
+                "name": "Fetch URL Direct",
+                "text": "Optional direct URL or local path to transform independently of incoming HTTP requests."
+            },
+            {
+                "name": "Trigger Direct Fetch",
+                "text": "Manually triggers fetching and transforming 'Fetch URL Direct'."
+            },
+            {
+                "name": "On Success",
+                "text": "Fired when slides HTML has been transformed and served."
+            },
+            {
+                "name": "On Error",
+                "text": "Fired when fetching or transformation encounters an error."
+            },
+            {
+                "name": "Transformed HTML",
+                "text": "The resulting HTML document string with transparent backgrounds and injected observer scripts."
+            },
+            {
+                "name": "Last Slide URL",
+                "text": "The URL or path of the last requested/transformed presentation."
+            },
+            {
+                "name": "Error",
+                "text": "Error message if request processing failed."
+            }
+        ]
+    }
+}
