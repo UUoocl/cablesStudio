@@ -1,0 +1,123 @@
+{
+    "id": "7b8a1c34-8d4e-4f12-9a56-2e8bfa491001",
+    "created": 1787389000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "summary": "Runs an embedded Google Slides webview inside the editor, strips background colors, and captures real-time rendered frames into a WebGL CGL.Texture via capturePage().",
+    "coreLibs": [
+        "standalone_electron",
+        "cgl"
+    ],
+    "changelog": [
+        {
+            "message": "op created as Ops.Extension.Standalone.Google.GoogleSlides for in-editor webview texture capture",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1787389000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 5,
+                "name": "Presentation URL",
+                "group": "Presentation"
+            },
+            {
+                "type": 5,
+                "name": "Background Color to Remove",
+                "group": "Presentation"
+            },
+            {
+                "type": 1,
+                "name": "Remove Background Color",
+                "group": "Presentation"
+            },
+            {
+                "type": 1,
+                "name": "Next Slide",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Previous Slide",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Capture Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Continuous Capture",
+                "group": "Capture Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Capture FPS",
+                "group": "Capture Settings",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Texture Width",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Texture Height",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Capture Settings",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Is Loaded",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Current Slide",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}
