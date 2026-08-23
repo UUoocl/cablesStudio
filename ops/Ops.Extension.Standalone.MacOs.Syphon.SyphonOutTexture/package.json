@@ -1,0 +1,14 @@
+{
+  "name": "ops-extension-standalone-macos-syphon-syphonouttexture",
+  "version": "1.0.0",
+  "description": "Cables Standalone zero-stall asynchronous intermediate WebGL texture Syphon publisher using Apple Metal and IOSurface",
+  "main": "Ops.Extension.Standalone.MacOs.Syphon.SyphonOutTexture.js",
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "clean": "node-gyp clean"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.0.0"
+  },
+  "gypfile": true
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ops-extension-standalone-macos-syphon-syphonin",
+  "version": "1.0.0",
+  "description": "Cables Standalone high-performance macOS Syphon video receiver with server auto-discovery on Apple Silicon",
+  "main": "Ops.Extension.Standalone.MacOs.Syphon.SyphonIn.js",
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "clean": "node-gyp clean"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.0.0"
+  },
+  "gypfile": true
+}

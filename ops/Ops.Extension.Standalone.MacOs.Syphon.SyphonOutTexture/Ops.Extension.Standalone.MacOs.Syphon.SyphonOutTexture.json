@@ -1,0 +1,125 @@
+{
+    "id": "c49a1f28-89f4-41d1-9310-449e7b235e1a",
+    "created": 1778500000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for asynchronous intermediate WebGL texture Syphon streaming using WebGL2 PBOs and Metal IOSurface on Apple Silicon",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1778500000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Server Name"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 0,
+                "name": "Is Publishing",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "FPS",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Has Clients",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "IOSurface ID",
+                "subType": "number"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Publishes any intermediate WebGL texture to macOS Syphon with zero render-thread stalls via WebGL2 PBOs, Metal, and Apple IOSurface.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Render",
+                "text": "Trigger input to process and publish the connected texture frame."
+            },
+            {
+                "name": "Texture",
+                "text": "The intermediate Cables WebGL texture (e.g. from an FBO, shader pass, generator, or video) to publish to Syphon."
+            },
+            {
+                "name": "Active",
+                "text": "Enables or disables the Syphon server."
+            },
+            {
+                "name": "Server Name",
+                "text": "Broadcast name of the Syphon server (visible in OBS, Resolume, MadMapper, TouchDesigner)."
+            },
+            {
+                "name": "Is Publishing",
+                "text": "True when the Syphon server is running."
+            },
+            {
+                "name": "Status",
+                "text": "Human-readable telemetry status."
+            },
+            {
+                "name": "Width",
+                "text": "Pixel width of the published texture."
+            },
+            {
+                "name": "Height",
+                "text": "Pixel height of the published texture."
+            },
+            {
+                "name": "FPS",
+                "text": "Actual output streaming frame rate."
+            },
+            {
+                "name": "Has Clients",
+                "text": "True if an external application is currently subscribed to this Syphon stream."
+            },
+            {
+                "name": "IOSurface ID",
+                "text": "Internal Apple IOSurface ID."
+            }
+        ]
+    },
+    "isReleased": true
+}

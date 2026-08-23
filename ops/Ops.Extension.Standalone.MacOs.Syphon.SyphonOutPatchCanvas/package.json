@@ -1,0 +1,14 @@
+{
+  "name": "ops-extension-standalone-macos-syphon-syphonoutpatchcanvas",
+  "version": "1.0.0",
+  "description": "Cables Standalone zero-copy Syphon output operator tapping into Electron CALayer/IOSurface composition",
+  "main": "Ops.Extension.Standalone.MacOs.Syphon.SyphonOutPatchCanvas.js",
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "clean": "node-gyp clean"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.0.0"
+  },
+  "gypfile": true
+}
