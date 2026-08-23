@@ -19,55 +19,44 @@
             {
                 "type": 0,
                 "name": "Active",
-                "subType": "boolean",
-                "group": "Rendering"
+                "group": "Rendering",
+                "subType": "boolean"
             },
             {
                 "type": 0,
-                "name": "Quality Level",
-                "subType": "string",
+                "name": "Quality Level index",
                 "group": "Rendering",
-                "values": [
-                    "Accurate",
-                    "Balanced",
-                    "Fast"
-                ]
+                "subType": "integer"
             }
         ],
         "portsOut": [
             {
-                "type": 1,
-                "name": "On Mask Ready",
-                "group": "Outputs"
-            },
-            {
                 "type": 2,
                 "name": "Segmentation Mask",
-                "group": "Outputs",
                 "objType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "On Mask Ready"
             },
             {
                 "type": 0,
                 "name": "Mask Width",
-                "subType": "number",
-                "group": "Outputs"
+                "subType": "number"
             },
             {
                 "type": 0,
                 "name": "Mask Height",
-                "subType": "number",
-                "group": "Outputs"
+                "subType": "number"
             },
             {
                 "type": 0,
                 "name": "Running",
-                "subType": "boolean",
-                "group": "Status"
+                "subType": "boolean"
             },
             {
                 "type": 5,
-                "name": "Status",
-                "group": "Status"
+                "name": "Status"
             }
         ]
     }

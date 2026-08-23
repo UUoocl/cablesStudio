@@ -6,7 +6,7 @@
     "userId": "6a88eb92e1ad29cf9c94b7c3",
     "cachedUsername": "",
     "created": 1787358098334,
-    "updated": 1787509249179,
+    "updated": 1787509896562,
     "visibility": "private",
     "ops": [
         {
@@ -76,7 +76,7 @@
                         {
                             "portIn": "Render",
                             "portOut": "trigger",
-                            "objIn": "0ykbnob2n",
+                            "objIn": "61hzxzczt",
                             "objOut": "asvp3tewf"
                         }
                     ]
@@ -992,7 +992,7 @@
                 },
                 {
                     "name": "FPS",
-                    "value": 60.2
+                    "value": 17.6
                 },
                 {
                     "name": "Has Clients",
@@ -1060,7 +1060,7 @@
                 },
                 {
                     "name": "FPS",
-                    "value": 34
+                    "value": 4.4
                 },
                 {
                     "name": "Status",
@@ -1145,7 +1145,7 @@
                         {
                             "portIn": "Texture",
                             "portOut": "Texture Out",
-                            "objIn": "0ykbnob2n",
+                            "objIn": "61hzxzczt",
                             "objOut": "9k8hacw29"
                         }
                     ]
@@ -1513,7 +1513,7 @@
                 },
                 {
                     "name": "Actual FPS",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -1666,7 +1666,7 @@
                 },
                 {
                     "name": "Battery Level",
-                    "value": 70
+                    "value": 69
                 },
                 {
                     "name": "Charging",
@@ -1912,60 +1912,6 @@
             ]
         },
         {
-            "opId": "p10d0492-3e5f-4a0b-9304-954992688007",
-            "id": "0ykbnob2n",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 362.5032794114539,
-                    "y": -759.6277225586393
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Active",
-                    "value": 1
-                },
-                {
-                    "name": "Quality Level index",
-                    "value": 1
-                },
-                {
-                    "name": "Quality Level",
-                    "value": "Balanced"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Segmentation Mask",
-                    "links": [
-                        {
-                            "portIn": "Texture In",
-                            "portOut": "Segmentation Mask",
-                            "objIn": "fqtr3sqq2",
-                            "objOut": "0ykbnob2n"
-                        }
-                    ]
-                },
-                {
-                    "name": "Mask Width",
-                    "value": 960
-                },
-                {
-                    "name": "Mask Height",
-                    "value": 540
-                },
-                {
-                    "name": "Running",
-                    "value": true
-                },
-                {
-                    "name": "Status",
-                    "value": "Processing Error"
-                }
-            ]
-        },
-        {
             "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
             "id": "fqtr3sqq2",
             "attribs": {},
@@ -1975,7 +1921,8 @@
                 "translate": {
                     "x": 423.32249421335086,
                     "y": -647.8909072950969
-                }
+                },
+                "extendTitle": ""
             },
             "portsIn": [
                 {
@@ -2108,7 +2055,7 @@
                 },
                 {
                     "name": "Tilt",
-                    "value": 0.2333
+                    "value": 0.0333
                 },
                 {
                     "name": "Zoom",
@@ -2121,6 +2068,60 @@
                 {
                     "name": "Status",
                     "value": "Connected (1 devices found)"
+                }
+            ]
+        },
+        {
+            "opId": "p10d0492-3e5f-4a0b-9304-954992688007",
+            "id": "61hzxzczt",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 362.5032794114539,
+                    "y": -759.6277225586393
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 0
+                },
+                {
+                    "name": "Quality Level index",
+                    "value": 1
+                },
+                {
+                    "name": "Quality Level",
+                    "value": "Balanced"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Segmentation Mask",
+                    "links": [
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "Segmentation Mask",
+                            "objIn": "fqtr3sqq2",
+                            "objOut": "61hzxzczt"
+                        }
+                    ]
+                },
+                {
+                    "name": "Mask Width",
+                    "value": 0
+                },
+                {
+                    "name": "Mask Height",
+                    "value": 0
+                },
+                {
+                    "name": "Running",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Stopped"
                 }
             ]
         }
@@ -2177,7 +2178,7 @@
     "summary": {
         "title": "GoogleSlides"
     },
-    "opsHash": "fce5b9dcbcaa21db7bef7f2d6e28d7692a5c4a0d",
+    "opsHash": "4fec0a3298a5838d2a58d648c250c25bfb81dca2",
     "buildInfo": {
         "updateWarning": false,
         "core": {

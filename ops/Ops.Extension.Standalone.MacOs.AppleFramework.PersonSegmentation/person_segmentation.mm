@@ -30,25 +30,31 @@ void run_segmentation(SegmentationData* data) {
         int width = data->width;
         int height = data->height;
         
-        // 1. Create CVPixelBuffer from raw RGBA input
+        if (width <= 0 || height <= 0 || data->input_pixels.size() < (size_t)(width * height * 4)) {
+            data->error = "Invalid texture dimensions or buffer size";
+            return;
+        }
+        
+        // 1. Create CVPixelBuffer from raw RGBA input with IOSurface and Metal backing
         CVPixelBufferRef pixelBuffer = NULL;
         NSDictionary* attrs = @{
             (id)kCVPixelBufferMetalCompatibilityKey: @YES,
             (id)kCVPixelBufferCGImageCompatibilityKey: @YES,
-            (id)kCVPixelBufferCGBitmapContextCompatibilityKey: @YES
+            (id)kCVPixelBufferCGBitmapContextCompatibilityKey: @YES,
+            (id)kCVPixelBufferIOSurfacePropertiesKey: @{}
         };
         
         CVReturn status = CVPixelBufferCreate(
             kCFAllocatorDefault,
             width,
             height,
-            kCVPixelFormatType_32BGRA, // BGRA format
+            kCVPixelFormatType_32BGRA,
             (__bridge CFDictionaryRef)attrs,
             &pixelBuffer
         );
         
         if (status != kCVReturnSuccess || !pixelBuffer) {
-            data->error = "Failed to create CVPixelBuffer";
+            data->error = "Failed to create input CVPixelBuffer";
             return;
         }
         
@@ -81,7 +87,6 @@ void run_segmentation(SegmentationData* data) {
         } else {
             request.qualityLevel = VNGeneratePersonSegmentationRequestQualityLevelBalanced;
         }
-        request.outputPixelFormat = kCVPixelFormatType_OneComponent8;
         
         VNImageRequestHandler* handler = [[VNImageRequestHandler alloc] initWithCVPixelBuffer:pixelBuffer options:@{}];
         NSError* error = nil;
@@ -95,7 +100,7 @@ void run_segmentation(SegmentationData* data) {
         
         // 3. Retrieve segmentation mask
         VNPixelBufferObservation* result = request.results.firstObject;
-        if (!result) {
+        if (!result || !result.pixelBuffer) {
             data->error = "No segmentation mask returned";
             return;
         }
@@ -105,6 +110,7 @@ void run_segmentation(SegmentationData* data) {
         
         int maskWidth = (int)CVPixelBufferGetWidth(maskPixelBuffer);
         int maskHeight = (int)CVPixelBufferGetHeight(maskPixelBuffer);
+        OSType maskFormat = CVPixelBufferGetPixelFormatType(maskPixelBuffer);
         size_t maskBytesPerRow = CVPixelBufferGetBytesPerRow(maskPixelBuffer);
         uint8_t* maskBase = (uint8_t*)CVPixelBufferGetBaseAddress(maskPixelBuffer);
         
@@ -113,16 +119,35 @@ void run_segmentation(SegmentationData* data) {
         data->output_mask.resize(maskWidth * maskHeight * 4);
         uint8_t* outPtr = data->output_mask.data();
         
-        for (int y = 0; y < maskHeight; ++y) {
-            uint8_t* rowPtr = maskBase + (y * maskBytesPerRow);
-            uint8_t* dstRow = outPtr + (y * maskWidth * 4);
-            for (int x = 0; x < maskWidth; ++x) {
-                uint8_t val = rowPtr[x];
-                int idx = x * 4;
-                dstRow[idx] = val;
-                dstRow[idx + 1] = val;
-                dstRow[idx + 2] = val;
-                dstRow[idx + 3] = 255;
+        // Support both Float32 ('L00f') and UInt8 ('L008') pixel buffer formats
+        if (maskFormat == kCVPixelFormatType_OneComponent32Float || maskFormat == 'L00f' || maskFormat == 0x4c303066) {
+            for (int y = 0; y < maskHeight; ++y) {
+                const float* rowPtr = (const float*)(maskBase + (y * maskBytesPerRow));
+                uint8_t* dstRow = outPtr + (y * maskWidth * 4);
+                for (int x = 0; x < maskWidth; ++x) {
+                    float fVal = rowPtr[x];
+                    if (fVal < 0.0f) fVal = 0.0f;
+                    else if (fVal > 1.0f) fVal = 1.0f;
+                    uint8_t val = (uint8_t)(fVal * 255.0f);
+                    int idx = x * 4;
+                    dstRow[idx] = val;
+                    dstRow[idx + 1] = val;
+                    dstRow[idx + 2] = val;
+                    dstRow[idx + 3] = 255;
+                }
+            }
+        } else {
+            for (int y = 0; y < maskHeight; ++y) {
+                const uint8_t* rowPtr = maskBase + (y * maskBytesPerRow);
+                uint8_t* dstRow = outPtr + (y * maskWidth * 4);
+                for (int x = 0; x < maskWidth; ++x) {
+                    uint8_t val = rowPtr[x];
+                    int idx = x * 4;
+                    dstRow[idx] = val;
+                    dstRow[idx + 1] = val;
+                    dstRow[idx + 2] = val;
+                    dstRow[idx + 3] = 255;
+                }
             }
         }
         CVPixelBufferUnlockBaseAddress(maskPixelBuffer, kCVPixelBufferLock_ReadOnly);
@@ -139,47 +164,50 @@ void ExecuteSegmentation(napi_env env, void* data) {
 void CompleteSegmentation(napi_env env, napi_status status, void* data) {
     SegmentationData* d = static_cast<SegmentationData*>(data);
     
-    if (!d->error.empty()) {
-        napi_value error_msg = nullptr;
-        napi_create_string_utf8(env, d->error.c_str(), NAPI_AUTO_LENGTH, &error_msg);
-        napi_value error = nullptr;
-        napi_create_error(env, nullptr, error_msg, &error);
-        napi_reject_deferred(env, d->deferred, error);
+    if (status != napi_ok || !d->error.empty()) {
+        napi_value error_msg;
+        std::string errStr = d->error.empty() ? "Async worker failed" : d->error;
+        napi_create_string_utf8(env, errStr.c_str(), NAPI_AUTO_LENGTH, &error_msg);
+        napi_reject_deferred(env, d->deferred, error_msg);
     } else {
-        napi_value res_obj = nullptr;
-        napi_create_object(env, &res_obj);
+        napi_value result_obj;
+        napi_create_object(env, &result_obj);
         
-        napi_value mask_buf = nullptr;
-        void* buffer_data = nullptr;
-        napi_create_buffer_copy(env, d->output_mask.size(), d->output_mask.data(), &buffer_data, &mask_buf);
-        napi_set_named_property(env, res_obj, "mask", mask_buf);
-        
-        napi_value width_val = nullptr;
+        napi_value width_val, height_val;
         napi_create_int32(env, d->mask_width, &width_val);
-        napi_set_named_property(env, res_obj, "width", width_val);
-        
-        napi_value height_val = nullptr;
         napi_create_int32(env, d->mask_height, &height_val);
-        napi_set_named_property(env, res_obj, "height", height_val);
+        napi_set_named_property(env, result_obj, "width", width_val);
+        napi_set_named_property(env, result_obj, "height", height_val);
         
-        napi_resolve_deferred(env, d->deferred, res_obj);
+        // Create JS Buffer for output mask
+        napi_value mask_buffer;
+        void* buffer_data = nullptr;
+        size_t buffer_length = d->output_mask.size();
+        napi_create_buffer(env, buffer_length, &buffer_data, &mask_buffer);
+        if (buffer_data && buffer_length > 0) {
+            memcpy(buffer_data, d->output_mask.data(), buffer_length);
+        }
+        napi_set_named_property(env, result_obj, "mask", mask_buffer);
+        
+        napi_resolve_deferred(env, d->deferred, result_obj);
     }
     
     napi_delete_async_work(env, d->work);
     delete d;
 }
 
-// Exports: segment(buffer, width, height, quality) -> Promise
+// Entrypoint: segment(buffer, width, height, quality) -> Promise
 napi_value Segment(napi_env env, napi_callback_info info) {
     size_t argc = 4;
-    napi_value args[4] = {nullptr};
+    napi_value args[4];
     napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
     
-    if (argc < 4) {
-        napi_throw_type_error(env, nullptr, "Buffer, width, height and quality arguments required");
+    if (argc < 3) {
+        napi_throw_type_error(env, nullptr, "Expected buffer, width, height, [quality]");
         return nullptr;
     }
     
+    // 1. Extract Buffer
     bool is_buffer = false;
     napi_is_buffer(env, args[0], &is_buffer);
     if (!is_buffer) {
@@ -187,30 +215,42 @@ napi_value Segment(napi_env env, napi_callback_info info) {
         return nullptr;
     }
     
-    void* buffer_ptr = nullptr;
-    size_t buffer_len = 0;
-    napi_get_buffer_info(env, args[0], &buffer_ptr, &buffer_len);
+    uint8_t* buffer_data = nullptr;
+    size_t buffer_length = 0;
+    napi_get_buffer_info(env, args[0], (void**)&buffer_data, &buffer_length);
     
-    int width = 0;
+    // 2. Extract dimensions
+    int32_t width = 0, height = 0;
     napi_get_value_int32(env, args[1], &width);
-    
-    int height = 0;
     napi_get_value_int32(env, args[2], &height);
     
-    char quality_buf[32] = {0};
-    size_t copied = 0;
-    napi_get_value_string_utf8(env, args[3], quality_buf, sizeof(quality_buf), &copied);
+    if (width <= 0 || height <= 0) {
+        napi_throw_range_error(env, nullptr, "Width and height must be positive non-zero integers");
+        return nullptr;
+    }
     
-    SegmentationData* d = new SegmentationData();
-    d->width = width;
-    d->height = height;
-    d->quality = quality_buf;
-    d->input_pixels.assign((uint8_t*)buffer_ptr, (uint8_t*)buffer_ptr + buffer_len);
+    // 3. Extract quality
+    std::string quality = "balanced";
+    if (argc >= 4) {
+        size_t str_len = 0;
+        napi_get_value_string_utf8(env, args[3], nullptr, 0, &str_len);
+        if (str_len > 0) {
+            quality.resize(str_len);
+            napi_get_value_string_utf8(env, args[3], &quality[0], str_len + 1, &str_len);
+        }
+    }
     
-    napi_value promise = nullptr;
-    napi_create_promise(env, &d->deferred, &promise);
+    // Create async data
+    SegmentationData* data = new SegmentationData();
+    data->width = width;
+    data->height = height;
+    data->quality = quality;
+    data->input_pixels.assign(buffer_data, buffer_data + (width * height * 4));
     
-    napi_value resource_name = nullptr;
+    napi_value promise;
+    napi_create_promise(env, &data->deferred, &promise);
+    
+    napi_value resource_name;
     napi_create_string_utf8(env, "PersonSegmentationWorker", NAPI_AUTO_LENGTH, &resource_name);
     
     napi_create_async_work(
@@ -219,20 +259,19 @@ napi_value Segment(napi_env env, napi_callback_info info) {
         resource_name,
         ExecuteSegmentation,
         CompleteSegmentation,
-        d,
-        &d->work
+        data,
+        &data->work
     );
     
-    napi_queue_async_work(env, d->work);
+    napi_queue_async_work(env, data->work);
     
     return promise;
 }
 
 napi_value Init(napi_env env, napi_value exports) {
-    napi_property_descriptor desc[] = {
-        { "segment", nullptr, Segment, nullptr, nullptr, nullptr, napi_default, nullptr }
-    };
-    napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
+    napi_value fn;
+    napi_create_function(env, "segment", NAPI_AUTO_LENGTH, Segment, nullptr, &fn);
+    napi_set_named_property(env, exports, "segment", fn);
     return exports;
 }
 

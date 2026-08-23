@@ -74,6 +74,8 @@ render.onTriggered = () => {
 
     const width = tex.width;
     const height = tex.height;
+    if (!width || !height || width <= 0 || height <= 0) return;
+
     const gl = op.patch.cgl.gl;
 
     lastInputWidth = width;
@@ -93,6 +95,10 @@ render.onTriggered = () => {
             targetW = Math.round((width * maxDimension) / height);
         }
     }
+
+    // Ensure even dimensions
+    targetW = Math.max(16, targetW - (targetW % 2));
+    targetH = Math.max(16, targetH - (targetH % 2));
 
     // Setup downsample GPU texture and FBO
     if (!op._downsampleTex || op._downsampleTex.width !== targetW || op._downsampleTex.height !== targetH) {
