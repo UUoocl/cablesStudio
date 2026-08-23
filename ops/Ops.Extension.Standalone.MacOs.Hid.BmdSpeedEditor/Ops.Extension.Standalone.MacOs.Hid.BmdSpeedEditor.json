@@ -1,0 +1,112 @@
+{
+    "authorName": "cables user",
+    "id": "b10d5402-45e0-47b8-bda2-954992688003",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.BmdSpeedEditor",
+    "summary": "Native macOS IOKit HID driver interface for Blackmagic Design DaVinci Resolve Speed Editor.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 2,
+                "name": "LEDs State",
+                "group": "LEDs & Modes"
+            },
+            {
+                "type": 0,
+                "name": "Button LEDs",
+                "subType": "integer",
+                "group": "LEDs & Modes"
+            },
+            {
+                "type": 0,
+                "name": "Jog LEDs",
+                "subType": "integer",
+                "group": "LEDs & Modes"
+            },
+            {
+                "type": 0,
+                "name": "Jog Mode",
+                "subType": "integer",
+                "group": "LEDs & Modes"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 3,
+                "name": "Keys Pressed",
+                "group": "Keys"
+            },
+            {
+                "type": 3,
+                "name": "Key Names",
+                "group": "Keys"
+            },
+            {
+                "type": 5,
+                "name": "Last Key",
+                "group": "Keys"
+            },
+            {
+                "type": 0,
+                "name": "Last Key Pressed",
+                "subType": "boolean",
+                "group": "Keys"
+            },
+            {
+                "type": 1,
+                "name": "Key Event",
+                "group": "Keys"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "number",
+                "group": "Jog Wheel"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "number",
+                "group": "Jog Wheel"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned",
+                "group": "Jog Wheel"
+            },
+            {
+                "type": 0,
+                "name": "Battery Level",
+                "subType": "number",
+                "group": "Battery"
+            },
+            {
+                "type": 0,
+                "name": "Charging",
+                "subType": "boolean",
+                "group": "Battery"
+            }
+        ]
+    }
+}

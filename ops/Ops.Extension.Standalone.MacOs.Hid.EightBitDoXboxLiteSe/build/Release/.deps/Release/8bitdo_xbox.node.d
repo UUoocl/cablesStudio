@@ -1,0 +1,1 @@
+cmd_Release/8bitdo_xbox.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.5 -arch arm64 -L./Release -stdlib=libc++  -o Release/8bitdo_xbox.node Release/obj.target/8bitdo_xbox/8bitdo_xbox.o Release/obj.target/8bitdo_xbox/XboxControllerCore.o -framework IOKit -framework Foundation

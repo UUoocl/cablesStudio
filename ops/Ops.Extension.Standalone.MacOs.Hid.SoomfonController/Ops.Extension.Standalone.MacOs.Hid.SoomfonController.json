@@ -1,0 +1,114 @@
+{
+    "authorName": "cables user",
+    "id": "e305e94b-14df-41bb-a53c-42cb0664e1da",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.SoomfonController",
+    "summary": "Interfaces natively with Soomfon Stream Controller / Visual Macro Keypad devices on macOS.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "subType": "integer",
+                "group": "Settings"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "State"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean",
+                "group": "State"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "State"
+            },
+            {
+                "type": 2,
+                "name": "Device Info",
+                "group": "State"
+            },
+            {
+                "type": 1,
+                "name": "Key Event",
+                "group": "Key Events"
+            },
+            {
+                "type": 0,
+                "name": "Event Key Index",
+                "subType": "number",
+                "group": "Key Events"
+            },
+            {
+                "type": 0,
+                "name": "Event Pressed",
+                "subType": "boolean",
+                "group": "Key Events"
+            },
+            {
+                "type": 1,
+                "name": "Knob Event",
+                "group": "Knob Events"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Index",
+                "subType": "number",
+                "group": "Knob Events"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Direction",
+                "subType": "number",
+                "group": "Knob Events"
+            },
+            {
+                "type": 0,
+                "name": "Knob 0 Value",
+                "subType": "number",
+                "group": "Knob Events"
+            },
+            {
+                "type": 0,
+                "name": "Knob 1 Value",
+                "subType": "number",
+                "group": "Knob Events"
+            },
+            {
+                "type": 0,
+                "name": "Knob 2 Value",
+                "subType": "number",
+                "group": "Knob Events"
+            },
+            {
+                "type": 1,
+                "name": "Knob Click Event",
+                "group": "Knob Click Events"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Index",
+                "subType": "number",
+                "group": "Knob Click Events"
+            },
+            {
+                "type": 0,
+                "name": "Event Knob Click Pressed",
+                "subType": "boolean",
+                "group": "Knob Click Events"
+            }
+        ]
+    }
+}

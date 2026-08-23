@@ -6,7 +6,7 @@
     "userId": "6a88eb92e1ad29cf9c94b7c3",
     "cachedUsername": "",
     "created": 1787358098334,
-    "updated": 1787489888409,
+    "updated": 1787508489778,
     "visibility": "private",
     "ops": [
         {
@@ -15,8 +15,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": -552.4541136761313,
-                    "y": -1179.5901666945583
+                    "x": 115.43426192197694,
+                    "y": -1197.52005597236
                 }
             },
             "portsIn": [
@@ -26,7 +26,7 @@
                 },
                 {
                     "name": "FPS Limit",
-                    "value": 30
+                    "value": 0
                 },
                 {
                     "name": "Reduce FPS unfocussed",
@@ -72,16 +72,22 @@
                             "portOut": "trigger",
                             "objIn": "tllr8pdff",
                             "objOut": "asvp3tewf"
+                        },
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "0ykbnob2n",
+                            "objOut": "asvp3tewf"
                         }
                     ]
                 },
                 {
                     "name": "width",
-                    "value": 550
+                    "value": 483
                 },
                 {
                     "name": "height",
-                    "value": 384
+                    "value": 227
                 },
                 {
                     "name": "Pixel Density",
@@ -665,7 +671,7 @@
                 },
                 {
                     "name": "Current Slide",
-                    "value": 46
+                    "value": 2
                 },
                 {
                     "name": "Width",
@@ -847,7 +853,7 @@
                 },
                 {
                     "name": "Current Slide",
-                    "value": 23
+                    "value": 2
                 },
                 {
                     "name": "Width",
@@ -953,8 +959,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 337.6885069817401,
-                    "y": -576.7991407089149
+                    "x": 211.6598035735903,
+                    "y": -587.7216283376213
                 }
             },
             "portsIn": [
@@ -986,7 +992,7 @@
                 },
                 {
                     "name": "FPS",
-                    "value": 29.9
+                    "value": 57.9
                 },
                 {
                     "name": "Has Clients",
@@ -994,7 +1000,7 @@
                 },
                 {
                     "name": "IOSurface ID",
-                    "value": 128
+                    "value": 256
                 }
             ]
         },
@@ -1004,8 +1010,8 @@
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 319.733619763695,
-                    "y": -957.5080558539205
+                    "x": 324.4853354486896,
+                    "y": -1118.3507957542445
                 }
             },
             "portsIn": [
@@ -1035,6 +1041,12 @@
                             "portOut": "Texture",
                             "objIn": "9k8hacw29",
                             "objOut": "tllr8pdff"
+                        },
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture",
+                            "objIn": "nzvyizms5",
+                            "objOut": "tllr8pdff"
                         }
                     ]
                 },
@@ -1048,7 +1060,7 @@
                 },
                 {
                     "name": "FPS",
-                    "value": 29.9
+                    "value": 22.5
                 },
                 {
                     "name": "Status",
@@ -1064,8 +1076,905 @@
                 "height": 150,
                 "resizable": true,
                 "translate": {
-                    "x": 420.2706766917293,
-                    "y": -855.1221268490814
+                    "x": 324.4853354486896,
+                    "y": -976.9707691050861
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture Out",
+                    "links": [
+                        {
+                            "portIn": "Texture",
+                            "portOut": "Texture Out",
+                            "objIn": "0ykbnob2n",
+                            "objOut": "9k8hacw29"
+                        }
+                    ]
+                },
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "3e9bae10-38af-4e36-9fcc-35faeeaf57f8",
+            "id": "zm48ruvg4",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 709.4309062499111,
+                    "y": -981.5853772993844
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "interval",
+                    "value": 1000
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "nzvyizms5",
+                            "objOut": "zm48ruvg4"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "r1mwybf9z",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 814.3081275282202,
+                    "y": -1009.964015366463
+                }
+            }
+        },
+        {
+            "opId": "c71e2170-4d51-4f76-8c44-59e51cbbd210",
+            "id": "ry4xla4mj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 826.3081275282202,
+                    "y": -936.6753788968165
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Device Index",
+                    "value": 0
+                },
+                {
+                    "name": "Brightness",
+                    "value": 80
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "Connection",
+                            "portOut": "Connection",
+                            "objIn": "nu0m4r1q1",
+                            "objOut": "ry4xla4mj"
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Connected",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Connected: Stream Deck V2 (Stream Deck)"
+                },
+                {
+                    "name": "Event Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Pressed",
+                    "value": false
+                },
+                {
+                    "name": "Dial Index",
+                    "value": 0
+                },
+                {
+                    "name": "Dial Value",
+                    "value": 0
+                },
+                {
+                    "name": "Dial Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "f82b7194-e291-4962-97fa-4a25123d9198",
+            "id": "hqbit8pgj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 825.7838854935269,
+                    "y": -821.680867953375
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Max FPS",
+                    "value": 30
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 0
+                },
+                {
+                    "name": "Flip Tile X",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Sending",
+                    "value": false
+                },
+                {
+                    "name": "Actual FPS",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "e963b519-5d3c-41be-8db2-50d4f58c7407",
+            "id": "nu0m4r1q1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 825.2789337686024,
+                    "y": -870.0815751247451
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key Index",
+                    "value": 1
+                },
+                {
+                    "name": "Max FPS",
+                    "value": 30
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.88
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 0
+                },
+                {
+                    "name": "Flip X",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Sending",
+                    "value": false
+                },
+                {
+                    "name": "Actual FPS",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "e305e94b-14df-41bb-a53c-42cb0664e1da",
+            "id": "hvyavg7wu",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 825.7838854935269,
+                    "y": -740.9065142275009
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Device Index",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Connection",
+                    "links": [
+                        {
+                            "portIn": "Connection",
+                            "portOut": "Connection",
+                            "objIn": "nzvyizms5",
+                            "objOut": "hvyavg7wu"
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Connected",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Connected"
+                },
+                {
+                    "name": "Event Key Index",
+                    "value": 8
+                },
+                {
+                    "name": "Event Pressed",
+                    "value": false
+                },
+                {
+                    "name": "Event Knob Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Knob Direction",
+                    "value": -1
+                },
+                {
+                    "name": "Knob 0 Value",
+                    "value": 11
+                },
+                {
+                    "name": "Knob 1 Value",
+                    "value": 44
+                },
+                {
+                    "name": "Knob 2 Value",
+                    "value": 17
+                },
+                {
+                    "name": "Event Knob Click Index",
+                    "value": 0
+                },
+                {
+                    "name": "Event Knob Click Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "e98218df-7590-4a87-b2e1-8840a4cf0251",
+            "id": "8oddivf1d",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 825.7838854935269,
+                    "y": -669.5700631115382
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key Index",
+                    "value": 0
+                },
+                {
+                    "name": "Max FPS",
+                    "value": 30
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 1
+                },
+                {
+                    "name": "Flip X",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Sending",
+                    "value": false
+                },
+                {
+                    "name": "Actual FPS",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "c2081f9b-640f-48d8-9c12-32b0a3f81e92",
+            "id": "nzvyizms5",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 825.7838854935269,
+                    "y": -577.1470413540881
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Max FPS",
+                    "value": 30
+                },
+                {
+                    "name": "JPEG Quality",
+                    "value": 0.85
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 1
+                },
+                {
+                    "name": "Flip Tile X",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Sending",
+                    "value": false
+                },
+                {
+                    "name": "Actual FPS",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "cb104928-3e5f-4a0b-9304-954992688002",
+            "id": "s8iuzf2j8",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1255.6947405572018,
+                    "y": -958.9011146246439
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected: Contour ShuttlePRO v2"
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Jog Value",
+                    "value": 116
+                },
+                {
+                    "name": "Jog Delta",
+                    "value": 1
+                },
+                {
+                    "name": "Shuttle Value",
+                    "value": 0
+                },
+                {
+                    "name": "Button Index",
+                    "value": 11
+                },
+                {
+                    "name": "Button Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "cb104928-3e5f-4a0b-9304-954992688001",
+            "id": "fb6zlmqgz",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1252.783885493527,
+                    "y": -875.2382886695195
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected: Contour ShuttleXpress"
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Jog Value",
+                    "value": 33
+                },
+                {
+                    "name": "Jog Delta",
+                    "value": -1
+                },
+                {
+                    "name": "Shuttle Value",
+                    "value": 0
+                },
+                {
+                    "name": "Button Index",
+                    "value": 4
+                },
+                {
+                    "name": "Button Pressed",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "b10d5402-45e0-47b8-bda2-954992688003",
+            "id": "1j6iwh1mr",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1265.672155568305,
+                    "y": -773.3648080622232
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Button LEDs",
+                    "value": 0
+                },
+                {
+                    "name": "Jog LEDs",
+                    "value": 0
+                },
+                {
+                    "name": "Jog Mode",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Status",
+                    "value": "Connected: DaVinci Resolve Speed Editor"
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Last Key",
+                    "value": "ESC"
+                },
+                {
+                    "name": "Last Key Pressed",
+                    "value": false
+                },
+                {
+                    "name": "Jog Value",
+                    "value": -117359
+                },
+                {
+                    "name": "Jog Delta",
+                    "value": -360
+                },
+                {
+                    "name": "Battery Level",
+                    "value": 69
+                },
+                {
+                    "name": "Charging",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "e8bd0492-3e5f-4a0b-9304-954992688004",
+            "id": "yjn5j5u5t",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1264.783885493527,
+                    "y": -682.8408068633224
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Rumble Left",
+                    "value": 0
+                },
+                {
+                    "name": "Rumble Right",
+                    "value": 0
+                },
+                {
+                    "name": "Rumble Left Trigger",
+                    "value": 0
+                },
+                {
+                    "name": "Rumble Right Trigger",
+                    "value": 0
+                },
+                {
+                    "name": "Send Rumble on Change",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Connected",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Searching..."
+                },
+                {
+                    "name": "LS X",
+                    "value": 0
+                },
+                {
+                    "name": "LS Y",
+                    "value": 0
+                },
+                {
+                    "name": "RS X",
+                    "value": 0
+                },
+                {
+                    "name": "RS Y",
+                    "value": 0
+                },
+                {
+                    "name": "LT",
+                    "value": 0
+                },
+                {
+                    "name": "RT",
+                    "value": 0
+                },
+                {
+                    "name": "A",
+                    "value": false
+                },
+                {
+                    "name": "B",
+                    "value": false
+                },
+                {
+                    "name": "X",
+                    "value": false
+                },
+                {
+                    "name": "Y",
+                    "value": false
+                },
+                {
+                    "name": "DPad Up",
+                    "value": false
+                },
+                {
+                    "name": "DPad Down",
+                    "value": false
+                },
+                {
+                    "name": "DPad Left",
+                    "value": false
+                },
+                {
+                    "name": "DPad Right",
+                    "value": false
+                },
+                {
+                    "name": "LB",
+                    "value": false
+                },
+                {
+                    "name": "RB",
+                    "value": false
+                },
+                {
+                    "name": "LS Click",
+                    "value": false
+                },
+                {
+                    "name": "RS Click",
+                    "value": false
+                },
+                {
+                    "name": "Menu",
+                    "value": false
+                },
+                {
+                    "name": "View",
+                    "value": false
+                },
+                {
+                    "name": "Guide",
+                    "value": true
+                },
+                {
+                    "name": "Share",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "opId": "u10d100h-3e5f-4a0b-9304-954992688005",
+            "id": "4ujrzkp1p",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1264.783885493527,
+                    "y": -600.8677624436133
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Haptic Strength",
+                    "value": 75
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Event Type",
+                    "value": "bluetooth_status"
+                },
+                {
+                    "name": "Connected",
+                    "value": false
+                },
+                {
+                    "name": "MAC Address",
+                    "value": "9AC8EF30-D978-486D-3B95-7AAE65FD7B24"
+                },
+                {
+                    "name": "Battery",
+                    "value": 70
+                },
+                {
+                    "name": "Button Index",
+                    "value": 10
+                },
+                {
+                    "name": "Button Pressed",
+                    "value": true
+                },
+                {
+                    "name": "Running",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Exited (Code: null)"
+                }
+            ]
+        },
+        {
+            "opId": "a10d0492-3e5f-4a0b-9304-954992688006",
+            "id": "9ivxk44e5",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1264.783885493527,
+                    "y": -522.485178573806
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Interval (ms)",
+                    "value": 500
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Application Name",
+                    "value": "cables"
+                },
+                {
+                    "name": "Bundle Identifier",
+                    "value": "gl.cables.standalone"
+                },
+                {
+                    "name": "Process ID",
+                    "value": 58112
+                },
+                {
+                    "name": "Window Title",
+                    "value": "cables - /Users/jonwood/Github_local_dev/cablesStudio/GoogleSlides.cables *"
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Polling"
+                }
+            ]
+        },
+        {
+            "opId": "p10d0492-3e5f-4a0b-9304-954992688007",
+            "id": "0ykbnob2n",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 362.5032794114539,
+                    "y": -759.6277225586393
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 0
+                },
+                {
+                    "name": "Quality Level index",
+                    "value": 1
+                },
+                {
+                    "name": "Quality Level",
+                    "value": "Balanced"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Segmentation Mask",
+                    "links": [
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "Segmentation Mask",
+                            "objIn": "fqtr3sqq2",
+                            "objOut": "0ykbnob2n"
+                        }
+                    ]
+                },
+                {
+                    "name": "Mask Width",
+                    "value": 960
+                },
+                {
+                    "name": "Mask Height",
+                    "value": 540
+                },
+                {
+                    "name": "Running",
+                    "value": false
+                },
+                {
+                    "name": "Status",
+                    "value": "Processing Error"
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "fqtr3sqq2",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 150,
+                "resizable": true,
+                "translate": {
+                    "x": 423.32249421335086,
+                    "y": -647.8909072950969
                 }
             },
             "portsIn": [
@@ -1154,8 +2063,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 550,
-            "h": 384,
+            "w": 483,
+            "h": 227,
             "s": 1
         },
         "timeline": {},
@@ -1163,9 +2072,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 504.49102691425026,
-                "y": -1468.2616427130988,
-                "z": 436.1249564819225
+                "x": 640.3459746064191,
+                "y": -993.2844228671623,
+                "z": 692.7377730667969
             }
         },
         "outline": {
@@ -1186,37 +2095,37 @@
     "summary": {
         "title": "GoogleSlides"
     },
-    "opsHash": "3f629b7030ffb3d84dc2ab49d175befd900c3d51",
+    "opsHash": "68c669001b085dd43ea02c11bcd577723b672757",
     "buildInfo": {
         "updateWarning": false,
         "core": {
-            "timestamp": 1787414698595,
-            "created": "2026-08-22T16:04:58.595Z",
+            "timestamp": 1787499060812,
+            "created": "2026-08-23T15:31:00.812Z",
             "git": {
                 "branch": "main",
-                "commit": "78604afd904c9eb24c03eb2088538711ef319c53",
-                "date": "1787412970",
-                "message": "feat: enable webview tag and relax security/sandbox settings for electron web preferences"
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
             }
         },
         "ui": {
-            "timestamp": 1787414704514,
-            "created": "2026-08-22T16:05:04.514Z",
+            "timestamp": 1787499066936,
+            "created": "2026-08-23T15:31:06.936Z",
             "git": {
                 "branch": "main",
-                "commit": "78604afd904c9eb24c03eb2088538711ef319c53",
-                "date": "1787412970",
-                "message": "feat: enable webview tag and relax security/sandbox settings for electron web preferences"
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
             }
         },
         "api": {
-            "timestamp": 1787414772160,
-            "created": "2026-08-22T16:06:12.160Z",
+            "timestamp": 1787499137056,
+            "created": "2026-08-23T15:32:17.056Z",
             "git": {
                 "branch": "main",
-                "commit": "78604afd904c9eb24c03eb2088538711ef319c53",
-                "date": "1787412970",
-                "message": "feat: enable webview tag and relax security/sandbox settings for electron web preferences"
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
             },
             "platform": {
                 "npm": "11.16.0",

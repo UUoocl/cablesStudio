@@ -1,0 +1,1 @@
+cmd_Release/soomfon_controller.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.5 -arch arm64 -L./Release -stdlib=libc++  -o Release/soomfon_controller.node Release/obj.target/soomfon_controller/soomfon_controller.o -framework Foundation -framework IOKit -framework CoreGraphics -framework ImageIO

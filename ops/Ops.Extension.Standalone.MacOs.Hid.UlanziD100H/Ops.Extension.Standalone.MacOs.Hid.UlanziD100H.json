@@ -1,0 +1,99 @@
+{
+    "authorName": "cables user",
+    "id": "u10d100h-3e5f-4a0b-9304-954992688005",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.UlanziD100H",
+    "summary": "Native macOS driver interface for the Ulanzi D100H Dial Controller.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Haptic Strength",
+                "subType": "number",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Send Haptic",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Event Type",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Connected",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "MAC Address",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Battery",
+                "subType": "number",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Button Index",
+                "subType": "number",
+                "group": "Dial & Buttons"
+            },
+            {
+                "type": 0,
+                "name": "Button Pressed",
+                "subType": "boolean",
+                "group": "Dial & Buttons"
+            },
+            {
+                "type": 1,
+                "name": "On Button Event",
+                "group": "Dial & Buttons"
+            },
+            {
+                "type": 1,
+                "name": "On Dial CW",
+                "group": "Dial & Buttons"
+            },
+            {
+                "type": 1,
+                "name": "On Dial CCW",
+                "group": "Dial & Buttons"
+            },
+            {
+                "type": 2,
+                "name": "Raw Message",
+                "group": "Raw Data"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

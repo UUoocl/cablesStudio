@@ -1,0 +1,79 @@
+{
+    "authorName": "cables user",
+    "id": "cb104928-3e5f-4a0b-9304-954992688002",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.ContourShuttlePro",
+    "summary": "Native macOS IOKit HID driver interface for Contour ShuttlePRO v2 multimedia controller.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Jog Value",
+                "subType": "number",
+                "group": "Jog Wheel"
+            },
+            {
+                "type": 0,
+                "name": "Jog Delta",
+                "subType": "number",
+                "group": "Jog Wheel"
+            },
+            {
+                "type": 1,
+                "name": "Jog Turned",
+                "group": "Jog Wheel"
+            },
+            {
+                "type": 0,
+                "name": "Shuttle Value",
+                "subType": "number",
+                "group": "Shuttle Ring"
+            },
+            {
+                "type": 1,
+                "name": "Shuttle Moved",
+                "group": "Shuttle Ring"
+            },
+            {
+                "type": 0,
+                "name": "Button Index",
+                "subType": "number",
+                "group": "Buttons"
+            },
+            {
+                "type": 0,
+                "name": "Button Pressed",
+                "subType": "boolean",
+                "group": "Buttons"
+            },
+            {
+                "type": 1,
+                "name": "Button Event",
+                "group": "Buttons"
+            }
+        ]
+    }
+}

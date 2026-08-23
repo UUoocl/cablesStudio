@@ -1,0 +1,74 @@
+{
+    "authorName": "cables user",
+    "id": "p10d0492-3e5f-4a0b-9304-954992688007",
+    "name": "Ops.Extension.Standalone.MacOs.AppleFramework.PersonSegmentation",
+    "summary": "Hardware-accelerated real-time person segmentation using macOS Apple Vision Framework and Apple Neural Engine.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render",
+                "group": "Rendering"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "group": "Rendering",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Quality Level",
+                "subType": "string",
+                "group": "Rendering",
+                "values": [
+                    "Accurate",
+                    "Balanced",
+                    "Fast"
+                ]
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Mask Ready",
+                "group": "Outputs"
+            },
+            {
+                "type": 2,
+                "name": "Segmentation Mask",
+                "group": "Outputs",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Mask Width",
+                "subType": "number",
+                "group": "Outputs"
+            },
+            {
+                "type": 0,
+                "name": "Mask Height",
+                "subType": "number",
+                "group": "Outputs"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

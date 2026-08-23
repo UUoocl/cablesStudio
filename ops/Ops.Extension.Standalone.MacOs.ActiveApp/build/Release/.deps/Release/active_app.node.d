@@ -1,0 +1,1 @@
+cmd_Release/active_app.node := c++ -bundle -framework Cocoa -framework AppKit -framework CoreFoundation -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=14.0 -arch arm64 -L./Release -stdlib=libc++  -o Release/active_app.node Release/obj.target/active_app/src/active_app.o Release/nothing.a 

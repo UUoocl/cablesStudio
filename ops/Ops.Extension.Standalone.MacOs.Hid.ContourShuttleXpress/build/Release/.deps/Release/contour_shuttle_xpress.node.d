@@ -1,0 +1,1 @@
+cmd_Release/contour_shuttle_xpress.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.5 -arch arm64 -L./Release -stdlib=libc++  -o Release/contour_shuttle_xpress.node Release/obj.target/contour_shuttle_xpress/contour_shuttle_xpress.o -framework IOKit -framework Foundation

@@ -1,0 +1,206 @@
+{
+    "authorName": "cables user",
+    "id": "e8bd0492-3e5f-4a0b-9304-954992688004",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.EightBitDoXboxLiteSe",
+    "summary": "Native macOS IOKit HID driver interface for 8BitDo Lite SE and Xbox controllers.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left Trigger",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right Trigger",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Rumble",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Send Rumble on Change",
+                "subType": "boolean",
+                "group": "Rumble"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            },
+            {
+                "type": 3,
+                "name": "Buttons Pressed",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "LS X",
+                "subType": "number",
+                "group": "Sticks & Triggers"
+            },
+            {
+                "type": 0,
+                "name": "LS Y",
+                "subType": "number",
+                "group": "Sticks & Triggers"
+            },
+            {
+                "type": 0,
+                "name": "RS X",
+                "subType": "number",
+                "group": "Sticks & Triggers"
+            },
+            {
+                "type": 0,
+                "name": "RS Y",
+                "subType": "number",
+                "group": "Sticks & Triggers"
+            },
+            {
+                "type": 0,
+                "name": "LT",
+                "subType": "number",
+                "group": "Sticks & Triggers"
+            },
+            {
+                "type": 0,
+                "name": "RT",
+                "subType": "number",
+                "group": "Sticks & Triggers"
+            },
+            {
+                "type": 0,
+                "name": "A",
+                "subType": "boolean",
+                "group": "Face Buttons"
+            },
+            {
+                "type": 0,
+                "name": "B",
+                "subType": "boolean",
+                "group": "Face Buttons"
+            },
+            {
+                "type": 0,
+                "name": "X",
+                "subType": "boolean",
+                "group": "Face Buttons"
+            },
+            {
+                "type": 0,
+                "name": "Y",
+                "subType": "boolean",
+                "group": "Face Buttons"
+            },
+            {
+                "type": 0,
+                "name": "DPad Up",
+                "subType": "boolean",
+                "group": "D-Pad"
+            },
+            {
+                "type": 0,
+                "name": "DPad Down",
+                "subType": "boolean",
+                "group": "D-Pad"
+            },
+            {
+                "type": 0,
+                "name": "DPad Left",
+                "subType": "boolean",
+                "group": "D-Pad"
+            },
+            {
+                "type": 0,
+                "name": "DPad Right",
+                "subType": "boolean",
+                "group": "D-Pad"
+            },
+            {
+                "type": 0,
+                "name": "LB",
+                "subType": "boolean",
+                "group": "Shoulders & Sticks"
+            },
+            {
+                "type": 0,
+                "name": "RB",
+                "subType": "boolean",
+                "group": "Shoulders & Sticks"
+            },
+            {
+                "type": 0,
+                "name": "LS Click",
+                "subType": "boolean",
+                "group": "Shoulders & Sticks"
+            },
+            {
+                "type": 0,
+                "name": "RS Click",
+                "subType": "boolean",
+                "group": "Shoulders & Sticks"
+            },
+            {
+                "type": 0,
+                "name": "Menu",
+                "subType": "boolean",
+                "group": "System Buttons"
+            },
+            {
+                "type": 0,
+                "name": "View",
+                "subType": "boolean",
+                "group": "System Buttons"
+            },
+            {
+                "type": 0,
+                "name": "Guide",
+                "subType": "boolean",
+                "group": "System Buttons"
+            },
+            {
+                "type": 0,
+                "name": "Share",
+                "subType": "boolean",
+                "group": "System Buttons"
+            }
+        ]
+    }
+}

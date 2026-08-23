@@ -1,0 +1,1 @@
+cmd_Release/bmd_speed_editor.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.5 -arch arm64 -L./Release -stdlib=libc++  -o Release/bmd_speed_editor.node Release/obj.target/bmd_speed_editor/bmd_speed_editor.o -framework IOKit -framework Foundation

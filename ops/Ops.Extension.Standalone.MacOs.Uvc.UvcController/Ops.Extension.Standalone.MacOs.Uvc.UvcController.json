@@ -1,0 +1,83 @@
+{
+    "authorName": "cables user",
+    "id": "uvc00001-3e5f-4a0b-9304-954992688008",
+    "name": "Ops.Extension.Standalone.MacOs.Uvc.UvcController",
+    "summary": "Controls UVC PTZ cameras (Pan, Tilt, Zoom, Focus, Exposure) on macOS via native driver interface.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "UVC Camera Target",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Poll Rate Per Second",
+                "subType": "number",
+                "group": "Controls"
+            },
+            {
+                "type": 5,
+                "name": "Camera Control Command",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Update",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Trigger Out",
+                "group": "Status"
+            },
+            {
+                "type": 2,
+                "name": "Result Object",
+                "group": "Telemetry"
+            },
+            {
+                "type": 2,
+                "name": "Properties Object",
+                "group": "Telemetry"
+            },
+            {
+                "type": 0,
+                "name": "Pan",
+                "subType": "number",
+                "group": "Telemetry"
+            },
+            {
+                "type": 0,
+                "name": "Tilt",
+                "subType": "number",
+                "group": "Telemetry"
+            },
+            {
+                "type": 0,
+                "name": "Zoom",
+                "subType": "number",
+                "group": "Telemetry"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

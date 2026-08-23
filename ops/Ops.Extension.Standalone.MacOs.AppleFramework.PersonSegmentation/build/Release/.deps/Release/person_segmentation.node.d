@@ -1,0 +1,1 @@
+cmd_Release/person_segmentation.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.5 -arch arm64 -L./Release -stdlib=libc++  -o Release/person_segmentation.node Release/obj.target/person_segmentation/person_segmentation.o -framework CoreGraphics -framework CoreVideo -framework Vision -framework Foundation -framework ApplicationServices

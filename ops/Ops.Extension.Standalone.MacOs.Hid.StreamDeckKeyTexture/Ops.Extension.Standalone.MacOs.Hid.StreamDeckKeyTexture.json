@@ -1,0 +1,72 @@
+{
+    "authorName": "cables user",
+    "id": "e963b519-5d3c-41be-8db2-50d4f58c7407",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.StreamDeckKeyTexture",
+    "summary": "Captures any WebGL Texture and streams it to a specific key on an Elgato Stream Deck device.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render",
+                "group": "Rendering"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Settings"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "group": "Rendering",
+                "objType": "texture"
+            },
+            {
+                "type": 0,
+                "name": "Key Index",
+                "group": "Rendering",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Max FPS",
+                "group": "Settings",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "group": "Settings",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Flip X",
+                "group": "Settings",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 0,
+                "name": "Is Sending",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Actual FPS",
+                "subType": "number"
+            }
+        ]
+    }
+}

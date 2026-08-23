@@ -1,0 +1,1 @@
+cmd_Release/streamdeck_hid.node := c++ -bundle -framework Cocoa -framework IOKit -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.0 -arch arm64 -L./Release -stdlib=libc++  -o Release/streamdeck_hid.node Release/obj.target/streamdeck_hid/src/streamdeck_hid.o Release/nothing.a 

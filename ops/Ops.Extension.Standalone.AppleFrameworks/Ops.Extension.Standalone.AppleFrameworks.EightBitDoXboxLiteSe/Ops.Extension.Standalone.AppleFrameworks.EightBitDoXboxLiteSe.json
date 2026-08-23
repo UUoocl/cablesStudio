@@ -1,0 +1,236 @@
+{
+    "id": "4C3B24F0-E138-4F9A-B8CF-5A2C872E7D7C",
+    "created": 1782943200000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for native Node N-API-backed 8BitDo Xbox Controller monitor and rumble engine",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782943200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left Trigger",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right Trigger",
+                "subType": "number",
+                "group": "Rumble"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Rumble",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Send Rumble on Change",
+                "subType": "boolean",
+                "group": "Rumble"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 2,
+                "name": "Buttons Pressed"
+            },
+            {
+                "type": 0,
+                "name": "LS X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "LS Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "RS X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "RS Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "LT",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "RT",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "A",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "B",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "X",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "DPad Up",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "DPad Down",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "DPad Left",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "DPad Right",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "LB",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "RB",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "LS Click",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "RS Click",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Menu",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "View",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Guide",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Share",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Monitors inputs (buttons, joysticks, triggers) and controls rumble on the 8BitDo Lite SE 2.4G Xbox Controller natively using macOS IOKit in memory.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Starts or stops the native IOKit controller interface listener."
+            },
+            {
+                "name": "Rumble Left",
+                "text": "Controls heavy body vibration motor strength (0.0 to 1.0)."
+            },
+            {
+                "name": "Rumble Right",
+                "text": "Controls light body vibration motor strength (0.0 to 1.0)."
+            },
+            {
+                "name": "Rumble Left Trigger",
+                "text": "Controls left impulse trigger vibration motor strength (0.0 to 1.0)."
+            },
+            {
+                "name": "Rumble Right Trigger",
+                "text": "Controls right impulse trigger vibration motor strength (0.0 to 1.0)."
+            },
+            {
+                "name": "Trigger Rumble",
+                "text": "Fires a command immediately writing the current rumble settings to the controller."
+            },
+            {
+                "name": "Send Rumble on Change",
+                "text": "Automatically writes rumble settings to the controller whenever any input value changes."
+            },
+            {
+                "name": "On Event",
+                "text": "Fires a trigger when any state changes on the controller."
+            },
+            {
+                "name": "Is Connected",
+                "text": "True if the controller is connected and successfully claimed."
+            },
+            {
+                "name": "Status",
+                "text": "Human-readable status of the controller connection."
+            }
+        ]
+    }
+}

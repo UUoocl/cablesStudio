@@ -1,0 +1,49 @@
+{
+    "authorName": "cables user",
+    "id": "uvc00002-3e5f-4a0b-9304-954992688009",
+    "name": "Ops.Extension.Standalone.MacOs.Uvc.UvcGetDevices",
+    "summary": "Queries available UVC video capture devices and webcams on macOS.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Refresh Devices",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Trigger Out",
+                "group": "Status"
+            },
+            {
+                "type": 2,
+                "name": "Devices",
+                "group": "Devices"
+            },
+            {
+                "type": 2,
+                "name": "Device Names",
+                "group": "Devices"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

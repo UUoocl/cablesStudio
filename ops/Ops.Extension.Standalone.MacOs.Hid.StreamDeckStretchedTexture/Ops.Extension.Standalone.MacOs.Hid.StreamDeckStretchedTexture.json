@@ -1,0 +1,74 @@
+{
+    "authorName": "cables user",
+    "id": "f82b7194-e291-4962-97fa-4a25123d9198",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.StreamDeckStretchedTexture",
+    "summary": "Captures a WebGL Texture and spans it across the entire button grid of an Elgato Stream Deck device on macOS.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render",
+                "group": "Rendering"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Target"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Max FPS",
+                "subType": "number",
+                "group": "Settings"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "subType": "number",
+                "group": "Settings"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean",
+                "group": "Settings"
+            },
+            {
+                "type": 0,
+                "name": "Flip Tile X",
+                "subType": "boolean",
+                "group": "Settings"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Is Sending",
+                "subType": "boolean",
+                "group": "Diagnostics"
+            },
+            {
+                "type": 0,
+                "name": "Actual FPS",
+                "subType": "number",
+                "group": "Diagnostics"
+            }
+        ]
+    }
+}

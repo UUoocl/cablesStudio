@@ -1,0 +1,74 @@
+{
+    "authorName": "cables user",
+    "id": "c2081f9b-640f-48d8-9c12-32b0a3f81e92",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.SoomfonStretchedTexture",
+    "summary": "Captures a WebGL Texture and spans it across the 3x2 button grid of a Soomfon controller on macOS.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render",
+                "group": "Rendering"
+            },
+            {
+                "type": 2,
+                "name": "Connection",
+                "group": "Target"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Max FPS",
+                "subType": "number",
+                "group": "Settings"
+            },
+            {
+                "type": 0,
+                "name": "JPEG Quality",
+                "subType": "number",
+                "group": "Settings"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "subType": "boolean",
+                "group": "Settings"
+            },
+            {
+                "type": 0,
+                "name": "Flip Tile X",
+                "subType": "boolean",
+                "group": "Settings"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next",
+                "group": "Rendering"
+            },
+            {
+                "type": 0,
+                "name": "Is Sending",
+                "subType": "boolean",
+                "group": "Diagnostics"
+            },
+            {
+                "type": 0,
+                "name": "Actual FPS",
+                "subType": "number",
+                "group": "Diagnostics"
+            }
+        ]
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "authorName": "cables user",
+    "id": "a10d0492-3e5f-4a0b-9304-954992688006",
+    "name": "Ops.Extension.Standalone.MacOs.ActiveApp",
+    "summary": "Monitors the frontmost active application and window title on macOS using a native Node-API addon.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Interval (ms)",
+                "subType": "integer",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 5,
+                "name": "Application Name",
+                "group": "Application Details"
+            },
+            {
+                "type": 5,
+                "name": "Bundle Identifier",
+                "group": "Application Details"
+            },
+            {
+                "type": 0,
+                "name": "Process ID",
+                "subType": "number",
+                "group": "Application Details"
+            },
+            {
+                "type": 5,
+                "name": "Window Title",
+                "group": "Application Details"
+            },
+            {
+                "type": 1,
+                "name": "On Changed",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}
