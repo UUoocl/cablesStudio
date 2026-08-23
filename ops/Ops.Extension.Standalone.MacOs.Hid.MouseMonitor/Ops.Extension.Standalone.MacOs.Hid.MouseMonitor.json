@@ -1,0 +1,92 @@
+{
+    "authorName": "cables user",
+    "id": "ms000002-3e5f-4a0b-9304-954992688013",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.MouseMonitor",
+    "summary": "Global system-wide mouse movement, click, and scroll wheel listener on macOS using CoreGraphics event taps.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "PPS Limit",
+                "subType": "integer",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Move",
+                "group": "Status"
+            },
+            {
+                "type": 1,
+                "name": "On Click",
+                "group": "Status"
+            },
+            {
+                "type": 1,
+                "name": "On Scroll",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Pos X",
+                "subType": "number",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Pos Y",
+                "subType": "number",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Button",
+                "subType": "number",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Button Is Down",
+                "subType": "boolean",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Button Is Up",
+                "subType": "boolean",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta X",
+                "subType": "number",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Scroll Delta Y",
+                "subType": "number",
+                "group": "Coordinates & State"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

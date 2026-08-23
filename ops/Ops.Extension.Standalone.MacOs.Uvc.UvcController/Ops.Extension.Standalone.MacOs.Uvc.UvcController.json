@@ -23,6 +23,12 @@
                 "group": "Controls"
             },
             {
+                "type": 0,
+                "name": "Normalize",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
                 "type": 5,
                 "name": "Camera Control Command",
                 "group": "Controls"

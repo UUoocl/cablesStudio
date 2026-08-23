@@ -1,0 +1,49 @@
+{
+    "authorName": "cables user",
+    "id": "ms000001-3e5f-4a0b-9304-954992688012",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.MouseController",
+    "summary": "Generates synthetic mouse motion, clicks, drags, and wheel scroll events on macOS via CoreGraphics.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Emit",
+                "group": "Controls"
+            },
+            {
+                "type": 2,
+                "name": "Mouse Object",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Emitted",
+                "group": "Status"
+            },
+            {
+                "type": 2,
+                "name": "Emitted Mouse",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

@@ -6,7 +6,7 @@
     "userId": "6a88eb92e1ad29cf9c94b7c3",
     "cachedUsername": "",
     "created": 1787358098334,
-    "updated": 1787508489778,
+    "updated": 1787509249179,
     "visibility": "private",
     "ops": [
         {
@@ -980,7 +980,7 @@
                 },
                 {
                     "name": "Status",
-                    "value": "Publishing (Active Client)"
+                    "value": "Broadcasting (Waiting for Client)"
                 },
                 {
                     "name": "Width",
@@ -992,15 +992,15 @@
                 },
                 {
                     "name": "FPS",
-                    "value": 57.9
+                    "value": 60.2
                 },
                 {
                     "name": "Has Clients",
-                    "value": true
+                    "value": false
                 },
                 {
                     "name": "IOSurface ID",
-                    "value": 256
+                    "value": 172
                 }
             ]
         },
@@ -1060,7 +1060,7 @@
                 },
                 {
                     "name": "FPS",
-                    "value": 22.5
+                    "value": 34
                 },
                 {
                     "name": "Status",
@@ -1666,7 +1666,7 @@
                 },
                 {
                     "name": "Battery Level",
-                    "value": 69
+                    "value": 70
                 },
                 {
                     "name": "Charging",
@@ -1895,7 +1895,7 @@
                 },
                 {
                     "name": "Process ID",
-                    "value": 58112
+                    "value": 58772
                 },
                 {
                     "name": "Window Title",
@@ -1924,7 +1924,7 @@
             "portsIn": [
                 {
                     "name": "Active",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "Quality Level index",
@@ -1957,7 +1957,7 @@
                 },
                 {
                     "name": "Running",
-                    "value": false
+                    "value": true
                 },
                 {
                     "name": "Status",
@@ -2041,6 +2041,88 @@
                     "value": ""
                 }
             ]
+        },
+        {
+            "opId": "uvc00002-3e5f-4a0b-9304-954992688009",
+            "id": "mu0bc4tyq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 798.5098168089617,
+                    "y": -1293.76288093818
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Found 1 device(s)"
+                }
+            ]
+        },
+        {
+            "opId": "uvc00001-3e5f-4a0b-9304-954992688008",
+            "id": "bm5iovq16",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 948,
+                    "y": -1189.5948584507762
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "UVC Camera Target",
+                    "value": "OBSBOT Tiny SE"
+                },
+                {
+                    "name": "Poll Rate Per Second",
+                    "value": 30
+                },
+                {
+                    "name": "Normalize",
+                    "value": 1
+                },
+                {
+                    "name": "Camera Control Command",
+                    "value": "{}"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Pan",
+                    "value": 0.5654
+                },
+                {
+                    "name": "Tilt",
+                    "value": 0.2333
+                },
+                {
+                    "name": "Zoom",
+                    "value": 0
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Connected (1 devices found)"
+                }
+            ]
         }
     ],
     "settings": {
@@ -2072,9 +2154,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 640.3459746064191,
-                "y": -993.2844228671623,
-                "z": 692.7377730667969
+                "x": 851.7161228757561,
+                "y": -1043.2312394414848,
+                "z": 1191.4649797921854
             }
         },
         "outline": {
@@ -2095,7 +2177,7 @@
     "summary": {
         "title": "GoogleSlides"
     },
-    "opsHash": "68c669001b085dd43ea02c11bcd577723b672757",
+    "opsHash": "fce5b9dcbcaa21db7bef7f2d6e28d7692a5c4a0d",
     "buildInfo": {
         "updateWarning": false,
         "core": {

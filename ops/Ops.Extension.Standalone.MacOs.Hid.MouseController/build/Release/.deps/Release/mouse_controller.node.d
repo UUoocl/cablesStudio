@@ -1,0 +1,1 @@
+cmd_Release/mouse_controller.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=13.5 -arch arm64 -L./Release -stdlib=libc++  -o Release/mouse_controller.node Release/obj.target/mouse_controller/mouse_controller.o -framework CoreGraphics -framework Foundation -framework ApplicationServices

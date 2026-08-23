@@ -12,6 +12,7 @@ const
     inActive = op.inBool("Active", true),
     inCameraTarget = op.inString("UVC Camera Target", "default"),
     inPollRate = op.inValue("Poll Rate Per Second", 30),
+    inNormalize = op.inBool("Normalize", false),
     inCommand = op.inString("Camera Control Command", "{}"),
     inTrigger = op.inTriggerButton("Trigger Update"),
     
@@ -24,7 +25,7 @@ const
     outRunning = op.outBool("Running", false),
     outStatus = op.outString("Status", "Stopped");
 
-op.setPortGroup("Controls", [inActive, inCameraTarget, inPollRate, inCommand, inTrigger]);
+op.setPortGroup("Controls", [inActive, inCameraTarget, inPollRate, inNormalize, inCommand, inTrigger]);
 op.setPortGroup("Status", [outStatus, outRunning, outTrigger]);
 op.setPortGroup("Telemetry", [outPan, outTilt, outZoom, outProperties, outResult]);
 
@@ -79,6 +80,7 @@ function startServerAndProcess() {
 
         wss.on("connection", (ws) => {
             currentWs = ws;
+            outStatus.set("Connected");
 
             ws.on("message", (message, isBinary) => {
                 if (!isBinary && typeof message === "string") {
@@ -90,16 +92,18 @@ function startServerAndProcess() {
 
             ws.on("close", () => {
                 if (currentWs === ws) currentWs = null;
+                outStatus.set("Disconnected");
             });
 
             ws.on("error", (err) => {
-                op.logError("[MacOs.Uvc.UvcController] Sidecar error: " + err.message);
+                op.logError("[MacOs.Uvc.UvcController] Sidecar connection error: " + err.message);
             });
             
+            // Request device list immediately
             sendConfigure();
             setTimeout(() => {
                 sendCommand({ action: "list_devices" });
-            }, 500);
+            }, 300);
         });
 
     } catch (e) {
@@ -171,7 +175,7 @@ function sendConfigure() {
                 index: idx,
                 pollingEnabled: inActive.get(),
                 pollsPerSecond: inPollRate.get(),
-                mapEnabled: false,
+                mapEnabled: inNormalize.get(),
                 mapMin: 0,
                 mapMax: 1
             }
@@ -193,8 +197,16 @@ function sendCommand(payload) {
     }
 }
 
+function normalizeVal(val, min, max) {
+    if (typeof val !== "number" || typeof min !== "number" || typeof max !== "number") return val;
+    if (max === min) return 0;
+    const norm = (val - min) / (max - min);
+    return Math.max(0, Math.min(1, Math.round(norm * 10000) / 10000));
+}
+
 inCameraTarget.onChange = sendConfigure;
 inPollRate.onChange = sendConfigure;
+inNormalize.onChange = sendConfigure;
 inActive.onChange = () => {
     if (inActive.get()) {
         if (!cp) startServerAndProcess();
@@ -206,51 +218,130 @@ inActive.onChange = () => {
 
 function handleTextMessage(str) {
     try {
-        const json = JSON.parse(str);
+        const msg = JSON.parse(str);
 
-        if (json.type === "devices") {
-            const list = json.devices || [];
+        if (msg.type === "uvcResponse" && msg.action === "list_devices") {
+            const list = Array.isArray(msg.data) ? msg.data : (msg.devices || []);
             availableDevices = list;
-            const names = list.map((d) => d.name);
+            const names = list.map((d) => d.name || `Device ${d.index}`);
             if (names.length === 0) names.push("default");
             
             inCameraTarget.setUiAttribs({ "values": names });
-            if (!names.includes(inCameraTarget.get())) {
+            if (names.length > 0 && (!names.includes(inCameraTarget.get()) || inCameraTarget.get() === "default")) {
                 inCameraTarget.set(names[0]);
             }
-        } else if (json.type === "result") {
-            outResult.set(json.result);
-            outTrigger.trigger();
-        } else if (json.type === "update") {
-            const props = json.properties || {};
+            outStatus.set(`Connected (${list.length} devices found)`);
+            sendConfigure();
+        } else if (msg.type === "devices") {
+            const list = msg.devices || [];
+            availableDevices = list;
+            const names = list.map((d) => d.name || `Device ${d.index}`);
+            if (names.length === 0) names.push("default");
+            
+            inCameraTarget.setUiAttribs({ "values": names });
+            if (names.length > 0 && (!names.includes(inCameraTarget.get()) || inCameraTarget.get() === "default")) {
+                inCameraTarget.set(names[0]);
+            }
+            sendConfigure();
+        } else if (msg.type === "uvc_poll") {
+            outResult.set(msg.data);
+            const props = {};
+            const isNorm = inNormalize.get();
+
+            if (Array.isArray(msg.data)) {
+                msg.data.forEach((ctrl) => {
+                    const name = ctrl.name || "";
+                    if (name) {
+                        props[name] = isNorm && ctrl["mapped-value"] !== undefined ? ctrl["mapped-value"] : ctrl["current-value"];
+                    }
+                    
+                    const nameLower = name.toLowerCase();
+                    const min = ctrl["minimum"];
+                    const max = ctrl["maximum"];
+                    const rawVal = ctrl["current-value"];
+                    const mappedVal = ctrl["mapped-value"];
+
+                    if (nameLower.includes("pan") || nameLower.includes("tilt")) {
+                        if (typeof rawVal === "object" && rawVal !== null) {
+                            if (rawVal.pan !== undefined) {
+                                let p = rawVal.pan;
+                                if (isNorm) {
+                                    if (mappedVal && typeof mappedVal === "object" && mappedVal.pan !== undefined) {
+                                        p = mappedVal.pan;
+                                    } else if (min && max && typeof min === "object" && typeof max === "object" && min.pan !== undefined && max.pan !== undefined) {
+                                        p = normalizeVal(p, min.pan, max.pan);
+                                    }
+                                }
+                                outPan.set(p);
+                            }
+                            if (rawVal.tilt !== undefined) {
+                                let t = rawVal.tilt;
+                                if (isNorm) {
+                                    if (mappedVal && typeof mappedVal === "object" && mappedVal.tilt !== undefined) {
+                                        t = mappedVal.tilt;
+                                    } else if (min && max && typeof min === "object" && typeof max === "object" && min.tilt !== undefined && max.tilt !== undefined) {
+                                        t = normalizeVal(t, min.tilt, max.tilt);
+                                    }
+                                }
+                                outTilt.set(t);
+                            }
+                        } else if (nameLower === "pan") {
+                            let p = rawVal;
+                            if (isNorm && min !== undefined && max !== undefined) {
+                                p = (mappedVal !== undefined) ? mappedVal : normalizeVal(p, min, max);
+                            }
+                            outPan.set(p);
+                        } else if (nameLower === "tilt") {
+                            let t = rawVal;
+                            if (isNorm && min !== undefined && max !== undefined) {
+                                t = (mappedVal !== undefined) ? mappedVal : normalizeVal(t, min, max);
+                            }
+                            outTilt.set(t);
+                        }
+                    }
+                    
+                    if (nameLower.includes("zoom")) {
+                        if (typeof rawVal === "number") {
+                            let z = rawVal;
+                            if (isNorm && min !== undefined && max !== undefined) {
+                                z = (typeof mappedVal === "number") ? mappedVal : normalizeVal(z, min, max);
+                            }
+                            outZoom.set(z);
+                        } else if (typeof rawVal === "object" && rawVal !== null && rawVal.zoom !== undefined) {
+                            let z = rawVal.zoom;
+                            if (isNorm) {
+                                if (mappedVal && typeof mappedVal === "object" && mappedVal.zoom !== undefined) {
+                                    z = mappedVal.zoom;
+                                } else if (min && max && typeof min === "object" && typeof max === "object" && min.zoom !== undefined && max.zoom !== undefined) {
+                                    z = normalizeVal(z, min.zoom, max.zoom);
+                                }
+                            }
+                            outZoom.set(z);
+                        }
+                    }
+                });
+            }
             outProperties.set(props);
-
-            if (props.absolute_pan_tilt && props.absolute_pan_tilt.current) {
-                const pan = props.absolute_pan_tilt.current.pan;
-                const tilt = props.absolute_pan_tilt.current.tilt;
-                if (typeof pan === "number") outPan.set(pan);
-                if (typeof tilt === "number") outTilt.set(tilt);
-            }
-            if (props.absolute_zoom && typeof props.absolute_zoom.current === "number") {
-                outZoom.set(props.absolute_zoom.current);
-            }
-
             outTrigger.trigger();
-        } else if (json.type === "status") {
-            if (json.message) outStatus.set(json.message);
+        } else {
+            outResult.set(msg);
+            outTrigger.trigger();
         }
-    } catch (e) {}
+    } catch (e) {
+        op.logWarn("[MacOs.Uvc.UvcController] Error parsing sidecar message: " + e.message);
+    }
 }
 
 inTrigger.onTriggered = () => {
-    const rawCmd = inCommand.get();
-    if (!rawCmd) return;
-
+    if (!cp) {
+        startServerAndProcess();
+    }
+    
     try {
-        const parsed = JSON.parse(rawCmd);
-        sendCommand(parsed);
+        const cmd = JSON.parse(inCommand.get());
+        sendCommand(cmd);
     } catch (e) {
-        op.logWarn("[MacOs.Uvc.UvcController] Invalid JSON in Camera Control Command: " + e.message);
+        op.logWarn("[MacOs.Uvc.UvcController] Invalid JSON command: " + e.message);
     }
 };
 

@@ -1,0 +1,49 @@
+{
+    "authorName": "cables user",
+    "id": "kb000001-3e5f-4a0b-9304-954992688010",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.KeyboardController",
+    "summary": "Emits synthetic keyboard events and key combinations on macOS via CoreGraphics.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            },
+            {
+                "type": 1,
+                "name": "Emit",
+                "group": "Controls"
+            },
+            {
+                "type": 2,
+                "name": "Keystroke Object",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Emitted",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Emitted Keystroke",
+                "group": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}

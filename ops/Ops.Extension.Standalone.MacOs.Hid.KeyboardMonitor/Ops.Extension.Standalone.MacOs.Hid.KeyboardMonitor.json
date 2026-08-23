@@ -1,0 +1,54 @@
+{
+    "authorName": "cables user",
+    "id": "kb000002-3e5f-4a0b-9304-954992688011",
+    "name": "Ops.Extension.Standalone.MacOs.Hid.KeyboardMonitor",
+    "summary": "Global system-wide keyboard event listener on macOS using CoreGraphics event taps.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "subType": "boolean",
+                "group": "Controls"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Press",
+                "group": "Status"
+            },
+            {
+                "type": 1,
+                "name": "On Release",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Combo",
+                "group": "Key Details"
+            },
+            {
+                "type": 5,
+                "name": "Key",
+                "group": "Key Details"
+            },
+            {
+                "type": 5,
+                "name": "Modifiers",
+                "group": "Key Details"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 5,
+                "name": "Status",
+                "group": "Status"
+            }
+        ]
+    }
+}
