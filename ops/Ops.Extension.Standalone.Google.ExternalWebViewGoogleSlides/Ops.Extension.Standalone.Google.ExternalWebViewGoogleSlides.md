@@ -1,4 +1,4 @@
-# Ops.Extension.Standalone.Google.ExternalGoogleSlides
+# Ops.Extension.Standalone.Google.ExternalWebViewGoogleSlides
 
 Opens a standalone Electron window (with support for transparency and frameless modes), embeds Google Slides using an Electron `<webview>` tag with a local preload script (`slides_preload.js`), strips color-keyed backgrounds to transparency, and provides bidirectional BroadcastChannel communication with incremental mouse-wheel simulation for in-slide steps.
 
@@ -30,7 +30,7 @@ By using Electron's native `<webview>` tag coupled with `slides_preload.js`, the
 ### Controls
 * **Next Slide**: Sends a "Next Slide" navigation message over BroadcastChannel and simulates a mouse scroll down in the webview to step through in-slide animations.
 * **Previous Slide**: Sends a "Previous Slide" navigation message over BroadcastChannel and simulates a mouse scroll up in the webview.
-* **Broadcast Channel Name**: Custom BroadcastChannel name (defaults to `cables_externalslides_<op_id>` when left empty).
+* **Broadcast Channel Name**: Custom BroadcastChannel name (defaults to `cables_externalwebviewslides_<op_id>` when left empty).
 
 ## Outputs
 

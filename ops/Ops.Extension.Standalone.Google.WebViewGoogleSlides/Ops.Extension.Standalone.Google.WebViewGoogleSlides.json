@@ -10,7 +10,7 @@
     ],
     "changelog": [
         {
-            "message": "op created as Ops.Extension.Standalone.Google.GoogleSlides for in-editor webview texture capture",
+            "message": "op created as Ops.Extension.Standalone.Google.WebViewGoogleSlides for in-editor webview texture capture",
             "type": "new op",
             "author": "Antigravity",
             "date": 1787389000000
@@ -52,18 +52,6 @@
                 "name": "Active",
                 "group": "Capture Settings",
                 "subType": "boolean"
-            },
-            {
-                "type": 0,
-                "name": "Continuous Capture",
-                "group": "Capture Settings",
-                "subType": "boolean"
-            },
-            {
-                "type": 0,
-                "name": "Capture FPS",
-                "group": "Capture Settings",
-                "subType": "integer"
             },
             {
                 "type": 0,

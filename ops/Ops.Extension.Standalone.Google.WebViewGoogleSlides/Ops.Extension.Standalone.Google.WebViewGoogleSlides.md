@@ -1,4 +1,4 @@
-# Ops.Extension.Standalone.Google.GoogleSlides
+# Ops.Extension.Standalone.Google.WebViewGoogleSlides
 
 Runs an embedded Google Slides `<webview>` directly inside the Cables Studio editor, strips color-keyed backgrounds to transparency using a local preload script, and streams the rendered presentation into a WebGL `CGL.Texture` using Electron's native `capturePage()` API.
 

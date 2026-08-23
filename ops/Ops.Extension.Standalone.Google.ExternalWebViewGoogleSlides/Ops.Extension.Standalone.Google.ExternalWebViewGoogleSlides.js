@@ -1,4 +1,4 @@
-// Ops.Extension.Standalone.Google.ExternalGoogleSlides.js
+// Ops.Extension.Standalone.Google.ExternalWebViewGoogleSlides.js
 
 const
     inUrl = op.inString("Presentation URL", "https://docs.google.com/presentation/d/e/2PACX-1vRVpsaZJbgTiremeDpWaIW3M2gt0rmSj4bf_ymuH5panELG2cZcL1dwwaKhA6jNjIMozaUBBx1sZ5gQ/pub"),
@@ -9,7 +9,7 @@ const
     inNext = op.inTriggerButton("Next Slide"),
     inPrev = op.inTriggerButton("Previous Slide"),
     inChannelName = op.inString("Broadcast Channel Name", ""),
-    inTitle = op.inString("Window Title", "External Google Slides"),
+    inTitle = op.inString("Window Title", "External WebView Google Slides"),
     inTransparent = op.inBool("Transparent Window", true),
     inFrameless = op.inBool("Frameless Window", true),
     inAutoOpen = op.inBool("Auto Open", false),
@@ -69,7 +69,7 @@ function getPreloadPath()
         const fs = op.require("fs") || (typeof require !== "undefined" ? require("fs") : null);
         const nodeUrl = op.require("url") || (typeof require !== "undefined" ? require("url") : null);
 
-        let targetFile = "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Google.ExternalGoogleSlides/slides_preload.js";
+        let targetFile = "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Google.ExternalWebViewGoogleSlides/slides_preload.js";
 
         if (typeof __dirname !== "undefined" && path)
         {
@@ -91,7 +91,7 @@ function getPreloadPath()
     }
     catch (e)
     {
-        op.logWarn("[ExternalGoogleSlides] getPreloadPath error:", e);
+        op.logWarn("[ExternalWebViewGoogleSlides] getPreloadPath error:", e);
     }
     return "";
 }
@@ -100,7 +100,7 @@ function getActiveChannelName()
 {
     const custom = (inChannelName.get() || "").trim();
     if (custom) return custom;
-    return "cables_externalslides_" + op.id;
+    return "cables_externalwebviewslides_" + op.id;
 }
 
 function initBroadcastChannel()
@@ -187,7 +187,7 @@ function sendToChannel(payload)
         }
         catch (e)
         {
-            op.logWarn("[ExternalGoogleSlides] BroadcastChannel postMessage error:", e);
+            op.logWarn("[ExternalWebViewGoogleSlides] BroadcastChannel postMessage error:", e);
         }
     }
 }
@@ -200,7 +200,7 @@ function generateWindowHtml(title, isTransparent, channelName, presentationUrl, 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>${title || "External Google Slides"}</title>
+    <title>${title || "External WebView Google Slides"}</title>
     <style>
         * {
             box-sizing: border-box;
@@ -540,7 +540,7 @@ function openWindow()
     const y = inWinY.get() ?? 0;
     const isTransparent = inTransparent.get();
     const isFrameless = inFrameless.get();
-    const title = inTitle.get() || "External Google Slides";
+    const title = inTitle.get() || "External WebView Google Slides";
     const chName = getActiveChannelName();
     const preloadUrl = getPreloadPath();
     const removeColor = inBgColorToRemove.get() || "#abcdef";
@@ -566,11 +566,11 @@ function openWindow()
     }
 
     let windowFeatures = `width=${w},height=${h},left=${x},top=${y},menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=no,popup=true`;
-    let windowName = "cables_externalslides_win_" + op.id;
+    let windowName = "cables_externalwebviewslides_win_" + op.id;
 
     if (isTransparent || isFrameless)
     {
-        windowName = "view#transparent#externalslides_" + op.id;
+        windowName = "view#transparent#externalwebviewslides_" + op.id;
         windowFeatures += ",transparent=yes,frame=no,hasShadow=no";
     }
 
@@ -594,7 +594,7 @@ function openWindow()
     else
     {
         const err = "Pop-up window was blocked by the browser. Please allow pop-ups for Cables.";
-        op.logError("[ExternalGoogleSlides]", err);
+        op.logError("[ExternalWebViewGoogleSlides]", err);
         outError.set(err);
     }
 }

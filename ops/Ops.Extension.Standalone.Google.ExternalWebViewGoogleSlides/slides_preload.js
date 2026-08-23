@@ -1,8 +1,8 @@
-// slides_preload.js - Electron preload script for Google Slides in ExternalGoogleSlides
-// Runs inside the Google Slides page context before DOM finishes loading (no CORS barriers).
+// slides_preload.js - Preload for Ops.Extension.Standalone.Google.ExternalWebViewGoogleSlides
 
 (function() {
     let targetBgColorToRemove = "#abcdef";
+    let isDispatchingResize = false;
 
     if (window.trustedTypes && window.trustedTypes.createPolicy) {
         try {
@@ -26,7 +26,7 @@
 
         const ev = new WheelEvent('wheel', {
             deltaX: 0,
-            deltaY: deltaY, // Positive = scroll down (next), Negative = scroll up (prev)
+            deltaY: deltaY,
             deltaZ: 0,
             deltaMode: 0,
             clientX: x,
@@ -58,9 +58,6 @@
         });
         document.dispatchEvent(ev);
         if (document.body) document.body.dispatchEvent(ev);
-        if (document.activeElement && document.activeElement !== document) {
-            document.activeElement.dispatchEvent(ev);
-        }
     }
 
     function setupTransparentStyles() {
@@ -115,7 +112,6 @@
     function deleteBG(colorHex) {
         const hex = (colorHex || targetBgColorToRemove || "#abcdef").trim().toLowerCase();
 
-        // 1. Remove targeted background color shapes
         if (hex) {
             const cleanHex = hex.startsWith("#") ? hex : "#" + hex;
             const noHashHex = cleanHex.replace("#", "");
@@ -140,7 +136,6 @@
             } catch (e) {}
         }
 
-        // 2. Remove black/dark slide backdrop rects that Google Slides creates behind slides
         try {
             const darkBackdrops = document.querySelectorAll('rect[fill="#000000" i], rect[fill="#000" i], rect[fill="black" i], rect[fill="#111111" i], rect[fill="#222222" i]');
             for (let i = 0; i < darkBackdrops.length; i++) {
@@ -155,14 +150,18 @@
         } catch (e) {}
     }
 
-    function fitToWindow() {
+    function triggerViewerResize() {
+        if (isDispatchingResize) return;
+        isDispatchingResize = true;
         try {
             window.dispatchEvent(new Event("resize"));
         } catch (e) {}
+        finally {
+            isDispatchingResize = false;
+        }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-        document.title = "External Google Slides";
         setupTransparentStyles();
         deleteBG();
         setInterval(() => {
@@ -170,31 +169,26 @@
             deleteBG();
         }, 300);
 
-        setTimeout(fitToWindow, 100);
-        setTimeout(fitToWindow, 500);
-        setTimeout(fitToWindow, 1500);
+        setTimeout(triggerViewerResize, 100);
+        setTimeout(triggerViewerResize, 500);
+        setTimeout(triggerViewerResize, 1500);
     });
 
     window.addEventListener("load", () => {
         setupTransparentStyles();
         deleteBG();
-        fitToWindow();
+        triggerViewerResize();
     });
 
-    window.addEventListener("resize", () => {
-        fitToWindow();
-    });
-
-    // Support Electron ipcRenderer if available
     try {
         const { ipcRenderer } = require("electron");
         if (ipcRenderer) {
             ipcRenderer.on("next-slide", () => {
-                scrollSim(120); // Simulate mouse scroll down for incremental in-slide advance
+                scrollSim(120);
             });
 
             ipcRenderer.on("previous-slide", () => {
-                scrollSim(-120); // Simulate mouse scroll up for incremental in-slide reverse
+                scrollSim(-120);
             });
 
             ipcRenderer.on("set-remove-color", (_event, color) => {
@@ -206,16 +200,11 @@
         }
     } catch (e) {}
 
-    // Expose helper on guest window
     window.__cablesPreload = {
         setupTransparentStyles: setupTransparentStyles,
         deleteBG: deleteBG,
-        fitToWindow: fitToWindow,
+        triggerViewerResize: triggerViewerResize,
         scrollSim: scrollSim,
-        keySim: keySim,
-        setRemoveColor: function(c) {
-            targetBgColorToRemove = c || "#abcdef";
-            deleteBG(targetBgColorToRemove);
-        }
+        keySim: keySim
     };
 })();

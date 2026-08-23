@@ -1,4 +1,4 @@
-// Ops.Extension.Standalone.Google.GoogleSlides.js
+// Ops.Extension.Standalone.Google.WebViewGoogleSlides.js
 
 const
     inRender = op.inTrigger("Render"),
@@ -8,8 +8,6 @@ const
     inNext = op.inTriggerButton("Next Slide"),
     inPrev = op.inTriggerButton("Previous Slide"),
     inActive = op.inBool("Active", true),
-    inContinuous = op.inBool("Continuous Capture", true),
-    inFps = op.inInt("Capture FPS", 30),
     inWidth = op.inInt("Texture Width", 1920),
     inHeight = op.inInt("Texture Height", 1080),
     inFlipY = op.inBool("Flip Y", true),
@@ -24,7 +22,7 @@ const
 
 op.setPortGroup("Presentation", [inUrl, inBgColorToRemove, inTriggerRemoveBg]);
 op.setPortGroup("Controls", [inNext, inPrev]);
-op.setPortGroup("Capture Settings", [inActive, inContinuous, inFps, inFlipY]);
+op.setPortGroup("Capture Settings", [inActive, inFlipY]);
 op.setPortGroup("Resolution", [inWidth, inHeight]);
 
 const cgl = op.patch.cgl;
@@ -34,9 +32,6 @@ outTexture.setValue(emptyTexture);
 outTexture.setRef(emptyTexture);
 
 let webviewEl = null;
-let isCapturing = false;
-let captureTimer = null;
-let lastCaptureTime = 0;
 let currentSlideNumber = 1;
 let isDomReady = false;
 
@@ -71,7 +66,7 @@ function getPreloadPath()
         const fs = op.require("fs") || (typeof require !== "undefined" ? require("fs") : null);
         const nodeUrl = op.require("url") || (typeof require !== "undefined" ? require("url") : null);
 
-        let targetFile = "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Google.GoogleSlides/slides_preload.js";
+        let targetFile = "/Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Google.WebViewGoogleSlides/slides_preload.js";
 
         if (typeof __dirname !== "undefined" && path)
         {
@@ -93,7 +88,7 @@ function getPreloadPath()
     }
     catch (e)
     {
-        op.logWarn("[GoogleSlides] getPreloadPath error:", e);
+        op.logWarn("[WebViewGoogleSlides] getPreloadPath error:", e);
     }
     return "";
 }
@@ -147,42 +142,81 @@ function removeBgColor()
     {
         try { webviewEl.send("set-remove-color", c); } catch (e) {}
     }
+}
 
-    if (typeof webviewEl.executeJavaScript === "function")
+function handleHtmlInCanvasFrame(data)
+{
+    if (!data || !data.buffer) return;
+
+    const w = data.width || inWidth.get() || 1920;
+    const h = data.height || inHeight.get() || 1080;
+    const flipY = inFlipY.get();
+
+    if (!texture || texture.width !== w || texture.height !== h)
     {
-        try
-        {
-            const cleanHex = c.toLowerCase().startsWith("#") ? c.toLowerCase() : "#" + c.toLowerCase();
-            const noHash = cleanHex.replace("#", "");
-            webviewEl.executeJavaScript(`
-                (function() {
-                    if (window.__cablesPreload) {
-                        window.__cablesPreload.setupTransparentStyles();
-                        window.__cablesPreload.setRemoveColor("${c}");
-                    }
-                    var selectors = ['path[fill="${cleanHex}" i]', 'rect[fill="${cleanHex}" i]', 'path[fill*="${noHash}" i]', 'rect[fill*="${noHash}" i]'].join(",");
-                    var elems = document.querySelectorAll(selectors);
-                    for (var i = 0; i < elems.length; i++) {
-                        var el = elems[i];
-                        if (el.previousElementSibling && (el.previousElementSibling.tagName === 'path' || el.previousElementSibling.tagName === 'rect')) {
-                            el.previousElementSibling.style.display = 'none';
-                        }
-                        el.style.display = 'none';
-                    }
+        if (texture) texture.dispose();
+        texture = new CGL.Texture(cgl, {
+            "width": w,
+            "height": h,
+            "filter": CGL.Texture.FILTER_LINEAR,
+            "wrap": CGL.Texture.WRAP_CLAMP_TO_EDGE
+        });
+    }
 
-                    var darks = document.querySelectorAll('rect[fill="#000000" i], rect[fill="#000" i], rect[fill="black" i], rect[fill="#111111" i], rect[fill="#222222" i]');
-                    for (var j = 0; j < darks.length; j++) {
-                        var dEl = darks[j];
-                        var w = dEl.getAttribute("width") || "";
-                        var h = dEl.getAttribute("height") || "";
-                        if (w === "100%" || w === "960" || w === "1920" || (parseFloat(w) > 500 && parseFloat(h) > 300)) {
-                            dEl.style.display = "none";
-                        }
-                    }
-                })();
-            `);
+    try
+    {
+        let raw = data.buffer;
+        let pixels = null;
+
+        if (raw instanceof Uint8Array)
+        {
+            pixels = raw;
         }
-        catch (e) {}
+        else if (raw.buffer && raw.byteLength)
+        {
+            pixels = new Uint8Array(raw.buffer, raw.byteOffset || 0, raw.byteLength);
+        }
+        else if (raw.type === "Buffer" && Array.isArray(raw.data))
+        {
+            pixels = new Uint8Array(raw.data);
+        }
+        else if (Array.isArray(raw))
+        {
+            pixels = new Uint8Array(raw);
+        }
+
+        if (!pixels || pixels.length < w * h * 4) return;
+
+        const gl = cgl.gl;
+        gl.bindTexture(gl.TEXTURE_2D, texture.tex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, flipY);
+
+        gl.texImage2D(
+            gl.TEXTURE_2D,
+            0,
+            gl.RGBA,
+            w,
+            h,
+            0,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            pixels
+        );
+
+        if (flipY)
+        {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        }
+
+        outTexture.setValue(texture);
+        outTexture.setRef(texture);
+        outWidth.set(w);
+        outHeight.set(h);
+        outError.set("");
+    }
+    catch (err)
+    {
+        op.logWarn("[WebViewGoogleSlides] WebGL texture upload error:", err);
     }
 }
 
@@ -202,10 +236,10 @@ function initWebview()
     const url = formatGoogleSlidesUrl(rawUrl);
     const preloadUrl = getPreloadPath();
 
-    op.log("[GoogleSlides] Initializing webview in editor. Target URL: " + url);
+    op.log("[WebViewGoogleSlides] Initializing HTML-in-Canvas webview. URL: " + url);
 
     webviewEl = document.createElement("webview");
-    webviewEl.id = "cables_googleslides_offscreen_" + op.id;
+    webviewEl.id = "cables_webviewgoogleslides_offscreen_" + op.id;
 
     if (preloadUrl)
     {
@@ -214,7 +248,6 @@ function initWebview()
     webviewEl.setAttribute("webpreferences", "contextIsolation=no");
     webviewEl.setAttribute("allowpopups", "");
 
-    // Position behind Cables canvas with full opacity so Chromium paints 60fps frames continuously
     webviewEl.style.position = "fixed";
     webviewEl.style.left = "0px";
     webviewEl.style.top = "0px";
@@ -225,40 +258,44 @@ function initWebview()
     webviewEl.style.zIndex = "-999999";
     webviewEl.style.background = "transparent";
 
-    // Append to DOM before setting src
     document.body.appendChild(webviewEl);
     webviewEl.src = url;
 
     webviewEl.addEventListener("dom-ready", () =>
     {
-        op.log("[GoogleSlides] Webview DOM ready.");
+        op.log("[WebViewGoogleSlides] Webview DOM ready.");
         isDomReady = true;
         outIsLoaded.set(true);
         outError.set("");
         removeBgColor();
-        captureFrame();
     });
 
     webviewEl.addEventListener("did-finish-load", () =>
     {
-        op.log("[GoogleSlides] Webview finished load.");
+        op.log("[WebViewGoogleSlides] Webview finished load.");
         removeBgColor();
-        captureFrame();
     });
 
     webviewEl.addEventListener("ipc-message", (event) =>
     {
-        if (event.channel === "preload-ready")
+        if (event.channel === "html-in-canvas-frame")
         {
-            op.log("[GoogleSlides] Preload script ready in guest view.");
+            const data = event.args ? event.args[0] : null;
+            if (data)
+            {
+                handleHtmlInCanvasFrame(data);
+            }
+        }
+        else if (event.channel === "preload-ready")
+        {
+            op.log("[WebViewGoogleSlides] HTML-in-Canvas preload script ready in guest view.");
             removeBgColor();
-            captureFrame();
         }
     });
 
     webviewEl.addEventListener("console-message", (e) =>
     {
-        op.log("[GoogleSlides Guest] " + e.message);
+        op.log("[WebViewGoogleSlides Guest] " + e.message);
     });
 
     webviewEl.addEventListener("did-fail-load", (e) =>
@@ -266,7 +303,7 @@ function initWebview()
         if (e.errorCode !== -3)
         {
             const err = "Webview failed to load: " + (e.errorDescription || e.errorCode);
-            op.logWarn("[GoogleSlides]", err);
+            op.logWarn("[WebViewGoogleSlides]", err);
             outError.set(err);
         }
     });
@@ -276,12 +313,6 @@ function destroyWebview()
 {
     isDomReady = false;
     outIsLoaded.set(false);
-
-    if (captureTimer)
-    {
-        clearTimeout(captureTimer);
-        captureTimer = null;
-    }
 
     if (webviewEl)
     {
@@ -297,134 +328,6 @@ function destroyWebview()
     }
 }
 
-function updateTextureFromImage(nativeImage)
-{
-    if (!nativeImage || nativeImage.isEmpty()) return;
-
-    const w = inWidth.get() || 1920;
-    const h = inHeight.get() || 1080;
-    const flipY = inFlipY.get();
-
-    if (w <= 0 || h <= 0) return;
-
-    if (!texture)
-    {
-        texture = new CGL.Texture(cgl, {
-            "width": w,
-            "height": h,
-            "filter": CGL.Texture.FILTER_LINEAR,
-            "wrap": CGL.Texture.WRAP_CLAMP_TO_EDGE
-        });
-    }
-
-    if (texture.width !== w || texture.height !== h)
-    {
-        texture.setSize(w, h);
-    }
-
-    outWidth.set(w);
-    outHeight.set(h);
-
-    try
-    {
-        const size = nativeImage.getSize();
-        const imgW = size.width || w;
-        const imgH = size.height || h;
-        const bitmapBuf = nativeImage.toBitmap();
-
-        if (bitmapBuf && bitmapBuf.length > 0)
-        {
-            const gl = cgl.gl;
-            gl.bindTexture(gl.TEXTURE_2D, texture.tex);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, flipY);
-
-            // Convert BGRA (Electron NativeImage bitmap format) to RGBA in Uint8Array
-            const pixels = new Uint8Array(bitmapBuf.buffer, bitmapBuf.byteOffset, bitmapBuf.byteLength);
-            for (let i = 0; i < pixels.length; i += 4)
-            {
-                const b = pixels[i];
-                pixels[i] = pixels[i + 2];
-                pixels[i + 2] = b;
-            }
-
-            gl.texImage2D(
-                gl.TEXTURE_2D,
-                0,
-                gl.RGBA,
-                imgW,
-                imgH,
-                0,
-                gl.RGBA,
-                gl.UNSIGNED_BYTE,
-                pixels
-            );
-
-            if (flipY)
-            {
-                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-            }
-
-            outTexture.setValue(texture);
-            outTexture.setRef(texture);
-            outError.set("");
-        }
-    }
-    catch (err)
-    {
-        op.logWarn("[GoogleSlides] updateTextureFromImage error:", err);
-    }
-}
-
-function captureFrame()
-{
-    if (!inActive.get() || !webviewEl || isCapturing) return;
-
-    if (typeof webviewEl.capturePage !== "function")
-    {
-        return;
-    }
-
-    isCapturing = true;
-
-    webviewEl.capturePage()
-        .then((image) =>
-        {
-            isCapturing = false;
-            if (image && !image.isEmpty())
-            {
-                updateTextureFromImage(image);
-            }
-            lastCaptureTime = performance.now();
-            scheduleCapture();
-        })
-        .catch((err) =>
-        {
-            isCapturing = false;
-            scheduleCapture();
-        });
-}
-
-function scheduleCapture()
-{
-    if (!inActive.get() || !inContinuous.get()) return;
-
-    if (captureTimer)
-    {
-        clearTimeout(captureTimer);
-        captureTimer = null;
-    }
-
-    const targetFps = Math.max(1, Math.min(60, inFps.get() || 30));
-    const targetInterval = 1000 / targetFps;
-    const elapsed = performance.now() - lastCaptureTime;
-    const delay = Math.max(0, targetInterval - elapsed);
-
-    captureTimer = setTimeout(() =>
-    {
-        captureFrame();
-    }, delay);
-}
-
 function navigate(direction)
 {
     if (!webviewEl) return;
@@ -436,7 +339,6 @@ function navigate(direction)
         currentSlideNumber++;
         outCurrentSlide.set(currentSlideNumber);
 
-        // 1. Electron Native Mouse Wheel Scroll Down
         if (typeof webviewEl.sendInputEvent === "function")
         {
             try
@@ -453,40 +355,18 @@ function navigate(direction)
             catch (e) {}
         }
 
-        // 2. Preload IPC
         if (typeof webviewEl.send === "function")
         {
             try { webviewEl.send("next-slide"); } catch (e) {}
         }
 
-        // 3. Guest DOM WheelEvent
-        if (typeof webviewEl.executeJavaScript === "function")
-        {
-            try
-            {
-                webviewEl.executeJavaScript(`
-                    if (window.__cablesPreload && typeof window.__cablesPreload.scrollSim === 'function') {
-                        window.__cablesPreload.scrollSim(120);
-                    } else {
-                        var ev = new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true });
-                        var target = document.querySelector('.punch-viewer-content') || document.body;
-                        if (target) target.dispatchEvent(ev);
-                        document.dispatchEvent(ev);
-                    }
-                `);
-            }
-            catch (e) {}
-        }
-
         removeBgColor();
-        setTimeout(captureFrame, 80);
     }
     else if (direction === "prev")
     {
         currentSlideNumber = Math.max(1, currentSlideNumber - 1);
         outCurrentSlide.set(currentSlideNumber);
 
-        // 1. Electron Native Mouse Wheel Scroll Up
         if (typeof webviewEl.sendInputEvent === "function")
         {
             try
@@ -503,47 +383,26 @@ function navigate(direction)
             catch (e) {}
         }
 
-        // 2. Preload IPC
         if (typeof webviewEl.send === "function")
         {
             try { webviewEl.send("previous-slide"); } catch (e) {}
         }
 
-        // 3. Guest DOM WheelEvent
-        if (typeof webviewEl.executeJavaScript === "function")
-        {
-            try
-            {
-                webviewEl.executeJavaScript(`
-                    if (window.__cablesPreload && typeof window.__cablesPreload.scrollSim === 'function') {
-                        window.__cablesPreload.scrollSim(-120);
-                    } else {
-                        var ev = new WheelEvent('wheel', { deltaY: -120, bubbles: true, cancelable: true });
-                        var target = document.querySelector('.punch-viewer-content') || document.body;
-                        if (target) target.dispatchEvent(ev);
-                        document.dispatchEvent(ev);
-                    }
-                `);
-            }
-            catch (e) {}
-        }
-
         removeBgColor();
-        setTimeout(captureFrame, 80);
     }
 }
 
 inRender.onTriggered = () =>
 {
     outNext.trigger();
+    if (webviewEl && typeof webviewEl.send === "function")
+    {
+        try { webviewEl.send("request-frame"); } catch (e) {}
+    }
     if (texture)
     {
         outTexture.setValue(texture);
         outTexture.setRef(texture);
-    }
-    if (!inContinuous.get())
-    {
-        captureFrame();
     }
 };
 
@@ -569,53 +428,27 @@ inWidth.onChange = () =>
 {
     const w = inWidth.get() || 1920;
     outWidth.set(w);
-    if (webviewEl)
-    {
-        webviewEl.style.width = w + "px";
-    }
+    if (webviewEl) webviewEl.style.width = w + "px";
 };
 
 inHeight.onChange = () =>
 {
     const h = inHeight.get() || 1080;
     outHeight.set(h);
-    if (webviewEl)
-    {
-        webviewEl.style.height = h + "px";
-    }
+    if (webviewEl) webviewEl.style.height = h + "px";
 };
 
 inActive.onChange = () =>
 {
     if (inActive.get())
     {
-        if (!webviewEl)
-        {
-            initWebview();
-        }
-        scheduleCapture();
+        if (!webviewEl) initWebview();
     }
     else
     {
         destroyWebview();
         outTexture.setValue(emptyTexture);
         outTexture.setRef(emptyTexture);
-    }
-};
-
-inContinuous.onChange = () =>
-{
-    if (inContinuous.get())
-    {
-        scheduleCapture();
-    }
-};
-
-inFps.onChange = () =>
-{
-    if (inContinuous.get())
-    {
-        scheduleCapture();
     }
 };
 

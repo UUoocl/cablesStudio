@@ -9,7 +9,7 @@
     ],
     "changelog": [
         {
-            "message": "op created as Ops.Extension.Standalone.Google.ExternalGoogleSlides with clean webview popout, background color stripping, and incremental wheel navigation",
+            "message": "op created as Ops.Extension.Standalone.Google.ExternalWebViewGoogleSlides with clean webview popout, background color stripping, and incremental wheel navigation",
             "type": "new op",
             "author": "Antigravity",
             "date": 1787388000000
