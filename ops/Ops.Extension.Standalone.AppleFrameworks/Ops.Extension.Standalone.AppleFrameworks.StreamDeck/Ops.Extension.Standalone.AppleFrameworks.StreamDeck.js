@@ -59,7 +59,7 @@ function initAddon() {
 }
 
 function disconnectDevice() {
-    if (addon && isConnected) {
+    if (addon) {
         try {
             addon.disconnect();
         } catch (e) {

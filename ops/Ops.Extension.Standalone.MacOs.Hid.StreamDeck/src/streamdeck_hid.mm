@@ -43,12 +43,7 @@ public:
     }
 
     StreamDeckHID(const Napi::CallbackInfo& info) : Napi::ObjectWrap<StreamDeckHID>(info) {
-        hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-        NSDictionary *match = @{
-            @kIOHIDVendorIDKey: @(0x0FD9)
-        };
-        IOHIDManagerSetDeviceMatching(hidManager, (__bridge CFDictionaryRef)match);
-
+        hidManager = nullptr;
         currentDevice = nullptr;
         reportBuffer = new uint8_t[1024];
         tsfn = nullptr;
@@ -58,10 +53,6 @@ public:
 
     ~StreamDeckHID() {
         CloseInternal();
-        if (hidManager) {
-            CFRelease(hidManager);
-            hidManager = nullptr;
-        }
         delete[] reportBuffer;
     }
 
@@ -70,6 +61,7 @@ public:
 
         std::vector<uint8_t> payload(data, data + length);
         auto callback = [reportId, payload](Napi::Env env, Napi::Function jsCallback) {
+            if (env == nullptr || jsCallback == nullptr) return;
             Napi::Object evt = Napi::Object::New(env);
             evt.Set("reportId", Napi::Number::New(env, reportId));
             Napi::Buffer<uint8_t> buf = Napi::Buffer<uint8_t>::Copy(env, payload.data(), payload.size());
@@ -88,11 +80,12 @@ public:
             IOHIDDeviceRegisterInputReportCallback(dev, reportBuffer, 1024, HandleInputReportCallback, this);
 
             while (isRunning.load()) {
-                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, true);
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, false);
             }
 
             IOHIDDeviceRegisterInputReportCallback(dev, reportBuffer, 1024, nullptr, nullptr);
             IOHIDDeviceUnscheduleFromRunLoop(dev, bgRunLoop, kCFRunLoopDefaultMode);
+            IOHIDDeviceClose(dev, kIOHIDOptionsTypeNone);
             bgRunLoop = nullptr;
         }
     }
@@ -112,7 +105,8 @@ public:
                 outQueue.pop();
             }
 
-            if (currentDevice && !task.data.empty()) {
+            std::lock_guard<std::mutex> lock(devMtx);
+            if (isRunning.load() && currentDevice && !task.data.empty()) {
                 IOReturn r = IOHIDDeviceSetReport(currentDevice, task.type, task.reportId, task.data.data(), task.data.size());
                 if (r != kIOReturnSuccess) {
                     IOHIDReportType fallbackType = (task.type == kIOHIDReportTypeOutput) ? kIOHIDReportTypeFeature : kIOHIDReportTypeOutput;
@@ -137,6 +131,16 @@ private:
     std::mutex outQueueMtx;
     std::condition_variable outQueueCv;
 
+    void EnsureManager() {
+        if (!hidManager) {
+            hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+            NSDictionary *match = @{
+                @kIOHIDVendorIDKey: @(0x0FD9)
+            };
+            IOHIDManagerSetDeviceMatching(hidManager, (__bridge CFDictionaryRef)match);
+        }
+    }
+
     void CloseInternal() {
         isRunning = false;
 
@@ -148,6 +152,7 @@ private:
 
         if (bgRunLoop) {
             CFRunLoopStop(bgRunLoop);
+            CFRunLoopWakeUp(bgRunLoop);
         }
 
         if (inputThread.joinable()) {
@@ -160,13 +165,18 @@ private:
 
         std::lock_guard<std::mutex> lock(devMtx);
         if (currentDevice) {
-            IOHIDDeviceClose(currentDevice, kIOHIDOptionsTypeNone);
             CFRelease(currentDevice);
             currentDevice = nullptr;
         }
 
+        if (hidManager) {
+            IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
+            CFRelease(hidManager);
+            hidManager = nullptr;
+        }
+
         if (tsfn) {
-            tsfn.Release();
+            tsfn.Abort();
             tsfn = nullptr;
         }
     }
@@ -175,6 +185,7 @@ private:
         Napi::Env env = info.Env();
         Napi::Array arr = Napi::Array::New(env);
 
+        EnsureManager();
         if (!hidManager) return arr;
 
         CFSetRef deviceSet = IOHIDManagerCopyDevices(hidManager);
@@ -205,61 +216,6 @@ private:
         return arr;
     }
 
-    class OpenWorker : public Napi::AsyncWorker {
-    public:
-        OpenWorker(StreamDeckHID* parent, int targetIndex, Napi::Promise::Deferred deferred)
-            : Napi::AsyncWorker(deferred.Env()), parent(parent), targetIndex(targetIndex), deferred(deferred), success(false) {}
-
-        void Execute() override {
-            parent->CloseInternal();
-
-            if (!parent->hidManager) return;
-
-            CFSetRef deviceSet = IOHIDManagerCopyDevices(parent->hidManager);
-            if (!deviceSet) return;
-
-            CFIndex count = CFSetGetCount(deviceSet);
-            if (targetIndex < 0 || targetIndex >= count) {
-                CFRelease(deviceSet);
-                return;
-            }
-
-            CFTypeRef values[32];
-            count = std::min<CFIndex>(count, 32);
-            CFSetGetValues(deviceSet, values);
-
-            parent->currentDevice = (IOHIDDeviceRef)values[targetIndex];
-            CFRetain(parent->currentDevice);
-            CFRelease(deviceSet);
-
-            IOReturn ret = IOHIDDeviceOpen(parent->currentDevice, kIOHIDOptionsTypeNone);
-            if (ret != kIOReturnSuccess) {
-                CFRelease(parent->currentDevice);
-                parent->currentDevice = nullptr;
-                return;
-            }
-
-            parent->isRunning = true;
-            parent->inputThread = std::thread(&StreamDeckHID::InputThreadProc, parent, parent->currentDevice);
-            parent->outputThread = std::thread(&StreamDeckHID::OutputThreadProc, parent);
-            success = true;
-        }
-
-        void OnOK() override {
-            deferred.Resolve(Napi::Boolean::New(Env(), success));
-        }
-
-        void OnError(const Napi::Error& err) override {
-            deferred.Reject(err.Value());
-        }
-
-    private:
-        StreamDeckHID* parent;
-        int targetIndex;
-        Napi::Promise::Deferred deferred;
-        bool success;
-    };
-
     Napi::Value Open(const Napi::CallbackInfo& info) {
         Napi::Env env = info.Env();
         int targetIndex = 0;
@@ -267,10 +223,48 @@ private:
             targetIndex = info[0].As<Napi::Number>().Int32Value();
         }
 
-        Napi::Promise::Deferred deferred = Napi::Promise::Deferred::New(env);
-        OpenWorker* worker = new OpenWorker(this, targetIndex, deferred);
-        worker->Queue();
-        return deferred.Promise();
+        CloseInternal();
+        EnsureManager();
+
+        if (!hidManager) {
+            return Napi::Boolean::New(env, false);
+        }
+
+        CFSetRef deviceSet = IOHIDManagerCopyDevices(hidManager);
+        if (!deviceSet) {
+            return Napi::Boolean::New(env, false);
+        }
+
+        CFIndex count = CFSetGetCount(deviceSet);
+        if (targetIndex < 0 || targetIndex >= count) {
+            CFRelease(deviceSet);
+            return Napi::Boolean::New(env, false);
+        }
+
+        CFTypeRef values[32];
+        count = std::min<CFIndex>(count, 32);
+        CFSetGetValues(deviceSet, values);
+
+        {
+            std::lock_guard<std::mutex> lock(devMtx);
+            currentDevice = (IOHIDDeviceRef)values[targetIndex];
+            CFRetain(currentDevice);
+        }
+        CFRelease(deviceSet);
+
+        IOReturn ret = IOHIDDeviceOpen(currentDevice, kIOHIDOptionsTypeNone);
+        if (ret != kIOReturnSuccess) {
+            std::lock_guard<std::mutex> lock(devMtx);
+            CFRelease(currentDevice);
+            currentDevice = nullptr;
+            return Napi::Boolean::New(env, false);
+        }
+
+        isRunning = true;
+        inputThread = std::thread(&StreamDeckHID::InputThreadProc, this, currentDevice);
+        outputThread = std::thread(&StreamDeckHID::OutputThreadProc, this);
+
+        return Napi::Boolean::New(env, true);
     }
 
     Napi::Value Close(const Napi::CallbackInfo& info) {
@@ -286,7 +280,8 @@ private:
         }
 
         if (tsfn) {
-            tsfn.Release();
+            tsfn.Abort();
+            tsfn = nullptr;
         }
 
         tsfn = Napi::ThreadSafeFunction::New(

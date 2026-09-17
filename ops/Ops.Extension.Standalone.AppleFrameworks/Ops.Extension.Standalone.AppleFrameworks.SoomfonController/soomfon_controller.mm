@@ -37,15 +37,18 @@ void SendPacketLocked(const uint8_t* cmd, size_t cmd_len);
 // JS Threadsafe Invoker
 void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* data) {
     SoomfonEventPayload* event = static_cast<SoomfonEventPayload*>(data);
+    if (!event) return;
     
-    napi_value event_str = nullptr;
-    napi_create_string_utf8(env, event->jsonStr.c_str(), NAPI_AUTO_LENGTH, &event_str);
-    
-    napi_value global = nullptr;
-    napi_get_global(env, &global);
-    
-    napi_value result = nullptr;
-    napi_call_function(env, global, js_cb, 1, &event_str, &result);
+    if (env != nullptr && js_cb != nullptr) {
+        napi_value event_str = nullptr;
+        napi_create_string_utf8(env, event->jsonStr.c_str(), NAPI_AUTO_LENGTH, &event_str);
+        
+        napi_value global = nullptr;
+        napi_get_global(env, &global);
+        
+        napi_value result = nullptr;
+        napi_call_function(env, global, js_cb, 1, &event_str, &result);
+    }
     
     delete event;
 }
@@ -56,9 +59,10 @@ void SendJSEvent(const std::string& jsonStr) {
     SoomfonEventPayload* event = new SoomfonEventPayload();
     event->jsonStr = jsonStr;
     
-    napi_acquire_threadsafe_function(g_ts_fn);
-    napi_call_threadsafe_function(g_ts_fn, event, napi_tsfn_nonblocking);
-    napi_release_threadsafe_function(g_ts_fn, napi_tsfn_release);
+    napi_status status = napi_call_threadsafe_function(g_ts_fn, event, napi_tsfn_nonblocking);
+    if (status != napi_ok) {
+        delete event;
+    }
 }
 
 // Helpers for USB Packets

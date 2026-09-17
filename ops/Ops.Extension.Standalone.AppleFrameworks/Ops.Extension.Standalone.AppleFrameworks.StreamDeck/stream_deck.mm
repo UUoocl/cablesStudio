@@ -100,6 +100,7 @@ static napi_threadsafe_function g_ts_fn = nullptr;
 static std::thread g_run_loop_thread;
 static CFRunLoopRef g_background_run_loop = nullptr;
 static std::mutex g_thread_mutex;
+static std::atomic<bool> g_running{false};
 
 // Helper to query device property
 static std::string GetDevicePropertyString(IOHIDDeviceRef dev, CFStringRef key) {
@@ -129,21 +130,23 @@ static void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* 
     std::pair<int, bool>* eventData = static_cast<std::pair<int, bool>*>(data);
     if (!eventData) return;
 
-    napi_value eventObj;
-    napi_create_object(env, &eventObj);
+    if (env != nullptr && js_cb != nullptr) {
+        napi_value eventObj;
+        napi_create_object(env, &eventObj);
 
-    napi_value valKey, valPressed;
-    napi_create_int32(env, eventData->first, &valKey);
-    napi_get_boolean(env, eventData->second, &valPressed);
+        napi_value valKey, valPressed;
+        napi_create_int32(env, eventData->first, &valKey);
+        napi_get_boolean(env, eventData->second, &valPressed);
 
-    napi_set_named_property(env, eventObj, "key", valKey);
-    napi_set_named_property(env, eventObj, "pressed", valPressed);
+        napi_set_named_property(env, eventObj, "key", valKey);
+        napi_set_named_property(env, eventObj, "pressed", valPressed);
 
-    napi_value global;
-    napi_get_global(env, &global);
+        napi_value global;
+        napi_get_global(env, &global);
 
-    napi_value resultVal;
-    napi_call_function(env, global, js_cb, 1, &eventObj, &resultVal);
+        napi_value resultVal;
+        napi_call_function(env, global, js_cb, 1, &eventObj, &resultVal);
+    }
 
     delete eventData;
 }
@@ -348,15 +351,27 @@ napi_value Init(napi_env env, napi_callback_info info) {
         return nullptr;
     }
 
-    g_run_loop_thread = std::thread([]() {
-        CFRunLoopRef runLoop = CFRunLoopGetCurrent();
-        {
-            std::lock_guard<std::mutex> lock(g_thread_mutex);
-            g_background_run_loop = runLoop;
-        }
-        IOHIDManagerScheduleWithRunLoop(g_hid_manager, runLoop, kCFRunLoopDefaultMode);
-        CFRunLoopRun();
-    });
+    if (!g_running.load()) {
+        g_running.store(true);
+        g_run_loop_thread = std::thread([]() {
+            CFRunLoopRef runLoop = CFRunLoopGetCurrent();
+            {
+                std::lock_guard<std::mutex> lock(g_thread_mutex);
+                g_background_run_loop = runLoop;
+            }
+            IOHIDManagerScheduleWithRunLoop(g_hid_manager, runLoop, kCFRunLoopDefaultMode);
+            while (g_running.load()) {
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, false);
+            }
+            if (g_hid_manager && runLoop) {
+                IOHIDManagerUnscheduleFromRunLoop(g_hid_manager, runLoop, kCFRunLoopDefaultMode);
+            }
+            {
+                std::lock_guard<std::mutex> lock(g_thread_mutex);
+                g_background_run_loop = nullptr;
+            }
+        });
+    }
 
     napi_value valTrue;
     napi_get_boolean(env, true, &valTrue);
@@ -477,9 +492,36 @@ napi_value Connect(napi_env env, napi_callback_info info) {
 // Disconnect helper
 napi_value Disconnect(napi_env env, napi_callback_info info) {
     CloseActiveDevice();
+    
+    g_running.store(false);
+    {
+        std::lock_guard<std::mutex> lock(g_thread_mutex);
+        if (g_background_run_loop) {
+            CFRunLoopStop(g_background_run_loop);
+            CFRunLoopWakeUp(g_background_run_loop);
+        }
+    }
+    if (g_run_loop_thread.joinable()) {
+        g_run_loop_thread.join();
+    }
+    
+    if (g_hid_manager) {
+        IOHIDManagerRegisterDeviceMatchingCallback(g_hid_manager, nullptr, nullptr);
+        IOHIDManagerRegisterDeviceRemovalCallback(g_hid_manager, nullptr, nullptr);
+        IOHIDManagerClose(g_hid_manager, kIOHIDOptionsTypeNone);
+        CFRelease(g_hid_manager);
+        g_hid_manager = nullptr;
+    }
+    
+    {
+        std::lock_guard<std::mutex> lock(g_devices_mutex);
+        g_known_devices.clear();
+    }
+    
     if (g_ts_fn) {
-        napi_release_threadsafe_function(g_ts_fn, napi_tsfn_abort);
+        napi_threadsafe_function ts_fn = g_ts_fn;
         g_ts_fn = nullptr;
+        napi_release_threadsafe_function(ts_fn, napi_tsfn_abort);
     }
     napi_value valTrue;
     napi_get_boolean(env, true, &valTrue);

@@ -3,7 +3,7 @@
 #include <Foundation/Foundation.h>
 #include <ApplicationServices/ApplicationServices.h>
 #include <thread>
-#include <mutex>
+#include <atomic>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -17,22 +17,20 @@ struct KeyboardEvent {
 };
 
 // Global monitor state
-napi_threadsafe_function ts_fn = nullptr;
-std::thread monitor_thread;
-CFRunLoopRef run_loop = nullptr;
-CFMachPortRef event_tap = nullptr;
-CFRunLoopSourceRef run_loop_source = nullptr;
-bool active = false;
+static napi_threadsafe_function ts_fn = nullptr;
+static std::thread monitor_thread;
+static CFRunLoopRef run_loop = nullptr;
+static CFMachPortRef event_tap = nullptr;
+static CFRunLoopSourceRef run_loop_source = nullptr;
+static std::atomic<bool> g_active{false};
 
-bool is_ctrl_pressed = false;
-bool is_alt_pressed = false;
-bool is_shift_pressed = false;
-bool is_cmd_pressed = false;
+static std::atomic<bool> is_ctrl_pressed{false};
+static std::atomic<bool> is_alt_pressed{false};
+static std::atomic<bool> is_shift_pressed{false};
+static std::atomic<bool> is_cmd_pressed{false};
 
-std::mutex state_mutex;
-
-// Standard Cables keycode mapping matching the Swift keyCodeMap
-const std::unordered_map<int, std::string> keyCodeMap = {
+// Standard Cables keycode mapping matching the keyCodeMap
+static const std::unordered_map<int, std::string> keyCodeMap = {
     {0, "a"}, {1, "s"}, {2, "d"}, {3, "f"}, {4, "h"}, {5, "g"}, {6, "z"}, {7, "x"}, {8, "c"}, {9, "v"},
     {11, "b"}, {12, "q"}, {13, "w"}, {14, "e"}, {15, "r"}, {16, "y"}, {17, "t"}, {18, "1"}, {19, "2"},
     {20, "3"}, {21, "4"}, {22, "6"}, {23, "5"}, {24, "="}, {25, "9"}, {26, "7"}, {27, "-"}, {28, "8"},
@@ -48,65 +46,70 @@ const std::unordered_map<int, std::string> keyCodeMap = {
 };
 
 // Thread-safe function callback executing on Node JS main thread
-void call_js(napi_env env, napi_value js_cb, void* context, void* data) {
+static void call_js(napi_env env, napi_value js_cb, void* context, void* data) {
     KeyboardEvent* ev = static_cast<KeyboardEvent*>(data);
     if (!ev) return;
 
-    napi_value event_obj = nullptr;
-    napi_create_object(env, &event_obj);
+    if (env && js_cb) {
+        napi_value event_obj = nullptr;
+        napi_create_object(env, &event_obj);
 
-    napi_value event_val = nullptr;
-    napi_create_string_utf8(env, ev->event.c_str(), NAPI_AUTO_LENGTH, &event_val);
-    napi_set_named_property(env, event_obj, "event", event_val);
+        napi_value event_val = nullptr;
+        napi_create_string_utf8(env, ev->event.c_str(), NAPI_AUTO_LENGTH, &event_val);
+        napi_set_named_property(env, event_obj, "event", event_val);
 
-    napi_value key_val = nullptr;
-    napi_create_string_utf8(env, ev->key.c_str(), NAPI_AUTO_LENGTH, &key_val);
-    napi_set_named_property(env, event_obj, "key", key_val);
+        napi_value key_val = nullptr;
+        napi_create_string_utf8(env, ev->key.c_str(), NAPI_AUTO_LENGTH, &key_val);
+        napi_set_named_property(env, event_obj, "key", key_val);
 
-    napi_value modifiers_val = nullptr;
-    napi_create_string_utf8(env, ev->modifiers.c_str(), NAPI_AUTO_LENGTH, &modifiers_val);
-    napi_set_named_property(env, event_obj, "modifiers", modifiers_val);
+        napi_value modifiers_val = nullptr;
+        napi_create_string_utf8(env, ev->modifiers.c_str(), NAPI_AUTO_LENGTH, &modifiers_val);
+        napi_set_named_property(env, event_obj, "modifiers", modifiers_val);
 
-    napi_value combo_val = nullptr;
-    napi_create_string_utf8(env, ev->combo.c_str(), NAPI_AUTO_LENGTH, &combo_val);
-    napi_set_named_property(env, event_obj, "combo", combo_val);
+        napi_value combo_val = nullptr;
+        napi_create_string_utf8(env, ev->combo.c_str(), NAPI_AUTO_LENGTH, &combo_val);
+        napi_set_named_property(env, event_obj, "combo", combo_val);
 
-    napi_value undefined = nullptr;
-    napi_get_undefined(env, &undefined);
-    napi_value result = nullptr;
-    napi_call_function(env, undefined, js_cb, 1, &event_obj, &result);
+        napi_value undefined = nullptr;
+        napi_get_undefined(env, &undefined);
+        napi_value result = nullptr;
+        napi_call_function(env, undefined, js_cb, 1, &event_obj, &result);
+    }
 
     delete ev;
 }
 
-// Global CGEventTap callback
-CGEventRef event_tap_callback(
+// Global CGEventTap callback (Passive listener)
+static CGEventRef event_tap_callback(
     CGEventTapProxy proxy,
     CGEventType type,
     CGEventRef event,
     void* refcon
 ) {
-    if (!active) return event;
+    if (type == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput) {
+        if (event_tap) CGEventTapEnable(event_tap, true);
+        return event;
+    }
+
+    if (!g_active.load()) return event;
 
     if (type == kCGEventFlagsChanged) {
         CGEventFlags flags = CGEventGetFlags(event);
-        std::lock_guard<std::mutex> lock(state_mutex);
-        is_ctrl_pressed = (flags & kCGEventFlagMaskControl) != 0;
-        is_alt_pressed = (flags & kCGEventFlagMaskAlternate) != 0;
-        is_shift_pressed = (flags & kCGEventFlagMaskShift) != 0;
-        is_cmd_pressed = (flags & kCGEventFlagMaskCommand) != 0;
+        is_ctrl_pressed.store((flags & kCGEventFlagMaskControl) != 0);
+        is_alt_pressed.store((flags & kCGEventFlagMaskAlternate) != 0);
+        is_shift_pressed.store((flags & kCGEventFlagMaskShift) != 0);
+        is_cmd_pressed.store((flags & kCGEventFlagMaskCommand) != 0);
     } else if (type == kCGEventKeyDown || type == kCGEventKeyUp) {
         int64_t key_code = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
         
         auto it = keyCodeMap.find((int)key_code);
         std::string key_str = (it != keyCodeMap.end()) ? it->second : "Key_" + std::to_string(key_code);
 
-        std::lock_guard<std::mutex> lock(state_mutex);
         std::vector<std::string> mod_parts;
-        if (is_ctrl_pressed) mod_parts.push_back("ctrl");
-        if (is_alt_pressed) mod_parts.push_back("alt");
-        if (is_shift_pressed) mod_parts.push_back("shift");
-        if (is_cmd_pressed) mod_parts.push_back("cmd");
+        if (is_ctrl_pressed.load()) mod_parts.push_back("ctrl");
+        if (is_alt_pressed.load()) mod_parts.push_back("alt");
+        if (is_shift_pressed.load()) mod_parts.push_back("shift");
+        if (is_cmd_pressed.load()) mod_parts.push_back("cmd");
 
         std::string modifiers_str = "";
         for (size_t i = 0; i < mod_parts.size(); ++i) {
@@ -128,7 +131,7 @@ CGEventRef event_tap_callback(
         ev->combo = combo_str;
 
         if (ts_fn) {
-            napi_status status = napi_call_threadsafe_function(ts_fn, ev, napi_tsfn_blocking);
+            napi_status status = napi_call_threadsafe_function(ts_fn, ev, napi_tsfn_nonblocking);
             if (status != napi_ok) {
                 delete ev;
             }
@@ -139,16 +142,17 @@ CGEventRef event_tap_callback(
 }
 
 // Background thread loop
-void run_monitor_loop() {
+static void run_monitor_loop() {
     CGEventMask event_mask =
         (1ULL << kCGEventKeyDown) |
         (1ULL << kCGEventKeyUp) |
         (1ULL << kCGEventFlagsChanged);
 
+    // Passive listener to NEVER block or intercept system hotkeys (like Cmd+R)
     event_tap = CGEventTapCreate(
         kCGSessionEventTap,
         kCGHeadInsertEventTap,
-        kCGEventTapOptionDefault,
+        kCGEventTapOptionListenOnly,
         event_mask,
         event_tap_callback,
         nullptr
@@ -156,6 +160,7 @@ void run_monitor_loop() {
 
     if (!event_tap) {
         std::cerr << "[KeyboardMonitor] Failed to create CGEventTap." << std::endl;
+        g_active.store(false);
         return;
     }
 
@@ -167,9 +172,12 @@ void run_monitor_loop() {
     CFRunLoopRun();
 }
 
-napi_value Start(napi_env env, napi_callback_info info) {
-    std::lock_guard<std::mutex> lock(state_mutex);
-    if (active) return nullptr;
+static napi_value Start(napi_env env, napi_callback_info info) {
+    if (g_active.load()) {
+        napi_value success;
+        napi_get_boolean(env, true, &success);
+        return success;
+    }
 
     size_t argc = 1;
     napi_value args[1] = {nullptr};
@@ -180,14 +188,12 @@ napi_value Start(napi_env env, napi_callback_info info) {
         return nullptr;
     }
 
-    napi_value js_cb = args[0];
-
     napi_value resource_name = nullptr;
-    napi_create_string_utf8(env, "KeyboardMonitorThread", NAPI_AUTO_LENGTH, &resource_name);
+    napi_create_string_utf8(env, "KeyboardMonitor", NAPI_AUTO_LENGTH, &resource_name);
 
     napi_status status = napi_create_threadsafe_function(
         env,
-        js_cb,
+        args[0],
         nullptr,
         resource_name,
         0,
@@ -204,7 +210,7 @@ napi_value Start(napi_env env, napi_callback_info info) {
         return nullptr;
     }
 
-    active = true;
+    g_active.store(true);
     monitor_thread = std::thread(run_monitor_loop);
 
     napi_value success;
@@ -212,19 +218,29 @@ napi_value Start(napi_env env, napi_callback_info info) {
     return success;
 }
 
-napi_value Stop(napi_env env, napi_callback_info info) {
-    std::lock_guard<std::mutex> lock(state_mutex);
-    if (!active) return nullptr;
-
-    active = false;
-
-    if (run_loop) {
-        CFRunLoopStop(run_loop);
-        run_loop = nullptr;
+static napi_value Stop(napi_env env, napi_callback_info info) {
+    if (!g_active.load()) {
+        napi_value success;
+        napi_get_boolean(env, true, &success);
+        return success;
     }
+
+    g_active.store(false);
 
     if (event_tap) {
         CGEventTapEnable(event_tap, false);
+    }
+
+    if (run_loop) {
+        CFRunLoopStop(run_loop);
+        CFRunLoopWakeUp(run_loop);
+    }
+
+    if (monitor_thread.joinable()) {
+        monitor_thread.join();
+    }
+
+    if (event_tap) {
         CFRelease(event_tap);
         event_tap = nullptr;
     }
@@ -233,10 +249,7 @@ napi_value Stop(napi_env env, napi_callback_info info) {
         CFRelease(run_loop_source);
         run_loop_source = nullptr;
     }
-
-    if (monitor_thread.joinable()) {
-        monitor_thread.join();
-    }
+    run_loop = nullptr;
 
     if (ts_fn) {
         napi_release_threadsafe_function(ts_fn, napi_tsfn_release);
@@ -248,7 +261,7 @@ napi_value Stop(napi_env env, napi_callback_info info) {
     return success;
 }
 
-napi_value Init(napi_env env, napi_value exports) {
+static napi_value Init(napi_env env, napi_value exports) {
     napi_property_descriptor desc[] = {
         { "start", nullptr, Start, nullptr, nullptr, nullptr, napi_default, nullptr },
         { "stop", nullptr, Stop, nullptr, nullptr, nullptr, napi_default, nullptr }

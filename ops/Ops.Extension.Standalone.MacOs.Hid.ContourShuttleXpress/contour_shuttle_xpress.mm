@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <thread>
+#include <atomic>
 #include <iostream>
 
 struct ShuttleEventPayload {
@@ -15,6 +16,7 @@ static IOHIDManagerRef g_hid_manager = NULL;
 static std::thread g_run_loop_thread;
 static CFRunLoopRef g_cf_run_loop = NULL;
 static napi_threadsafe_function g_ts_fn = nullptr;
+static std::atomic<bool> g_running{false};
 static bool g_device_connected = false;
 
 static int g_prevJog = -1;
@@ -26,15 +28,18 @@ static bool g_prevButtons[5] = {false};
 // Threadsafe JS function callback invoker
 void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* data) {
     ShuttleEventPayload* event = static_cast<ShuttleEventPayload*>(data);
+    if (!event) return;
     
-    napi_value event_str = nullptr;
-    napi_create_string_utf8(env, event->jsonStr.c_str(), NAPI_AUTO_LENGTH, &event_str);
-    
-    napi_value global = nullptr;
-    napi_get_global(env, &global);
-    
-    napi_value result = nullptr;
-    napi_call_function(env, global, js_cb, 1, &event_str, &result);
+    if (env != nullptr && js_cb != nullptr) {
+        napi_value event_str = nullptr;
+        napi_create_string_utf8(env, event->jsonStr.c_str(), NAPI_AUTO_LENGTH, &event_str);
+        
+        napi_value global = nullptr;
+        napi_get_global(env, &global);
+        
+        napi_value result = nullptr;
+        napi_call_function(env, global, js_cb, 1, &event_str, &result);
+    }
     
     delete event;
 }
@@ -45,9 +50,10 @@ void SendJSEvent(const std::string& jsonStr) {
     ShuttleEventPayload* event = new ShuttleEventPayload();
     event->jsonStr = jsonStr;
     
-    napi_acquire_threadsafe_function(g_ts_fn);
-    napi_call_threadsafe_function(g_ts_fn, event, napi_tsfn_nonblocking);
-    napi_release_threadsafe_function(g_ts_fn, napi_tsfn_release);
+    napi_status status = napi_call_threadsafe_function(g_ts_fn, event, napi_tsfn_nonblocking);
+    if (status != napi_ok) {
+        delete event;
+    }
 }
 
 void ProcessReport(const uint8_t* data, uint32_t length) {
@@ -89,22 +95,14 @@ void ProcessReport(const uint8_t* data, uint32_t length) {
     g_prevJog = jogVal;
     g_hasPrevJog = true;
     
-    // 3. Button events (ShuttleXpress has 5 buttons mapped as follows):
-    // Button 0 (leftmost): data[3] bit 4
-    // Button 1: data[3] bit 5
-    // Button 2: data[3] bit 6
-    // Button 3: data[3] bit 7
-    // Button 4 (rightmost): data[4] bit 0
-    bool buttonsPressed[5] = {
-        ((bByte1 >> 4) & 1) != 0,
-        ((bByte1 >> 5) & 1) != 0,
-        ((bByte1 >> 6) & 1) != 0,
-        ((bByte1 >> 7) & 1) != 0,
-        ((bByte2 >> 0) & 1) != 0
-    };
-    
+    // 3. Button events (5 buttons for Express)
     for (int i = 0; i < 5; ++i) {
-        bool pressed = buttonsPressed[i];
+        bool pressed = false;
+        if (i < 4) {
+            pressed = ((bByte1 >> (i + 4)) & 1) != 0;
+        } else {
+            pressed = (bByte2 & 1) != 0;
+        }
         if (pressed != g_prevButtons[i]) {
             g_prevButtons[i] = pressed;
             char buf[128];
@@ -144,10 +142,24 @@ void RunMonitorLoop() {
     IOReturn openResult = IOHIDManagerOpen(g_hid_manager, kIOHIDOptionsTypeNone);
     if (openResult != kIOReturnSuccess) {
         std::cerr << "[ContourShuttleXpress] Failed to open IOHIDManager. Error: " << openResult << std::endl;
+        g_cf_run_loop = NULL;
         return;
     }
     
-    CFRunLoopRun();
+    // Explicit timed runloop iteration with atomic running flag
+    while (g_running.load()) {
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, false);
+    }
+    
+    // Clean up IOHID on its owning run loop thread before exit
+    if (g_hid_manager) {
+        IOHIDManagerUnscheduleFromRunLoop(g_hid_manager, g_cf_run_loop, kCFRunLoopDefaultMode);
+        IOHIDManagerRegisterDeviceMatchingCallback(g_hid_manager, NULL, NULL);
+        IOHIDManagerRegisterDeviceRemovalCallback(g_hid_manager, NULL, NULL);
+        IOHIDManagerRegisterInputReportCallback(g_hid_manager, NULL, NULL);
+        IOHIDManagerClose(g_hid_manager, kIOHIDOptionsTypeNone);
+    }
+    g_cf_run_loop = NULL;
 }
 
 // N-API exports: start(callback)
@@ -162,8 +174,9 @@ napi_value Start(napi_env env, napi_callback_info info) {
     }
     
     if (g_ts_fn) {
-        napi_release_threadsafe_function(g_ts_fn, napi_tsfn_abort);
+        napi_threadsafe_function old_fn = g_ts_fn;
         g_ts_fn = nullptr;
+        napi_release_threadsafe_function(old_fn, napi_tsfn_abort);
     }
     
     napi_value resource_name = nullptr;
@@ -188,7 +201,8 @@ napi_value Start(napi_env env, napi_callback_info info) {
         return nullptr;
     }
     
-    if (!g_hid_manager) {
+    if (!g_running.load()) {
+        g_running.store(true);
         g_hid_manager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
         
         NSDictionary* matchingDict = @{
@@ -207,9 +221,11 @@ napi_value Start(napi_env env, napi_callback_info info) {
 
 // Exports: stop()
 napi_value Stop(napi_env env, napi_callback_info info) {
+    g_running.store(false);
+    
     if (g_cf_run_loop) {
         CFRunLoopStop(g_cf_run_loop);
-        g_cf_run_loop = NULL;
+        CFRunLoopWakeUp(g_cf_run_loop);
     }
     
     if (g_run_loop_thread.joinable()) {
@@ -217,7 +233,6 @@ napi_value Stop(napi_env env, napi_callback_info info) {
     }
     
     if (g_hid_manager) {
-        IOHIDManagerClose(g_hid_manager, kIOHIDOptionsTypeNone);
         CFRelease(g_hid_manager);
         g_hid_manager = NULL;
     }
@@ -230,11 +245,14 @@ napi_value Stop(napi_env env, napi_callback_info info) {
     memset(g_prevButtons, 0, sizeof(g_prevButtons));
     
     if (g_ts_fn) {
-        napi_release_threadsafe_function(g_ts_fn, napi_tsfn_abort);
+        napi_threadsafe_function ts_fn = g_ts_fn;
         g_ts_fn = nullptr;
+        napi_release_threadsafe_function(ts_fn, napi_tsfn_abort);
     }
     
-    return nullptr;
+    napi_value ret = nullptr;
+    napi_get_boolean(env, true, &ret);
+    return ret;
 }
 
 // Exports: isConnected() -> Boolean

@@ -1,0 +1,79 @@
+{
+    "id": "e4f5a6b7-8c9d-4e1f-a2b3-c4d5e6f7a8b9",
+    "authorName": "Antigravity",
+    "created": 1783336300000,
+    "summary": "Fetches a complete slide deck or HTML document from a URL, rewrites relative asset paths against a Base URL, and executes a user-provided JavaScript script to initialize and control the content.",
+    "category": "gl",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "URL"
+            },
+            {
+                "type": 5,
+                "name": "Base URL"
+            },
+            {
+                "type": 5,
+                "name": "Script",
+                "editor": true,
+                "group": "Scripting"
+            },
+            {
+                "type": 1,
+                "name": "Reload",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Auto Fetch",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "Width",
+                "group": "Container Styling"
+            },
+            {
+                "type": 5,
+                "name": "Height",
+                "group": "Container Styling"
+            },
+            {
+                "type": 0,
+                "name": "Overflow index",
+                "values": [
+                    "hidden",
+                    "visible",
+                    "auto",
+                    "scroll"
+                ],
+                "group": "Container Styling",
+                "subType": "integer"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Element"
+            },
+            {
+                "type": 5,
+                "name": "HTML"
+            },
+            {
+                "type": 1,
+                "name": "Loaded"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "license": "MIT",
+    "isReleased": true
+}

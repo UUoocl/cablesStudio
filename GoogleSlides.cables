@@ -1,7 +1,7 @@
 {
     "_id": "6a88eb92e9d13bb2317b5903",
     "shortId": "hUqQYs",
-    "name": "GoogleSlides",
+    "name": "badGoogleSlides",
     "description": "",
     "userId": "6a88eb92e1ad29cf9c94b7c3",
     "cachedUsername": "",
@@ -2176,7 +2176,7 @@
         }
     },
     "summary": {
-        "title": "GoogleSlides"
+        "title": "badGoogleSlides"
     },
     "opsHash": "4fec0a3298a5838d2a58d648c250c25bfb81dca2",
     "buildInfo": {

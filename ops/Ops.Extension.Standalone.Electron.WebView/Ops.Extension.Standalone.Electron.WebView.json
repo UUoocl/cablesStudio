@@ -1,0 +1,119 @@
+{
+    "id": "2c7b8e1a-4d9f-4310-9b87-1e5f8a623002",
+    "created": 1787390200000,
+    "license": "MIT",
+    "summary": "Runs an embedded Electron webview inside the editor with customizable preload script reference and bidirectional Object messaging interface, capturing real-time rendered frames into a WebGL CGL.Texture via HTML-in-Canvas zero-copy GPU pipeline.",
+    "coreLibs": [
+        "standalone_electron",
+        "cgl"
+    ],
+    "changelog": [
+        {
+            "message": "op created as Ops.Extension.Standalone.Electron.WebView with configurable preload script reference input and bidirectional Object message interface",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1787390200000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Render"
+            },
+            {
+                "type": 1,
+                "name": "Send",
+                "group": "Messaging"
+            },
+            {
+                "type": 2,
+                "name": "Message In",
+                "group": "Messaging"
+            },
+            {
+                "type": 5,
+                "name": "URL",
+                "group": "Configuration"
+            },
+            {
+                "type": 5,
+                "name": "Preload File",
+                "group": "Configuration"
+            },
+            {
+                "type": 0,
+                "name": "Show Element",
+                "group": "Display",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Capture Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Texture Width",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Texture Height",
+                "group": "Resolution",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Flip Y",
+                "group": "Capture Settings",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Next"
+            },
+            {
+                "type": 2,
+                "name": "Texture",
+                "objType": "texture"
+            },
+            {
+                "type": 1,
+                "name": "On Message"
+            },
+            {
+                "type": 2,
+                "name": "Message Out"
+            },
+            {
+                "type": 0,
+                "name": "Is Loaded",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Current Slide",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Width",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Height",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}

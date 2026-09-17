@@ -76,6 +76,17 @@ const mimeTypes = {
     ".ogg": "audio/ogg"
 };
 
+function escapeHtml(str)
+{
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 // Set default root directory to patch directory if available
 const paths = op.patch.config.paths || {};
 if (paths.patchPath && !inRootDir.get()) inRootDir.set(paths.patchPath);
@@ -161,8 +172,18 @@ function start()
 
             if (err)
             {
+                // Try forwarding to API handlers if enabled (allows custom routes like /excalidraw)
+                if (inEnableApi.get() && !res._handled && !res._cablesHandled)
+                {
+                    handleApiRequest(req, res, pathname);
+                    if (res.headersSent || res._handled || res._cablesHandled) return;
+                }
+
+                if (res.headersSent) return;
+
                 res.statusCode = 404;
-                res.end(`File ${pathname} not found!`);
+                res.setHeader("Content-Type", "text/html; charset=utf-8");
+                res.end(`<!DOCTYPE html><html><head><title>404 Not Found</title></head><body style="font-family:system-ui,sans-serif;padding:2rem;background:#121212;color:#e0e0e0;"><h2>404 Not Found</h2><p>File <code>${escapeHtml(pathname)}</code> not found in root directory.</p><p>If you are trying to access Excalidraw, try visiting: <a href="/api/excalidraw" style="color:#6965db;">/api/excalidraw</a></p></body></html>`);
                 return;
             }
 
@@ -177,8 +198,18 @@ function start()
 
                 if (err)
                 {
-                    res.statusCode = 500;
-                    res.end(`Error getting the file: ${err}.`);
+                    // If directory index.html is missing, try forwarding to API handlers
+                    if (inEnableApi.get() && !res._handled && !res._cablesHandled)
+                    {
+                        handleApiRequest(req, res, pathname);
+                        if (res.headersSent || res._handled || res._cablesHandled) return;
+                    }
+
+                    if (res.headersSent) return;
+
+                    res.statusCode = 404;
+                    res.setHeader("Content-Type", "text/html; charset=utf-8");
+                    res.end(`<!DOCTYPE html><html><head><title>404 Not Found</title></head><body style="font-family:system-ui,sans-serif;padding:2rem;background:#121212;color:#e0e0e0;"><h2>404 Not Found</h2><p>File <code>${escapeHtml(pathname)}</code> (or index.html) was not found in root directory.</p><p>If you are trying to access Excalidraw, try visiting: <a href="/api/excalidraw" style="color:#6965db;">/api/excalidraw</a></p></body></html>`);
                 }
                 else
                 {

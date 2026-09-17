@@ -1,0 +1,130 @@
+{
+    "id": "7cbfde6b-6520-4344-8dc2-656b42cb3f61",
+    "created": 1789573872899,
+    "license": "MIT",
+    "dependencies": [
+        {
+            "src": "@excalidraw/excalidraw",
+            "type": "npm"
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Trigger",
+                "group": "HTTP Server Integration"
+            },
+            {
+                "type": 2,
+                "name": "Request Data",
+                "group": "HTTP Server Integration"
+            },
+            {
+                "type": 2,
+                "name": "Response",
+                "group": "HTTP Server Integration"
+            },
+            {
+                "type": 5,
+                "name": "API Route",
+                "group": "HTTP Server Integration"
+            },
+            {
+                "type": 0,
+                "name": "Theme index",
+                "group": "Excalidraw Settings",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Transparent",
+                "group": "Excalidraw Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Show UI",
+                "group": "Excalidraw Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Read Only",
+                "group": "Excalidraw Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Grid Mode",
+                "group": "Excalidraw Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Zen Mode",
+                "group": "Excalidraw Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Auto Save",
+                "group": "Excalidraw Settings",
+                "subType": "boolean"
+            },
+            {
+                "type": 5,
+                "name": "App Title",
+                "group": "Excalidraw Settings"
+            },
+            {
+                "type": 2,
+                "name": "Initial Scene Data",
+                "group": "Scene Data"
+            },
+            {
+                "type": 5,
+                "name": "Initial Scene JSON String",
+                "group": "Scene Data"
+            },
+            {
+                "type": 1,
+                "name": "Reload Preview"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Request"
+            },
+            {
+                "type": 1,
+                "name": "On Scene Updated"
+            },
+            {
+                "type": 1,
+                "name": "On Error"
+            },
+            {
+                "type": 2,
+                "name": "Element"
+            },
+            {
+                "type": 5,
+                "name": "HTML"
+            },
+            {
+                "type": 2,
+                "name": "Scene Data"
+            },
+            {
+                "type": 5,
+                "name": "Scene JSON String"
+            },
+            {
+                "type": 5,
+                "name": "Error"
+            }
+        ]
+    }
+}

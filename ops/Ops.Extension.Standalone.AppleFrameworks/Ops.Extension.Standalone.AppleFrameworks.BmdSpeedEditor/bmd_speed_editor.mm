@@ -103,7 +103,7 @@ bool authenticate(IOHIDDeviceRef device) {
     res = IOHIDDeviceGetReport(device, kIOHIDReportTypeFeature, 6, responseReport, &responseLength);
     if (res != kIOReturnSuccess || responseReport[0] != 0x06 || responseReport[1] != 0x02) return false;
     
-    // Step 5: Compute and send our response
+    // Step 5: Send computed response
     uint64_t responseVal = bmdKbdAuth(challenge);
     uint8_t ourResponseReport[10] = {0};
     ourResponseReport[0] = 0x06;
@@ -126,15 +126,19 @@ bool authenticate(IOHIDDeviceRef device) {
 // Threadsafe JS function callback invoker
 void CallJSCallback(napi_env env, napi_value js_cb, void* context, void* data) {
     EventPayload* event = static_cast<EventPayload*>(data);
+    if (!event) return;
     
-    napi_value event_str = nullptr;
-    napi_create_string_utf8(env, event->jsonStr.c_str(), NAPI_AUTO_LENGTH, &event_str);
-    
-    napi_value global = nullptr;
-    napi_get_global(env, &global);
-    
-    napi_value result = nullptr;
-    napi_call_function(env, global, js_cb, 1, &event_str, &result);
+    // Safely check env and js_cb (when threadsafe function is aborting, env and js_cb will be nullptr)
+    if (env != nullptr && js_cb != nullptr) {
+        napi_value event_str = nullptr;
+        napi_create_string_utf8(env, event->jsonStr.c_str(), NAPI_AUTO_LENGTH, &event_str);
+        
+        napi_value global = nullptr;
+        napi_get_global(env, &global);
+        
+        napi_value result = nullptr;
+        napi_call_function(env, global, js_cb, 1, &event_str, &result);
+    }
     
     delete event;
 }
@@ -145,9 +149,10 @@ void SendJSEvent(const std::string& jsonStr) {
     EventPayload* event = new EventPayload();
     event->jsonStr = jsonStr;
     
-    napi_acquire_threadsafe_function(g_ts_fn);
-    napi_call_threadsafe_function(g_ts_fn, event, napi_tsfn_nonblocking);
-    napi_release_threadsafe_function(g_ts_fn, napi_tsfn_release);
+    napi_status status = napi_call_threadsafe_function(g_ts_fn, event, napi_tsfn_nonblocking);
+    if (status != napi_ok) {
+        delete event;
+    }
 }
 
 void DeviceMatched(IOHIDDeviceRef device) {
@@ -222,71 +227,67 @@ void ProcessReport(uint32_t reportID, const uint8_t* data, uint32_t length) {
             finalValue = jv;
         }
         
-        char buf[256];
-        snprintf(buf, sizeof(buf), "{\"type\":\"jog\",\"mode\":%d,\"value\":%d,\"delta\":%d}", jogMode, finalValue, delta);
-        SendJSEvent(buf);
+        std::string json = "{\"type\":\"jog\",\"mode\":" + std::to_string(jogMode) +
+                           ",\"value\":" + std::to_string(finalValue) +
+                           ",\"delta\":" + std::to_string(delta) + "}";
+        SendJSEvent(json);
         
     } else if (reportID == 0x04) {
         if (payloadLength < 12) return;
         std::vector<uint16_t> currentKeys;
-        for (int idx = 0; idx < 6; ++idx) {
-            uint16_t keyCode = payload[idx * 2] | (payload[idx * 2 + 1] << 8);
-            if (keyCode != 0) {
-                currentKeys.push_back(keyCode);
+        for (int i = 0; i < 6; ++i) {
+            uint16_t key = payload[i * 2] | (payload[i * 2 + 1] << 8);
+            if (key != 0) {
+                currentKeys.push_back(key);
             }
         }
         
-        std::vector<uint16_t> pressedKeys;
-        std::vector<uint16_t> releasedKeys;
-        for (uint16_t k : currentKeys) {
-            if (std::find(g_prevKeys.begin(), g_prevKeys.end(), k) == g_prevKeys.end()) {
-                pressedKeys.push_back(k);
+        std::sort(currentKeys.begin(), currentKeys.end());
+        
+        // Find newly pressed keys
+        for (uint16_t key : currentKeys) {
+            if (std::find(g_prevKeys.begin(), g_prevKeys.end(), key) == g_prevKeys.end()) {
+                std::string json = "{\"type\":\"key_event\",\"code\":" + std::to_string(key) + ",\"pressed\":true}";
+                SendJSEvent(json);
             }
         }
-        for (uint16_t k : g_prevKeys) {
-            if (std::find(currentKeys.begin(), currentKeys.end(), k) == currentKeys.end()) {
-                releasedKeys.push_back(k);
+        
+        // Find released keys
+        for (uint16_t key : g_prevKeys) {
+            if (std::find(currentKeys.begin(), currentKeys.end(), key) == currentKeys.end()) {
+                std::string json = "{\"type\":\"key_event\",\"code\":" + std::to_string(key) + ",\"pressed\":false}";
+                SendJSEvent(json);
             }
         }
+        
         g_prevKeys = currentKeys;
         
-        std::string codesStr = "[";
+        // Also dispatch full keys array
+        std::string json = "{\"type\":\"keys\",\"codes\":[";
         for (size_t i = 0; i < currentKeys.size(); ++i) {
-            codesStr += std::to_string(currentKeys[i]);
-            if (i < currentKeys.size() - 1) codesStr += ",";
+            if (i > 0) json += ",";
+            json += std::to_string(currentKeys[i]);
         }
-        codesStr += "]";
-        
-        std::string keysJson = "{\"type\":\"keys\",\"codes\":" + codesStr + "}";
-        SendJSEvent(keysJson);
-        
-        for (uint16_t code : pressedKeys) {
-            char buf[256];
-            snprintf(buf, sizeof(buf), "{\"type\":\"key_event\",\"code\":%d,\"pressed\":true}", code);
-            SendJSEvent(buf);
-        }
-        for (uint16_t code : releasedKeys) {
-            char buf[256];
-            snprintf(buf, sizeof(buf), "{\"type\":\"key_event\",\"code\":%d,\"pressed\":false}", code);
-            SendJSEvent(buf);
-        }
+        json += "]}";
+        SendJSEvent(json);
         
     } else if (reportID == 0x07) {
         if (payloadLength < 2) return;
-        bool charging = payload[0] != 0;
-        int level = payload[1];
-        char buf[256];
-        snprintf(buf, sizeof(buf), "{\"type\":\"battery\",\"charging\":%s,\"level\":%d}", charging ? "true" : "false", level);
-        SendJSEvent(buf);
+        int level = payload[0];
+        int charging = payload[1];
+        std::string json = "{\"type\":\"battery\",\"level\":" + std::to_string(level) +
+                           ",\"charging\":" + (charging ? "true" : "false") + "}";
+        SendJSEvent(json);
     }
 }
 
-// C callbacks
 static void MatchCallback(void* context, IOReturn result, void* sender, IOHIDDeviceRef device) {
+    if (result != kIOReturnSuccess) return;
     DeviceMatched(device);
 }
 
 static void RemovalCallback(void* context, IOReturn result, void* sender, IOHIDDeviceRef device) {
+    if (result != kIOReturnSuccess) return;
     DeviceRemoved(device);
 }
 
@@ -307,10 +308,21 @@ void RunMonitorLoop() {
     IOReturn openResult = IOHIDManagerOpen(g_hid_manager, kIOHIDOptionsTypeNone);
     if (openResult != kIOReturnSuccess) {
         std::cerr << "[BmdSpeedEditor] Failed to open IOHIDManager. Error: " << openResult << std::endl;
+        g_cf_run_loop = NULL;
         return;
     }
     
     CFRunLoopRun();
+    
+    // Clean up on the run loop thread before exiting
+    if (g_hid_manager) {
+        IOHIDManagerUnscheduleFromRunLoop(g_hid_manager, g_cf_run_loop, kCFRunLoopDefaultMode);
+        IOHIDManagerRegisterDeviceMatchingCallback(g_hid_manager, NULL, NULL);
+        IOHIDManagerRegisterDeviceRemovalCallback(g_hid_manager, NULL, NULL);
+        IOHIDManagerRegisterInputReportCallback(g_hid_manager, NULL, NULL);
+        IOHIDManagerClose(g_hid_manager, kIOHIDOptionsTypeNone);
+    }
+    g_cf_run_loop = NULL;
 }
 
 // N-API exports: start(callback)
@@ -325,8 +337,9 @@ napi_value Start(napi_env env, napi_callback_info info) {
     }
     
     if (g_ts_fn) {
-        napi_release_threadsafe_function(g_ts_fn, napi_tsfn_abort);
+        napi_threadsafe_function old_fn = g_ts_fn;
         g_ts_fn = nullptr;
+        napi_release_threadsafe_function(old_fn, napi_tsfn_abort);
     }
     
     napi_value resource_name = nullptr;
@@ -377,7 +390,7 @@ napi_value Stop(napi_env env, napi_callback_info info) {
     
     if (g_cf_run_loop) {
         CFRunLoopStop(g_cf_run_loop);
-        g_cf_run_loop = NULL;
+        CFRunLoopWakeUp(g_cf_run_loop);
     }
     
     if (g_run_loop_thread.joinable()) {
@@ -385,7 +398,6 @@ napi_value Stop(napi_env env, napi_callback_info info) {
     }
     
     if (g_hid_manager) {
-        IOHIDManagerClose(g_hid_manager, kIOHIDOptionsTypeNone);
         CFRelease(g_hid_manager);
         g_hid_manager = NULL;
     }
@@ -397,11 +409,14 @@ napi_value Stop(napi_env env, napi_callback_info info) {
     g_prevKeys.clear();
     
     if (g_ts_fn) {
-        napi_release_threadsafe_function(g_ts_fn, napi_tsfn_abort);
+        napi_threadsafe_function ts_fn = g_ts_fn;
         g_ts_fn = nullptr;
+        napi_release_threadsafe_function(ts_fn, napi_tsfn_abort);
     }
     
-    return nullptr;
+    napi_value ret = nullptr;
+    napi_get_boolean(env, true, &ret);
+    return ret;
 }
 
 // Exports: isConnected() -> Boolean
@@ -469,7 +484,7 @@ napi_value SetJogMode(napi_env env, napi_callback_info info) {
     napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
     
     if (argc < 1) {
-        napi_throw_type_error(env, nullptr, "Jog Mode required");
+        napi_throw_type_error(env, nullptr, "Jog mode parameter required");
         return nullptr;
     }
     
@@ -477,16 +492,16 @@ napi_value SetJogMode(napi_env env, napi_callback_info info) {
     napi_get_value_uint32(env, args[0], &mode);
     
     if (g_active_device) {
-        uint8_t report[7] = {0};
+        uint8_t report[2] = {0};
         report[0] = 0x03;
         report[1] = (uint8_t)(mode & 0xFF);
-        report[6] = 0xFF;
         
         IOHIDDeviceSetReport(g_active_device, kIOHIDReportTypeOutput, 3, report, sizeof(report));
     }
     return nullptr;
 }
 
+// Module initialization
 napi_value Init(napi_env env, napi_value exports) {
     napi_property_descriptor desc[] = {
         { "start", nullptr, Start, nullptr, nullptr, nullptr, napi_default, nullptr },

@@ -1,0 +1,401 @@
+{
+    "_id": "6a8b415c491d8c5e1d9395c2",
+    "shortId": "ERxc9t",
+    "name": "macOS_ops",
+    "description": "",
+    "userId": "6a8b415c4245e95841f33b2d",
+    "cachedUsername": "",
+    "created": 1787511132240,
+    "updated": 1787514165539,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "0inlyqsiz",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -274.75371254807726,
+                    "y": -383.16272767262757
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 0
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "trigger",
+                            "objIn": "8fbzzlzdj",
+                            "objOut": "0inlyqsiz"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 640
+                },
+                {
+                    "name": "height",
+                    "value": 320
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "7b8a1c34-8d4e-4f12-9a56-2e8bfa491001",
+            "id": "8fbzzlzdj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -274.75371254807726,
+                    "y": -293.73078292570835
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Presentation URL",
+                    "value": "https://docs.google.com/presentation/d/e/2PACX-1vRVpsaZJbgTiremeDpWaIW3M2gt0rmSj4bf_ymuH5panELG2cZcL1dwwaKhA6jNjIMozaUBBx1sZ5gQ/pub"
+                },
+                {
+                    "name": "Background Color to Remove",
+                    "value": "#abcdef"
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Texture Width",
+                    "value": 1920
+                },
+                {
+                    "name": "Texture Height",
+                    "value": 1080
+                },
+                {
+                    "name": "Flip Y",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Texture",
+                    "links": [
+                        {
+                            "portIn": "Texture In",
+                            "portOut": "Texture",
+                            "objIn": "tt4u2w3jm",
+                            "objOut": "8fbzzlzdj"
+                        }
+                    ]
+                },
+                {
+                    "name": "Is Loaded",
+                    "value": 1
+                },
+                {
+                    "name": "Current Slide",
+                    "value": 13
+                },
+                {
+                    "name": "Width",
+                    "value": 1920
+                },
+                {
+                    "name": "Height",
+                    "value": 1080
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "4ea2d7b0-ca74-45db-962b-4d1965ac20c0",
+            "id": "tt4u2w3jm",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 150,
+                "resizable": true,
+                "translate": {
+                    "x": -262.75371254807726,
+                    "y": -199.73032322569134
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Show Info",
+                    "value": 0
+                },
+                {
+                    "name": "Visualize outside 0-1 index",
+                    "value": 1
+                },
+                {
+                    "name": "Visualize outside 0-1",
+                    "value": "Anim"
+                },
+                {
+                    "name": "Alpha index",
+                    "value": 0
+                },
+                {
+                    "name": "Alpha",
+                    "value": "A"
+                },
+                {
+                    "name": "Convert RGBE",
+                    "value": 0
+                },
+                {
+                    "name": "Channels index",
+                    "value": 0
+                },
+                {
+                    "name": "Channels",
+                    "value": "RGB"
+                },
+                {
+                    "name": "Type index",
+                    "value": 0
+                },
+                {
+                    "name": "Type",
+                    "value": "Automatic"
+                },
+                {
+                    "name": "Show Color",
+                    "value": 0
+                },
+                {
+                    "name": "X",
+                    "value": 0.5
+                },
+                {
+                    "name": "Y",
+                    "value": 0.5
+                },
+                {
+                    "name": "Mip Level",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Info",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "ppagaghkg",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -383,
+                    "y": 107.74773250400108
+                }
+            }
+        },
+        {
+            "opId": "3e9bae10-38af-4e36-9fcc-35faeeaf57f8",
+            "id": "9181asrpa",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -383,
+                    "y": 177.35989937037127
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "interval",
+                    "value": 500
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "c71e2170-4d51-4f76-8c44-59e51cbbd210",
+            "id": "jdbv0vqbu",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -262,
+                    "y": -1.3710222749688015
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Device Index",
+                    "value": 0
+                },
+                {
+                    "name": "Brightness",
+                    "value": 80
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Is Connected",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Connected: Stream Deck V2 (Stream Deck)"
+                },
+                {
+                    "name": "Event Key Index",
+                    "value": 8
+                },
+                {
+                    "name": "Event Pressed",
+                    "value": false
+                },
+                {
+                    "name": "Dial Index",
+                    "value": 0
+                },
+                {
+                    "name": "Dial Value",
+                    "value": 0
+                },
+                {
+                    "name": "Dial Pressed",
+                    "value": false
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6a8b415c4245e95841f33b2d",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1787511132240
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 640,
+            "h": 320,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": -149.808686343728,
+                "y": -76.54698231737476,
+                "z": 637.7790249967311
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "macOS_ops"
+    },
+    "opsHash": "46c88b03c4f8d19d3b1f4a0a303a7990171976dc",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1787499060812,
+            "created": "2026-08-23T15:31:00.812Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            }
+        },
+        "ui": {
+            "timestamp": 1787499066936,
+            "created": "2026-08-23T15:31:06.936Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            }
+        },
+        "api": {
+            "timestamp": 1787499137056,
+            "created": "2026-08-23T15:32:17.056Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            },
+            "platform": {
+                "npm": "11.16.0",
+                "node": "24.18.1"
+            }
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,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"
+}

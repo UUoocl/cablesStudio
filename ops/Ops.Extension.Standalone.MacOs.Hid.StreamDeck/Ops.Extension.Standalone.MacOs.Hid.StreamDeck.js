@@ -60,15 +60,20 @@ function loadNativeAddon() {
     try {
         const path = op.require("path");
         const fs = op.require("fs");
-        const addonRelPath = "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/build/Release/streamdeck_hid.node";
-        const candidatePaths = [];
+        const addonRelPath = "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/streamdeck_hid.node";
+        const candidatePaths = [
+            "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/streamdeck_hid.node",
+            "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/build/Release/streamdeck_hid.node"
+        ];
 
         if (op.patch && op.patch.config && op.patch.config.prefixAssetPath) {
             candidatePaths.push(path.join(op.patch.config.prefixAssetPath, addonRelPath));
+            candidatePaths.push(path.join(op.patch.config.prefixAssetPath, "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/build/Release/streamdeck_hid.node"));
         }
         if (typeof __dirname !== "undefined" && __dirname) {
+            candidatePaths.push(path.join(__dirname, "streamdeck_hid.node"));
             candidatePaths.push(path.join(__dirname, "build/Release/streamdeck_hid.node"));
-            candidatePaths.push(path.join(__dirname, "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/build/Release/streamdeck_hid.node"));
+            candidatePaths.push(path.join(__dirname, "ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/streamdeck_hid.node"));
         }
         if (typeof process !== "undefined" && typeof process.cwd === "function") {
             candidatePaths.push(path.join(process.cwd(), addonRelPath));

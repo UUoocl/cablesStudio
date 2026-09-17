@@ -1,0 +1,1504 @@
+{
+    "_id": "6aaac6d9183652d7b3b0df23",
+    "shortId": "Pao0pv",
+    "name": "excalidrawForCables",
+    "description": "",
+    "userId": "6aaac6d92a26ac238d21e957",
+    "cachedUsername": "",
+    "created": 1789576921764,
+    "updated": 1789602755599,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "gyjbykswj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -260.08078787167346,
+                    "y": -306.42709985106296
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 60
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "trigger",
+                            "objIn": "euilpw03c",
+                            "objOut": "gyjbykswj"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 1106
+                },
+                {
+                    "name": "height",
+                    "value": 284
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "sd7hern0f",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Server",
+                "title": "Server",
+                "translate": {
+                    "x": -670.5185795958371,
+                    "y": 360.8952533953769
+                },
+                "area": {
+                    "w": 1029.6968024394282,
+                    "h": 881.7665892873122,
+                    "id": "lypxk7lni"
+                },
+                "comment": "File\nAPI\nSSE\nWS"
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Server"
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "pa3xkz3ev",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -306.6883559266855,
+                    "y": 191.29943355423245
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "varIP"
+                }
+            ]
+        },
+        {
+            "opId": "eff161f2-6fe2-43a5-a884-af7e7a19a523",
+            "id": "4pti4c5dc",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 74.56836510046924,
+                "width": 88.72087215640363,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -306.6883559266855,
+                    "y": 86.92965273317247
+                },
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": "127.0.0.1"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "String",
+                            "objIn": "pa3xkz3ev",
+                            "objOut": "4pti4c5dc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "ogfj7j9ku",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Settings Variables",
+                "title": "Settings Variables",
+                "translate": {
+                    "x": -402.5185795958371,
+                    "y": -4.651742639665031
+                },
+                "area": {
+                    "w": 408.75693724473325,
+                    "h": 253.75664400350615,
+                    "id": "1sz28n9ku"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Settings Variables"
+                }
+            ]
+        },
+        {
+            "opId": "8fb2bb5d-665a-4d0a-8079-12710ae453be",
+            "id": "yehkap4pc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -149.07368302063333,
+                    "y": 94.25077399223017
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": 8080
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "result",
+                            "objIn": "28teionh0",
+                            "objOut": "yehkap4pc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5249226-6095-4828-8a1c-080654e192fa",
+            "id": "28teionh0",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -149.07368302063333,
+                    "y": 189.86102560775623
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "varPort"
+                }
+            ]
+        },
+        {
+            "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
+            "id": "euilpw03c",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">MainLoop trigger",
+                "translate": {
+                    "x": -260.08078787167346,
+                    "y": -219.2533354039416
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "MainLoop trigger"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "5p9y0ujuu",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Main Loop",
+                "title": "Main Loop",
+                "translate": {
+                    "x": -333,
+                    "y": -411.86354945474716
+                },
+                "area": {
+                    "w": 245.6471071041575,
+                    "h": 272.10127014396926,
+                    "id": "dvplytynp"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Main Loop"
+                }
+            ]
+        },
+        {
+            "opId": "2e441bcd-41c0-4546-8628-6044b3dfb81c",
+            "id": "sde4m936g",
+            "attribs": {},
+            "uiAttribs": {
+                "subPatchOp": {
+                    "version": 2
+                },
+                "translate": {
+                    "x": -441.3509647310814,
+                    "y": 461.6364342703563
+                }
+            },
+            "storage": {
+                "blueprintVer": 2,
+                "subPatchVer": 2
+            },
+            "portsIn": [
+                {
+                    "name": "patchId",
+                    "value": "bp2sub_sde4m936g"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "lwl5v2d6d",
+                    "title": "Triggered",
+                    "links": [
+                        {
+                            "portIn": "Broadcast SSE",
+                            "portOut": "lwl5v2d6d",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "ityt6yfh1",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "SSE Event Name",
+                            "portOut": "ityt6yfh1",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "b19mk5ioa",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "SSE Data",
+                            "portOut": "b19mk5ioa",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "asukhwvr7",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "Hostname",
+                            "portOut": "asukhwvr7",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "06etkpjjh",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "Port",
+                            "portOut": "06etkpjjh",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "szj6wo9ax",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "WS Channel",
+                            "portOut": "szj6wo9ax",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "k8qcjk6qb",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "WS Data",
+                            "portOut": "k8qcjk6qb",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "dvem0uete",
+                    "title": "Triggered",
+                    "links": [
+                        {
+                            "portIn": "Send WS Message",
+                            "portOut": "dvem0uete",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
+            "id": "iu98oyll5",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">HttpFileServer Ready",
+                "translate": {
+                    "x": -652.2461173599612,
+                    "y": 683.9359038899597
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "HttpFileServer Ready"
+                }
+            ]
+        },
+        {
+            "opId": "d82e0376-2ff2-4557-b8fa-48c31f27d3ab",
+            "id": "nhlxuzs9k",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -419.518416823079,
+                    "y": 769.7519041699452
+                },
+                "comment": "/api/"
+            },
+            "portsIn": [
+                {
+                    "name": "Search",
+                    "value": "/api/"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Starts with",
+                    "links": [
+                        {
+                            "portIn": "Pass Through",
+                            "portOut": "Starts with",
+                            "objIn": "l4sfqzhvb",
+                            "objOut": "nhlxuzs9k"
+                        },
+                        {
+                            "portIn": "Pass Through",
+                            "portOut": "Starts with",
+                            "objIn": "t1lwrk2k9",
+                            "objOut": "nhlxuzs9k"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "65e8b8a2-ba13-485f-883a-2bcf377989da",
+            "id": "l4sfqzhvb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -431.518416823079,
+                    "y": 876.659223976509
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Trigger out",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "Trigger out",
+                            "objIn": "4dsux0o08",
+                            "objOut": "l4sfqzhvb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "95e04331-49d6-42da-81d8-5a75261ab22f",
+            "id": "t1lwrk2k9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -276.4248339091115,
+                    "y": 879.4749753615903
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "When False index",
+                    "value": 0
+                },
+                {
+                    "name": "When False",
+                    "value": "keep last object"
+                },
+                {
+                    "name": "Only Valid Objects",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Object Out",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Object Out",
+                            "objIn": "k8y9pv0x1",
+                            "objOut": "t1lwrk2k9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "84283526-5687-4bdc-92aa-22c81972a3a7",
+            "id": "rfzb7n5mt",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -377.5578374972986,
+                    "y": 1098.815820070443
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result Object",
+                    "links": [
+                        {
+                            "portIn": "Variables",
+                            "portOut": "Result Object",
+                            "objIn": "4dsux0o08",
+                            "objOut": "rfzb7n5mt"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d8f88a5a-b919-4386-b634-c066f9b02868",
+            "id": "4dsux0o08",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -403.604538976223,
+                    "y": 1177.5888505065454
+                },
+                "color": "#07F78C"
+            }
+        },
+        {
+            "opId": "C0FFEE12-3456-7890-ABCD-EF1234567890",
+            "id": "4lj3mz5cx",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -212.0079119102425,
+                    "y": 770.7994918155352
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Received Channel",
+                    "value": ""
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "qjd9r5je2",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -255.16748036643244,
+                    "y": 820.3646017515503
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "HttpFileServer_ResponseData"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "96138ltk2",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 542.9021220682342
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/obs/credentials"
+                }
+            ]
+        },
+        {
+            "opId": "c04a204d-cd52-401f-80c9-02da396ed676",
+            "id": "6ojv6qjga",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -387.0019676090968,
+                    "y": 1021.3980082283254
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "pathname"
+                },
+                {
+                    "name": "Output Key if missing",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Key",
+                            "portOut": "Result",
+                            "objIn": "rfzb7n5mt",
+                            "objOut": "6ojv6qjga"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "76c7d6a7-64c9-4a95-bc92-c68213601d28",
+            "id": "k8y9pv0x1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -365.5578374972986,
+                    "y": 950.7068593847691
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "data",
+                            "portOut": "Output 0",
+                            "objIn": "6ojv6qjga",
+                            "objOut": "k8y9pv0x1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 1",
+                    "links": [
+                        {
+                            "portIn": "Object Value",
+                            "portOut": "Output 1",
+                            "objIn": "rfzb7n5mt",
+                            "objOut": "k8y9pv0x1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "o8m5rqz2y",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 651.8944977504788
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/shortcuts/callback"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "1jfap04g1",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 596.0627381871535
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/shortcuts"
+                }
+            ]
+        },
+        {
+            "opId": "93492eeb-bf35-4a62-98f7-d85b0b79bfe5",
+            "id": "5fwizmd6n",
+            "attribs": {},
+            "uiAttribs": {
+                "comment_title": "Route Variables",
+                "comment_text": "",
+                "translate": {
+                    "x": -77.32060916426144,
+                    "y": 456.23467075135784
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "title",
+                    "value": "Route Variables"
+                },
+                {
+                    "name": "text",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "n57mixjtw",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 712.2007213383184
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/keynote"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "9wr1xlzdi",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 770.6235269475445
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/powerpoint"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "n97wcpfb8",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Node js Server",
+                "title": "Node js Server",
+                "translate": {
+                    "x": -925.3826555544608,
+                    "y": -607.7508019320877
+                },
+                "area": {
+                    "w": 1499.5390109891891,
+                    "h": 1993.9749726354576,
+                    "id": "gucx18tsh"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Node js Server"
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "zqnlman9n",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61,
+                    "y": 974.4204780010695
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Value",
+                    "value": "New String"
+                },
+                {
+                    "name": "Variable",
+                    "value": "VarSseEvent"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "p84berv53",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61,
+                    "y": 922.3077393573153
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "VarSsePayload"
+                }
+            ]
+        },
+        {
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "f8ojnb6wp",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1051.4929237865792,
+                    "y": 347.8622095177295
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "Changed",
+                            "objIn": "xjppbdada",
+                            "objOut": "f8ojnb6wp"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Request Data",
+                            "portOut": "Result",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "f8ojnb6wp"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e640619f-235c-4543-bbf8-b358e0283180",
+            "id": "xjppbdada",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 834.6400458350212,
+                    "y": 413.62924794678884
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "trigger",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "xjppbdada"
+                        }
+                    ]
+                },
+                {
+                    "name": "timesTriggered",
+                    "value": 14
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "runcj9oay",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -439.604538976223,
+                    "y": 623.3094780147229
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Server Ready",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "Server Ready",
+                            "objIn": "iu98oyll5",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "On HTTP Request",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "On HTTP Request",
+                            "objIn": "l4sfqzhvb",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP URL",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "HTTP URL",
+                            "objIn": "nhlxuzs9k",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Request Data",
+                    "links": [
+                        {
+                            "portIn": "Object In",
+                            "portOut": "HTTP Request Data",
+                            "objIn": "t1lwrk2k9",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Response Data",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "HTTP Response Data",
+                            "objIn": "qjd9r5je2",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "On WS Message",
+                    "links": [
+                        {
+                            "portIn": "Publish",
+                            "portOut": "On WS Message",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Message Channel",
+                    "links": [
+                        {
+                            "portIn": "Channel",
+                            "portOut": "WS Message Channel",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Message Data",
+                    "links": [
+                        {
+                            "portIn": "Message Data",
+                            "portOut": "WS Message Data",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 2
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Server Instance",
+                    "links": [
+                        {
+                            "portIn": "Server Instance",
+                            "portOut": "Server Instance",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "7cbfde6b-6520-4344-8dc2-656b42cb3f61",
+            "id": "cr0n4aih9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1051.4929237865792,
+                    "y": 464.5925161276207
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "API Route",
+                    "value": "/api/excalidraw"
+                },
+                {
+                    "name": "Theme index",
+                    "value": 0
+                },
+                {
+                    "name": "Theme",
+                    "value": "dark"
+                },
+                {
+                    "name": "Transparent",
+                    "value": 1
+                },
+                {
+                    "name": "Show UI",
+                    "value": 1
+                },
+                {
+                    "name": "Read Only",
+                    "value": 0
+                },
+                {
+                    "name": "Grid Mode",
+                    "value": 0
+                },
+                {
+                    "name": "Zen Mode",
+                    "value": 0
+                },
+                {
+                    "name": "Auto Save",
+                    "value": 0
+                },
+                {
+                    "name": "App Title",
+                    "value": "Excalidraw Standalone"
+                },
+                {
+                    "name": "Initial Scene JSON String",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Scene JSON String",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "jfapmum7j",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61,
+                    "y": 869.6888353071441
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/excalidraw"
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "xmehwhqhx",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": 1051.4929237865792,
+                    "y": 292.84368507917634
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/excalidraw"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Value",
+                            "objIn": "f8ojnb6wp",
+                            "objOut": "xmehwhqhx"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "a018n8vpk",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": 1075.4929237865792,
+                    "y": 411.7723567859823
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "HttpFileServer_ResponseData"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "Response",
+                            "portOut": "Value",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "a018n8vpk"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "pxrhz2ct4",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Excalidraw",
+                "title": "Excalidraw",
+                "translate": {
+                    "x": 719.192954760075,
+                    "y": 73.84127101276135
+                },
+                "area": {
+                    "w": 945.901069939676,
+                    "h": 622.9694996902001,
+                    "id": "5ssyrlk4d"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Excalidraw"
+                }
+            ]
+        },
+        {
+            "opId": "ms000002-3e5f-4a0b-9304-954992688013",
+            "id": "qyq5secq2",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 798.5271608036963,
+                    "y": -380.6543253334717
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "PPS Limit",
+                    "value": 10
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Pos X",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Pos X",
+                            "objIn": "cbznru7el",
+                            "objOut": "qyq5secq2"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos Y",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Pos Y",
+                            "objIn": "uf2lj4e36",
+                            "objOut": "qyq5secq2"
+                        }
+                    ]
+                },
+                {
+                    "name": "Button",
+                    "value": 1
+                },
+                {
+                    "name": "Button Is Down",
+                    "value": false
+                },
+                {
+                    "name": "Button Is Up",
+                    "value": true
+                },
+                {
+                    "name": "Scroll Delta X",
+                    "value": 0
+                },
+                {
+                    "name": "Scroll Delta Y",
+                    "value": 0
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "cbznru7el",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": 834.5271608036963,
+                    "y": -328.1982833632326
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Result",
+                            "objIn": "3h7f69a9p",
+                            "objOut": "cbznru7el"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "uf2lj4e36",
+            "attribs": {},
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": 846.5271608036963,
+                    "y": -219.92082877413293
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Number",
+                            "portOut": "Result",
+                            "objIn": "bsmcr30cq",
+                            "objOut": "uf2lj4e36"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "20f7bcab-ed71-45d1-9fae-d89aacf3961b",
+            "id": "3h7f69a9p",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 810.5271608036963,
+                    "y": -267.68400951146634
+                },
+                "comment": "Mouse X,Y"
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "X"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result Object",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result Object",
+                            "objIn": "bsmcr30cq",
+                            "objOut": "3h7f69a9p"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "20f7bcab-ed71-45d1-9fae-d89aacf3961b",
+            "id": "bsmcr30cq",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 810.5271608036963,
+                    "y": -167.19089991243902
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "Y"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6aaac6d92a26ac238d21e957",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1789576921764
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 553,
+            "h": 142,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 786.7377625210312,
+                "y": -419.23014403596216,
+                "z": 1436.767261586047
+            },
+            "bp2sub_sde4m936g": {
+                "x": -37.15243178775668,
+                "y": -2718.8990773713444,
+                "z": 583.1594744297074
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "excalidrawForCables"
+    },
+    "opsHash": "074157f97c08cef9d3bc5035dbbd7a5ef03b1202",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1787499060812,
+            "created": "2026-08-23T15:31:00.812Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            }
+        },
+        "ui": {
+            "timestamp": 1787499066936,
+            "created": "2026-08-23T15:31:06.936Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            }
+        },
+        "api": {
+            "timestamp": 1787499137056,
+            "created": "2026-08-23T15:32:17.056Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            },
+            "platform": {
+                "npm": "11.16.0",
+                "node": "24.18.1"
+            }
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAALQCAYAAADPfd1WAAAQAElEQVR4AezYB44cyZIt0MLf/57/NB+bzRIpQrgwcYDXZDEzwt3uscIAc//fx8fH//cfA78Dfgf8Dvgd8Dvgd8DvgN8BvwN+B/wO+B3wO1D6d8D/76//8DvQ+HfgVwH4z/+N9z8CBAgQIECAAAECBOoLSEiAAAECBAh0FFAAdty6zAQIECDQW0B6AgQIECBAgAABAgRaCSgAW61bWAJ/BfxEgAABAgQIECBAgAABAgQI1Bf4lVAB+EvBfwQIECBAgAABAgQIECBAoK6AZAQINBdQADb/BRCfAAECBAgQIECgi4CcBAgQIECAQFcBBWDXzctNgAABAj0FpCZAgAABAgQIECBAoJ2AArDdygUm8PHBgAABAgQIECBAgAABAgQIEKgv8CehAvCPhL8JECBAgAABAgQIECBAgEA9AYkIECDwoQD0S0CAAAECBAgQIECgvICABAgQIECAQGcBBWDn7ctOgAABAr0EpCVAgAABAgQIECBAoKWAArDl2oXuLCA7AQIECBAgQIAAAQIECBAgUF/gc0IF4GcNPxMgQIAAAQIECBAgQIAAgToCkhAgQOB/AgrA/zH4gwABAgQIECBAgEBVAbkIECBAgACB7gIKwO6/AfITIECAQA8BKQkQIECAAAECBAgQaCugAGy7esE7CshMgAABAgQIECBAgAABAgQI1Bf4nlAB+F3EvwkQIECAAAECBAgQIECAQH4BCQgQIPCfgALwPwo/ECBAgAABAgQIEKgmIA8BAgQIECBA4ONDAei3gAABAgQIVBeQjwABAgQIECBAgACB1gIKwNbrF76TgKwECBAgQIAAAQIECBAgQIBAfYFHCRWAj1R8RoAAAQIECBAgQIAAAQIE8gqYnAABAl8EFIBfOPyDAAECBAgQIECAQBUBOQgQIECAAAECvwUUgL8d/EmAAAECBGoKSEWAAAECBAgQIECAQHsBBWD7XwEAHQRkJECAAAECBAgQIECAAAECBOoLPEuoAHwm43MCBAgQIECAAAECBAgQIJBPwMQECBD4IaAA/EHiAwIECBAgQIAAAQLZBcxPgAABAgQIEPgroAD8a+EnAgQIECBQS0AaAgQIECBAgAABAgQI/COgAPwHwf8IVBaQjQABAgQIECBAgAABAgQIEKgv8CqhAvCVju8IECBAgAABAgQIECBAgEAeAZMSIEDgoYAC8CGLDwkQIECAAAECBAhkFTA3AQIECBAgQOCrgALwq4d/ESBAgACBGgJSECBAgAABAgQIECBA4F8BBeC/EP4iUFFAJgIECBAgQIAAAQIECBAgQKC+wLuECsB3Qr4nQIAAAQIECBAgQIAAAQLxBUxIgACBpwIKwKc0viBAgAABAgQIECCQTcC8BAgQIECAAIGfAgrAnyY+IUCAAAECuQVMT4AAAQIECBAgQIAAgU8CCsBPGH4kUElAFgIECBAgQIAAAQIECBAgQKC+wJGECsAjSp4hQIAAAQIECBAgQIAAAQJxBUxGgACBlwIKwJc8viRAgAABAgQIECCQRcCcBAgQIECAAIHHAgrAxy4+JUCAAAECOQVMTYAAAQIECBAgQIAAgW8CCsBvIP5JoIKADAQIECBAgAABAgQIECBAgEB9gaMJFYBHpTxHgAABAgQIECBAgAABAgTiCZiIAAECbwUUgG+JPECAAAECBAgQIEAguoD5CBAgQIAAAQLPBRSAz218Q4AAAQIEcgmYlgABAgQIECBAgAABAg8EFIAPUHxEILOA2QkQIECAAAECBAgQIECAAIH6AmcSKgDPaHmWAAECBAgQIECAAAECBAjEETAJAQIEDgkoAA8xeYgAAQIECBAgQIBAVAFzESBAgAABAgReCygAX/v4lgABAgQI5BAwJQECBAgQIECAAAECBJ4IKACfwPiYQEYBMxMgQIAAAQIECBAgQIAAAQL1Bc4mVACeFfM8AQIECBAgQIAAAQIECBDYL2ACAgQIHBZQAB6m8iABAgQIECBAgACBaALmIUCAAAECBAi8F1AAvjfyBAECBAgQiC1gOgIECBAgQIAAAQIECLwQUAC+wPEVgUwCZiVAgAABAgQIECBAgAABAgTqC1xJqAC8ouYdAgQIECBAgAABAgQIECCwT8DNBAgQOCWgADzF5WECBAgQIECAAAECUQTMQYAAAQIECBA4JqAAPObkKQIECBAgEFPAVAQIECBAgAABAgQIEHgjoAB8A+RrAhkEzEiAAAECBAgQIECAAAECBAjUF7iaUAF4Vc57BAgQIECAAAECBAgQIEBgvYAbCRAgcFpAAXiazAsECBAgQIAAAQIEdgu4nwABAgQIECBwXEABeNzKkwQIECBAIJaAaQgQIECAAAECBAgQIHBAQAF4AMkjBCILmI0AAQIECBAgQIAAAQIECBCoL3AnoQLwjp53CRAgQIAAAQIECBAgQIDAOgE3ESBA4JKAAvASm5cIECBAgAABAgQI7BJwLwECBAgQIEDgnIAC8JyXpwkQIECAQAwBUxAgQIAAAQIECBAgQOCggALwIJTHCEQUMBMBAgQIECBAgAABAgQIECBQX+BuQgXgXUHvEyBAgAABAgQIECBAgACB+QJuIECAwGUBBeBlOi8SIECAAAECBAgQWC3gPgIECBAgQIDAeQEF4HkzbxAgQIAAgb0CbidAgAABAgQIECBAgMAJAQXgCSyPEogkYBYCBAgQIECAAAECBAgQIECgvsCIhArAEYrOIECAAAECBAgQIECAAAEC8wScTIAAgVsCCsBbfF4mQIAAAQIECBAgsErAPQQIECBAgACBawIKwGtu3iJAgAABAnsE3EqAAAECBAgQIECAAIGTAgrAk2AeJxBBwAwECBAgQIAAAQIECBAgQIBAfYFRCRWAoySdQ4AAAQIECBAgQIAAAQIExgs4kQABArcFFIC3CR1AgAABAgQIECBAYLaA8wkQIECAAAEC1wUUgNftvEmAAAECBNYKuI0AAQIECBAgQIAAAQIXBBSAF9C8QmCngLsJECBAgAABAgQIECBAgACB+gIjEyoAR2o6iwABAgQIECBAgAABAgQIjBNwEgECBIYIKACHMDqEAAECBAgQIECAwCwB5xIgQIAAAQIE7gkoAO/5eZsAAQIECKwRcAsBAgQIECBAgAABAgQuCigAL8J5jcAOAXcSIECAAAECBAgQIECAAAEC9QVGJ1QAjhZ1HgECBAgQIECAAAECBAgQuC/gBAIECAwTUAAOo3QQAQIECBAgQIAAgdECziNAgAABAgQI3BdQAN43dAIBAgQIEJgr4HQCBAgQIECAAAECBAjcEFAA3sDzKoGVAu4iQIAAAQIECBAgQIAAAQIE6gvMSKgAnKHqTAIECBAgQIAAAQIECBAgcF3AmwQIEBgqoAAcyukwAgQIECBAgAABAqMEnEOAAAECBAgQGCOgABzj6BQCBAgQIDBHwKkECBAgQIAAAQIECBC4KaAAvAnodQIrBNxBgAABAgQIECBAgAABAgQI1BeYlVABOEvWuQQIECBAgAABAgQIECBA4LyANwgQIDBcQAE4nNSBBAgQIECAAAECBO4KeJ8AAQIECBAgME5AATjO0kkECBAgQGCsgNMIECBAgAABAgQIECAwQEABOADREQRmCjibAAECBAgQIECAAAECBAgQqC8wM6ECcKauswkQIECAAAECBAgQIECAwHEBTxIgQGCKgAJwCqtDCRAgQIAAAQIECFwV8B4BAgQIECBAYKyAAnCsp9MIECBAgMAYAacQIECAAAECBAgQIEBgkIACcBCkYwjMEHAmAQIECBAgQIAAAQIECBAgUF9gdkIF4Gxh5xMgQIAAAQIECBAgQIAAgfcCniBAgMA0AQXgNFoHEyBAgAABAgQIEDgr4HkCBAgQIECAwHgBBeB4UycSIECAAIF7At4mQIAAAQIECBAgQIDAQAEF4EBMRxEYKeAsAgQIECBAgAABAgQIECBAoL7AioQKwBXK7iBAgAABAgQIECBAgAABAs8FfEOAAIGpAgrAqbwOJ0CAAAECBAgQIHBUwHMECBAgQIAAgTkCCsA5rk4lQIAAAQLXBLxFgAABAgQIECBAgACBwQIKwMGgjiMwQsAZBAgQIECAAAECBAgQIECAQH2BVQkVgKuk3UOAAAECBAgQIECAAAECBH4K+IQAAQLTBRSA04ldQIAAAQIECBAgQOCdgO8JECBAgAABAvMEFIDzbJ1MgAABAgTOCXiaAAECBAgQIECAAAECEwQUgBNQHUngjoB3CRAgQIAAAQIECBAgQIAAgfoCKxMqAFdqu4sAAQIECBAgQIAAAQIECPwV8BMBAgSWCCgAlzC7hAABAgQIECBAgMAzAZ8TIECAAAECBOYKKADn+jqdAAECBAgcE/AUAQIECBAgQIAAAQIEJgkoACfBOpbAFQHvECBAgAABAgQIECBAgAABAvUFVidUAK4Wdx8BAgQIECBAgAABAgQIEPj4YECAAIFlAgrAZdQuIkCAAAECBAgQIPBdwL8JECBAgAABAvMFFIDzjd1AgAABAgReC/iWAAECBAgQIECAAAECEwUUgBNxHU3gjIBnCRAgQIAAAQIECBAgQIAAgfoCOxIqAHeou5MAAQIECBAgQIAAAQIEOgvIToAAgaUCCsCl3C4jQIAAAQIECBAg8EfA3wQIECBAgACBNQIKwDXObiFAgAABAo8FfEqAAAECBAgQIECAAIHJAgrAycCOJ3BEwDMECBAgQIAAAQIECBAgQIBAfYFdCRWAu+TdS4AAAQIECBAgQIAAAQIdBWQmQIDAcgEF4HJyFxIgQIAAAQIECBAgQIAAAQIECBBYJ6AAXGftJgIECBAg8FXAvwgQIECAAAECBAgQILBAQAG4ANkVBF4J+I4AAQIECBAgQIAAAQIECBCoL7AzoQJwp767CRAgQIAAAQIECBAgQKCTgKwECBDYIqAA3MLuUgIECBAgQIAAgb4CkhMgQIAAAQIE1gooANd6u40AAQIECPwW8CcBAgQIECBAgAABAgQWCSgAF0G7hsAjAZ8RIECAAAECBAgQIECAAAEC9QV2J1QA7t6A+wkQIECAAAECBAgQIECgg4CMBAgQ2CagANxG72ICBAgQIECAAIF+AhITIECAAAECBNYLKADXm7uRAAECBLoLyE+AAAECBAgQIECAAIGFAgrAhdiuIvBZwM8ECBAgQIAAAQIECBAgQIBAfYEICRWAEbZgBgIECBAgQIAAAQIECBCoLCAbAQIEtgooALfyu5wAAQIECBAgQKCPgKQECBAgQIAAgT0CCsA97m4lQIAAga4CchMgQIAAAQIECBAgQGCxgAJwMbjrCPwS8B8BAgQIECBAgAABAgQIECBQXyBKQgVglE2YgwABAgQIECBAgAABAgQqCshEgACB7QIKwO0rMAABAgQIECBAgEB9AQkJECBAgAABAvsEFID77N1MgAABAt0E5CVAgAABAgQIECBAgMAGAQXgBnRXud5bmwAAEABJREFU9haQngABAgQIECBAgAABAgQIEKgvECmhAjDSNsxCgAABAgQIECBAgAABApUEZCFAgEAIAQVgiDUYggABAgQIECBAoK6AZAQIECBAgACBvQIKwL3+bidAgACBLgJyEiBAgAABAgQIECBAYJOAAnATvGt7CkhNgAABAgQIECBAgAABAgQI1BeIllABGG0j5iFAgAABAgQIECBAgACBCgIyECBAIIyAAjDMKgxCgAABAgQIECBQT0AiAgQIECBAgMB+AQXg/h2YgAABAgSqC8hHgAABAgQIECBAgACBjQIKwI34ru4lIC0BAgQIECBAgAABAgQIECBQXyBiQgVgxK2YiQABAgQIECBAgAABAgQyC5idAAECoQQUgKHWYRgCBAgQIECAAIE6ApIQIECAAAECBGIIKABj7MEUBAgQIFBVQC4CBAgQIECAAAECBAhsFlAAbl6A63sISEmAAAECBAgQIECAAAECBAjUF4iaUAEYdTPmIkCAAAECBAgQIECAAIGMAmYmQIBAOAEFYLiVGIgAAQIECBAgQCC/gAQECBAgQIAAgTgCCsA4uzAJAQIECFQTkIcAAQIECBAgQIAAAQIBBBSAAZZghNoC0hEgQIAAAQIECBAgQIAAAQL1BSInVABG3o7ZCBAgQIAAAQIECBAgQCCTgFkJECAQUkABGHIthiJAgAABAgQIEMgrYHICBAgQIECAQCwBBWCsfZiGAAECBKoIyEGAAAECBAgQIECAAIEgAgrAIIswRk0BqQgQIECAAAECBAgQIECAAIH6AtETKgCjb8h8BAgQIECAAAECBAgQIJBBwIwECBAIK6AADLsagxEgQIAAAQIECOQTMDEBAgQIECBAIJ6AAjDeTkxEgAABAtkFzE+AAAECBAgQIECAAIFAAgrAQMswSi0BaQgQIECAAAECBAgQIECAAIH6AhkSKgAzbMmMBAgQIECAAAECBAgQIBBZwGwECBAILaAADL0ewxEgQIAAAQIECOQRMCkBAgQIECBAIKaAAjDmXkxFgAABAlkFzE2AAAECBAgQIECAAIFgAgrAYAsxTg0BKQgQIECAAAECBAgQIECAAIH6AlkSKgCzbMqcBAgQIECAAAECBAgQIBBRwEwECBAIL6AADL8iAxIgQIAAAQIECMQXMCEBAgQIECBAIK6AAjDubkxGgAABAtkEzEuAAAECBAgQIECAAIGAAgrAgEsxUm4B0xMgQIAAAQIECBAgQIAAAQL1BTIlVABm2pZZCRAgQIAAAQIECBAgQCCSgFkIECCQQkABmGJNhiRAgAABAgQIEIgrYDICBAgQIECAQGwBBWDs/ZiOAAECBLIImJMAAQIECBAgQIAAAQJBBRSAQRdjrJwCpiZAgAABAgQIECBAgAABAgTqC2RLqADMtjHzEiBAgAABAgQIECBAgEAEATMQIEAgjYACMM2qDEqAAAECBAgQIBBPwEQECBAgQIAAgfgCCsD4OzIhAQIECEQXMB8BAgQIECBAgAABAgQCCygAAy/HaLkETEuAAAECBAgQIECAAAECBAjUF8iYUAGYcWtmJkCAAAECBAgQIECAAIGdAu4mQIBAKgEFYKp1GZYAAQIECBAgQCCOgEkIECBAgAABAjkEFIA59mRKAgQIEIgqYC4CBAgQIECAAAECBAgEF1AABl+Q8XIImJIAAQIECBAgQIAAAQIECBCoL5A1oQIw6+bMTYAAAQIECBAgQIAAAQI7BNxJgACBdAIKwHQrMzABAgQIECBAgMB+ARMQIECAAAECBPIIKADz7MqkBAgQIBBNwDwECBAgQIAAAQIECBBIIKAATLAkI8YWMB0BAgQIECBAgAABAgQIECBQXyBzQgVg5u2ZnQABAgQIECBAgAABAgRWCriLAAECKQUUgCnXZmgCBAgQIECAAIF9Am4mQIAAAQIECOQSUADm2pdpCRAgQCCKgDkIECBAgAABAgQIECCQREABmGRRxowpYCoCBAgQIECAAAECBAgQIECgvkD2hArA7Bs0PwECBAgQIECAAAECBAisEHAHAQIE0gooANOuzuAECBAgQIAAAQLrBdxIgAABAgQIEMgnoADMtzMTEyBAgMBuAfcTIECAAAECBAgQIEAgkYACMNGyjBpLwDQECBAgQIAAAQIECBAgQIBAfYEKCRWAFbYoAwECBAgQIECAAAECBAjMFHA2AQIEUgsoAFOvz/AECBAgQIAAAQLrBNxEgAABAgQIEMgpoADMuTdTEyBAgMAuAfcSIECAAAECBAgQIEAgmYACMNnCjBtDwBQECBAgQIAAAQIECBAgQIBAfYEqCRWAVTYpBwECBAgQIECAAAECBAjMEHAmAQIE0gsoANOvUAACBAgQIECAAIH5Am4gQIAAAQIECOQVUADm3Z3JCRAgQGC1gPsIECBAgAABAgQIECCQUEABmHBpRt4r4HYCBAgQIECAAAECBAgQIECgvkClhArAStuUhQABAgQIECBAgAABAgRGCjiLAAECJQQUgCXWKAQBAgQIECBAgMA8AScTIECAAAECBHILKABz78/0BAgQILBKwD0ECBAgQIAAAQIECBBIKqAATLo4Y+8RcCsBAgQIECBAgAABAgQIECBQX6BaQgVgtY3KQ4AAAQIECBAgQIAAAQIjBJxBgACBMgIKwDKrFIQAAQIECBAgQGC8gBMJECBAgAABAvkFFID5dygBAQIECMwWcD4BAgQIECBAgAABAgQSCygAEy/P6GsF3EaAAAECBAgQIECAAAECBAjUF6iYUAFYcasyESBAgAABAgQIECBAgMAdAe8SIECglIACsNQ6hSFAgAABAgQIEBgn4CQCBAgQIECAQA0BBWCNPUpBgAABArMEnEuAAAECBAgQIECAAIHkAgrA5As0/hoBtxAgQIAAAQIECBAgQIAAAQL1BaomVABW3axcBAgQIECAAAECBAgQIHBFwDsECBAoJ6AALLdSgQgQIECAAAECBO4LOIEAAQIECBAgUEdAAVhnl5IQIECAwGgB5xEgQIAAAQIECBAgQKCAgAKwwBJFmCvgdAIECBAgQIAAAQIECBAgQKC+QOWECsDK25WNAAECBAgQIECAAAECBM4IeJYAAQIlBRSAJdcqFAECBAgQIECAwHUBbxIgQIAAAQIEagkoAGvtUxoCBAgQGCXgHAIECBAgQIAAAQIECBQRUAAWWaQYcwScSoAAAQIECBAgQIAAAQIECNQXqJ5QAVh9w/IRIECAAAECBAgQIECAwBEBzxAgQKCsgAKw7GoFI0CAAAECBAgQOC/gDQIECBAgQIBAPQEFYL2dSkSAAAECdwW8T4AAAQIECBAgQIAAgUICCsBCyxRlrIDTCBAgQIAAAQIECBAgQIAAgfoCHRIqADtsWUYCBAgQIECAAAECBAgQeCXgOwIECJQWUACWXq9wBAgQIECAAAECxwU8SYAAAQIECBCoKaAArLlXqQgQIEDgqoD3CBAgQIAAAQIECBAgUExAAVhsoeKMEXAKAQIECBAgQIAAAQIECBAgUF+gS0IFYJdNy0mAAAECBAgQIECAAAECjwR8RoAAgfICCsDyKxaQAAECBAgQIEDgvYAnCBAgQIAAAQJ1BRSAdXcrGQECBAicFfA8AQIECBAgQIAAAQIECgooAAsuVaR7At4mQIAAAQIECBAgQIAAAQIE6gt0SqgA7LRtWQkQIECAAAECBAgQIEDgs4CfCRAg0EJAAdhizUISIECAAAECBAg8F/ANAQIECBAgQKC2gAKw9n6lI0CAAIGjAp4jQIAAAQIECBAgQIBAUQEFYNHFinVNwFsECBAgQIAAAQIECBAgQIBAfYFuCRWA3TYuLwECBAgQIECAAAECBAj8EvAfAQIE2ggoANusWlACBAgQIECAAIGfAj4hQIAAAQIECNQXUADW37GEBAgQIPBOwPcECBAgQIAAAQIECBAoLKAALLxc0c4JeJoAAQIECBAgQIAAAQIECBCoL9AxoQKw49ZlJkCAAAECBAgQIECAQG8B6QkQINBKQAHYat3CEiBAgAABAgQI/BXwEwECBAgQIECgh4ACsMeepSRAgACBZwI+J0CAAAECBAgQIECAQHEBBWDxBYt3TMBTBAgQIECAAAECBAgQIECAQH2BrgkVgF03LzcBAgQIECBAgAABAgR6CkhNgACBdgIKwHYrF5gAAQIECBAgQODjgwEBAgQIECBAoI+AArDPriUlQIAAge8C/k2AAAECBAgQIECAAIEGAgrABksW8bWAbwkQIECAAAECBAgQIECAAIH6Ap0TKgA7b192AgQIECBAgAABAgQI9BKQlgABAi0FFIAt1y40AQIECBAgQKCzgOwECBAgQIAAgV4CCsBe+5aWAAECBP4I+JsAAQIECBAgQIAAAQJNBBSATRYt5mMBnxIgQIAAAQIECBAgQIAAAQL1BbonVAB2/w2QnwABAgQIECBAgAABAj0EpCRAgEBbAQVg29ULToAAAQIECBDoKCAzAQIECBAgQKCfgAKw384lJkCAAAECBAgQIECAAAECBAgQaCSgAGy0bFG/CvgXAQIECBAgQIAAAQIECBAgUF9Awo8PBaDfAgIECBAgQIAAAQIECBCoLiAfAQIEWgsoAFuvX3gCBAgQIECAQCcBWQkQIECAAAECPQUUgD33LjUBAgT6CkhOgAABAgQIECBAgACBZgIKwGYLF/e3gD8JECBAgAABAgQIECBAgACB+gIS/hZQAP528CcBAgQIECBAgAABAgQI1BSQigABAu0FFIDtfwUAECBAgAABAgQ6CMhIgAABAgQIEOgroADsu3vJCRAg0E9AYgIECBAgQIAAAQIECDQUUAA2XHr3yPITIECAAAECBAgQIECAAAEC9QUk/CugAPxr4ScCBAgQIECAAAECBAgQqCUgDQECBAj8I6AA/AfB/wgQIECAAAECBCoLyEaAAAECBAgQ6C2gAOy9f+kJECDQR0BSAgQIECBAgAABAgQINBVQADZdfNfYchMgQIAAAQIECBAgQIAAAQL1BST8KqAA/OrhXwQIECBAgAABAgQIECBQQ0AKAgQIEPhXQAH4L4S/CBAgQIAAAQIEKgrIRIAAAQIECBAgoAD0O0CAAAEC9QUkJECAAAECBAgQIECAQGMBBWDj5XeLLi8BAgQIECBAgAABAgQIECBQX0DCnwIKwJ8mPiFAgAABAgQIECBAgACB3AKmJ0CAAIFPAgrATxh+JECAAAECBAgQqCQgCwECBAgQIECAwC8BBeAvBf8RIECAQF0ByQgQIECAAAECBAgQINBcQAHY/BegS3w5CRAgQIAAAQIECBAgQIAAgfoCEj4WUAA+dvEpAQIECBAgQIAAAQIECOQUMDUBAgQIfBNQAH4D8U8CBAgQIECAAIEKAjIQIECAAAECBAj8EVAA/pHwNwECBAjUE5CIAAECBAgQIECAAAECBD4UgH4JygsISIAAAQIECBAgQIAAATwA7I4AABAASURBVAIECNQXkPC5gALwuY1vCBAgQIAAAQIECBAgQCCXgGkJECBA4IGAAvABio8IECBAgAABAgQyC5idAAECBAgQIEDgs4AC8LOGnwkQIECgjoAkBAgQIECAAAECBAgQIPA/AQXg/xj8UVVALgIECBAgQIAAAQIECBAgQKC+gISvBRSAr318S4AAAQIECBAgQIAAAQI5BExJgAABAk8EFIBPYHxMgAABAgQIECCQUcDMBAgQIECAAAEC3wUUgN9F/JsAAQIE8gtIQIAAAQIECBAgQIAAAQL/CSgA/6PwQzUBeQgQIECAAAECBAgQIECAAIH6AhK+F1AAvjfyBAECBAgQIECAAAECBAjEFjAdAQIECLwQUAC+wPEVAQIECBAgQIBAJgGzEiBAgAABAgQIPBJQAD5S8RkBAgQI5BUwOQECBAgQIECAAAECBAh8EVAAfuHwjyoCchAgQIAAAQIECBAgQIAAAQL1BSQ8JqAAPObkKQIECBAgQIAAAQIECBCIKWAqAgQIEHgjoAB8A+RrAgQIECBAgACBDAJmJECAAAECBAgQeCagAHwm43MCBAgQyCdgYgIECBAgQIAAAQIECBD4IaAA/EHig+wC5idAgAABAgQIECBAgAABAgTqC0h4XEABeNzKkwQIECBAgAABAgQIECAQS8A0BAgQIHBAQAF4AMkjBAgQIECAAAECkQXMRoAAAQIECBAg8EpAAfhKx3cECBAgkEfApAQIECBAgAABAgQIECDwUEAB+JDFh1kFzE2AAAECBAgQIECAAAECBAjUF5DwnIAC8JyXpwkQIECAAAECBAgQIEAghoApCBAgQOCggALwIJTHCBAgQIAAAQIEIgqYiQABAgQIECBA4J2AAvCdkO8JECBAIL6ACQkQIECAAAECBAgQIEDgqYAC8CmNL7IJmJcAAQIECBAgQIAAAQIECBCoLyDheQEF4HkzbxAgQIAAAQIECBAgQIDAXgG3EyBAgMAJAQXgCSyPEiBAgAABAgQIRBIwCwECBAgQIECAwBEBBeARJc8QIECAQFwBkxEgQIAAAQIECBAgQIDASwEF4EseX2YRMCcBAgQIECBAgAABAgQIECBQX0DCawIKwGtu3iJAgAABAgQIECBAgACBPQJuJUCAAIGTAgrAk2AeJ0CAAAECBAgQiCBgBgIECBAgQIAAgaMCCsCjUp4jQIAAgXgCJiJAgAABAgQIECBAgACBtwIKwLdEHoguYD4CBAgQIECAAAECBAgQIECgvoCE1wUUgNftvEmAAAECBAgQIECAAAECawXcRoAAAQIXBBSAF9C8QoAAAQIECBAgsFPA3QQIECBAgAABAmcEFIBntDxLgAABAnEETEKAAAECBAgQIECAAAEChwQUgIeYPBRVwFwECBAgQIAAAQIECBAgQIBAfQEJ7wkoAO/5eZsAAQIECBAgQIAAAQIE1gi4hQABAgQuCigAL8J5jQABAgQIECBAYIeAOwkQIECAAAECBM4KKADPinmeAAECBPYLmIAAAQIECBAgQIAAAQIEDgsoAA9TeTCagHkIECBAgAABAgQIECBAgACB+gIS3hdQAN43dAIBAgQIECBAgAABAgQIzBVwOgECBAjcEFAA3sDzKgECBAgQIECAwEoBdxEgQIAAAQIECFwRUABeUfMOAQIECOwTcDMBAgQIECBAgAABAgQInBJQAJ7i8nAUAXMQIECAAAECBAgQIECAAAEC9QUkHCOgABzj6BQCBAgQIECAAAECBAgQmCPgVAIECBC4KaAAvAnodQIECBAgQIAAgRUC7iBAgAABAgQIELgqoAC8Kuc9AgQIEFgv4EYCBAgQIECAAAECBAgQOC2gADxN5oXdAu4nQIAAAQIECBAgQIAAAQIE6gtIOE5AATjO0kkECBAgQIAAAQIECBAgMFbAaQQIECAwQEABOADREQQIECBAgAABAjMFnE2AAAECBAgQIHBHQAF4R8+7BAgQILBOwE0ECBAgQIAAAQIECBAgcElAAXiJzUu7BNxLgAABAgQIECBAgAABAgQI1BeQcKyAAnCsp9MIECBAgAABAgQIECBAYIyAUwgQIEBgkIACcBCkYwgQIECAAAECBGYIOJMAAQIECBAgQOCugALwrqD3CRAgQGC+gBsIECBAgAABAgQIECBA4LKAAvAynRdXC7iPAAECBAgQIECAAAECBAgQqC8g4XgBBeB4UycSIECAAAECBAgQIECAwD0BbxMgQIDAQAEF4EBMRxEgQIAAAQIECIwUcBYBAgQIECBAgMAIAQXgCEVnECBAgMA8AScTIECAAAECBAgQIECAwC0BBeAtPi+vEnAPAQIECBAgQIAAAQIECBAgUF9AwjkCCsA5rk4lQIAAAQIECBAgQIAAgWsC3iJAgACBwQIKwMGgjiNAgAABAgQIEBgh4AwCBAgQIECAAIFRAgrAUZLOIUCAAIHxAk4kQIAAAQIECBAgQIAAgdsCCsDbhA6YLeB8AgQIECBAgAABAgQIECBAoL6AhPMEFIDzbJ1MgAABAgQIECBAgAABAucEPE2AAAECEwQUgBNQHUmAAAECBAgQIHBHwLsECBAgQIAAAQIjBRSAIzWdRYAAAQLjBJxEgAABAgQIECBAgAABAkMEFIBDGB0yS8C5BAgQIECAAAECBAgQIECAQH0BCecKKADn+jqdAAECBAgQIECAAAECBI4JeIoAAQIEJgkoACfBOpYAAQIECBAgQOCKgHcIECBAgAABAgRGCygAR4s6jwABAgTuCziBAAECBAgQIECAAAECBIYJKACHUTpotIDzCBAgQIAAAQIECBAgQIAAgfoCEs4XUADON3YDAQIECBAgQIAAAQIECLwW8C0BAgQITBRQAE7EdTQBAgQIECBAgMAZAc8SIECAAAECBAjMEFAAzlB1JgECBAhcF/AmAQIECBAgQIAAAQIECAwVUAAO5XTYKAHnECBAgAABAgQIECBAgAABAvUFJFwjoABc4+wWAgQIECBAgAABAgQIEHgs4FMCBAgQmCygAJwM7HgCBAgQIECAAIEjAp4hQIAAAQIECBCYJaAAnCXrXAIECBA4L+ANAgQIECBAgAABAgQIEBguoAAcTurAuwLeJ0CAAAECBAgQIECAAAECBOoLSLhOQAG4ztpNBAgQIECAAAECBAgQIPBVwL8IECBAYIGAAnABsisIECBAgAABAgReCfiOAAECBAgQIEBgpoACcKauswkQIEDguIAnCRAgQIAAAQIECBAgQGCKgAJwCqtDrwp4jwABAgQIECBAgAABAgQIEKgvIOFaAQXgWm+3ESBAgAABAgQIECBAgMBvAX8SIECAwCIBBeAiaNcQIECAAAECBAg8EvAZAQIECBAgQIDAbAEF4Gxh5xMgQIDAewFPECBAgAABAgQIECBAgMA0AQXgNFoHnxXwPAECBAgQIECAAAECBAgQIFBfQML1AgrA9eZuJECAAAECBAgQIECAQHcB+QkQIEBgoYACcCG2qwgQIECAAAECBD4L+JkAAQIECBAgQGCFgAJwhbI7CBAgQOC5gG8IECBAgAABAgQIECBAYKqAAnAqr8OPCniOAAECBAgQIECAAAECBAgQqC8g4R4BBeAed7cSIECAAAECBAgQIECgq4DcBAgQILBYQAG4GNx1BAgQIECAAAECvwT8R4AAAQIECBAgsEpAAbhK2j0ECBAg8FPAJwQIECBAgAABAgQIECAwXUABOJ3YBe8EfE+AAAECBAgQIECAAAECBAjUF5Bwn4ACcJ+9mwkQIECAAAECBAgQINBNQF4CBAgQ2CCgANyA7koCBAgQIECAQG8B6QkQIECAAAECBFYKKABXaruLAAECBP4K+IkAAQIECBAgQIAAAQIElggoAJcwu+SZgM8JECBAgAABAgQIECBAgACB+gIS7hVQAO71dzsBAgQIECBAgAABAgS6CMhJgAABApsEFICb4F1LgAABAgQIEOgpIDUBAgQIECBAgMBqAQXganH3ESBAgMDHBwMCBAgQIECAAAECBAgQWCagAFxG7aLvAv5NgAABAgQIECBAgAABAgQI1BeQcL+AAnD/DkxAgAABAgQIECBAgACB6gLyESBAgMBGAQXgRnxXEyBAgAABAgR6CUhLgAABAgQIECCwQ0ABuEPdnQQIEOgsIDsBAgQIECBAgAABAgQILBVQAC7ldtkfAX8TIECAAAECBAgQIECAAAEC9QUkjCGgAIyxB1MQIECAAAECBAgQIECgqoBcBAgQILBZQAG4eQGuJ0CAAAECBAj0EJCSAAECBAgQIEBgl4ACcJe8ewkQINBRQGYCBAgQIECAAAECBAgQWC6gAFxO7kICBAgQIECAAAECBAgQIECAQH0BCeMIKADj7MIkBAgQIECAAAECBAgQqCYgDwECBAgEEFAABliCEQgQIECAAAECtQWkI0CAAAECBAgQ2CmgANyp724CBAh0EpCVAAECBAgQIECAAAECBLYIKAC3sPe9VHICBAgQIECAAAECBAgQIECgvoCEsQQUgLH2YRoCBAgQIECAAAECBAhUEZCDAAECBIIIKACDLMIYBAgQIECAAIGaAlIRIECAAAECBAjsFlAA7t6A+wkQINBBQEYCBAgQIECAAAECBAgQ2CagANxG3+9iiQkQIECAAAECBAgQIECAAIH6AhLGE1AAxtuJiQgQIECAAAECBAgQIJBdwPwECBAgEEhAARhoGUYhQIAAAQIECNQSkIYAAQIECBAgQCCCgAIwwhbMQIAAgcoCshEgQIAAAQIECBAgQIDAVgEF4Fb+PpdLSoAAAQIECBAgQIAAAQIECNQXkDCmgAIw5l5MRYAAAQIECBAgQIAAgawC5iZAgACBYAIKwGALMQ4BAgQIECBAoIaAFAQIECBAgAABAlEEFIBRNmEOAgQIVBSQiQABAgQIECBAgAABAgS2CygAt6+g/gASEiBAgAABAgQIECBAgAABAvUFJIwroACMuxuTESBAgAABAgQIECBAIJuAeQkQIEAgoIACMOBSjESAAAECBAgQyC1gegIECBAgQIAAgUgCCsBI2zALAQIEKgnIQoAAAQIECBAgQIAAAQIhBBSAIdZQdwjJCBAgQIAAAQIECBAgQIAAgfoCEsYWUADG3o/pCBAgQIAAAQIECBAgkEXAnAQIECAQVEABGHQxxiJAgAABAgQI5BQwNQECBAgQIECAQDQBBWC0jZiHAAECFQRkIECAAAECBAgQIECAAIEwAgrAMKuoN4hEBAgQIECAAAECBAgQIECAQH0BCeMLKADj78iEBAgQIECAAAECBAgQiC5gPgIECBAILKAADLwcoxEgQIAAAQIEcgmYlgABAgQIECBAIKKAAjDiVsxEgACBzAJmJ0CAAAECBAgQIECAAIFQAgrAUOuoM4wkBAgQIECAAAECBAgQIECAQH0BCXMIKABz7MmUBAgQIECAAAECBAgQiCpgLgIECBAILqBu1uiAAAAQAElEQVQADL4g4xEgQIAAAQIEcgiYkgABAgQIECBAIKqAAjDqZsxFgACBjAJmJkCAAAECBAgQIECAAIFwAgrAcCvJP5AEBAgQIECAAAECBAgQIECAQH0BCfMIKADz7MqkBAgQIECAAAECBAgQiCZgHgIECBBIIKAATLAkIxIgQIAAAQIEYguYjgABAgQIECBAILKAAjDydsxGgACBTAJmJUCAAAECBAgQIECAAIGQAgrAkGvJO5TJCRAgQIAAAQIECBAgQIAAgfoCEuYSUADm2pdpCRAgQIAAAQIECBAgEEXAHAQIECCQREABmGRRxiRAgAABAgQIxBQwFQECBAgQIECAQHQBBWD0DZmPAAECGQTMSIAAAQIECBAgQIAAAQJhBRSAYVeTbzATEyBAgAABAgQIECBAgAABAvUFJMwnoADMtzMTEyBAgAABAgQIECBAYLeA+wkQIEAgkYACMNGyjEqAAAECBAgQiCVgGgIECBAgQIAAgQwCCsAMWzIjAQIEIguYjQABAgQIECBAgAABAgRCCygAQ68nz3AmJUCAAAECBAgQIECAAAECBOoLSJhTQAGYc2+mJkCAAAECBAgQIECAwC4B9xIgQIBAMgEFYLKFGZcAAQIECBAgEEPAFAQIECBAgAABAlkEFIBZNmVOAgQIRBQwEwECBAgQIECAAAECBAiEF1AAhl9R/AFNSIAAAQIECBAgQIAAAQIECNQXkDCvgAIw7+5MToAAAQIECBAgQIAAgdUC7iNAgACBhAIKwIRLMzIBAgQIECBAYK+A2wkQIECAAAECBDIJKAAzbcusBAgQiCRgFgIECBAgQIAAAQIECBBIIaAATLGmuEOajAABAgQIECBAgAABAgQIEKgvIGFuAQVg7v2ZngABAgQIECBAgAABAqsE3EOAAAECSQUUgEkXZ2wCBAgQIECAwB4BtxIgQIAAAQIECGQTUABm25h5CRAgEEHADAQIECBAgAABAgQIECCQRkABmGZV8QY1EQECBAgQIECAAAECBAgQIFBfQML8AgrA/DuUgAABAgQIECBAgAABArMFnE+AAAECiQUUgImXZ3QCBAgQIECAwFoBtxEgQIAAAQIECGQUUABm3JqZCRAgsFPA3QQIECBAgAABAgQIECCQSkABmGpdcYY1CQECBAgQIECAAAECBAgQIFBfQMIaAgrAGnuUggABAgQIECBAgAABArMEnEuAAAECyQUUgMkXaHwCBAgQIECAwBoBtxAgQIAAAQIECGQVUABm3Zy5CRAgsEPAnQQIECBAgAABAgQIECCQTkABmG5l+wc2AQECBAgQIECAAAECBAgQIFBfQMI6AgrAOruUhAABAgQIECBAgAABAqMFnEeAAAECBQQUgAWWKAIBAgQIECBAYK6A0wkQIECAAAECBDILKAAzb8/sBAgQWCngLgIECBAgQIAAAQIECBBIKaAATLm2fUO7mQABAgQIECBAgAABAgQIEKgvIGEtAQVgrX1KQ4AAAQIECBAgQIAAgVECziFAgACBIgIKwCKLFIMAAQIECBAgMEfAqQQIECBAgAABAtkFFIDZN2h+AgQIrBBwBwECBAgQIECAAAECBAikFVAApl3d+sHdSIAAAQIECBAgQIAAAQIECNQXkLCegAKw3k4lIkCAAAECBAgQIECAwF0B7xMgQIBAIQEFYKFlikKAAAECBAgQGCvgNAIECBAgQIAAgQoCCsAKW5SBAAECMwWcTYAAAQIECBAgQIAAAQKpBRSAqde3bng3ESBAgAABAgQIECBAgAABAvUFJKwpoACsuVepCBAgQIAAAQIECBAgcFXAewQIECBQTEABWGyh4hAgQIAAAQIExgg4hQABAgQIECBAoIqAArDKJuUgQIDADAFnEiBAgAABAgQIECBAgEB6AQVg+hXOD+AGAgQIECBAgAABAgQIECBAoL6AhHUFFIB1dysZAQIECBAgQIAAAQIEzgp4ngABAgQKCigACy5VJAIECBAgQIDAPQFvEyBAgAABAgQIVBJQAFbapiwECBAYKeAsAgQIECBAgAABAgQIECghoAAsscZ5IZxMgAABAgQIECBAgAABAgQI1BeQsLaAArD2fqUjQIAAAQIECBAgQIDAUQHPESBAgEBRAQVg0cWKRYAAAQIECBC4JuAtAgQIECBAgACBagIKwGoblYcAAQIjBJxBgAABAgQIECBAgAABAmUEFIBlVjk+iBMJECBAgAABAgQIECBAgACB+gIS1hdQANbfsYQECBAgQIAAAQIECBB4J+B7AgQIECgsoAAsvFzRCBAgQIAAAQLnBDxNgAABAgQIECBQUUABWHGrMhEgQOCOgHcJECBAgAABAgQIECBAoJSAArDUOseFcRIBAgQIECBAgAABAgQIECBQX0DCHgIKwB57lpIAAQIECBAgQIAAAQLPBHxOgAABAsUFFIDFFyweAQIECBAgQOCYgKcIECBAgAABAgSqCigAq25WLgIECFwR8A4BAgQIECBAgAABAgQIlBNQAJZb6f1ATiBAgAABAgQIECBAgAABAgTqC0jYR0AB2GfXkhIgQIAAAQIECBAgQOC7gH8TIECAQAMBBWCDJYtIgAABAgQIEHgt4FsCBAgQIECAAIHKAgrAytuVjQABAmcEPEuAAAECBAgQIECAAAECJQUUgCXXej2UNwkQIECAAAECBAgQIECAAIH6AhL2ElAA9tq3tAQIECBAgAAB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WCvgNgIECBAgQIAAAQIECBAgcEFAAXgBbecr7iZAgAABAgQIECBAgAABAgTqC0hIYKSAAnCkprMIECBAgAABAgQIECAwTsBJBAgQIEBgiIACcAijQwgQIECAAAECswScS4AAAQIECBAgQOCegALwnp+3CRAgsEbALQQIECBAgAABAgQIECBA4KKAAvAi3I7X3EmAAAECBAgQIECAAAECBAjUF5CQwGgBBeBoUecRIECAAAECBAgQIEDgvoATCBAgQIDAMAEF4DBKBxEgQIAAAQIERgs4jwABAgQIECBAgMB9AQXgfUMnECBAYK6A0wkQIECAAAECBAgQIECAwA0BBeANvJWvuosAAQIECBAgQIAAAQIECBCoLyAhgRkCCsAZqs4kQIAAAQIECBAgQIDAdQFvEiBAgACBoQIKwKGcDiNAgAABAgQIjBJwDgECBAgQIECAAIExAgrAMY5OIUCAwBwBpxIgQIAAAQIECBAgQIAAgZsCCsCbgCtedwcBAgQIECBAgAABAgQIECBQX0BCArMEFICzZJ1LgAABAgQIECBAgACB8wLeIECAAAECwwUUgMNJHUiAAAECBAgQuCvgfQIECBAgQIAAAQLjBBSA4yydRIAAgbECTiNAgAABAgQIECBAgAABAgMEFIADEGce4WwCBAgQIECAAAECBAgQIECgvoCEBGYKKABn6jqbAAECBAgQIECAAAECxwU8SYAAAQIEpggoAKewOpQAAQIECBAgcFXAewQIECBAgAABAgTGCigAx3o6jQABAmMEnEKAAAECBAgQIECAAAECBAYJKAAHQc44xpkECBAgQIAAAQIECBAgQIBAfQEJCcwWUADOFnY+AQIECBAgQIAAAQIE3gt4ggABAgQITBNQAE6jdTABAgQIECBA4KyA5wkQIECAAAECBAiMF1AAjjd1IgECBO4JeJsAAQIECBAgQIAAAQIECAwUUAAOxBx5lLMIECBAgAABAgQIECBAgACB+gISElghoABcoewOAgQIECBAgAABAgQIPBfwDQECBAgQmCqgAJzK63ACBAgQIECAwFEBzxEgQIAAAQIECBCYI6AAnOPqVAIECFwT8BYBAgQIECBAgAABAgQIEBgsoAAcDDriOGcQIECAAAECBAgQIECAAAEC9QUkJLBKQAG4Sto9BAgQIECAAAECBAgQ+CngEwIECBAgMF1AATid2AUECBAgQIAAgXcCvidAgAABAgQIECAwT0ABOM/WyQQIEDgn4GkCBAgQIECAAAECBAgQIDBBQAE4AfXOkd4lQIAAAQIECBAgQIAAAQIE6gtISGClgAJwpba7CBAgQIAAAQIECBAg8FfATwQIECBAYImAAnAJs0sIECBAgAABAs8EfE6AAAECBAgQIEBgroACcK6v0wkQIHBMwFMECBAgQIAAAQIECBAgQGCSgAJwEuyVY71DgAABAgQIECBAgAABAgQI1BeQkMBqAQXganH3ESBAgAABAgQIECBA4OODAQECBAgQWCagAFxG7SICBAgQIECAwHcB/yZAgAABAgQIECAwX0ABON/YDQQIEHgt4FsCBAgQIECAAAECBAgQIDBRQAE4EffM0Z4lQIAAAQIECBAgQIAAAQIE6gtISGCHgAJwh7o7CRAgQIAAAQIECBDoLCA7AQIECBBYKqAAXMrtMgIECBAgQIDAHwF/EyBAgAABAgQIEFgjoABc4+wWAgQIPBbwKQECBAgQIECAAAECBAgQmCygAJwMfOR4zxAgQIAAAQIECBAgQIAAAQL1BSQksEtAAbhL3r0ECBAgQIAAAQIECHQUkJkAAQIECCwXUAAuJ3chAQIECBAgQIAAAQIECBAgQIAAgXUCCsB11m4iQIDAVwH/IkCAAAECBAgQIECAAAECCwQUgAuQX13hOwIECBAgQIAAAQIECBAgQKC+gIQEdgooAHfqu5sAAQIECBAgQIAAgU4CshIgQIAAgS0CCsAt7C4lQIAAAQIE+gpIToAAAQIECBAgQGCtgAJwrbfbCBAg8FvAnwQIECBAgAABAgQIECBAYJGAAnAR9KNrfEaAAAECBAgQIECAAAECBAjUF5CQwG4BBeDuDbifAAECBAgQIECAAIEOAjISIECAAIFtAgrAbfQuJkCAAAECBPoJSEyAAAECBAgQIEBgvYACcL25GwkQ6C4gPwECBAgQIECAAAECBAgQWCigAFyI/fkqPxMgQIAAAQIECBAgQIAAAQL1BSQkEEFAARhhC2YgQIAAAQIECBAgQKCygGwECBAgQGCrgAJwK7/LCRAgQIAAgT4CkhIgQIAAAQIECBDYI6AA3OPuVgIEugrITYAAAQIECBAgQIAAAQIEFgsoABeD/7rOfwQIECBAgAABAgQIECBAgEB9AQkJRBFQAEbZhDkIECBAgAABAgQIEKgoIBMBAgQIENguoADcvgIDECBAgAABAvUFJCRAgAABAgQIECCwT0ABuM/ezQQIdBOQlwABAgQIECBAgAABAgQIbBBQAC5Gdx0BAgQIECBAgAABAgQIECBQX0BCApEEFICRtmEWAgQIECBAgAABAgQqCchCgAABAgRCCCgAQ6zBEAQIECBAgEBdAckIECBAgAABAgQI7BVQAO71dzsBAl0E5CRAgAABAgQIECBAgAABApsEFIAL4V1FgAABAgQIECBAgAABAgQI1BeQkEA0AQVgtI2YhwABAgQIECBAgACBCgIyECBAgACBMAIKwDCrMAgBAgQIECBQT0AiAgQIECBAgAABAvsFFID7d2ACAgSqC8hHgAABAgQIECBAgAABAgQ2CigAF+G7hgABAgQIECBAgAABAgQIEKgvICGBiAIKwIhbMRMBAgQIECBAgAABApkFzE6AAAECBEIJKABDrcMwBAgQIECAQB0BSQgQIECAAAECBAjEEFAAxtiDKQgQqCogFwECBAgQIECAAAECBAgQ2CygAFywAFcQIECAAAECBAgQIECAAAEC9QUkJBBVQAEYdTPmIkCAAAECBAgQIEAgo4CZCRAgQIBAOAEFYLiVGIgAAQIECBDILyABAQIECBAgQIAAgTgCCsA4uzAJAQLVBOQhQIAAAQIECBAgQIAAAQIBBBSAk5fgeAIECBAgQIAAAQIECBAgQKC+gIQEIgsoACNvx2wECBAgQIAAAQIECGQSMCsBAgQIEAgpoAAMuRZDESBAgAABAnkFTE6AAAECBAgQIEAgloACMNY+TEOAQBUBOQgQIECAAAECBAgQIECAQBABBeDERTiaAAECBAgQIECAAAECBAgQqC8gIYHoAgrA6BsyHwECBAgQIECAAAECGQTMSIAAAQIEwgooAMOuxmAECBAgQIBAPgETEyBAgAABAgQIEIgnoACMtxMTESCQXcD8BAgQIECAAAECBAgQIEAgkIACcNIyHEuAAAECBAgQIECAAAECBAjUF5CQQAYBBWCGLZmRAAECBAgQIECAAIHIAmYjQIAAAQKhBRSAoddjOAIECBAgQCCPgEkJECBAgAABAgQIxBRQAMbci6kIEMgqYG4CBAgQIECAAAECBAgQIBBMQAE4YSGOJECAAAECBAgQIECAAAECBOoLSEggi4ACMMumzEmAAAECBAgQIECAQEQBMxEgQIAAgfACCsDwKzIgAQIECBAgEF/AhAQIECBAgAABAgTiCigA4+7GZAQIZBMwLwECBAgQIECAAAECBAgQCCigABy8FMcRIECAAAECBAgQIECAAAEC9QUkJJBJQAGYaVtmJUCAAAECBAgQIEAgkoBZCBAgQIBACgEFYIo1GZIAAQIECBCIK2AyAgQIECBAgAABArEFFICx92M6AgSyCJiTAAECBAgQIECAAAECBAgEFVAADlyMowgQIECAAAECBAgQIECAAIH6AhISyCagAMy2MfMSIECAAAECBAgQIBBBwAwECBAgQCCNgAIwzaoMSoAAAQIECMQTMBEBAgQIECBAgACB+AIKwPg7MiEBAtEFzEeAAAECBAgQIECAAAECBAILKAAHLccxBAgQIECAAAECBAgQIECAQH0BCQlkFFAAZtyamQkQIECAAAECBAgQ2CngbgIECBAgkEpAAZhqXYYlQIAAAQIE4giYhAABAgQIECBAgEAOAQVgjj2ZkgCBqALmIkCAAAECBAgQIECAAAECwQUUgAMW5AgCBAgQIECAAAECBAgQIECgvoCEBLIKKACzbs7cBAgQIECAAAECBAjsEHAnAQIECBBIJ6AATLcyAxMgQIAAAQL7BUxAgAABAgQIECBAII+AAjDPrkxKgEA0AfMQIECAAAECBAgQIECAAIEEAgrAm0vyOgECBAgQIECAAAECBAgQIFBfQEICmQUUgJm3Z3YCBAgQIECAAAECBFYKuIsAAQIECKQUUACmXJuhCRAgQIAAgX0CbiZAgAABAgQIECCQS0ABmGtfpiVAIIqAOQgQIECAAAECBAgQIECAQBIBBeCNRXmVAAECBAgQIECAAAECBAgQqC8gIYHsAgrA7Bs0PwECBAgQIECAAAECKwTcQYAAAQIE0gooANOuzuAECBAgQIDAegE3EiBAgAABAgQIEMgnoADMtzMTEyCwW8D9BAgQIECAAAECBAgQIEAgkYAC8OKyvEaAAAECBAgQINBgQrUAAAD2SURBVECAAAECBAjUF5CQQAUBBWCFLcpAgAABAgQIECBAgMBMAWcTIECAAIHUAgrA1OszPAECBAgQILBOwE0ECBAgQIAAAQIEcgooAHPuzdQECOwScC8BAgQIECBAgAABAgQIEEgmoAC8sDCvECBAgAABAgQIECBAgAABAvUFJCRQRUABWGWTchAgQIAAAQIECBAgMEPAmQQIECBAIL2AAjD9CgUgQIAAAQIE5gu4gQABAgQIECBAgEBeAQVg3t2ZnACB1QLuI0CAAAECBAgQIECAAAECCQUUgCeX5nECBAgQIECAAAECBAgQIECgvoCEBCoJ/B8AAAD//3KXMBwAAAAGSURBVAMA1xgA7LZottUAAAAASUVORK5CYII="
+}

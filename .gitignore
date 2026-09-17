@@ -1,3 +1,8 @@
+Ops.Extension.Standalone.MacOs.Hid.BmdSpeedEditor/build*
+ops/Ops.Extension.Standalone.MacOs.Hid.ContourShuttlePro/build/Release/obj.target/contour_shuttle_pro/contour_shuttle_pro.o
+ops/Ops.Extension.Standalone.MacOs.Hid.ContourShuttleXpress/build/Release/obj.target/contour_shuttle_xpress/contour_shuttle_xpress.o
+ops/Ops.Extension.Standalone.MacOs.Hid.StreamDeck/build/Release/obj.target/streamdeck_hid/src/streamdeck_hid.o
+
 .DS_Store
 Patches/VisionBundle_2.cables
 Patches/mediaPipe_bundle/libs/mediapipe/
@@ -70,3 +75,12 @@ darkflash.cables
 
 Ops.Extension.Standalone.SwiftSidecars.Mira*
 Mir*
+
+# Node-gyp build directories
+build/
+.build/
+# macOS metadata
+.DS_Store
+
+ops/Ops.Local.Ops.Local.Excalidraw/node_modules/
+ops/Ops.Extension.Standalone.Excalidraw/node_modules/*

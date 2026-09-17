@@ -136,9 +136,22 @@ function loadScript(url, callback) {
     document.head.appendChild(script);
 }
 
+function resolveAssetUrl(rawUrl) {
+    if (!rawUrl) return "";
+    let resolved = rawUrl;
+    if (op.patch && typeof op.patch.getFilePath === "function") {
+        const p = op.patch.getFilePath(rawUrl);
+        if (p) resolved = p;
+    } else if (op.patch && typeof op.patch.filePath === "function") {
+        const p = op.patch.filePath(rawUrl);
+        if (p) resolved = p;
+    }
+    return resolved;
+}
+
 function fetchSlides() {
-    const url = inFetchUrl.get();
-    if (!url) {
+    const rawUrl = inFetchUrl.get();
+    if (!rawUrl) {
         container.innerHTML = "";
         outElement.set(null);
         if (deck) {
@@ -150,30 +163,36 @@ function fetchSlides() {
         return;
     }
 
+    const resolvedUrl = resolveAssetUrl(rawUrl);
+
     outError.set("");
     op.setUiError("fetch_error", null);
 
-    fetch(url)
+    fetch(resolvedUrl)
         .then(response => {
             if (!response.ok) throw new Error("HTTP error " + response.status);
             return response.text();
         })
         .then(html => {
             if (isScriptLoaded) {
-                processHtml(html, url);
+                processHtml(html, resolvedUrl);
             } else {
                 const interval = setInterval(() => {
                     if (isScriptLoaded) {
                         clearInterval(interval);
-                        processHtml(html, url);
+                        processHtml(html, resolvedUrl);
                     }
                 }, 100);
             }
         })
         .catch(err => {
-            op.logError("[RevealJs] Failed to fetch slides:", err);
-            outError.set("Fetch failed: " + err.message);
-            op.setUiError("fetch_error", "Fetch failed: " + err.message, 2);
+            let msg = err.message;
+            if (msg === "Failed to fetch") {
+                msg = `Failed to fetch '${resolvedUrl}'. Possible causes: CORS restriction (remote server missing Access-Control-Allow-Origin), mixed content (HTTP blocked on HTTPS), or invalid URL.`;
+            }
+            op.logError("[RevealJs]", msg);
+            outError.set("Fetch failed: " + msg);
+            op.setUiError("fetch_error", "Fetch failed: " + msg, 2);
         });
 }
 
@@ -190,7 +209,7 @@ function processHtml(htmlText, fetchUrl) {
     const doc = parser.parseFromString(htmlText, "text/html");
 
     // Resolve base path for relative URLs
-    const userBase = inBaseUrl.get();
+    const userBase = resolveAssetUrl(inBaseUrl.get());
     let baseUrl = userBase;
     if (!baseUrl) {
         try {
