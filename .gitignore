@@ -84,3 +84,4 @@ build/
 
 ops/Ops.Local.Ops.Local.Excalidraw/node_modules/
 ops/Ops.Extension.Standalone.Excalidraw/node_modules/*
+ops/Ops.Extension.Standalone.JsonLogicEngine/node_modules/

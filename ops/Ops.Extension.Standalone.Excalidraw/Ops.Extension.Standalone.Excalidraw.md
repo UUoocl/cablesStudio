@@ -40,6 +40,12 @@ Wire the ports between `HttpFileServer` and `Excalidraw` as follows:
 | **Zen Mode** | `Boolean` | `false` | Hide toolbars and sidebars by default |
 | **Auto Save** | `Boolean` | `true` | Receive auto-save scene updates from clients |
 | **App Title** | `String` | `Excalidraw Standalone` | HTML page title for client browser tabs |
+| **Pointer Data** | `Object` | `{}` | Remote pointer payload `{ x, y, isDrawing, mode, color, name }` |
+| **Pointer X** | `Number` | `0` | Direct X coordinate in Excalidraw pixel space |
+| **Pointer Y** | `Number` | `0` | Direct Y coordinate in Excalidraw pixel space |
+| **Pointer Down** | `Boolean` | `false` | Enable live drawing mode while moving coordinates |
+| **Pointer Mode** | `Select` | `cursor` | Remote pointer mode (`cursor`, `laser`, or `draw`) |
+| **Pointer Color** | `String` | `#6965db` | Color hex string for remote cursor and drawings |
 | **Initial Scene Data** | `Object` | `{}` | Scene object `{ elements: [], appState: {} }` |
 | **Initial Scene JSON String** | `String` | `""` | Raw JSON string representation of scene |
 | **Reload Preview** | `Button` | - | Force refresh of internal preview iframe |
@@ -67,7 +73,13 @@ GET http://127.0.0.1:8080/api/excalidraw
 ```
 Renders the full interactive Excalidraw web application.
 
-### 2. Fetch Scene Data
+### 2. Real-Time Remote Pointer SSE Stream
+```http
+GET http://127.0.0.1:8080/api/excalidraw/stream
+```
+Server-Sent Events (SSE) stream broadcasting real-time `pointer_update` events containing `{ x, y, isDrawing, mode, color, name }`.
+
+### 3. Fetch Scene Data
 ```http
 GET http://127.0.0.1:8080/api/excalidraw/scene
 ```
@@ -80,7 +92,7 @@ Returns the current drawing scene JSON:
 }
 ```
 
-### 3. Update Scene Data
+### 4. Update Scene Data
 ```http
 POST http://127.0.0.1:8080/api/excalidraw/scene
 Content-Type: application/json

@@ -16,6 +16,14 @@ const
     inZenMode = op.inBool("Zen Mode", false),
     inAutoSave = op.inBool("Auto Save", true),
     inTitle = op.inString("App Title", "Excalidraw Standalone"),
+
+    inPointerObj = op.inObject("Pointer Data"),
+    inPointerX = op.inFloat("Pointer X", 0),
+    inPointerY = op.inFloat("Pointer Y", 0),
+    inPointerDown = op.inBool("Pointer Down", false),
+    inPointerMode = op.inValueSelect("Pointer Mode", ["cursor", "laser", "draw"], "cursor"),
+    inPointerColor = op.inString("Pointer Color", "#6965db"),
+
     inSceneData = op.inObject("Initial Scene Data"),
     inSceneJsonStr = op.inString("Initial Scene JSON String", ""),
     inReloadPreview = op.inTriggerButton("Reload Preview"),
@@ -34,10 +42,12 @@ outHtml.ignoreValueSerialize = true;
 
 op.setPortGroup("HTTP Server Integration", [exec, inReqData, inResponse, inRoute]);
 op.setPortGroup("Excalidraw Settings", [inTheme, inTransparent, inShowUi, inReadOnly, inGridMode, inZenMode, inAutoSave, inTitle]);
+op.setPortGroup("Remote Cursor & Drawing", [inPointerObj, inPointerX, inPointerY, inPointerDown, inPointerMode, inPointerColor]);
 op.setPortGroup("Scene Data", [inSceneData, inSceneJsonStr]);
 
 let iframeElement = null;
 let currentScene = { "elements": [], "appState": {}, "files": {} };
+const sseClients = new Set();
 
 exec.onTriggered = handleHttpRequest;
 inReloadPreview.onTriggered = refreshPreview;
@@ -49,6 +59,72 @@ inReadOnly.onChange = refreshPreview;
 inGridMode.onChange = refreshPreview;
 inZenMode.onChange = refreshPreview;
 inTitle.onChange = refreshPreview;
+
+function sendPointerUpdate()
+{
+    const obj = inPointerObj.get();
+    let x = inPointerX.get();
+    let y = inPointerY.get();
+    let isDrawing = inPointerDown.get();
+    let mode = inPointerMode.get() || "cursor";
+    let color = inPointerColor.get() || "#6965db";
+    let name = "Cables Remote";
+
+    if (obj && typeof obj === "object")
+    {
+        if (typeof obj.x === "number") x = obj.x;
+        if (typeof obj.y === "number") y = obj.y;
+        if (typeof obj.isDrawing === "boolean") isDrawing = obj.isDrawing;
+        else if (typeof obj.down === "boolean") isDrawing = obj.down;
+        if (typeof obj.mode === "string") mode = obj.mode;
+        else if (typeof obj.tool === "string") mode = obj.tool;
+        if (typeof obj.color === "string") color = obj.color;
+        if (typeof obj.name === "string") name = obj.name;
+    }
+
+    const payload = {
+        "x": x,
+        "y": y,
+        "isDrawing": isDrawing,
+        "mode": mode,
+        "color": color,
+        "name": name,
+        "timestamp": Date.now()
+    };
+
+    if (iframeElement && iframeElement.contentWindow)
+    {
+        try
+        {
+            iframeElement.contentWindow.postMessage({ "type": "excalidraw_pointer", "data": payload }, "*");
+        }
+        catch (e) {}
+    }
+
+    if (sseClients.size > 0)
+    {
+        const msg = `event: pointer_update\ndata: ${JSON.stringify(payload)}\n\n`;
+        sseClients.forEach((clientRes) =>
+        {
+            try
+            {
+                if (!clientRes.writableEnded) clientRes.write(msg);
+                else sseClients.delete(clientRes);
+            }
+            catch (e)
+            {
+                sseClients.delete(clientRes);
+            }
+        });
+    }
+}
+
+inPointerObj.onChange = sendPointerUpdate;
+inPointerX.onChange = sendPointerUpdate;
+inPointerY.onChange = sendPointerUpdate;
+inPointerDown.onChange = sendPointerUpdate;
+inPointerMode.onChange = sendPointerUpdate;
+inPointerColor.onChange = sendPointerUpdate;
 
 inSceneData.onChange = () =>
 {
@@ -224,6 +300,48 @@ function handleHttpRequest()
             res.setHeader("Content-Type", "application/json");
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.end(JSON.stringify(getEffectiveScene()));
+        }
+        outError.set("");
+        outSuccess.trigger();
+        return;
+    }
+
+    // Handle GET pointer SSE stream subroute (/api/excalidraw/stream or /excalidraw/stream)
+    if (reqPathname === configuredRoute + "/stream" || reqPathname === altRoute + "/stream")
+    {
+        if (res && !res.headersSent)
+        {
+            res.setHeader("Content-Type", "text/event-stream");
+            res.setHeader("Cache-Control", "no-cache");
+            res.setHeader("Connection", "keep-alive");
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            if (res.flushHeaders) res.flushHeaders();
+
+            res.write(": heartbeat\n\n");
+            sseClients.add(res);
+
+            const heartbeat = setInterval(() =>
+            {
+                try
+                {
+                    if (!res.writableEnded) res.write(": heartbeat\n\n");
+                    else { clearInterval(heartbeat); sseClients.delete(res); }
+                }
+                catch (e)
+                {
+                    clearInterval(heartbeat);
+                    sseClients.delete(res);
+                }
+            }, 15000);
+
+            if (reqData.req && reqData.req.on)
+            {
+                reqData.req.on("close", () =>
+                {
+                    clearInterval(heartbeat);
+                    sseClients.delete(res);
+                });
+            }
         }
         outError.set("");
         outSuccess.trigger();
@@ -446,9 +564,130 @@ function generateExcalidrawHtml(overrideRoute)
         saveTimeout = setTimeout(() => saveScene(elements, appState, files), 1000);
       }
 
+      let excalidrawAPI = null;
+      let activeStrokeElement = null;
+      let strokePoints = [];
+      let strokeStartPos = null;
+
+      function handlePointerUpdate(data) {
+        if (!data || typeof data.x !== "number" || typeof data.y !== "number") return;
+
+        if (excalidrawAPI) {
+          const currentCollaborators = new Map(excalidrawAPI.getAppState().collaborators || []);
+          currentCollaborators.set("cables_remote", {
+            pointer: { x: data.x, y: data.y, tool: data.mode === "laser" ? "laser" : "pointer" },
+            button: data.isDrawing ? "down" : "up",
+            selectedElementIds: {},
+            username: data.name || "Cables Remote",
+            color: { background: data.color || "#6965db", stroke: data.color || "#6965db" }
+          });
+          excalidrawAPI.updateScene({ collaborators: currentCollaborators });
+        }
+
+        if (data.mode === "draw") {
+          if (data.isDrawing) {
+            if (!activeStrokeElement) {
+              strokeStartPos = { x: data.x, y: data.y };
+              strokePoints = [[0, 0]];
+              activeStrokeElement = {
+                id: "cables_draw_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7),
+                type: "freedraw",
+                x: data.x,
+                y: data.y,
+                width: 1,
+                height: 1,
+                angle: 0,
+                strokeColor: data.color || "#6965db",
+                backgroundColor: "transparent",
+                fillStyle: "solid",
+                strokeWidth: 2,
+                strokeStyle: "solid",
+                roughness: 1,
+                opacity: 100,
+                groupIds: [],
+                frameId: null,
+                roundness: null,
+                seed: Math.floor(Math.random() * 2000000000),
+                version: 1,
+                versionNonce: Math.floor(Math.random() * 2000000000),
+                isDeleted: false,
+                boundElements: null,
+                updated: Date.now(),
+                link: null,
+                locked: false,
+                points: strokePoints,
+                pressures: [],
+                simulatePressure: true
+              };
+
+              if (excalidrawAPI) {
+                const currentElements = excalidrawAPI.getSceneElements() || [];
+                excalidrawAPI.updateScene({ elements: [...currentElements, activeStrokeElement] });
+              }
+            } else {
+              const dx = data.x - strokeStartPos.x;
+              const dy = data.y - strokeStartPos.y;
+              strokePoints.push([dx, dy]);
+
+              let minX = 0, minY = 0, maxX = 0, maxY = 0;
+              strokePoints.forEach(pt => {
+                if (pt[0] < minX) minX = pt[0];
+                if (pt[1] < minY) minY = pt[1];
+                if (pt[0] > maxX) maxX = pt[0];
+                if (pt[1] > maxY) maxY = pt[1];
+              });
+
+              activeStrokeElement.width = Math.max(1, maxX - minX);
+              activeStrokeElement.height = Math.max(1, maxY - minY);
+              activeStrokeElement.points = [...strokePoints];
+              activeStrokeElement.version = (activeStrokeElement.version || 1) + 1;
+              activeStrokeElement.updated = Date.now();
+
+              if (excalidrawAPI) {
+                const elements = (excalidrawAPI.getSceneElements() || []).map(el =>
+                  el.id === activeStrokeElement.id ? activeStrokeElement : el
+                );
+                excalidrawAPI.updateScene({ elements: elements });
+              }
+            }
+          } else if (activeStrokeElement) {
+            if (excalidrawAPI) {
+              const elements = excalidrawAPI.getSceneElements() || [];
+              const appState = excalidrawAPI.getAppState() || {};
+              const files = excalidrawAPI.getFiles() || {};
+              debouncedSave(elements, appState, files);
+            }
+            activeStrokeElement = null;
+            strokePoints = [];
+            strokeStartPos = null;
+          }
+        }
+      }
+
+      window.addEventListener("message", function(event) {
+        if (event.data && event.data.type === "excalidraw_pointer") {
+          handlePointerUpdate(event.data.data);
+        }
+      });
+
+      try {
+        const streamUrl = (config.apiRoute || "/api/excalidraw") + "/stream";
+        const evtSource = new EventSource(streamUrl);
+        evtSource.addEventListener("pointer_update", function(e) {
+          try {
+            const data = JSON.parse(e.data);
+            handlePointerUpdate(data);
+          } catch(err) {}
+        });
+      } catch(e) {}
+
       function ExcalidrawApp() {
         const onChange = React.useCallback((elements, state, files) => {
           debouncedSave(elements, state, files);
+        }, []);
+
+        const setRef = React.useCallback((api) => {
+          excalidrawAPI = api;
         }, []);
 
         return React.createElement(
@@ -460,7 +699,8 @@ function generateExcalidrawHtml(overrideRoute)
             viewModeEnabled: config.readOnly,
             gridModeEnabled: config.gridMode,
             zenModeEnabled: config.zenMode,
-            onChange: onChange
+            onChange: onChange,
+            excalidrawAPI: setRef
           })
         );
       }

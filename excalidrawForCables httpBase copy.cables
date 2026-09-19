@@ -1,0 +1,1397 @@
+{
+    "_id": "6aaac6d9183652d7b3b0df23",
+    "shortId": "Pao0pv",
+    "name": "excalidrawForCables httpBase copy",
+    "description": "",
+    "userId": "6aaac6d92a26ac238d21e957",
+    "cachedUsername": "",
+    "created": 1789576921764,
+    "updated": 1789837190338,
+    "visibility": "private",
+    "ops": [
+        {
+            "opId": "f1029550-d877-42da-9b1e-63a5163a0350",
+            "id": "gyjbykswj",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -260.08078787167346,
+                    "y": -306.42709985106296
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Max Pixel Density (DPR)",
+                    "value": 2
+                },
+                {
+                    "name": "FPS Limit",
+                    "value": 60
+                },
+                {
+                    "name": "Reduce FPS unfocussed",
+                    "value": 0
+                },
+                {
+                    "name": "Transparent",
+                    "value": 0
+                },
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "Focus canvas",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "trigger",
+                            "objIn": "euilpw03c",
+                            "objOut": "gyjbykswj"
+                        }
+                    ]
+                },
+                {
+                    "name": "width",
+                    "value": 553
+                },
+                {
+                    "name": "height",
+                    "value": 142
+                },
+                {
+                    "name": "Pixel Density",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "sd7hern0f",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Server",
+                "title": "Server",
+                "translate": {
+                    "x": -670.5185795958371,
+                    "y": 360.8952533953769
+                },
+                "area": {
+                    "w": 1029.6968024394282,
+                    "h": 881.7665892873122,
+                    "id": "lypxk7lni"
+                },
+                "comment": "File\nAPI\nSSE\nWS"
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Server"
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "pa3xkz3ev",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -306.6883559266855,
+                    "y": 191.29943355423245
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "varIP"
+                }
+            ]
+        },
+        {
+            "opId": "eff161f2-6fe2-43a5-a884-af7e7a19a523",
+            "id": "4pti4c5dc",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 74.56836510046924,
+                "width": 88.72087215640363,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -306.6883559266855,
+                    "y": 86.92965273317247
+                },
+                "extendTitle": ""
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": "127.0.0.1"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "String",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "String",
+                            "objIn": "pa3xkz3ev",
+                            "objOut": "4pti4c5dc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "ogfj7j9ku",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Settings Variables",
+                "title": "Settings Variables",
+                "translate": {
+                    "x": -402.5185795958371,
+                    "y": -4.651742639665031
+                },
+                "area": {
+                    "w": 408.75693724473325,
+                    "h": 253.75664400350615,
+                    "id": "1sz28n9ku"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Settings Variables"
+                }
+            ]
+        },
+        {
+            "opId": "8fb2bb5d-665a-4d0a-8079-12710ae453be",
+            "id": "yehkap4pc",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -149.07368302063333,
+                    "y": 94.25077399223017
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "value",
+                    "value": 8080
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "result",
+                            "objIn": "28teionh0",
+                            "objOut": "yehkap4pc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5249226-6095-4828-8a1c-080654e192fa",
+            "id": "28teionh0",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -149.07368302063333,
+                    "y": 189.86102560775623
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "varPort"
+                }
+            ]
+        },
+        {
+            "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
+            "id": "euilpw03c",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">MainLoop trigger",
+                "translate": {
+                    "x": -260.08078787167346,
+                    "y": -219.2533354039416
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "MainLoop trigger"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "5p9y0ujuu",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Main Loop",
+                "title": "Main Loop",
+                "translate": {
+                    "x": -333,
+                    "y": -411.86354945474716
+                },
+                "area": {
+                    "w": 245.6471071041575,
+                    "h": 272.10127014396926,
+                    "id": "dvplytynp"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Main Loop"
+                }
+            ]
+        },
+        {
+            "opId": "2e441bcd-41c0-4546-8628-6044b3dfb81c",
+            "id": "sde4m936g",
+            "attribs": {},
+            "uiAttribs": {
+                "subPatchOp": {
+                    "version": 2
+                },
+                "translate": {
+                    "x": -441.3509647310814,
+                    "y": 461.6364342703563
+                }
+            },
+            "storage": {
+                "blueprintVer": 2,
+                "subPatchVer": 2
+            },
+            "portsIn": [
+                {
+                    "name": "patchId",
+                    "value": "bp2sub_sde4m936g"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "lwl5v2d6d",
+                    "title": "Triggered",
+                    "links": [
+                        {
+                            "portIn": "Broadcast SSE",
+                            "portOut": "lwl5v2d6d",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "ityt6yfh1",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "SSE Event Name",
+                            "portOut": "ityt6yfh1",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "b19mk5ioa",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "SSE Data",
+                            "portOut": "b19mk5ioa",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "asukhwvr7",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "Hostname",
+                            "portOut": "asukhwvr7",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "06etkpjjh",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "Port",
+                            "portOut": "06etkpjjh",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "szj6wo9ax",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "WS Channel",
+                            "portOut": "szj6wo9ax",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "k8qcjk6qb",
+                    "title": "Value",
+                    "links": [
+                        {
+                            "portIn": "WS Data",
+                            "portOut": "k8qcjk6qb",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                },
+                {
+                    "name": "dvem0uete",
+                    "title": "Triggered",
+                    "links": [
+                        {
+                            "portIn": "Send WS Message",
+                            "portOut": "dvem0uete",
+                            "objIn": "runcj9oay",
+                            "objOut": "sde4m936g"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
+            "id": "iu98oyll5",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">HttpFileServer Ready",
+                "translate": {
+                    "x": -652.2461173599612,
+                    "y": 683.9359038899597
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "HttpFileServer Ready"
+                }
+            ]
+        },
+        {
+            "opId": "d82e0376-2ff2-4557-b8fa-48c31f27d3ab",
+            "id": "nhlxuzs9k",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -419.518416823079,
+                    "y": 769.7519041699452
+                },
+                "comment": "/api/"
+            },
+            "portsIn": [
+                {
+                    "name": "Search",
+                    "value": "/api/"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Starts with",
+                    "links": [
+                        {
+                            "portIn": "Pass Through",
+                            "portOut": "Starts with",
+                            "objIn": "l4sfqzhvb",
+                            "objOut": "nhlxuzs9k"
+                        },
+                        {
+                            "portIn": "Pass Through",
+                            "portOut": "Starts with",
+                            "objIn": "t1lwrk2k9",
+                            "objOut": "nhlxuzs9k"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "65e8b8a2-ba13-485f-883a-2bcf377989da",
+            "id": "l4sfqzhvb",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -431.518416823079,
+                    "y": 876.659223976509
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Trigger out",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "Trigger out",
+                            "objIn": "4dsux0o08",
+                            "objOut": "l4sfqzhvb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "95e04331-49d6-42da-81d8-5a75261ab22f",
+            "id": "t1lwrk2k9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -276.4248339091115,
+                    "y": 879.4749753615903
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "When False index",
+                    "value": 0
+                },
+                {
+                    "name": "When False",
+                    "value": "keep last object"
+                },
+                {
+                    "name": "Only Valid Objects",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Object Out",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Object Out",
+                            "objIn": "k8y9pv0x1",
+                            "objOut": "t1lwrk2k9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "84283526-5687-4bdc-92aa-22c81972a3a7",
+            "id": "rfzb7n5mt",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -377.5578374972986,
+                    "y": 1098.815820070443
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result Object",
+                    "links": [
+                        {
+                            "portIn": "Variables",
+                            "portOut": "Result Object",
+                            "objIn": "4dsux0o08",
+                            "objOut": "rfzb7n5mt"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d8f88a5a-b919-4386-b634-c066f9b02868",
+            "id": "4dsux0o08",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -403.604538976223,
+                    "y": 1177.5888505065454
+                },
+                "color": "#07F78C"
+            }
+        },
+        {
+            "opId": "C0FFEE12-3456-7890-ABCD-EF1234567890",
+            "id": "4lj3mz5cx",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -212.0079119102425,
+                    "y": 770.7994918155352
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Received Channel",
+                    "value": ""
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "qjd9r5je2",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -255.16748036643244,
+                    "y": 820.3646017515503
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "HttpFileServer_ResponseData"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "96138ltk2",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 542.9021220682342
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/obs/credentials"
+                }
+            ]
+        },
+        {
+            "opId": "c04a204d-cd52-401f-80c9-02da396ed676",
+            "id": "6ojv6qjga",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -387.0019676090968,
+                    "y": 1021.3980082283254
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "pathname"
+                },
+                {
+                    "name": "Output Key if missing",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Key",
+                            "portOut": "Result",
+                            "objIn": "rfzb7n5mt",
+                            "objOut": "6ojv6qjga"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "76c7d6a7-64c9-4a95-bc92-c68213601d28",
+            "id": "k8y9pv0x1",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -365.5578374972986,
+                    "y": 950.7068593847691
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "data",
+                            "portOut": "Output 0",
+                            "objIn": "6ojv6qjga",
+                            "objOut": "k8y9pv0x1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 1",
+                    "links": [
+                        {
+                            "portIn": "Object Value",
+                            "portOut": "Output 1",
+                            "objIn": "rfzb7n5mt",
+                            "objOut": "k8y9pv0x1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "o8m5rqz2y",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 651.8944977504788
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/shortcuts/callback"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "1jfap04g1",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 596.0627381871535
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/shortcuts"
+                }
+            ]
+        },
+        {
+            "opId": "93492eeb-bf35-4a62-98f7-d85b0b79bfe5",
+            "id": "5fwizmd6n",
+            "attribs": {},
+            "uiAttribs": {
+                "comment_title": "Route Variables",
+                "comment_text": "",
+                "translate": {
+                    "x": -77.32060916426144,
+                    "y": 456.23467075135784
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "title",
+                    "value": "Route Variables"
+                },
+                {
+                    "name": "text",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "n57mixjtw",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 712.2007213383184
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/keynote"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "9wr1xlzdi",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61.70399124642836,
+                    "y": 770.6235269475445
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/powerpoint"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "n97wcpfb8",
+            "attribs": {},
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Node js Server",
+                "title": "Node js Server",
+                "translate": {
+                    "x": -925.3826555544608,
+                    "y": -607.7508019320877
+                },
+                "area": {
+                    "w": 1499.5390109891891,
+                    "h": 1993.9749726354576,
+                    "id": "gucx18tsh"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Node js Server"
+                }
+            ]
+        },
+        {
+            "opId": "0b4d9229-8024-4a30-9cc0-f6653942c2e4",
+            "id": "zqnlman9n",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61,
+                    "y": 974.4204780010695
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Value",
+                    "value": "New String"
+                },
+                {
+                    "name": "Variable",
+                    "value": "VarSseEvent"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "p84berv53",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61,
+                    "y": 922.3077393573153
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "VarSsePayload"
+                }
+            ]
+        },
+        {
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "f8ojnb6wp",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1051.4929237865792,
+                    "y": 347.8622095177295
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "exe",
+                            "portOut": "Changed",
+                            "objIn": "xjppbdada",
+                            "objOut": "f8ojnb6wp"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Request Data",
+                            "portOut": "Result",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "f8ojnb6wp"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "e640619f-235c-4543-bbf8-b358e0283180",
+            "id": "xjppbdada",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 834.6400458350212,
+                    "y": 413.62924794678884
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "trigger",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "trigger",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "xjppbdada"
+                        }
+                    ]
+                },
+                {
+                    "name": "timesTriggered",
+                    "value": 5
+                }
+            ]
+        },
+        {
+            "opId": "8803b60a-9007-4e1f-839d-7174088db7bf",
+            "id": "runcj9oay",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -439.604538976223,
+                    "y": 623.3094780147229
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Root Directory",
+                    "value": "/Users/jonwood/Github_local_dev/cablesStudio/"
+                },
+                {
+                    "name": "Auto Start",
+                    "value": 1
+                },
+                {
+                    "name": "SSE Route",
+                    "value": "/sse"
+                },
+                {
+                    "name": "Enable SSE",
+                    "value": 1
+                },
+                {
+                    "name": "Enable API",
+                    "value": 1
+                },
+                {
+                    "name": "Enable WS",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Server Ready",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "Server Ready",
+                            "objIn": "iu98oyll5",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "On HTTP Request",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "On HTTP Request",
+                            "objIn": "l4sfqzhvb",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP URL",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "HTTP URL",
+                            "objIn": "nhlxuzs9k",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Request Data",
+                    "links": [
+                        {
+                            "portIn": "Object In",
+                            "portOut": "HTTP Request Data",
+                            "objIn": "t1lwrk2k9",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "HTTP Response Data",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "HTTP Response Data",
+                            "objIn": "qjd9r5je2",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "On WS Message",
+                    "links": [
+                        {
+                            "portIn": "Publish",
+                            "portOut": "On WS Message",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Message Channel",
+                    "links": [
+                        {
+                            "portIn": "Channel",
+                            "portOut": "WS Message Channel",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Message Data",
+                    "links": [
+                        {
+                            "portIn": "Message Data",
+                            "portOut": "WS Message Data",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "WS Active Clients",
+                    "value": 2
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                },
+                {
+                    "name": "Running",
+                    "value": 1
+                },
+                {
+                    "name": "Server Instance",
+                    "links": [
+                        {
+                            "portIn": "Server Instance",
+                            "portOut": "Server Instance",
+                            "objIn": "4lj3mz5cx",
+                            "objOut": "runcj9oay"
+                        }
+                    ]
+                },
+                {
+                    "name": "Active Clients",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "7cbfde6b-6520-4344-8dc2-656b42cb3f61",
+            "id": "cr0n4aih9",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1051.4929237865792,
+                    "y": 470.8904311599714
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "API Route",
+                    "value": "/api/excalidraw"
+                },
+                {
+                    "name": "Theme index",
+                    "value": 0
+                },
+                {
+                    "name": "Theme",
+                    "value": "dark"
+                },
+                {
+                    "name": "Transparent",
+                    "value": 1
+                },
+                {
+                    "name": "Show UI",
+                    "value": 1
+                },
+                {
+                    "name": "Read Only",
+                    "value": 0
+                },
+                {
+                    "name": "Grid Mode",
+                    "value": 0
+                },
+                {
+                    "name": "Zen Mode",
+                    "value": 0
+                },
+                {
+                    "name": "Auto Save",
+                    "value": 0
+                },
+                {
+                    "name": "App Title",
+                    "value": "Excalidraw Standalone"
+                },
+                {
+                    "name": "Pointer Down",
+                    "value": 1
+                },
+                {
+                    "name": "Pointer Mode index",
+                    "value": 2
+                },
+                {
+                    "name": "Pointer Mode",
+                    "value": "draw"
+                },
+                {
+                    "name": "Pointer Color",
+                    "value": "#6965db"
+                },
+                {
+                    "name": "Initial Scene JSON String",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Scene JSON String",
+                    "value": ""
+                },
+                {
+                    "name": "Error",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "jfapmum7j",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 61,
+                    "y": 869.6888353071441
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/excalidraw"
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "xmehwhqhx",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": 1051.4929237865792,
+                    "y": 292.84368507917634
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/excalidraw"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Value",
+                            "objIn": "f8ojnb6wp",
+                            "objOut": "xmehwhqhx"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "a018n8vpk",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": 1075.4929237865792,
+                    "y": 411.7723567859823
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "HttpFileServer_ResponseData"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "Response",
+                            "portOut": "Value",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "a018n8vpk"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "f19d27cc-981f-495d-ab90-50d4eb076412",
+            "id": "hvqas111s",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1171.4929237865792,
+                    "y": 136.67772819382924
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                },
+                {
+                    "name": "PPS Limit",
+                    "value": 20
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Pos X",
+                    "links": [
+                        {
+                            "portIn": "Pointer X",
+                            "portOut": "Pos X",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "hvqas111s"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pos Y",
+                    "links": [
+                        {
+                            "portIn": "Pointer Y",
+                            "portOut": "Pos Y",
+                            "objIn": "cr0n4aih9",
+                            "objOut": "hvqas111s"
+                        }
+                    ]
+                },
+                {
+                    "name": "Button",
+                    "value": 1
+                },
+                {
+                    "name": "Button Is Down",
+                    "value": false
+                },
+                {
+                    "name": "Button Is Up",
+                    "value": true
+                },
+                {
+                    "name": "Scroll Delta X",
+                    "value": 0
+                },
+                {
+                    "name": "Scroll Delta Y",
+                    "value": 0
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "licence": "none"
+    },
+    "userList": [
+        {
+            "username": "",
+            "_id": "6aaac6d92a26ac238d21e957",
+            "profile_theme": "dark",
+            "isStaff": false,
+            "usernameLowercase": "",
+            "isAdmin": false,
+            "theme": "dark",
+            "created": 1789576921764
+        }
+    ],
+    "teams": [],
+    "log": [],
+    "ui": {
+        "viewBox": {},
+        "renderer": {
+            "w": 553,
+            "h": 142,
+            "s": 1
+        },
+        "timeline": {},
+        "texPreview": {},
+        "bookmarks": [],
+        "viewBoxesGl": {
+            "0": {
+                "x": 1231.6753191775572,
+                "y": 193.10650087428888,
+                "z": 693.83758623358
+            },
+            "bp2sub_sde4m936g": {
+                "x": -37.15243178775668,
+                "y": -2718.8990773713444,
+                "z": 583.1594744297074
+            }
+        },
+        "outline": {
+            "include": {
+                "bookmarks": true,
+                "subpatches": true,
+                "commented": true,
+                "comments": true,
+                "areas": true,
+                "animated": true,
+                "customOps": true,
+                "colored": true
+            },
+            "includeUnsavedIndicator": true,
+            "only": {}
+        }
+    },
+    "summary": {
+        "title": "excalidrawForCables httpBase copy"
+    },
+    "opsHash": "b7bf0229b5171c82b61e3a38eb738a4e9e8b3702",
+    "buildInfo": {
+        "updateWarning": false,
+        "core": {
+            "timestamp": 1787499060812,
+            "created": "2026-08-23T15:31:00.812Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            }
+        },
+        "ui": {
+            "timestamp": 1787499066936,
+            "created": "2026-08-23T15:31:06.936Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            }
+        },
+        "api": {
+            "timestamp": 1787499137056,
+            "created": "2026-08-23T15:32:17.056Z",
+            "git": {
+                "branch": "main",
+                "commit": "31a7a6670ea19ce5e74ae1ab9efb7ec418597737",
+                "date": "1787415572",
+                "message": "feat: add WebView operator and enable webview element creation across iframe boundaries"
+            },
+            "platform": {
+                "npm": "11.16.0",
+                "node": "24.18.1"
+            }
+        }
+    },
+    "updatedByUser": "",
+    "screenshot": "data:image/png;base64,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"
+}

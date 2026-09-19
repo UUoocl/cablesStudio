@@ -79,6 +79,40 @@
             },
             {
                 "type": 2,
+                "name": "Pointer Data",
+                "group": "Remote Cursor & Drawing"
+            },
+            {
+                "type": 0,
+                "name": "Pointer X",
+                "group": "Remote Cursor & Drawing",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Pointer Y",
+                "group": "Remote Cursor & Drawing",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Pointer Down",
+                "group": "Remote Cursor & Drawing",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Pointer Mode index",
+                "group": "Remote Cursor & Drawing",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "Pointer Color",
+                "group": "Remote Cursor & Drawing"
+            },
+            {
+                "type": 2,
                 "name": "Initial Scene Data",
                 "group": "Scene Data"
             },

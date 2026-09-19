@@ -1,0 +1,80 @@
+{
+    "summary": "Evaluates JSON Logic rules against input facts using precompiled engine.build()",
+    "authorName": "cables",
+    "id": "8c8c967e-15e6-4697-917e-5b44d63d1b40",
+    "created": 1789845269475,
+    "license": "MIT",
+    "dependencies": [
+        {
+            "src": "json-logic-engine",
+            "type": "npm"
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Evaluate"
+            },
+            {
+                "type": 2,
+                "name": "Input Facts"
+            },
+            {
+                "type": 2,
+                "name": "Rule JSON"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Matched"
+            },
+            {
+                "type": 2,
+                "name": "Result Payload"
+            },
+            {
+                "type": 1,
+                "name": "Not Matched"
+            },
+            {
+                "type": 0,
+                "name": "Is Matched",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "docs": {
+        "ports": [
+            {
+                "name": "Evaluate",
+                "text": "Triggers evaluation of the precompiled rule against the input facts"
+            },
+            {
+                "name": "Input Facts",
+                "text": "Facts or context object against which the rule is evaluated"
+            },
+            {
+                "name": "Rule JSON",
+                "text": "JSON Logic rule object or JSON string"
+            },
+            {
+                "name": "Matched",
+                "text": "Triggers when the evaluated rule result is truthy"
+            },
+            {
+                "name": "Result Payload",
+                "text": "Output value or payload produced by the evaluated rule"
+            },
+            {
+                "name": "Not Matched",
+                "text": "Triggers when the evaluated rule result is falsy"
+            },
+            {
+                "name": "Is Matched",
+                "text": "Boolean flag indicating whether the rule matched (true) or not (false)"
+            }
+        ]
+    }
+}
