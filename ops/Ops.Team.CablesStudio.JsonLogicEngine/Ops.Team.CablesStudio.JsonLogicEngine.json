@@ -1,0 +1,99 @@
+{
+    "id": "b69801e9-accd-4a9c-bcfb-2fee204d013d",
+    "authorName": "Cables Studio",
+    "created": 1789851600000,
+    "license": "MIT",
+    "dependencies": [
+        {
+            "src": "https://cdn.jsdelivr.net/npm/json-logic-engine@5.0.7/+esm",
+            "type": "module",
+            "exportName": "LogicEngine"
+        }
+    ],
+    "summary": "High-performance JSON Logic rule evaluation for cables.gl website using precompiled engine.build() loaded via CDN module",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Evaluate"
+            },
+            {
+                "type": 2,
+                "name": "Input Facts"
+            },
+            {
+                "type": 2,
+                "name": "Rule JSON"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Matched"
+            },
+            {
+                "type": 2,
+                "name": "Result Payload"
+            },
+            {
+                "type": 1,
+                "name": "Not Matched"
+            },
+            {
+                "type": 0,
+                "name": "Is Matched",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Ready",
+                "subType": "boolean"
+            }
+        ]
+    },
+    "docs": {
+        "ports": [
+            {
+                "name": "Evaluate",
+                "text": "Triggers immediate evaluation of the precompiled rule against the input facts"
+            },
+            {
+                "name": "Input Facts",
+                "text": "Facts or context object against which the rule is evaluated (e.g. MIDI note data, keyboard events, gamepad)"
+            },
+            {
+                "name": "Rule JSON",
+                "text": "JSON Logic rule object or JSON string. Compiles automatically once on change."
+            },
+            {
+                "name": "Matched",
+                "text": "Triggers when the evaluated rule result is truthy"
+            },
+            {
+                "name": "Result Payload",
+                "text": "Output value or payload produced by the evaluated rule"
+            },
+            {
+                "name": "Not Matched",
+                "text": "Triggers when the evaluated rule result is falsy"
+            },
+            {
+                "name": "Is Matched",
+                "text": "Boolean flag indicating whether the rule matched (true) or not (false)"
+            },
+            {
+                "name": "Ready",
+                "text": "True once the CDN module has loaded and the engine is initialized"
+            }
+        ]
+    },
+    "changelog": [
+        {
+            "message": "op ported to cables.gl website with CDN module import",
+            "type": "new op",
+            "author": "Cables Studio",
+            "date": 1789851600000
+        }
+    ],
+    "isReleased": true
+}

@@ -121,7 +121,123 @@ JsonLogic rules can return arbitrary data instead of simple booleans:
 
 ---
 
+### 5. MIDI Note Filter & Value Output (`if` / `and`)
+
+Filter incoming MIDI messages so that when `type == 144` (Note On), `note == 1`, and `velocity == 127`, the rule outputs `1` (otherwise `0`):
+
+**Rule JSON:**
+```json
+{
+  "if": [
+    {
+      "and": [
+        { "==": [{ "var": "type" }, 144] },
+        { "==": [{ "var": "note" }, 1] },
+        { "==": [{ "var": "velocity" }, 127] }
+      ]
+    },
+    1,
+    0
+  ]
+}
+```
+
+**Sample Input Facts (Matching Note On):**
+```json
+{
+  "deviceName": "WORLDE   ",
+  "inputId": 0,
+  "messageType": "Note",
+  "index": 1,
+  "value": 127,
+  "cmd": 9,
+  "channel": 0,
+  "type": 144,
+  "note": 1,
+  "velocity": 127,
+  "data": { "0": 144, "1": 1, "2": 127 },
+  "newNote": [1, "C#-2 - 1"]
+}
+```
+- **Matched** triggers (since `1` is truthy).
+- **Is Matched** is `true`.
+- **Result Payload** outputs `1`.
+
+**Sample Input Facts (Non-matching Note Off):**
+```json
+{
+  "deviceName": "WORLDE   ",
+  "inputId": 0,
+  "messageType": "Note",
+  "index": 1,
+  "value": 0,
+  "cmd": 8,
+  "channel": 0,
+  "type": 128,
+  "note": 1,
+  "velocity": 0,
+  "data": { "0": 128, "1": 1, "2": 0 },
+  "newNote": [1, "C#-2 - 1"]
+}
+```
+- **Not Matched** triggers (since `0` is falsy).
+- **Is Matched** is `false`.
+- **Result Payload** outputs `0`.
+
+---
+
+### 6. Multi-Rule Evaluation & Routing
+
+You can evaluate multiple rules in a single op execution using either a **Sequential Switch/Case Router** or **Parallel Rule Array**.
+
+#### Option A: Multi-Case Switch Router (`if` - `elseif` - `else`)
+Evaluates multiple rule conditions in order and returns the matching output value (or `null` if none match). Perfect for routing multiple MIDI notes or buttons to specific event names:
+
+**Rule JSON:**
+```json
+{
+  "if": [
+    { "and": [{ "==": [{ "var": "type" }, 144] }, { "==": [{ "var": "note" }, 1] }] }, "PLAY_KICK",
+    { "and": [{ "==": [{ "var": "type" }, 144] }, { "==": [{ "var": "note" }, 2] }] }, "PLAY_SNARE",
+    { "and": [{ "==": [{ "var": "type" }, 144] }, { "==": [{ "var": "note" }, 3] }] }, "PLAY_HIHAT",
+    null
+  ]
+}
+```
+
+**Input Facts (MIDI Note On 2):**
+```json
+{ "type": 144, "note": 2, "velocity": 127 }
+```
+- **Matched** triggers.
+- **Is Matched** is `true`.
+- **Result Payload** outputs `"PLAY_SNARE"`.
+
+---
+
+#### Option B: Parallel Array Rule Evaluation
+Pass an array of multiple distinct rules. `json-logic-engine` compiles all rules and evaluates them simultaneously against the input facts, outputting an array of individual results:
+
+**Rule JSON:**
+```json
+[
+  { "==": [{ "var": "note" }, 1] },
+  { ">": [{ "var": "velocity" }, 100] },
+  { "==": [{ "var": "channel" }, 0] }
+]
+```
+
+**Input Facts:**
+```json
+{ "note": 1, "velocity": 64, "channel": 0 }
+```
+- **Matched** triggers (since a non-empty array is truthy).
+- **Result Payload** outputs `[ true, false, true ]`.
+
+---
+
 ## Error Handling
 
 - **Invalid JSON / Syntax Errors**: If **Rule JSON** contains malformed syntax or unrecognized operators, a UI warning badge is displayed on the op, and error details are logged to the console without interrupting the Cables runtime.
 - **Null / Missing Inputs**: If rules or facts are not yet supplied, evaluation safely skips execution without throwing exceptions.
+
