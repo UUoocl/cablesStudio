@@ -21,6 +21,7 @@
 ### Source
 - `HTML Attachment` (String): The virtual filename of the HTML page in the `Files` list to load as the main iframe entry point (e.g. `index.html`).
 - `Files` (MultiPort String): A dynamic list of text inputs containing your HTML, Javascript, and CSS code. Rename each port's parameter title in the Cables inspector panel to represent its filename (e.g., `index.html`, `sketch.js`, `cablesBridge.js`). Script/CSS tags inside your HTML are automatically inlined using these titles.
+- `Initial Load` (Trigger): Trigger input to initiate loading the iframe. If left unlinked, the op automatically bootstraps on startup.
 - `Reload` (Trigger Button): Click this button to manually recompile and load code changes into the iframe, preventing automatic refreshes on every keystroke.
 - `Iframe ID` (String): The DOM `id` attribute set on the iframe element (useful for targeted CSS styling or query selector lookup).
 
@@ -46,6 +47,7 @@
 
 - `Texture Out` (Texture): Native Cables `CGL.Texture` containing the latest frame from the iframe's canvas.
 - `Texture Updated` (Trigger): Fired on every new frame upload, letting downstream ops know a redraw is needed.
+- `Loaded` (Trigger): Fired whenever the iframe has finished loading its HTML document and initial bridge scripts.
 - `Audio Node Out` (Object): Web Audio API `AudioNode` containing all audio output intercepted from the iframe.
 - `Iframe Element` (Object): Reference to the created HTMLIframeElement.
 - `Message Out` (Object): Outputs the last message received from the iframe over the BroadcastChannel.

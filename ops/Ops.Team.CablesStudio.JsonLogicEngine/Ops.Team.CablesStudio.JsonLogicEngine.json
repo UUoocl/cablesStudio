@@ -7,10 +7,10 @@
         {
             "src": "https://cdn.jsdelivr.net/npm/json-logic-engine@5.0.7/+esm",
             "type": "module",
-            "exportName": "LogicEngine"
+            "exportName": "JsonLogicEngine"
         }
     ],
-    "summary": "High-performance JSON Logic rule evaluation for cables.gl website using precompiled engine.build() loaded via CDN module",
+    "summary": "High-performance JSON Logic rule evaluation for cables.gl website using precompiled engine.build() from imported module JsonLogicEngine",
     "layout": {
         "portsIn": [
             {
@@ -42,11 +42,6 @@
             {
                 "type": 0,
                 "name": "Is Matched",
-                "subType": "boolean"
-            },
-            {
-                "type": 0,
-                "name": "Ready",
                 "subType": "boolean"
             }
         ]
@@ -80,16 +75,12 @@
             {
                 "name": "Is Matched",
                 "text": "Boolean flag indicating whether the rule matched (true) or not (false)"
-            },
-            {
-                "name": "Ready",
-                "text": "True once the CDN module has loaded and the engine is initialized"
             }
         ]
     },
     "changelog": [
         {
-            "message": "op ported to cables.gl website with CDN module import",
+            "message": "op updated to rely on cables imported module JsonLogicEngine",
             "type": "new op",
             "author": "Cables Studio",
             "date": 1789851600000

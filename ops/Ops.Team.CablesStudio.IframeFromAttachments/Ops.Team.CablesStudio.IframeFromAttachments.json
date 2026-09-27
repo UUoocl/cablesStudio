@@ -18,6 +18,11 @@
             },
             {
                 "type": 1,
+                "name": "Initial Load",
+                "group": "Source"
+            },
+            {
+                "type": 1,
                 "name": "Reload",
                 "group": "Source"
             },
@@ -105,6 +110,10 @@
                 "name": "Texture Updated"
             },
             {
+                "type": 1,
+                "name": "Loaded"
+            },
+            {
                 "type": 2,
                 "name": "Audio Node Out"
             },
@@ -136,6 +145,10 @@
             {
                 "name": "Files",
                 "text": "Dynamic multiport string slots. Paste your code inside them and rename the parameter titles in the inspector to represent their virtual filenames (e.g. index.html, sketch.js, cablesBridge.js)."
+            },
+            {
+                "name": "Initial Load",
+                "text": "Trigger input to initiate loading the iframe. If not linked, the op bootstraps automatically on startup."
             },
             {
                 "name": "Reload",
@@ -194,6 +207,10 @@
                 "text": "Trigger fired whenever a new GPU frame has been successfully uploaded to the texture."
             },
             {
+                "name": "Loaded",
+                "text": "Trigger fired whenever the iframe has finished loading its HTML and injected bridge scripts."
+            },
+            {
                 "name": "Audio Node Out",
                 "text": "Web Audio API AudioNode capturing and forwarding all Web Audio output from the iframe."
             },
@@ -235,6 +252,18 @@
             "type": "feature",
             "author": "Cables Studio",
             "date": 1784700000003
+        },
+        {
+            "message": "Added Initial Load input trigger and Loaded output trigger.",
+            "type": "feature",
+            "author": "Cables Studio",
+            "date": 1784700000004
+        },
+        {
+            "message": "Persist custom multiport file titles across port additions and removals.",
+            "type": "bugfix",
+            "author": "Cables Studio",
+            "date": 1784700000005
         }
     ]
 }

@@ -32,6 +32,148 @@ const inIframeId = op.inString("Iframe ID", "cables_iframe");
 const inTargetScope = op.inString("Target Object Scope", "window"); // e.g., "window", "p5.instance"
 const inChannelName = op.inString("Broadcast Channel", "cables_iframe_channel");
 const inStrings = op.inMultiPort2("Files", CABLES.OP_PORT_TYPE_STRING, { "display": "editor" });
+
+// ---------------------------------------------------------------------------
+// MULTIPORT TITLE PRESERVATION
+// ---------------------------------------------------------------------------
+op.preservedPortTitles = op.preservedPortTitles || {};
+
+function getPortTitle(port) {
+    if (!port) return "";
+    return (port.uiAttribs && port.uiAttribs.title) ||
+           (op.preservedPortTitles && op.preservedPortTitles[port.name]) ||
+           (port.getTitle && port.getTitle()) ||
+           port.name || "";
+}
+
+function syncPreservedTitles() {
+    if (!inStrings || !inStrings.ports) return;
+    const ports = inStrings.ports;
+    for (let i = 0; i < ports.length; i++) {
+        const p = ports[i];
+        if (!p) continue;
+        const title = p.uiAttribs?.title;
+        if (title && title !== "add port") {
+            op.preservedPortTitles[p.name] = title;
+        }
+    }
+}
+
+function reapplyPreservedTitles() {
+    if (!inStrings || !inStrings.ports) return;
+    const ports = inStrings.ports;
+    const lastIdx = ports.length - 1;
+    for (let i = 0; i < lastIdx; i++) {
+        const p = ports[i];
+        if (!p) continue;
+        const preserved = op.preservedPortTitles[p.name];
+        if (preserved && p.uiAttribs && p.uiAttribs.title !== preserved) {
+            p.setUiAttribs({ "title": preserved });
+        }
+    }
+}
+
+function setupPortTitleTracking(port) {
+    if (!port || port._titleTrackingInitialized) return;
+    port._titleTrackingInitialized = true;
+
+    if (port.uiAttribs && port.uiAttribs.title && port.uiAttribs.title !== "add port") {
+        op.preservedPortTitles[port.name] = port.uiAttribs.title;
+    }
+
+    const origSetUiAttribs = port.setUiAttribs.bind(port);
+    port.setUiAttribs = function (newAttribs) {
+        if (newAttribs) {
+            if (newAttribs.title && newAttribs.title !== "add port") {
+                op.preservedPortTitles[port.name] = newAttribs.title;
+            } else if (newAttribs.title === undefined && op.preservedPortTitles[port.name]) {
+                // Prevent MultiPort2 updateUi from wiping the title when title is undefined
+                newAttribs.title = op.preservedPortTitles[port.name];
+            } else if (newAttribs.title === "" || newAttribs.title === null) {
+                delete op.preservedPortTitles[port.name];
+            }
+        }
+        return origSetUiAttribs(newAttribs);
+    };
+
+    if (typeof port.on === "function") {
+        port.on("onUiAttrChange", (newAttribs) => {
+            if (newAttribs && newAttribs.title && newAttribs.title !== "add port") {
+                op.preservedPortTitles[port.name] = newAttribs.title;
+            }
+        });
+    }
+}
+
+// Hook inStrings MultiPort methods to maintain and reapply preserved titles
+if (inStrings) {
+    if (inStrings.ports) {
+        inStrings.ports.forEach(setupPortTitleTracking);
+    }
+
+    if (typeof inStrings.newPort === "function") {
+        const origNewPort = inStrings.newPort.bind(inStrings);
+        inStrings.newPort = function (reason) {
+            syncPreservedTitles();
+            const p = origNewPort(reason);
+            setupPortTitleTracking(p);
+            reapplyPreservedTitles();
+            return p;
+        };
+    }
+
+    if (typeof inStrings.incDec === "function") {
+        const origIncDec = inStrings.incDec.bind(inStrings);
+        inStrings.incDec = function (incDir) {
+            syncPreservedTitles();
+            const res = origIncDec(incDir);
+            if (inStrings.ports) {
+                inStrings.ports.forEach(setupPortTitleTracking);
+            }
+            reapplyPreservedTitles();
+            return res;
+        };
+    }
+
+    if (typeof inStrings.checkNum === "function") {
+        const origCheckNum = inStrings.checkNum.bind(inStrings);
+        inStrings.checkNum = function () {
+            syncPreservedTitles();
+            const res = origCheckNum();
+            if (inStrings.ports) {
+                inStrings.ports.forEach(setupPortTitleTracking);
+            }
+            reapplyPreservedTitles();
+            return res;
+        };
+    }
+
+    if (typeof inStrings.countPorts === "function") {
+        const origCountPorts = inStrings.countPorts.bind(inStrings);
+        inStrings.countPorts = function () {
+            syncPreservedTitles();
+            const res = origCountPorts();
+            if (inStrings.ports) {
+                inStrings.ports.forEach(setupPortTitleTracking);
+            }
+            reapplyPreservedTitles();
+            return res;
+        };
+    }
+
+    if (typeof inStrings.on === "function") {
+        inStrings.on("onLinkChanged", () => {
+            syncPreservedTitles();
+            reapplyPreservedTitles();
+        });
+        inStrings.on("change", () => {
+            syncPreservedTitles();
+            reapplyPreservedTitles();
+        });
+    }
+}
+
+const inInitialLoad = op.inTrigger("Initial Load");
 const inReload = op.inTriggerButton("Reload");
 
 // UI and layout controls
@@ -50,6 +192,7 @@ const inFlipY = op.inBool("Flip Y", false);
 // ---------------------------------------------------------------------------
 const outTex = op.outTexture("Texture Out");
 const outTextureUpdated = op.outTrigger("Texture Updated");
+const outLoaded = op.outTrigger("Loaded");
 const outAudio = op.outObject("Audio Node Out"); // Web Audio API AudioNode
 const outElement = op.outObject("Iframe Element");
 const outMsg = op.outObject("Message Out");
@@ -81,6 +224,9 @@ let checkAudioInterval = null;
 let onParentFontsLoaded = null;
 
 // Register listeners
+inInitialLoad.onTriggered = updateIframe;
+inInitialLoad.onTrigger = updateIframe;
+inReload.onTriggered = updateIframe;
 inReload.onTrigger = updateIframe;
 inChannelName.onChange = setupBroadcastChannel;
 inIframeId.onChange = updateIframeId;
@@ -161,7 +307,7 @@ function updateIframe() {
     const stringPorts = inStrings.get();
     for (let i = 0; i < stringPorts.length; i++) {
         const port = stringPorts[i];
-        if (port.getTitle() === fileName) {
+        if (getPortTitle(port) === fileName) {
             htmlContent = port.get() || "";
             break;
         }
@@ -187,7 +333,7 @@ function updateIframe() {
             const ports = inStrings.get();
             for (let i = 0; i < ports.length; i++) {
                 const port = ports[i];
-                if (port.getTitle() === src) {
+                if (getPortTitle(port) === src) {
                     jsContent = port.get() || "";
                     break;
                 }
@@ -221,7 +367,7 @@ function updateIframe() {
             const ports = inStrings.get();
             for (let i = 0; i < ports.length; i++) {
                 const port = ports[i];
-                if (port.getTitle() === href) {
+                if (getPortTitle(port) === href) {
                     cssContent = port.get() || "";
                     break;
                 }
@@ -300,6 +446,7 @@ function loadHtmlIntoIframe(modifiedHtml) {
         injectEngineBridge(iframeEl);
         setupAudioCapture(iframeEl);
         syncParentFontsToIframe(iframeEl);
+        outLoaded.trigger();
     };
 
     iframeEl.src = blobUrl;
@@ -721,5 +868,9 @@ if (document.fonts && typeof document.fonts.addEventListener === "function") {
 }
 
 setupBroadcastChannel();
-// Bootstrapping the initial call to create the iframe
-setTimeout(updateIframe, 0);
+// Bootstrapping the initial call to create the iframe if not driven by an external Initial Load trigger
+setTimeout(() => {
+    if (!inInitialLoad.isLinked()) {
+        updateIframe();
+    }
+}, 0);

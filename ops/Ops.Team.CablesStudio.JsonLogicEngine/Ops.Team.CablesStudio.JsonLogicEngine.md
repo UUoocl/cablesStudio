@@ -76,7 +76,6 @@ Per the [cables.gl libraries documentation](https://cables.gl/docs/5_writing_ops
 | **Result Payload** | `Object` | The evaluated result of the rule (boolean, computed number, string, or payload object). |
 | **Not Matched** | `Trigger` | Fires when the rule evaluation produces a falsy result. |
 | **Is Matched** | `Boolean` | `true` if the evaluated result is truthy, `false` otherwise. |
-| **Ready** | `Boolean` | `true` once the CDN module has loaded and the engine is initialized. |
 
 ---
 
