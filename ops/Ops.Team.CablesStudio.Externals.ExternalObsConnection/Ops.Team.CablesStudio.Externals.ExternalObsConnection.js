@@ -11,7 +11,7 @@ const
     inOpen = op.inTriggerButton("Open Popup"),
     inClose = op.inTriggerButton("Close Popup"),
     inSend = op.inTriggerButton("Send Request"),
-    inReqName = op.inString("Request Name", ""),
+    inRate = op.inFloat("Request Rate (Hz)", 0),
     inReqData = op.inObject("Request Data", null),
 
     inSubGeneral = op.inBool("Sub General", true),
@@ -50,11 +50,16 @@ op.setPortGroup("Subscriptions", [
     inSubMediaInputs, inSubVendors, inSubUi,
     inSubVol, inSubActive, inSubShow, inSubTransform
 ]);
-op.setPortGroup("Request", [inSend, inReqName, inReqData]);
+op.setPortGroup("Request", [inSend, inRate, inReqData]);
 
 let bc = null;
 let childWindow = null;
 let pollInterval = null;
+let pendingTransactions = [];
+let inFlightBatches = new Map();
+let sendTimeout = null;
+let lastSendTime = 0;
+let nextBatchId = 1;
 
 const templateHtml = `<!DOCTYPE html>
 <html lang="en">
@@ -330,6 +335,8 @@ const templateHtml = `<!DOCTYPE html>
                     log("Cannot send request: Not connected to OBS", "error");
                     bc.postMessage({
                         type: "response",
+                        batchId: msg.batchId,
+                        isBatch: !!msg.isBatch,
                         success: false,
                         error: "Not connected to OBS"
                     });
@@ -338,7 +345,9 @@ const templateHtml = `<!DOCTYPE html>
                 
                 if (msg.isBatch) {
                     let requests = [];
-                    if (Array.isArray(msg.requestData)) {
+                    if (Array.isArray(msg.requests)) {
+                        requests = msg.requests;
+                    } else if (Array.isArray(msg.requestData)) {
                         requests = msg.requestData;
                     } else if (msg.requestData && Array.isArray(msg.requestData.requests)) {
                         requests = msg.requestData.requests;
@@ -350,6 +359,8 @@ const templateHtml = `<!DOCTYPE html>
                         log("Received batch response success", "success");
                         bc.postMessage({
                             type: "response",
+                            batchId: msg.batchId,
+                            isBatch: true,
                             success: true,
                             requestType: msg.requestType || "RequestBatch",
                             requestStatus: { result: true },
@@ -359,6 +370,8 @@ const templateHtml = `<!DOCTYPE html>
                         log("Batch request failed: " + err.message, "error");
                         bc.postMessage({
                             type: "response",
+                            batchId: msg.batchId,
+                            isBatch: true,
                             success: false,
                             requestType: msg.requestType || "RequestBatch",
                             requestStatus: { result: false },
@@ -373,6 +386,8 @@ const templateHtml = `<!DOCTYPE html>
                         log("Response success for: " + msg.requestType, "success");
                         bc.postMessage({
                             type: "response",
+                            batchId: msg.batchId,
+                            isBatch: false,
                             success: true,
                             requestType: lastResponse ? lastResponse.requestType : msg.requestType,
                             requestStatus: lastResponse ? lastResponse.requestStatus : { result: true },
@@ -382,6 +397,8 @@ const templateHtml = `<!DOCTYPE html>
                         log("Request " + msg.requestType + " failed: " + err.message, "error");
                         bc.postMessage({
                             type: "response",
+                            batchId: msg.batchId,
+                            isBatch: false,
                             success: false,
                             requestType: lastResponse ? lastResponse.requestType : msg.requestType,
                             requestStatus: lastResponse ? lastResponse.requestStatus : { result: false },
@@ -437,22 +454,7 @@ function setupBroadcastChannel() {
                 outOnEvent.trigger();
                 break;
             case "response":
-                outReqType.set(msg.requestType || "");
-                if (msg.requestStatus && msg.requestStatus.result !== undefined) {
-                    outReqStatusResult.set(msg.requestStatus.result);
-                } else {
-                    outReqStatusResult.set(msg.success);
-                }
-                if (msg.success) {
-                    outSuccess.set(true);
-                    outResponse.set(msg.responseData || null);
-                    outError.set("");
-                } else {
-                    outSuccess.set(false);
-                    outResponse.set(null);
-                    outError.set(msg.error || "Request failed");
-                }
-                outOnResponse.trigger();
+                handleResponse(msg);
                 break;
             case "log":
                 op.log("[OBS Popup] " + msg.message);
@@ -464,7 +466,145 @@ function setupBroadcastChannel() {
     };
 }
 
+function handleResponse(msg) {
+    const batchInfo = msg.batchId ? inFlightBatches.get(msg.batchId) : null;
+    if (batchInfo) {
+        inFlightBatches.delete(msg.batchId);
+        const { transactions, txMapping, isBundled } = batchInfo;
+
+        if (isBundled) {
+            if (!msg.success) {
+                transactions.forEach(tx => {
+                    failTransaction(tx, msg.error || "Batch request failed");
+                });
+                return;
+            }
+
+            const txResults = transactions.map(() => []);
+            if (Array.isArray(msg.responseData)) {
+                msg.responseData.forEach((resp, index) => {
+                    const txIndex = txMapping[index];
+                    if (txIndex !== undefined && txResults[txIndex]) {
+                        txResults[txIndex].push(resp);
+                    }
+                });
+            }
+
+            transactions.forEach((tx, txIndex) => {
+                const results = txResults[txIndex];
+                if (tx.isBatch) {
+                    successTransaction(tx, results);
+                } else {
+                    const batchItem = results ? results[0] : null;
+                    if (batchItem && batchItem.requestStatus && batchItem.requestStatus.result) {
+                        successTransaction(tx, batchItem.responseData);
+                    } else {
+                        const errMsg = (batchItem && batchItem.requestStatus && batchItem.requestStatus.comment) || "Batch item execution failed";
+                        failTransaction(tx, errMsg);
+                    }
+                }
+            });
+            return;
+        }
+
+        // Single non-bundled transaction
+        const tx = transactions[0];
+        if (msg.success) {
+            successTransaction(tx, msg.responseData, msg.requestType);
+        } else {
+            failTransaction(tx, msg.error || "Request failed", msg.requestType);
+        }
+        return;
+    }
+
+    // Direct fallback if batchId not found
+    outReqType.set(msg.requestType || "");
+    if (msg.requestStatus && msg.requestStatus.result !== undefined) {
+        outReqStatusResult.set(msg.requestStatus.result);
+    } else {
+        outReqStatusResult.set(!!msg.success);
+    }
+    if (msg.success) {
+        outSuccess.set(true);
+        outResponse.set(msg.responseData !== undefined ? msg.responseData : null);
+        outError.set("");
+    } else {
+        outSuccess.set(false);
+        outResponse.set(null);
+        outError.set(msg.error || "Request failed");
+    }
+    outOnResponse.trigger();
+}
+
+function successTransaction(tx, responseData, reqType) {
+    const type = reqType || (tx ? tx.originalRequestType : "") || "Response";
+    outReqType.set(type);
+    outReqStatusResult.set(true);
+    outSuccess.set(true);
+    outResponse.set(responseData !== undefined ? responseData : null);
+    outError.set("");
+    outOnResponse.trigger();
+}
+
+function failTransaction(tx, errMsg, reqType) {
+    const type = reqType || (tx ? tx.originalRequestType : "") || "Response";
+    outReqType.set(type);
+    outReqStatusResult.set(false);
+    outSuccess.set(false);
+    outResponse.set(null);
+    outError.set(errMsg || "Request failed");
+    outOnResponse.trigger();
+}
+
+function failImmediate(errMsg) {
+    outReqType.set("Response");
+    outReqStatusResult.set(false);
+    outSuccess.set(false);
+    outResponse.set(null);
+    outError.set(errMsg || "Request failed");
+    outOnResponse.trigger();
+}
+
+function sanitizeParams(rawObj, excludeKeys = []) {
+    if (!rawObj || typeof rawObj !== "object") return {};
+    const copy = Object.assign({}, rawObj);
+    for (const key of excludeKeys) {
+        delete copy[key];
+    }
+    let clean = {};
+    try {
+        clean = JSON.parse(JSON.stringify(copy));
+    } catch (err) {
+        for (const [key, val] of Object.entries(copy)) {
+            if (val !== null && typeof val === "object") {
+                try {
+                    clean[key] = JSON.parse(JSON.stringify(val));
+                } catch (e) {}
+            } else if (typeof val !== "function" && typeof val !== "symbol") {
+                clean[key] = val;
+            }
+        }
+    }
+    return clean;
+}
+
+function clearPendingTransactions(reason = "Popup window closed.") {
+    if (sendTimeout) {
+        clearTimeout(sendTimeout);
+        sendTimeout = null;
+    }
+    const toFail = pendingTransactions.slice();
+    pendingTransactions = [];
+    toFail.forEach(tx => failTransaction(tx, reason));
+
+    inFlightBatches.forEach(batch => {
+        batch.transactions.forEach(tx => failTransaction(tx, reason));
+    });
+    inFlightBatches.clear();
+}
+
 function closeBroadcastChannel() {
+    clearPendingTransactions();
     if (bc) {
         bc.close();
         bc = null;
@@ -573,44 +713,164 @@ inClose.onTriggered = () => {
 
 inSend.onTriggered = () => {
     if (!bc || !childWindow || childWindow.closed) {
-        outError.set("Popup window is not open.");
+        failImmediate("Popup window is not open.");
         return;
     }
 
-    const reqName = inReqName.get();
-    const reqData = inReqData.get();
+    const rawData = inReqData.get();
+    if (!rawData) {
+        failImmediate("Request Data is empty.");
+        return;
+    }
 
-    // Hybrid approach: request name is empty, but data is present
-    if (!reqName && reqData) {
-        const isBatch = Array.isArray(reqData) || (reqData && Array.isArray(reqData.requests));
-        if (isBatch) {
-            bc.postMessage({
-                type: "request",
-                isBatch: true,
+    let isBatch = false;
+    let originalRequestType = "";
+    let requests = [];
+
+    if (Array.isArray(rawData) || (rawData && Array.isArray(rawData.requests))) {
+        isBatch = true;
+        originalRequestType = "RequestBatch";
+        const rawList = Array.isArray(rawData) ? rawData : rawData.requests;
+        requests = rawList.map(req => {
+            const reqType = (req && (req.requestType || req.requestName)) || "";
+            const hasExplicitData = !!req && !!req.requestData && typeof req.requestData === "object";
+            const reqData = hasExplicitData
+                ? sanitizeParams(req.requestData)
+                : sanitizeParams(req, ["requestType", "requestName", "requestId"]);
+            return {
+                requestType: reqType,
                 requestData: reqData
-            });
-        } else if (reqData && reqData.requestType) {
-            bc.postMessage({
-                type: "request",
-                requestType: reqData.requestType,
-                requestData: reqData.requestData || {},
-                isBatch: false
-            });
-        } else {
-            outError.set("Invalid consolidated request object (missing requestType).");
+            };
+        });
+    } else if (typeof rawData === "object") {
+        const reqType = rawData.requestType || rawData.requestName || "";
+        if (!reqType) {
+            failImmediate("Missing `requestType` in Request Data.");
+            return;
         }
+        originalRequestType = reqType;
+        const hasExplicitData = !!rawData.requestData && typeof rawData.requestData === "object";
+        const reqData = hasExplicitData
+            ? sanitizeParams(rawData.requestData)
+            : sanitizeParams(rawData, ["requestType", "requestName", "requestId"]);
+
+        requests = [{
+            requestType: reqType,
+            requestData: reqData
+        }];
+    } else {
+        failImmediate("Invalid Request Data (expected Object or Array).");
         return;
     }
 
-    // Standard mode (backward compatible)
-    const isBatch = (reqName === "RequestBatch") || Array.isArray(reqData) || (reqData && Array.isArray(reqData.requests));
+    const transaction = {
+        isBatch: isBatch,
+        requests: requests,
+        originalRequestType: originalRequestType
+    };
+
+    pendingTransactions.push(transaction);
+    scheduleSend();
+};
+
+function scheduleSend() {
+    if (sendTimeout) return;
+
+    const rate = inRate.get();
+    if (rate <= 0) {
+        sendBatch();
+        return;
+    }
+
+    const interval = 1000 / rate;
+    const elapsed = Date.now() - lastSendTime;
+    const wait = Math.max(0, interval - elapsed);
+
+    sendTimeout = setTimeout(sendBatch, wait);
+}
+
+function sendBatch() {
+    sendTimeout = null;
+    if (pendingTransactions.length === 0) return;
+
+    if (!bc || !childWindow || childWindow.closed) {
+        const toFail = pendingTransactions.slice();
+        pendingTransactions = [];
+        toFail.forEach(tx => failTransaction(tx, "Popup window is not open."));
+        lastSendTime = Date.now();
+        return;
+    }
+
+    const currentTransactions = pendingTransactions.slice();
+    pendingTransactions = [];
+    const batchId = nextBatchId++;
+
+    // Single request transaction
+    if (currentTransactions.length === 1 && !currentTransactions[0].isBatch) {
+        const tx = currentTransactions[0];
+        const req = tx.requests[0];
+        inFlightBatches.set(batchId, {
+            transactions: currentTransactions,
+            txMapping: [0],
+            isBundled: false
+        });
+
+        bc.postMessage({
+            type: "request",
+            batchId: batchId,
+            requestType: req.requestType,
+            requestData: req.requestData,
+            isBatch: false
+        });
+        lastSendTime = Date.now();
+        return;
+    }
+
+    // Multiple transactions or explicit batch: compile into flatRequests
+    const flatRequests = [];
+    const txMapping = [];
+
+    currentTransactions.forEach((tx, txIndex) => {
+        tx.requests.forEach(req => {
+            flatRequests.push({
+                requestType: req.requestType,
+                requestData: req.requestData
+            });
+            txMapping.push(txIndex);
+        });
+    });
+
+    inFlightBatches.set(batchId, {
+        transactions: currentTransactions,
+        txMapping: txMapping,
+        isBundled: true
+    });
 
     bc.postMessage({
         type: "request",
-        requestType: reqName || "",
-        requestData: reqData || {},
-        isBatch: isBatch
+        batchId: batchId,
+        requestType: "RequestBatch",
+        requests: flatRequests,
+        isBatch: true
     });
+
+    lastSendTime = Date.now();
+}
+
+inReqData.onChange = () => {
+    if (inReqData.get()) {
+        inSend.onTriggered();
+    }
+};
+
+inRate.onChange = () => {
+    if (sendTimeout) {
+        clearTimeout(sendTimeout);
+        sendTimeout = null;
+        if (pendingTransactions.length > 0) {
+            scheduleSend();
+        }
+    }
 };
 
 op.onLoaded = () => {
@@ -620,6 +880,7 @@ op.onLoaded = () => {
 };
 
 op.onDelete = () => {
+    clearPendingTransactions();
     if (childWindow) {
         childWindow.close();
         childWindow = null;

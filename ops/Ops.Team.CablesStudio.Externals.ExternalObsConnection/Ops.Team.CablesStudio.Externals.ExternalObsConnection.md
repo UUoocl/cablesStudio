@@ -13,25 +13,41 @@ Since Cables patches often run inside iframe contexts or sandboxed pages that pr
 * **Auto Connect**: If enabled, the op will automatically attempt to spawn the popup window and connect on load. Note: Browsers may block popups opened without user interaction.
 * **Open Popup**: Button to trigger opening the popup.
 * **Close Popup**: Button to close the popup.
-* **Send Request**: Trigger to dispatch the API request defined in the ports below.
-* **Request Name**: The request name/method (e.g., `GetVersion`, `SetCurrentProgramScene`). Set to `RequestBatch` or leave blank when triggering a batch request.
-* **Request Data**: An Object or Array containing parameters for the request.
+* **Send Request**: Trigger to dispatch the API request defined in **Request Data**. Updating **Request Data** will also automatically trigger the request.
+* **Request Rate (Hz)**: Rate-limiting and batching frequency. When set to `0` (default), requests execute immediately. When greater than `0`, requests sent within the rate window (`1000 / Rate` ms) are automatically bundled into a single batch request to OBS.
+* **Request Data**: An Object or Array containing the request payload.
 
-## Single Request Example
+## Single Request Examples
 
-To retrieve the scene list, configure:
-* **Request Name**: `GetSceneList`
-* **Request Data**: `{}` (empty object)
+**Canonical object:**
+```json
+{
+  "requestType": "GetSceneList",
+  "requestData": {}
+}
+```
 
-## Batch Request Example
+**Flat parameters object:**
+```json
+{
+  "requestType": "SetCurrentProgramScene",
+  "sceneName": "Main Scene"
+}
+```
 
-To dispatch multiple operations concurrently in a single batch, pass an Array of requests to **Request Data** and set **Request Name** to `"RequestBatch"` (or empty):
+## Batch Request Examples
+
+### 1. Direct Batch Array
+Pass an Array of requests to **Request Data**:
 ```json
 [
   { "requestType": "SetCurrentProgramScene", "requestData": { "sceneName": "Main Scene" } },
-  { "requestType": "GetVolume", "requestData": { "sourceName": "Mic" } }
+  { "requestType": "GetInputVolume", "requestData": { "inputName": "Mic" } }
 ]
 ```
+
+### 2. Automated Request Batching
+When **Request Rate (Hz)** is greater than `0` (e.g. `10 Hz`), any sequential single requests dispatched within the interval window are automatically compiled into a bundled `RequestBatch` and executed in a single WebSocket tick, reducing network traffic and preventing race conditions. When the batch response arrives, each request triggers **On Response** with its respective result.
 
 ## Outputs
 
