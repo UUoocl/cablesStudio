@@ -54,10 +54,12 @@ When **Request Rate (Hz)** is greater than `0` (e.g. `10 Hz`), any sequential si
 * **Popup Open**: Boolean value indicating whether the popup window is currently active.
 * **Connected**: Boolean value showing connection status to the local OBS WebSocket server.
 * **Response Success**: True if the last API request completed successfully.
-* **Response Data**: Returns the response payload from OBS (either an object or an array of batch results).
+* **Response**: Complete response envelope object (`{ requestType, requestId, requestStatus, responseData }`).
+* **Response Data**: Returns the inner response payload from OBS (either an object or an array of batch results).
 * **On Response**: Triggers when a request response returns from the server.
 * **Request Type**: The request type/name of the completed request.
 * **Request Status Result**: True if the request status result was successful, false if it failed.
+* **Event**: Complete event envelope object (`{ eventType, eventName, eventData }`).
 * **Event Name**: Emitted event name from OBS (e.g. `CurrentProgramSceneChanged`).
 * **Event Data**: Emitted event payload.
 * **On Event**: Triggers when any subscribed event is broadcast by OBS.

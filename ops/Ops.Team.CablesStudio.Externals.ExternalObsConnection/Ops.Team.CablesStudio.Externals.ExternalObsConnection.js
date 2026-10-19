@@ -34,10 +34,12 @@ const
     outPopupOpen = op.outBoolNum("Popup Open", false),
     outConnected = op.outBoolNum("Connected", false),
     outSuccess = op.outBoolNum("Response Success", false),
-    outResponse = op.outObject("Response Data", null),
+    outResponse = op.outObject("Response", null),
+    outResponseData = op.outObject("Response Data", null),
     outOnResponse = op.outTrigger("On Response"),
     outReqType = op.outString("Request Type", ""),
     outReqStatusResult = op.outBoolNum("Request Status Result", false),
+    outEvt = op.outObject("Event", null),
     outEvtName = op.outString("Event Name", ""),
     outEvtData = op.outObject("Event Data", null),
     outOnEvent = op.outTrigger("On Event"),
@@ -449,8 +451,14 @@ function setupBroadcastChannel() {
                 }
                 break;
             case "event":
+                const evtEnvelope = {
+                    eventType: msg.eventName || "",
+                    eventName: msg.eventName || "",
+                    eventData: msg.eventData !== undefined ? msg.eventData : null
+                };
+                outEvt.set(evtEnvelope);
                 outEvtName.set(msg.eventName || "");
-                outEvtData.set(msg.eventData || null);
+                outEvtData.set(msg.eventData !== undefined ? msg.eventData : null);
                 outOnEvent.trigger();
                 break;
             case "response":
@@ -500,7 +508,8 @@ function handleResponse(msg) {
                         successTransaction(tx, batchItem.responseData);
                     } else {
                         const errMsg = (batchItem && batchItem.requestStatus && batchItem.requestStatus.comment) || "Batch item execution failed";
-                        failTransaction(tx, errMsg);
+                        const errCode = (batchItem && batchItem.requestStatus && batchItem.requestStatus.code) || 0;
+                        failTransaction(tx, errMsg, tx.originalRequestType, errCode);
                     }
                 }
             });
@@ -518,49 +527,81 @@ function handleResponse(msg) {
     }
 
     // Direct fallback if batchId not found
-    outReqType.set(msg.requestType || "");
-    if (msg.requestStatus && msg.requestStatus.result !== undefined) {
-        outReqStatusResult.set(msg.requestStatus.result);
-    } else {
-        outReqStatusResult.set(!!msg.success);
-    }
-    if (msg.success) {
-        outSuccess.set(true);
-        outResponse.set(msg.responseData !== undefined ? msg.responseData : null);
+    const type = msg.requestType || "";
+    const isSuccess = msg.requestStatus && msg.requestStatus.result !== undefined ? !!msg.requestStatus.result : !!msg.success;
+    const status = msg.requestStatus || { result: isSuccess, code: isSuccess ? 100 : 0, comment: msg.error || "" };
+    const envelope = {
+        requestType: type,
+        requestId: msg.requestId || null,
+        requestStatus: status,
+        responseData: isSuccess && msg.responseData !== undefined ? msg.responseData : null
+    };
+
+    outReqType.set(type);
+    outReqStatusResult.set(isSuccess);
+    outSuccess.set(isSuccess);
+    outResponse.set(envelope);
+    outResponseData.set(isSuccess && msg.responseData !== undefined ? msg.responseData : null);
+    if (isSuccess) {
         outError.set("");
     } else {
-        outSuccess.set(false);
-        outResponse.set(null);
-        outError.set(msg.error || "Request failed");
+        outError.set(msg.error || (status && status.comment) || "Request failed");
     }
     outOnResponse.trigger();
 }
 
 function successTransaction(tx, responseData, reqType) {
     const type = reqType || (tx ? tx.originalRequestType : "") || "Response";
+    const status = { result: true, code: 100 };
+    const envelope = {
+        requestType: type,
+        requestId: (tx && tx.requestId) || null,
+        requestStatus: status,
+        responseData: responseData !== undefined ? responseData : null
+    };
+
     outReqType.set(type);
     outReqStatusResult.set(true);
     outSuccess.set(true);
-    outResponse.set(responseData !== undefined ? responseData : null);
+    outResponse.set(envelope);
+    outResponseData.set(responseData !== undefined ? responseData : null);
     outError.set("");
     outOnResponse.trigger();
 }
 
-function failTransaction(tx, errMsg, reqType) {
+function failTransaction(tx, errMsg, reqType, code = 0) {
     const type = reqType || (tx ? tx.originalRequestType : "") || "Response";
+    const status = { result: false, code: code, comment: errMsg || "Request failed" };
+    const envelope = {
+        requestType: type,
+        requestId: (tx && tx.requestId) || null,
+        requestStatus: status,
+        responseData: null
+    };
+
     outReqType.set(type);
     outReqStatusResult.set(false);
     outSuccess.set(false);
-    outResponse.set(null);
+    outResponse.set(envelope);
+    outResponseData.set(null);
     outError.set(errMsg || "Request failed");
     outOnResponse.trigger();
 }
 
-function failImmediate(errMsg) {
-    outReqType.set("Response");
+function failImmediate(errMsg, reqType = "", requestId = null) {
+    const status = { result: false, code: 0, comment: errMsg || "Request failed" };
+    const envelope = {
+        requestType: reqType,
+        requestId: requestId,
+        requestStatus: status,
+        responseData: null
+    };
+
+    outReqType.set(reqType || "Response");
     outReqStatusResult.set(false);
     outSuccess.set(false);
-    outResponse.set(null);
+    outResponse.set(envelope);
+    outResponseData.set(null);
     outError.set(errMsg || "Request failed");
     outOnResponse.trigger();
 }
@@ -726,6 +767,7 @@ inSend.onTriggered = () => {
     let isBatch = false;
     let originalRequestType = "";
     let requests = [];
+    const requestId = (rawData && rawData.requestId) || null;
 
     if (Array.isArray(rawData) || (rawData && Array.isArray(rawData.requests))) {
         isBatch = true;
@@ -745,7 +787,7 @@ inSend.onTriggered = () => {
     } else if (typeof rawData === "object") {
         const reqType = rawData.requestType || rawData.requestName || "";
         if (!reqType) {
-            failImmediate("Missing `requestType` in Request Data.");
+            failImmediate("Missing `requestType` in Request Data.", "", requestId);
             return;
         }
         originalRequestType = reqType;
@@ -759,11 +801,12 @@ inSend.onTriggered = () => {
             requestData: reqData
         }];
     } else {
-        failImmediate("Invalid Request Data (expected Object or Array).");
+        failImmediate("Invalid Request Data (expected Object or Array).", "", requestId);
         return;
     }
 
     const transaction = {
+        requestId: requestId,
         isBatch: isBatch,
         requests: requests,
         originalRequestType: originalRequestType
