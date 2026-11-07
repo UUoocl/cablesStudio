@@ -32,9 +32,16 @@
         // Configuration object synced from Cables / Dashboard
         window.magicWandConfig = {
             colorMove: [255, 255, 0],
-            colorClick: [255, 0, 255],
+            colorMB1: [255, 0, 255],
+            colorMB2: [129, 210, 235],
+            colorMB3: [255, 215, 0],
+            colorMB4: [0, 255, 128],
+            colorMB5: [255, 102, 0],
+            colorMB6: [180, 100, 255],
             starSize: 10,
-            starDecay: 5
+            starDecay: 5,
+            maxStars: 50,
+            disperseSpeed: 5
         };
 
         function rgbToHex(rgb) {
@@ -98,15 +105,56 @@
                             step: 0.5,
                             group: 'Rendering'
                         },
+                        maxStars: {
+                            type: 'int',
+                            value: Number(window.magicWandConfig.maxStars),
+                            min: 5,
+                            max: 300,
+                            step: 1,
+                            group: 'Rendering'
+                        },
+                        disperseSpeed: {
+                            type: 'float',
+                            value: Number(window.magicWandConfig.disperseSpeed),
+                            min: 0.5,
+                            max: 25.0,
+                            step: 0.5,
+                            group: 'Rendering'
+                        },
                         colorMove: {
                             type: 'color',
                             value: rgbToHex(window.magicWandConfig.colorMove),
-                            group: 'Rendering'
+                            group: 'Colors'
                         },
-                        colorClick: {
+                        colorMB1: {
                             type: 'color',
-                            value: rgbToHex(window.magicWandConfig.colorClick),
-                            group: 'Rendering'
+                            value: rgbToHex(window.magicWandConfig.colorMB1),
+                            group: 'Colors'
+                        },
+                        colorMB2: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorMB2),
+                            group: 'Colors'
+                        },
+                        colorMB3: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorMB3),
+                            group: 'Colors'
+                        },
+                        colorMB4: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorMB4),
+                            group: 'Colors'
+                        },
+                        colorMB5: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorMB5),
+                            group: 'Colors'
+                        },
+                        colorMB6: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorMB6),
+                            group: 'Colors'
                         }
                     },
                     subscriptions: {
@@ -143,6 +191,14 @@
                 window.magicWandConfig.starDecay = params.starDecay;
             }
 
+            if (typeof params.maxStars === 'number' && !isNaN(params.maxStars)) {
+                window.magicWandConfig.maxStars = Math.max(1, Math.round(params.maxStars));
+            }
+
+            if (typeof params.disperseSpeed === 'number' && !isNaN(params.disperseSpeed)) {
+                window.magicWandConfig.disperseSpeed = Math.max(0.1, params.disperseSpeed);
+            }
+
             const moveColorVal = params.colorMove !== undefined ? params.colorMove : params.particleColor;
             if (moveColorVal !== undefined) {
                 const rgb = parseColorToRgb(moveColorVal);
@@ -151,7 +207,15 @@
 
             if (params.colorClick !== undefined) {
                 const rgb = parseColorToRgb(params.colorClick);
-                if (rgb) window.magicWandConfig.colorClick = rgb;
+                if (rgb) window.magicWandConfig.colorMB1 = rgb;
+            }
+
+            for (let i = 1; i <= 6; i++) {
+                const key = `colorMB${i}`;
+                if (params[key] !== undefined) {
+                    const rgb = parseColorToRgb(params[key]);
+                    if (rgb) window.magicWandConfig[key] = rgb;
+                }
             }
         }
 

@@ -9,7 +9,9 @@
         :root {
             --bg-primary: #0b0e17;
             --bg-panel: #131826;
-            --border-subtle: rgba(255, 255, 255, 0.08);
+            --bg-handle: #1a2133;
+            --border-subtle: rgba(255, 255, 255, 0.09);
+            --border-active: rgba(99, 102, 241, 0.55);
             --text-primary: #f1f5f9;
             --text-muted: #94a3b8;
             --accent: #6366f1;
@@ -25,18 +27,20 @@
 
         body {
             background-color: var(--bg-primary);
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
-            padding: 24px;
+            overflow-x: hidden;
+            padding: 16px 20px;
         }
 
         .dashboard-shell {
-            max-width: 1120px;
-            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
+            min-height: calc(100vh - 32px);
         }
 
         .dashboard-header {
@@ -45,34 +49,37 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            padding: 16px 20px;
+            padding: 14px 18px;
             background: var(--bg-panel);
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
         .header-title-group {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .header-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 700;
             letter-spacing: -0.02em;
         }
 
         .header-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.76rem;
             color: var(--text-muted);
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
         .header-controls {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .status-pill {
@@ -81,7 +88,7 @@
             gap: 8px;
             padding: 6px 12px;
             border-radius: 999px;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 600;
             background: rgba(239, 68, 68, 0.12);
             color: var(--danger);
@@ -103,58 +110,145 @@
         }
 
         .btn {
-            background: rgba(99, 102, 241, 0.15);
+            background: rgba(99, 102, 241, 0.14);
             color: #e0e7ff;
             border: 1px solid rgba(99, 102, 241, 0.35);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            padding: 6px 11px;
+            border-radius: 7px;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: background 0.15s ease, border-color 0.15s ease;
+            user-select: none;
         }
 
         .btn:hover {
             background: rgba(99, 102, 241, 0.28);
+            border-color: rgba(99, 102, 241, 0.6);
         }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 20px;
-            align-items: start;
+        .btn-subtle {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
         }
 
-        @media (max-width: 860px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
+        .btn-subtle:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.22);
         }
 
-        .pane-card {
+        .btn-mini {
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+        }
+
+        /* Freeform Draggable Workspace */
+        .workspace-canvas {
+            position: relative;
+            flex: 1;
+            min-height: calc(100vh - 115px);
+            width: 100%;
+        }
+
+        .draggable-pane {
+            position: absolute;
+            width: 340px;
             background: var(--bg-panel);
             border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 14px;
+            border-radius: 11px;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
+            touch-action: none;
         }
 
-        .pane-card-title {
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            margin-bottom: 12px;
+        .draggable-pane.docked-main-pane {
+            width: 400px;
+        }
+
+        .draggable-pane.is-dragging {
+            border-color: var(--border-active);
+            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.65);
+            opacity: 0.96;
+        }
+
+        .pane-drag-handle {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--bg-handle);
+            border-bottom: 1px solid var(--border-subtle);
+            cursor: grab;
+            user-select: none;
+        }
+
+        .pane-drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .pane-handle-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .grip-dots {
+            display: inline-grid;
+            grid-template-columns: repeat(2, 3px);
+            gap: 2px;
+            opacity: 0.55;
+            flex-shrink: 0;
+        }
+
+        .grip-dots span {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .pane-card-title {
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pane-handle-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .pane-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 7px;
+            border-radius: 999px;
+        }
+
+        .pane-body {
+            padding: 10px;
         }
 
         .empty-state {
-            padding: 36px 20px;
+            padding: 28px 16px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.84rem;
+            line-height: 1.45;
             border: 1px dashed var(--border-subtle);
             border-radius: 8px;
         }
@@ -173,6 +267,15 @@
                 <div class="header-subtitle" id="origin-label">Origin ID: initializing...</div>
             </div>
             <div class="header-controls">
+                <button class="btn btn-subtle" id="separate-all-btn" title="Separate all clients into individual draggable panes">
+                    Separate All Panes
+                </button>
+                <button class="btn btn-subtle" id="dock-all-btn" title="Dock all separated clients back into the tabbed pane">
+                    Dock All to Tabs
+                </button>
+                <button class="btn btn-subtle" id="reset-layout-btn" title="Reset draggable pane positions">
+                    Reset Positions
+                </button>
                 <button class="btn" id="discover-btn" title="Request active visualization clients to re-send their manifests">
                     Discover Clients
                 </button>
@@ -183,28 +286,53 @@
             </div>
         </header>
 
-        <div class="dashboard-grid">
-            <!-- Left Column: 2D Coordinate Pad & Sparklines -->
-            <section class="pane-card">
-                <div class="pane-card-title">
-                    <span>Live Input Telemetry</span>
-                    <span id="telemetry-fps">2D &amp; Sparklines</span>
+        <main class="workspace-canvas" id="workspace-canvas">
+            <!-- Draggable Pane 1: 2D Coordinate Pad & Sparklines -->
+            <section class="draggable-pane" id="pane-card-telemetry" data-pane-id="telemetry">
+                <div class="pane-drag-handle">
+                    <div class="pane-handle-left">
+                        <div class="grip-dots">
+                            <span></span><span></span>
+                            <span></span><span></span>
+                            <span></span><span></span>
+                        </div>
+                        <span class="pane-card-title">Live Input Telemetry</span>
+                    </div>
+                    <div class="pane-handle-actions">
+                        <span class="pane-badge">2D &amp; Sparklines</span>
+                    </div>
                 </div>
-                <div id="telemetry-pane-container"></div>
+                <div class="pane-body">
+                    <div id="telemetry-pane-container"></div>
+                </div>
             </section>
 
-            <!-- Right Column: Dynamic Registered Client Tabs -->
-            <section class="pane-card">
-                <div class="pane-card-title">
-                    <span>Registered Visualization Clients</span>
-                    <span id="client-count-badge">0 Clients</span>
+            <!-- Draggable Pane 2: Docked Client Tabs -->
+            <section class="draggable-pane docked-main-pane" id="pane-card-docked" data-pane-id="docked-clients">
+                <div class="pane-drag-handle">
+                    <div class="pane-handle-left">
+                        <div class="grip-dots">
+                            <span></span><span></span>
+                            <span></span><span></span>
+                            <span></span><span></span>
+                        </div>
+                        <span class="pane-card-title">Docked Client Tabs</span>
+                    </div>
+                    <div class="pane-handle-actions">
+                        <span class="pane-badge" id="client-count-badge">0 Docked</span>
+                    </div>
                 </div>
-                <div id="clients-empty-state" class="empty-state">
-                    Waiting for visualization clients to dispatch <code>client:register</code> manifests...
+                <div class="pane-body">
+                    <div id="clients-empty-state" class="empty-state">
+                        Waiting for visualization clients to dispatch <code>client:register</code> manifests...
+                    </div>
+                    <div id="clients-pane-container"></div>
                 </div>
-                <div id="clients-pane-container"></div>
             </section>
-        </div>
+
+            <!-- Dynamic Separated Client Panes are mounted here -->
+            <div id="separated-panes-layer"></div>
+        </main>
     </div>
 
     <script>
@@ -221,11 +349,130 @@
         let pubChannel = null;
         let subChannel = null;
 
-        // Guard flag to prevent programmatic Tweakpane updates from echoing back over WebSocket
+        // Guard flags to prevent programmatic Tweakpane updates from echoing back over WebSocket
         let isRemoteSync = false;
         let isTelemetrySync = false;
 
-        // --- 2. TELEMETRY PANE (Point 2D Pad & Sparklines) ---
+        // --- 2. DRAGGABLE PANE WINDOW MANAGER ---
+        const workspaceEl = document.getElementById('workspace-canvas');
+        const panePositions = new Map(); // paneId -> { x, y, z }
+        let topZIndex = 20;
+
+        function getDefaultPanePosition(paneId, indexHint = 0) {
+            if (paneId === 'telemetry') {
+                return { x: 0, y: 0 };
+            }
+            if (paneId === 'docked-clients') {
+                return { x: 360, y: 0 };
+            }
+            // Cascade separated client panes neatly to the right / staggered
+            const col = indexHint % 2;
+            const row = Math.floor(indexHint / 2);
+            return {
+                x: 780 + col * 356,
+                y: row * 380
+            };
+        }
+
+        function applyPanePosition(cardEl, paneId, indexHint = 0) {
+            if (!cardEl) return;
+            let pos = panePositions.get(paneId);
+            if (!pos) {
+                const def = getDefaultPanePosition(paneId, indexHint);
+                // Wrap into visible viewport if window is narrower
+                const maxW = Math.max(360, workspaceEl.clientWidth - 350);
+                const x = def.x > maxW ? Math.max(16, (indexHint + 1) * 36 % maxW) : def.x;
+                const y = def.x > maxW ? def.y + 40 + (indexHint * 32) : def.y;
+                pos = { x, y, z: ++topZIndex };
+                panePositions.set(paneId, pos);
+            }
+            cardEl.style.left = `${pos.x}px`;
+            cardEl.style.top = `${pos.y}px`;
+            cardEl.style.zIndex = String(pos.z || ++topZIndex);
+        }
+
+        function bringPaneToFront(cardEl, paneId) {
+            if (!cardEl) return;
+            const z = ++topZIndex;
+            cardEl.style.zIndex = String(z);
+            const pos = panePositions.get(paneId);
+            if (pos) pos.z = z;
+        }
+
+        function makePaneDraggable(cardEl, paneId, indexHint = 0) {
+            if (!cardEl) return;
+            applyPanePosition(cardEl, paneId, indexHint);
+
+            const handleEl = cardEl.querySelector('.pane-drag-handle');
+            if (!handleEl) return;
+
+            cardEl.addEventListener('pointerdown', () => {
+                bringPaneToFront(cardEl, paneId);
+            });
+
+            let dragStartX = 0;
+            let dragStartY = 0;
+            let initialLeft = 0;
+            let initialTop = 0;
+            let isDragging = false;
+
+            handleEl.addEventListener('pointerdown', (e) => {
+                // Ignore clicks on buttons inside the header handle
+                if (e.target.closest('button')) return;
+
+                isDragging = true;
+                bringPaneToFront(cardEl, paneId);
+                cardEl.classList.add('is-dragging');
+
+                const currentPos = panePositions.get(paneId) || { x: cardEl.offsetLeft, y: cardEl.offsetTop };
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                initialLeft = currentPos.x;
+                initialTop = currentPos.y;
+
+                if (handleEl.setPointerCapture) {
+                    handleEl.setPointerCapture(e.pointerId);
+                }
+                e.preventDefault();
+            });
+
+            handleEl.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - dragStartX;
+                const dy = e.clientY - dragStartY;
+
+                const nextX = Math.max(0, initialLeft + dx);
+                const nextY = Math.max(0, initialTop + dy);
+
+                cardEl.style.left = `${nextX}px`;
+                cardEl.style.top = `${nextY}px`;
+
+                const pos = panePositions.get(paneId) || {};
+                pos.x = nextX;
+                pos.y = nextY;
+                panePositions.set(paneId, pos);
+            });
+
+            const stopDrag = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                cardEl.classList.remove('is-dragging');
+                if (handleEl.releasePointerCapture && e && e.pointerId !== undefined) {
+                    try {
+                        handleEl.releasePointerCapture(e.pointerId);
+                    } catch (_) {}
+                }
+            };
+
+            handleEl.addEventListener('pointerup', stopDrag);
+            handleEl.addEventListener('pointercancel', stopDrag);
+        }
+
+        // Initialize static draggable panes
+        makePaneDraggable(document.getElementById('pane-card-telemetry'), 'telemetry', 0);
+        makePaneDraggable(document.getElementById('pane-card-docked'), 'docked-clients', 0);
+
+        // --- 3. TELEMETRY PANE (Point 2D Pad & Sparklines) ---
         const telemetryState = {
             cursor: { x: 0.5, y: 0.5 },
             x: 0.5,
@@ -252,7 +499,6 @@
             y: { min: 0, max: 1, step: 0.001 }
         });
 
-        // Allow dragging the 2D pad in the dashboard to also broadcast normalized mouse_move events
         cursorPadInput.on('change', (ev) => {
             if (isTelemetrySync) return;
             telemetryState.x = Number(ev.value.x) || 0;
@@ -300,7 +546,6 @@
             interval: 100
         });
 
-        // Decay scrollDy sparkline back to 0 when idle
         let lastTelemetryScrollTime = 0;
         setInterval(() => {
             if (telemetryState.scrollDy !== 0 && performance.now() - lastTelemetryScrollTime > 400) {
@@ -311,13 +556,17 @@
             }
         }, 50);
 
-        // --- 3. DYNAMIC CLIENT TABS PANE ---
+        // --- 4. DYNAMIC CLIENT TABS & SEPARATED DRAGGABLE PANES ---
         // Map of clientId -> manifest
         const registeredClients = new Map();
         // Map of clientId -> reactive parameter values object bound to Tweakpane inputs
         const clientParamValues = new Map();
+        // Set of clientIds separated into their own standalone draggable panes
+        const separatedClients = new Set();
+        // Map of clientId -> standalone Tweakpane.Pane instance
+        const separatedPanes = new Map();
+
         let clientsPane = null;
-        let activeTabIndex = 0;
 
         function getStructureSignature(manifest) {
             const paramKeys = Object.keys(manifest.parameters || {}).sort().map(k => {
@@ -327,19 +576,151 @@
             return `${manifest.clientId}::${manifest.name}::${paramKeys}`;
         }
 
-        function rebuildClientsPane() {
+        function separateClientToPane(clientId) {
+            if (!registeredClients.has(clientId)) return;
+            separatedClients.add(clientId);
+            renderAllClients();
+        }
+
+        function dockClientToTabs(clientId) {
+            if (!separatedClients.has(clientId)) return;
+            separatedClients.delete(clientId);
+            renderAllClients();
+        }
+
+        /**
+         * Populates a Tweakpane target (either a TabPage or a standalone Pane)
+         * with all parameter groups, bindings, and metadata for a given client manifest.
+         */
+        function populateClientControls(targetContainer, clientId, manifest, isSeparated) {
+            // Action button blade at top to Separate or Dock back
+            const actionBtn = targetContainer.addButton({
+                title: isSeparated ? '↙ Dock back to Client Tabs' : '↗ Separate into Draggable Pane'
+            });
+            actionBtn.on('click', () => {
+                if (isSeparated) {
+                    dockClientToTabs(clientId);
+                } else {
+                    separateClientToPane(clientId);
+                }
+            });
+
+            const paramsSchema = manifest.parameters || {};
+
+            let valuesObj = clientParamValues.get(clientId);
+            if (!valuesObj) {
+                valuesObj = {};
+                clientParamValues.set(clientId, valuesObj);
+            }
+
+            // Group parameters by `group`
+            const groups = new Map();
+            Object.keys(paramsSchema).forEach((paramKey) => {
+                const spec = paramsSchema[paramKey];
+                if (!spec || typeof spec !== 'object') return;
+
+                if (spec.value !== undefined) {
+                    valuesObj[paramKey] = spec.value;
+                }
+                const groupName = spec.group || 'General';
+                if (!groups.has(groupName)) {
+                    groups.set(groupName, []);
+                }
+                groups.get(groupName).push({ key: paramKey, spec });
+            });
+
+            groups.forEach((items, groupName) => {
+                const folder = targetContainer.addFolder({
+                    title: groupName,
+                    expanded: true
+                });
+
+                items.forEach(({ key, spec }) => {
+                    const inputOpts = { label: spec.label || key };
+                    const pType = (spec.type || '').toLowerCase();
+
+                    if (pType === 'float' || pType === 'number' || pType === 'int' || pType === 'integer') {
+                        if (typeof spec.min === 'number') inputOpts.min = spec.min;
+                        if (typeof spec.max === 'number') inputOpts.max = spec.max;
+                        if (typeof spec.step === 'number') {
+                            inputOpts.step = spec.step;
+                        } else if (pType === 'int' || pType === 'integer') {
+                            inputOpts.step = 1;
+                        }
+                    } else if (spec.options && typeof spec.options === 'object') {
+                        inputOpts.options = spec.options;
+                    }
+
+                    if (valuesObj[key] === undefined) {
+                        if (pType === 'color') valuesObj[key] = '#ffffff';
+                        else if (pType === 'boolean' || pType === 'bool') valuesObj[key] = false;
+                        else if (pType === 'string') valuesObj[key] = '';
+                        else valuesObj[key] = 0;
+                    }
+
+                    const binding = folder.addInput(valuesObj, key, inputOpts);
+                    binding.on('change', (ev) => {
+                        if (isRemoteSync) return;
+
+                        if (manifest.parameters && manifest.parameters[key]) {
+                            manifest.parameters[key].value = ev.value;
+                        }
+
+                        sendPayload({
+                            type: 'client:update',
+                            originId: originId,
+                            clientId: clientId,
+                            key: key,
+                            value: ev.value,
+                            parameters: { [key]: ev.value }
+                        });
+                    });
+                });
+            });
+
+            const metaFolder = targetContainer.addFolder({
+                title: 'Client Info & Subscriptions',
+                expanded: false
+            });
+
+            const subs = manifest.subscriptions || {};
+            const metaObj = {
+                clientId: String(manifest.clientId || clientId),
+                clientType: String(manifest.clientType || 'unknown'),
+                subMouse: Boolean(subs.mouse),
+                subKeyboard: Boolean(subs.keyboard),
+                subStateUpdates: Boolean(subs.stateUpdates)
+            };
+
+            metaFolder.addMonitor(metaObj, 'clientId', { label: 'Client ID' });
+            metaFolder.addMonitor(metaObj, 'clientType', { label: 'Type' });
+            metaFolder.addMonitor(metaObj, 'subMouse', { label: 'Sub: Mouse' });
+            metaFolder.addMonitor(metaObj, 'subKeyboard', { label: 'Sub: Keyboard' });
+            metaFolder.addMonitor(metaObj, 'subStateUpdates', { label: 'Sub: State' });
+        }
+
+        function renderDockedClientsPane() {
             const emptyEl = document.getElementById('clients-empty-state');
             const badgeEl = document.getElementById('client-count-badge');
-            const count = registeredClients.size;
-
-            badgeEl.textContent = `${count} ${count === 1 ? 'Client' : 'Clients'}`;
 
             if (clientsPane) {
                 clientsPane.dispose();
                 clientsPane = null;
             }
 
-            if (count === 0) {
+            const dockedEntries = Array.from(registeredClients.entries())
+                .filter(([clientId]) => !separatedClients.has(clientId));
+
+            badgeEl.textContent = `${dockedEntries.length} Docked / ${registeredClients.size} Total`;
+
+            if (registeredClients.size === 0) {
+                emptyEl.innerHTML = 'Waiting for visualization clients to dispatch <code>client:register</code> manifests...';
+                emptyEl.style.display = 'block';
+                return;
+            }
+
+            if (dockedEntries.length === 0) {
+                emptyEl.innerHTML = 'All registered clients are currently undocked in separate draggable panes.<br/>Click <b>Dock to Tabs</b> on any pane to return it here.';
                 emptyEl.style.display = 'block';
                 return;
             }
@@ -351,8 +732,7 @@
                 title: 'Client Parameters'
             });
 
-            const entries = Array.from(registeredClients.entries());
-            const tabPagesConfig = entries.map(([clientId, manifest]) => ({
+            const tabPagesConfig = dockedEntries.map(([clientId, manifest]) => ({
                 title: manifest.name ? `${manifest.name}` : clientId
             }));
 
@@ -360,103 +740,84 @@
                 pages: tabPagesConfig
             });
 
-            entries.forEach(([clientId, manifest], pageIdx) => {
-                const page = tab.pages[pageIdx];
-                const paramsSchema = manifest.parameters || {};
+            dockedEntries.forEach(([clientId, manifest], pageIdx) => {
+                populateClientControls(tab.pages[pageIdx], clientId, manifest, false);
+            });
+        }
 
-                // Initialize or update live values object for this client
-                let valuesObj = clientParamValues.get(clientId);
-                if (!valuesObj) {
-                    valuesObj = {};
-                    clientParamValues.set(clientId, valuesObj);
-                }
+        function renderSeparatedClientPanes() {
+            // Dispose existing separated Tweakpane instances
+            separatedPanes.forEach((pane) => {
+                try { pane.dispose(); } catch (_) {}
+            });
+            separatedPanes.clear();
 
-                // Group parameters by `group`
-                const groups = new Map();
-                Object.keys(paramsSchema).forEach((paramKey) => {
-                    const spec = paramsSchema[paramKey];
-                    if (!spec || typeof spec !== 'object') return;
+            const layerEl = document.getElementById('separated-panes-layer');
+            layerEl.innerHTML = '';
 
-                    valuesObj[paramKey] = spec.value;
-                    const groupName = spec.group || 'General';
-                    if (!groups.has(groupName)) {
-                        groups.set(groupName, []);
-                    }
-                    groups.get(groupName).push({ key: paramKey, spec });
+            let sepIndex = 0;
+            separatedClients.forEach((clientId) => {
+                const manifest = registeredClients.get(clientId);
+                if (!manifest) return;
+
+                const paneId = `client:${clientId}`;
+                const cardEl = document.createElement('section');
+                cardEl.className = 'draggable-pane';
+                cardEl.dataset.paneId = paneId;
+
+                const displayTitle = manifest.name ? `${manifest.name} (${clientId})` : clientId;
+
+                cardEl.innerHTML = `
+                    <div class="pane-drag-handle">
+                        <div class="pane-handle-left">
+                            <div class="grip-dots">
+                                <span></span><span></span>
+                                <span></span><span></span>
+                                <span></span><span></span>
+                            </div>
+                            <span class="pane-card-title"></span>
+                        </div>
+                        <div class="pane-handle-actions">
+                            <button class="btn btn-subtle btn-mini dock-back-btn" title="Dock this client back into the main tabbed pane">
+                                ↙ Dock to Tabs
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pane-body">
+                        <div class="separated-pane-mount"></div>
+                    </div>
+                `;
+
+                cardEl.querySelector('.pane-card-title').textContent = displayTitle;
+                cardEl.querySelector('.dock-back-btn').addEventListener('click', () => {
+                    dockClientToTabs(clientId);
                 });
 
-                // Create a folder per parameter group
-                groups.forEach((items, groupName) => {
-                    const folder = page.addFolder({
-                        title: groupName,
-                        expanded: true
-                    });
+                layerEl.appendChild(cardEl);
+                makePaneDraggable(cardEl, paneId, sepIndex++);
 
-                    items.forEach(({ key, spec }) => {
-                        const inputOpts = { label: spec.label || key };
-                        const pType = (spec.type || '').toLowerCase();
-
-                        if (pType === 'float' || pType === 'number' || pType === 'int' || pType === 'integer') {
-                            if (typeof spec.min === 'number') inputOpts.min = spec.min;
-                            if (typeof spec.max === 'number') inputOpts.max = spec.max;
-                            if (typeof spec.step === 'number') {
-                                inputOpts.step = spec.step;
-                            } else if (pType === 'int' || pType === 'integer') {
-                                inputOpts.step = 1;
-                            }
-                        } else if (spec.options && typeof spec.options === 'object') {
-                            inputOpts.options = spec.options;
-                        }
-
-                        // Ensure default value matches expected type
-                        if (valuesObj[key] === undefined) {
-                            if (pType === 'color') valuesObj[key] = '#ffffff';
-                            else if (pType === 'boolean' || pType === 'bool') valuesObj[key] = false;
-                            else if (pType === 'string') valuesObj[key] = '';
-                            else valuesObj[key] = 0;
-                        }
-
-                        const binding = folder.addInput(valuesObj, key, inputOpts);
-                        binding.on('change', (ev) => {
-                            if (isRemoteSync) return;
-
-                            // Update stored manifest value
-                            if (manifest.parameters && manifest.parameters[key]) {
-                                manifest.parameters[key].value = ev.value;
-                            }
-
-                            sendPayload({
-                                type: 'client:update',
-                                originId: originId,
-                                clientId: clientId,
-                                key: key,
-                                value: ev.value,
-                                parameters: { [key]: ev.value }
-                            });
-                        });
-                    });
+                const mountEl = cardEl.querySelector('.separated-pane-mount');
+                const standalonePane = new Tweakpane.Pane({
+                    container: mountEl,
+                    title: manifest.name || clientId
                 });
 
-                // Subscriptions & Metadata Folder
-                const metaFolder = page.addFolder({
-                    title: 'Client Info & Subscriptions',
-                    expanded: false
-                });
+                populateClientControls(standalonePane, clientId, manifest, true);
+                separatedPanes.set(clientId, standalonePane);
+            });
+        }
 
-                const subs = manifest.subscriptions || {};
-                const metaObj = {
-                    clientId: String(manifest.clientId || clientId),
-                    clientType: String(manifest.clientType || 'unknown'),
-                    subMouse: Boolean(subs.mouse),
-                    subKeyboard: Boolean(subs.keyboard),
-                    subStateUpdates: Boolean(subs.stateUpdates)
-                };
+        function renderAllClients() {
+            renderDockedClientsPane();
+            renderSeparatedClientPanes();
+        }
 
-                metaFolder.addMonitor(metaObj, 'clientId', { label: 'Client ID' });
-                metaFolder.addMonitor(metaObj, 'clientType', { label: 'Type' });
-                metaFolder.addMonitor(metaObj, 'subMouse', { label: 'Sub: Mouse' });
-                metaFolder.addMonitor(metaObj, 'subKeyboard', { label: 'Sub: Keyboard' });
-                metaFolder.addMonitor(metaObj, 'subStateUpdates', { label: 'Sub: State' });
+        function refreshActiveClientPanes() {
+            if (clientsPane) {
+                clientsPane.refresh();
+            }
+            separatedPanes.forEach((pane) => {
+                pane.refresh();
             });
         }
 
@@ -470,10 +831,13 @@
 
             registeredClients.set(clientId, JSON.parse(JSON.stringify(manifest)));
 
-            if (prevSig !== nextSig || !clientsPane) {
-                rebuildClientsPane();
+            const hasRenderedTarget = separatedClients.has(clientId)
+                ? separatedPanes.has(clientId)
+                : Boolean(clientsPane);
+
+            if (prevSig !== nextSig || !hasRenderedTarget) {
+                renderAllClients();
             } else {
-                // Structure is identical, update values in-place without rebuilding tabs
                 const valuesObj = clientParamValues.get(clientId);
                 if (valuesObj && manifest.parameters) {
                     isRemoteSync = true;
@@ -483,7 +847,7 @@
                                 valuesObj[k] = manifest.parameters[k].value;
                             }
                         });
-                        clientsPane.refresh();
+                        refreshActiveClientPanes();
                     } finally {
                         isRemoteSync = false;
                     }
@@ -515,15 +879,33 @@
                         manifest.parameters[k].value = updates[k];
                     }
                 });
-                if (clientsPane) {
-                    clientsPane.refresh();
-                }
+                refreshActiveClientPanes();
             } finally {
                 isRemoteSync = false;
             }
         }
 
-        // --- 4. COMMUNICATION LAYER (WebSocket + BroadcastChannel) ---
+        // Toolbar Layout Actions
+        document.getElementById('separate-all-btn').addEventListener('click', () => {
+            registeredClients.forEach((_, clientId) => {
+                separatedClients.add(clientId);
+            });
+            renderAllClients();
+        });
+
+        document.getElementById('dock-all-btn').addEventListener('click', () => {
+            separatedClients.clear();
+            renderAllClients();
+        });
+
+        document.getElementById('reset-layout-btn').addEventListener('click', () => {
+            panePositions.clear();
+            applyPanePosition(document.getElementById('pane-card-telemetry'), 'telemetry', 0);
+            applyPanePosition(document.getElementById('pane-card-docked'), 'docked-clients', 0);
+            renderSeparatedClientPanes();
+        });
+
+        // --- 5. COMMUNICATION LAYER (WebSocket + BroadcastChannel) ---
         if (urlParams.has('bc')) {
             const channelName = urlParams.get('bc') || 'magicwand-sync';
             pubChannel = new BroadcastChannel('sub-' + channelName);
@@ -563,11 +945,9 @@
         function handleIncomingMessage(raw) {
             if (!raw || typeof raw !== 'object') return;
 
-            // Unwrap HttpFileServer { channel, data } envelope if present
             const data = (raw.data && typeof raw.data === 'object' && !raw.type) ? raw.data : raw;
             if (!data || !data.type) return;
 
-            // Ignore self-originated messages to prevent feedback loops
             if (data.originId && data.originId === originId) return;
 
             switch (data.type) {
@@ -676,4 +1056,3 @@
     </script>
 </body>
 </html>
-

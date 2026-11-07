@@ -64,24 +64,40 @@ function mouseDragged() {
 
 /**
  * Handles mouse click events. Triggers a burst of stars.
- * @param {string} mouseButton - The button identifier (e.g., 'MB1').
+ * @param {string|number} mouseButton - The button identifier (e.g., 'MB1'..'MB6' or 1..6).
  */
 function mousePressed(mouseButton) {
-  let num = random(20, 50);
-  const configuredClickColor = (window.magicWandConfig && Array.isArray(window.magicWandConfig.colorClick))
-    ? window.magicWandConfig.colorClick
-    : [255, 0, 255];
-  let fillColor = configuredClickColor;
-  switch (mouseButton) {
-    case ('MB1'):
-      fillColor = configuredClickColor;
-      break;
-    case ('MB2'):
-      fillColor = [129, 210, 235];
-      break;
+  const cfg = window.magicWandConfig || {};
+  const maxStars = (typeof cfg.maxStars === 'number' && cfg.maxStars > 0) ? cfg.maxStars : 50;
+  const minStars = Math.min(20, maxStars);
+  const num = random(minStars, maxStars);
+
+  const disperseSpeed = (typeof cfg.disperseSpeed === 'number' && cfg.disperseSpeed > 0) ? cfg.disperseSpeed : 5;
+  const minSpeed = Math.min(2, disperseSpeed * 0.4);
+
+  let btnIndex = 1;
+  if (typeof mouseButton === 'number') {
+    btnIndex = mouseButton;
+  } else if (typeof mouseButton === 'string') {
+    const match = mouseButton.match(/\d+/);
+    if (match) btnIndex = parseInt(match[0], 10);
   }
+  btnIndex = Math.max(1, Math.min(6, btnIndex));
+
+  const defaultButtonColors = {
+    1: [255, 0, 255],
+    2: [129, 210, 235],
+    3: [255, 215, 0],
+    4: [0, 255, 128],
+    5: [255, 102, 0],
+    6: [180, 100, 255]
+  };
+
+  const colorKey = `colorMB${btnIndex}`;
+  const fillColor = Array.isArray(cfg[colorKey]) ? cfg[colorKey] : defaultButtonColors[btnIndex];
+
   for (let i = 0; i < num; i++) {
-    let velocity = p5.Vector.random2D().mult(random(2, 5));
+    let velocity = p5.Vector.random2D().mult(random(minSpeed, disperseSpeed));
     stars.push(new Star(mousePosX, mousePosY, velocity.x, velocity.y, fillColor));
   }
 }
