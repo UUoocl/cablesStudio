@@ -19,13 +19,13 @@ class Star {
     this.rot = random(TWO_PI);
     const maxSize = (window.magicWandConfig && typeof window.magicWandConfig.starSize === 'number') ? window.magicWandConfig.starSize : 10;
     this.size = random(1, maxSize);
-    
+
     this.life = 255;
     this.done = false;
-    
+
     this.rand = random() > 0.5;
   }
-  
+
   /**
    * Updates the star's position, velocity, and lifespan.
    */
@@ -33,29 +33,29 @@ class Star {
     this.finished();
     const decay = (window.magicWandConfig && typeof window.magicWandConfig.starDecay === 'number') ? window.magicWandConfig.starDecay : 5;
     this.life -= decay;
-    
+
     if (this.rand) {
       this.acceleration = p5.Vector.random2D().mult(0.05);
     }
-    
+
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
   }
-  
+
   /**
    * Renders the star to the canvas with a shadow effect.
    */
   display() {
 
-    fill(this.fillColor[0],this.fillColor[1],this.fillColor[2], this.life);
+    fill(this.fillColor[0], this.fillColor[1], this.fillColor[2], this.life);
     push();
     translate(this.position.x, this.position.y);
     rotate(this.rot);
 
-    drawingContext.shadowOffsetX = 5;
-    drawingContext.shadowOffsetY = -5;
-    drawingContext.shadowBlur = 10;
-    drawingContext.shadowColor = color(0, 0, 0,50);
+    //drawingContext.shadowOffsetX = 5;
+    //drawingContext.shadowOffsetY = -5;
+    //drawingContext.shadowBlur = 0;
+    //drawingContext.shadowColor = color(0, 0, 0, 50);
 
     noStroke();
     beginShape();
@@ -67,7 +67,7 @@ class Star {
     endShape(CLOSE);
     pop();
   }
-  
+
   /**
    * Checks if the star's life has ended.
    */

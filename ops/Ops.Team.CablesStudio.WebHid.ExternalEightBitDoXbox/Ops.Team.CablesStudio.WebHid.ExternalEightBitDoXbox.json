@@ -9,6 +9,12 @@
             "type": "new op",
             "author": "Antigravity",
             "date": 1782945200000
+        },
+        {
+            "message": "Added WebUSB Xbox GIP protocol support and 4-motor rumble for 8BitDo Lite SE on macOS",
+            "type": "improvement",
+            "author": "Antigravity",
+            "date": 1793568960000
         }
     ],
     "layout": {
@@ -29,6 +35,41 @@
                 "name": "Device Index",
                 "group": "Settings",
                 "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left",
+                "group": "Rumble",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right",
+                "group": "Rumble",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left Trigger",
+                "group": "Rumble",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right Trigger",
+                "group": "Rumble",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Rumble",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Send Rumble on Change",
+                "group": "Rumble",
+                "subType": "boolean"
             }
         ],
         "portsOut": [
@@ -48,6 +89,10 @@
                 "type": 0,
                 "name": "Is Connected",
                 "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "Buttons Pressed"
             },
             {
                 "type": 0,
@@ -92,6 +137,11 @@
             {
                 "type": 0,
                 "name": "Xbox",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Share",
                 "subType": "boolean"
             },
             {
@@ -157,7 +207,7 @@
         ]
     },
     "coreLibs": [],
-    "summary": "Interfaces with 8BitDo Micro / Xbox Gamepad Controllers using WebHID in a popup window.",
+    "summary": "Interfaces with the 8BitDo Lite SE Xbox Controller using WebUSB in a popup window.",
     "docs": {
         "ports": [
             {
@@ -166,7 +216,31 @@
             },
             {
                 "name": "Open Popup",
-                "text": "Triggers popup window for WebHID permissions."
+                "text": "Triggers popup window for WebUSB permissions."
+            },
+            {
+                "name": "Rumble Left",
+                "text": "Intensity of the left grip rumble motor (0.0 .. 1.0)."
+            },
+            {
+                "name": "Rumble Right",
+                "text": "Intensity of the right grip rumble motor (0.0 .. 1.0)."
+            },
+            {
+                "name": "Rumble Left Trigger",
+                "text": "Intensity of the left trigger impulse motor (0.0 .. 1.0)."
+            },
+            {
+                "name": "Rumble Right Trigger",
+                "text": "Intensity of the right trigger impulse motor (0.0 .. 1.0)."
+            },
+            {
+                "name": "Trigger Rumble",
+                "text": "Transmits rumble motor intensities to the controller."
+            },
+            {
+                "name": "Send Rumble on Change",
+                "text": "Automatically sends rumble packets when values change."
             }
         ]
     }

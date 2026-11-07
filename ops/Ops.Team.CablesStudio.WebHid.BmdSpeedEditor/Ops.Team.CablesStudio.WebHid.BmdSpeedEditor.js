@@ -6,27 +6,37 @@
 
 const
     inActive = op.inBool("Active", false),
-    inDeviceIndex = op.inInt("Device Index", 0),
     inRequestDevice = op.inTrigger("Request Device"),
+    inLedsObj = op.inObject("LEDs State"),
+    inButtonLeds = op.inInt("Button LEDs", 0),
+    inJogLeds = op.inInt("Jog LEDs", 0),
+    inJogMode = op.inInt("Jog Mode", 0),
+    inDeviceIndex = op.inInt("Device Index", 0),
 
     outEvent = op.outTrigger("On Event"),
     outStatus = op.outString("Status", "Stopped"),
-    outIsConnected = op.outBool("Is Connected", false),
+    outIsConnected = op.outBoolNum("Is Connected", false),
+    outLedsState = op.outObject("LEDs State Out"),
     outKeysPressed = op.outArray("Keys Pressed"),
     outKeyNames = op.outArray("Key Names"),
     outLastKey = op.outString("Last Key", ""),
-    outLastKeyPressed = op.outBool("Last Key Pressed", false),
+    outLastKeyPressed = op.outBoolNum("Last Key Pressed", false),
     outKeyEvent = op.outTrigger("Key Event"),
     outJogValue = op.outNumber("Jog Value", 0),
     outJogDelta = op.outNumber("Jog Delta", 0),
     outJogTurned = op.outTrigger("Jog Turned"),
     outBatteryLevel = op.outNumber("Battery Level", 0),
-    outCharging = op.outBool("Charging", false);
+    outCharging = op.outBoolNum("Charging", false);
 
 op.setPortGroup("Controls", [inActive, inRequestDevice]);
+op.setPortGroup("LEDs & Modes", [inLedsObj, inButtonLeds, inJogLeds, inJogMode, outLedsState]);
 op.setPortGroup("Settings", [inDeviceIndex]);
+op.setPortGroup("Status", [outStatus, outIsConnected, outEvent]);
+op.setPortGroup("Keys", [outKeyEvent, outLastKey, outLastKeyPressed, outKeysPressed, outKeyNames]);
+op.setPortGroup("Jog Wheel", [outJogTurned, outJogValue, outJogDelta]);
+op.setPortGroup("Battery", [outBatteryLevel, outCharging]);
 
-let activeDevice = null;
+let activeDevices = [];
 let isConnected = false;
 let accumulatedJogValue = 0;
 let prevJog = -1;
@@ -77,6 +87,38 @@ const KEY_NAMES = {
     0x3a: "CAM8",
     0x3b: "CAM9",
     0x3c: "STOP_PLAY"
+};
+
+const LED_MAP = {
+    "CLOSE_UP": 1 << 0,
+    "CUT": 1 << 1,
+    "DIS": 1 << 2,
+    "SMOOTH_CUT": 1 << 3,
+    "TRANS": 1 << 4,
+    "SNAP": 1 << 5,
+    "CAM7": 1 << 6,
+    "CAM8": 1 << 7,
+    "CAM9": 1 << 8,
+    "LIVE_OVERWRITE": 1 << 9,
+    "CAM4": 1 << 10,
+    "CAM5": 1 << 11,
+    "CAM6": 1 << 12,
+    "VIDEO_ONLY": 1 << 13,
+    "CAM1": 1 << 14,
+    "CAM2": 1 << 15,
+    "CAM3": 1 << 16,
+    "AUDIO_ONLY": 1 << 17
+};
+
+const LED_ALIASES = {
+    "SMTH_CUT": LED_MAP.SMOOTH_CUT,
+    "LIVE_OWR": LED_MAP.LIVE_OVERWRITE
+};
+
+const JOG_LED_MAP = {
+    "JOG": 1 << 0,
+    "SHTL": 1 << 1,
+    "SCRL": 1 << 2
 };
 
 const BMD_FILTERS = [
@@ -183,13 +225,107 @@ async function authenticateDevice(dev) {
     }
 }
 
+async function setLeds(bitfield) {
+    const report = new Uint8Array([
+        bitfield & 0xff,
+        (bitfield >> 8) & 0xff,
+        (bitfield >> 16) & 0xff,
+        (bitfield >> 24) & 0xff
+    ]);
+    for (const dev of activeDevices) {
+        if (!dev.opened) continue;
+        try {
+            await dev.sendReport(2, report);
+        } catch (e) {}
+    }
+}
+
+async function setJogLeds(bitfield) {
+    const report = new Uint8Array([bitfield & 0xff]);
+    for (const dev of activeDevices) {
+        if (!dev.opened) continue;
+        try {
+            await dev.sendReport(4, report);
+        } catch (e) {}
+    }
+}
+
+async function setJogMode(mode) {
+    const report = new Uint8Array([mode & 0xff, 0, 0, 0, 0, 0xff]);
+    for (const dev of activeDevices) {
+        if (!dev.opened) continue;
+        try {
+            await dev.sendReport(3, report);
+        } catch (e) {}
+    }
+}
+
+function buildLedsStateObject(buttonMask, jogMask) {
+    const state = {};
+    for (const [name, bit] of Object.entries(LED_MAP)) {
+        state[name] = Boolean(buttonMask & bit);
+    }
+    for (const [name, bit] of Object.entries(JOG_LED_MAP)) {
+        state[name] = Boolean(jogMask & bit);
+    }
+    return state;
+}
+
+function resolveLedMasks() {
+    let buttonMask = Number(inButtonLeds.get()) || 0;
+    let jogMask = Number(inJogLeds.get()) || 0;
+
+    const obj = inLedsObj.get();
+    if (Array.isArray(obj)) {
+        for (const item of obj) {
+            if (typeof item === "string") {
+                const key = item.trim().toUpperCase();
+                const btnBit = LED_MAP[key] !== undefined ? LED_MAP[key] : LED_ALIASES[key];
+                if (btnBit !== undefined) buttonMask |= btnBit;
+                if (JOG_LED_MAP[key] !== undefined) jogMask |= JOG_LED_MAP[key];
+            }
+        }
+    } else if (obj && typeof obj === "object") {
+        for (const [rawKey, v] of Object.entries(obj)) {
+            const k = rawKey.trim().toUpperCase();
+            const isOn = Boolean(v);
+            const btnBit = LED_MAP[k] !== undefined ? LED_MAP[k] : LED_ALIASES[k];
+            if (btnBit !== undefined) {
+                if (isOn) buttonMask |= btnBit;
+                else buttonMask &= ~btnBit;
+            }
+            if (JOG_LED_MAP[k] !== undefined) {
+                if (isOn) jogMask |= JOG_LED_MAP[k];
+                else jogMask &= ~JOG_LED_MAP[k];
+            }
+        }
+    }
+
+    return { buttonMask, jogMask };
+}
+
+function syncControls() {
+    const { buttonMask, jogMask } = resolveLedMasks();
+    outLedsState.set(buildLedsStateObject(buttonMask, jogMask));
+
+    if (!isConnected || activeDevices.length === 0) return;
+
+    try {
+        setLeds(buttonMask);
+        setJogLeds(jogMask);
+        setJogMode(inJogMode.get());
+    } catch (e) {
+        op.logWarn("[WebHid.BmdSpeedEditor] Failed updating LEDs / Jog Mode: " + e.message);
+    }
+}
+
 function handleInputReport(event) {
-    if (!activeDevice) return;
+    if (activeDevices.length === 0) return;
     const { reportId, data } = event;
     const report = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
 
-    const rId = reportId > 0 ? reportId : report[0];
-    const payload = (reportId === 0 && report[0] === rId) ? report.subarray(1) : report;
+    const rId = reportId > 0 ? reportId : (report.length > 0 ? report[0] : 0);
+    const payload = (reportId === 0 && report.length > 0 && report[0] === rId) ? report.subarray(1) : report;
 
     // Report ID 4: Key report
     if (rId === 4) {
@@ -201,7 +337,7 @@ function handleInputReport(event) {
 
         for (const k of currentKeys) {
             if (!prevKeys.includes(k)) {
-                outLastKey.set(KEY_NAMES[k] || "KEY_" + k);
+                outLastKey.set(KEY_NAMES[k] || "KEY_0x" + k.toString(16));
                 outLastKeyPressed.set(true);
                 outKeyEvent.trigger();
                 outEvent.trigger();
@@ -209,7 +345,7 @@ function handleInputReport(event) {
         }
         for (const k of prevKeys) {
             if (!currentKeys.includes(k)) {
-                outLastKey.set(KEY_NAMES[k] || "KEY_" + k);
+                outLastKey.set(KEY_NAMES[k] || "KEY_0x" + k.toString(16));
                 outLastKeyPressed.set(false);
                 outKeyEvent.trigger();
                 outEvent.trigger();
@@ -218,43 +354,47 @@ function handleInputReport(event) {
 
         prevKeys = currentKeys;
         outKeysPressed.set(currentKeys);
-        outKeyNames.set(currentKeys.map(k => KEY_NAMES[k] || "KEY_" + k));
+        outKeyNames.set(currentKeys.map(k => KEY_NAMES[k] || "KEY_0x" + k.toString(16)));
+        outEvent.trigger();
         return;
     }
 
     // Report ID 3: Jog wheel report (5 bytes: mode byte + int32 value/delta)
-    if (rId === 3 || report[0] === 3) {
-        const jData = (rId === 3 && report[0] !== 3) ? report : report.subarray(1);
-        if (jData.length >= 5) {
-            const jogMode = jData[0];
-            const rawJv = jData[1] | (jData[2] << 8) | (jData[3] << 16) | (jData[4] << 24);
+    if (rId === 3) {
+        if (payload.length >= 5) {
+            const jogMode = payload[0];
+            const rawJv = payload[1] | (payload[2] << 8) | (payload[3] << 16) | (payload[4] << 24);
             const jv = rawJv | 0;
 
             const isRelative = (jogMode === 0 || jogMode === 2);
             let delta = 0;
+            let finalValue = 0;
             if (isRelative) {
                 delta = jv;
+                accumulatedJogValue += delta;
+                finalValue = accumulatedJogValue;
             } else {
                 if (hasPrevJog) delta = jv - prevJog;
                 prevJog = jv;
                 hasPrevJog = true;
+                finalValue = jv;
             }
 
-            if (delta !== 0) {
-                accumulatedJogValue += delta;
-                outJogDelta.set(delta);
-                outJogValue.set(accumulatedJogValue);
-                outJogTurned.trigger();
-                outEvent.trigger();
-            }
+            outJogDelta.set(delta);
+            outJogValue.set(finalValue);
+            outJogTurned.trigger();
+            outEvent.trigger();
             return;
         }
     }
 
     // Report ID 7: Battery status report
     if (rId === 7 && payload.length >= 2) {
-        outBatteryLevel.set(payload[0]);
-        outCharging.set(payload[1] !== 0);
+        const charging = payload[0] !== 0;
+        const level = payload[1];
+        outBatteryLevel.set(level);
+        outCharging.set(charging);
+        outEvent.trigger();
         return;
     }
 }
@@ -263,10 +403,11 @@ let authKeepaliveInterval = null;
 
 function startAuthKeepalive() {
     stopAuthKeepalive();
-    // Re-authenticate every 5 minutes (300,000 ms), matching C++ 500-second timer
     authKeepaliveInterval = setInterval(async () => {
-        if (activeDevice && activeDevice.opened) {
-            await authenticateDevice(activeDevice);
+        for (const dev of activeDevices) {
+            if (dev && dev.opened) {
+                await authenticateDevice(dev);
+            }
         }
     }, 300000);
 }
@@ -276,14 +417,6 @@ function stopAuthKeepalive() {
         clearInterval(authKeepaliveInterval);
         authKeepaliveInterval = null;
     }
-}
-
-function isSpeedEditorControlInterface(d) {
-    if (!d.collections || d.collections.length === 0) return true;
-    const hasVendorPage = d.collections.some(c => c.usagePage >= 0xff00);
-    if (hasVendorPage) return true;
-    const isSystemKeyboard = d.collections.every(c => c.usagePage === 0x0001 || c.usagePage === 0x000c);
-    return !isSystemKeyboard;
 }
 
 async function connectDevice() {
@@ -304,41 +437,34 @@ async function connectDevice() {
             return;
         }
 
-        const controlDevs = bmdDevices.filter(isSpeedEditorControlInterface);
-        const candidates = controlDevs.length > 0 ? controlDevs : bmdDevices;
-
         outStatus.set("Connecting...");
 
-        let activeDev = null;
-        for (const dev of candidates) {
+        const openedDevs = [];
+        for (const dev of bmdDevices) {
             try {
                 if (!dev.opened) await dev.open();
-                const ok = await authenticateDevice(dev);
-                if (ok) {
-                    activeDev = dev;
-                    break;
-                }
-                await dev.close();
+                await authenticateDevice(dev);
+                dev.addEventListener("inputreport", handleInputReport);
+                openedDevs.push(dev);
             } catch (openErr) {
-                op.logWarn("[WebHid.BmdSpeedEditor] Could not open candidate interface: " + openErr.message);
-                try { await dev.close(); } catch (_) {}
+                op.logWarn("[WebHid.BmdSpeedEditor] Could not open interface: " + openErr.message);
             }
         }
 
-        if (!activeDev) {
-            outStatus.set("Authentication Failed");
+        if (openedDevs.length === 0) {
+            outStatus.set("Connection Failed: could not open interfaces");
             await disconnectDevice();
             return;
         }
 
-        activeDevice = activeDev;
-        activeDevice.addEventListener("inputreport", handleInputReport);
+        activeDevices = openedDevs;
         startAuthKeepalive();
 
         isConnected = true;
         outIsConnected.set(true);
-        const modelName = activeDevice.productName || "DaVinci Resolve Speed Editor";
+        const modelName = activeDevices[0].productName || "DaVinci Resolve Speed Editor";
         outStatus.set("Connected to " + modelName);
+        syncControls();
     } catch (e) {
         outStatus.set("Connection Failed: " + e.message);
         await disconnectDevice();
@@ -347,16 +473,20 @@ async function connectDevice() {
 
 async function disconnectDevice() {
     stopAuthKeepalive();
-    if (activeDevice) {
+    for (const dev of activeDevices) {
         try {
-            activeDevice.removeEventListener("inputreport", handleInputReport);
-            if (activeDevice.opened) {
-                await activeDevice.close();
+            dev.removeEventListener("inputreport", handleInputReport);
+            if (dev.opened) {
+                await dev.close();
             }
         } catch (e) {}
     }
-    activeDevice = null;
+    activeDevices = [];
     isConnected = false;
+    prevJog = -1;
+    hasPrevJog = false;
+    accumulatedJogValue = 0;
+    prevKeys = [];
     outIsConnected.set(false);
     outStatus.set("Stopped");
 }
@@ -378,8 +508,16 @@ inActive.onChange = () => {
     else disconnectDevice();
 };
 
+inButtonLeds.onChange = syncControls;
+inJogLeds.onChange = syncControls;
+inJogMode.onChange = syncControls;
+inLedsObj.onChange = syncControls;
+
 inDeviceIndex.onChange = () => {
     if (inActive.get()) connectDevice();
 };
 
 op.onDelete = disconnectDevice;
+
+// Initialize LEDs State Out immediately with default (all false) or current input state
+syncControls();

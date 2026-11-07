@@ -16,20 +16,21 @@ const
 
     outEvent = op.outTrigger("On Event"),
     outStatus = op.outString("Status", "Stopped"),
-    outRunning = op.outBool("Running", false),
+    outRunning = op.outBoolNum("Running", false),
+    outLedsState = op.outObject("LEDs State Out"),
     outKeysPressed = op.outArray("Keys Pressed"),
     outKeyNames = op.outArray("Key Names"),
     outLastKey = op.outString("Last Key", ""),
-    outLastKeyPressed = op.outBool("Last Key Pressed", false),
+    outLastKeyPressed = op.outBoolNum("Last Key Pressed", false),
     outKeyEvent = op.outTrigger("Key Event"),
     outJogValue = op.outNumber("Jog Value", 0),
     outJogDelta = op.outNumber("Jog Delta", 0),
     outJogTurned = op.outTrigger("Jog Turned"),
     outBatteryLevel = op.outNumber("Battery Level", 0),
-    outCharging = op.outBool("Charging", false);
+    outCharging = op.outBoolNum("Charging", false);
 
 op.setPortGroup("Controls", [inActive]);
-op.setPortGroup("LEDs & Modes", [inLedsObj, inButtonLeds, inJogLeds, inJogMode]);
+op.setPortGroup("LEDs & Modes", [inLedsObj, inButtonLeds, inJogLeds, inJogMode, outLedsState]);
 op.setPortGroup("Status", [outStatus, outRunning, outEvent]);
 op.setPortGroup("Keys", [outKeyEvent, outLastKey, outLastKeyPressed, outKeysPressed, outKeyNames]);
 op.setPortGroup("Jog Wheel", [outJogTurned, outJogValue, outJogDelta]);
@@ -112,12 +113,44 @@ const JOG_LED_MAP = {
 };
 
 function getAddonPath() {
-    const relative = "ops/Ops.Extension.Standalone.MacOs.Hid.BmdSpeedEditor/bmd_speed_editor.node";
+    const addonRelPath = "ops/Ops.Extension.Standalone.MacOs.Hid.BmdSpeedEditor/bmd_speed_editor.node";
+    const buildRelPath = "ops/Ops.Extension.Standalone.MacOs.Hid.BmdSpeedEditor/build/Release/bmd_speed_editor.node";
+    const candidatePaths = [
+        addonRelPath,
+        buildRelPath
+    ];
+
+    if (op.patch && op.patch.config && op.patch.config.prefixAssetPath) {
+        candidatePaths.push(path.join(op.patch.config.prefixAssetPath, addonRelPath));
+        candidatePaths.push(path.join(op.patch.config.prefixAssetPath, buildRelPath));
+    }
+    if (typeof __dirname !== "undefined" && __dirname) {
+        candidatePaths.push(path.join(__dirname, "bmd_speed_editor.node"));
+        candidatePaths.push(path.join(__dirname, "build/Release/bmd_speed_editor.node"));
+        candidatePaths.push(path.join(__dirname, addonRelPath));
+    }
+    if (typeof process !== "undefined" && typeof process.cwd === "function") {
+        candidatePaths.push(path.join(process.cwd(), addonRelPath));
+        candidatePaths.push(path.join(process.cwd(), buildRelPath));
+    }
+    candidatePaths.push(path.resolve(addonRelPath));
+
+    for (let candidate of candidatePaths) {
+        if (!candidate) continue;
+        let resolved = candidate;
+        if (op.patch && typeof op.patch.filePath === "function") {
+            resolved = op.patch.filePath(candidate);
+        }
+        if (fs.existsSync(resolved)) {
+            return resolved;
+        }
+    }
+
     if (op.patch && typeof op.patch.filePath === "function") {
-        return op.patch.filePath(relative);
+        return op.patch.filePath(addonRelPath);
     }
     const prefix = (op.patch && op.patch.config && op.patch.config.prefixAssetPath) || "";
-    return path.join(prefix, relative);
+    return path.join(prefix, addonRelPath);
 }
 
 function initAddon() {
@@ -184,25 +217,53 @@ function handleAddonEvent(jsonStr) {
     }
 }
 
-function syncControls() {
-    if (!addon || !initialized) return;
+function buildLedsStateObject(buttonMask, jogMask) {
+    const state = {};
+    for (const [name, bit] of Object.entries(LED_MAP)) {
+        state[name] = Boolean(buttonMask & bit);
+    }
+    for (const [name, bit] of Object.entries(JOG_LED_MAP)) {
+        state[name] = Boolean(jogMask & bit);
+    }
+    return state;
+}
 
-    let buttonMask = inButtonLeds.get();
-    let jogMask = inJogLeds.get();
+function resolveLedMasks() {
+    let buttonMask = Number(inButtonLeds.get()) || 0;
+    let jogMask = Number(inJogLeds.get()) || 0;
 
     const obj = inLedsObj.get();
-    if (obj && typeof obj === "object") {
-        for (const [k, v] of Object.entries(obj)) {
+    if (Array.isArray(obj)) {
+        for (const item of obj) {
+            if (typeof item === "string") {
+                const key = item.trim().toUpperCase();
+                if (LED_MAP[key] !== undefined) buttonMask |= LED_MAP[key];
+                if (JOG_LED_MAP[key] !== undefined) jogMask |= JOG_LED_MAP[key];
+            }
+        }
+    } else if (obj && typeof obj === "object") {
+        for (const [rawKey, v] of Object.entries(obj)) {
+            const k = rawKey.trim().toUpperCase();
+            const isOn = Boolean(v);
             if (LED_MAP[k] !== undefined) {
-                if (v) buttonMask |= LED_MAP[k];
+                if (isOn) buttonMask |= LED_MAP[k];
                 else buttonMask &= ~LED_MAP[k];
             }
             if (JOG_LED_MAP[k] !== undefined) {
-                if (v) jogMask |= JOG_LED_MAP[k];
+                if (isOn) jogMask |= JOG_LED_MAP[k];
                 else jogMask &= ~JOG_LED_MAP[k];
             }
         }
     }
+
+    return { buttonMask, jogMask };
+}
+
+function syncControls() {
+    const { buttonMask, jogMask } = resolveLedMasks();
+    outLedsState.set(buildLedsStateObject(buttonMask, jogMask));
+
+    if (!addon || !initialized) return;
 
     try {
         addon.setLeds(buttonMask);
@@ -253,5 +314,18 @@ inLedsObj.onChange = syncControls;
 op.onDelete = () => {
     if (addon) {
         try { addon.stop(); } catch (e) {}
+        initialized = false;
     }
 };
+
+// Initialize LEDs State Out immediately with default (all false) or current input state
+syncControls();
+
+// Initial startup if Active is already true when patch loads
+if (inActive.get()) {
+    setTimeout(() => {
+        if (inActive.get() && !initialized) {
+            ensureInitialized();
+        }
+    }, 150);
+}

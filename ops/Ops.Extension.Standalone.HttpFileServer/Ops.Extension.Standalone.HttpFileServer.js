@@ -52,7 +52,32 @@ let server = null;
 const sseClientsByRoute = new Map();
 let wss = null;
 const wsClients = new Set();
+let activeSenderWs = null;
+let wsBroadcastedInTrigger = false;
 let lastApiRes = null;
+
+function broadcastExcept(payload, excludeSocket = null)
+{
+    if (!wss || wsClients.size === 0) return;
+
+    const serialized = typeof payload === "string" ? payload : JSON.stringify(payload);
+    const openState = WebSocket.OPEN !== undefined ? WebSocket.OPEN : 1;
+
+    wsClients.forEach((client) =>
+    {
+        if (client !== excludeSocket && client.readyState === openState)
+        {
+            try
+            {
+                client.send(serialized);
+            }
+            catch (e)
+            {
+                op.logWarn("[HttpFileServer WS] Failed to send to client:", e);
+            }
+        }
+    });
+}
 
 const mimeTypes = {
     ".html": "text/html",
@@ -249,6 +274,7 @@ function start()
                     wss = new WebSocketServer({ "server": server });
                     server.wss = wss;
                     server.wsClients = wsClients;
+                    server.broadcastExcept = broadcastExcept;
                     
                     wss.on("connection", (ws) =>
                     {
@@ -290,7 +316,37 @@ function start()
                             
                             outWsChannel.set(channelName);
                             outWsMessageData.set(parsed);
-                            outWsMessage.trigger();
+
+                            activeSenderWs = ws;
+                            wsBroadcastedInTrigger = false;
+                            try
+                            {
+                                outWsMessage.trigger();
+                            }
+                            finally
+                            {
+                                activeSenderWs = null;
+                            }
+
+                            // Server-Side Exclusion (broadcastExcept): relay parameter mutations to all other clients
+                            // unless already broadcasted by a patch trigger or delegated to a shared WsPubSub instance
+                            const hasSharedPubSub = wss && typeof wss.listenerCount === "function" && wss.listenerCount("connection") > 1;
+                            const isInternalSignal = parsed && typeof parsed === "object" && (
+                                parsed.type === "call" ||
+                                parsed.type === "response" ||
+                                parsed.type === "subscribe" ||
+                                parsed.type === "unsubscribe" ||
+                                parsed.type === "ready" ||
+                                parsed.type === "draw"
+                            );
+
+                            if (!wsBroadcastedInTrigger && !hasSharedPubSub && !isInternalSignal)
+                            {
+                                const envelope = (parsed && typeof parsed === "object" && typeof parsed.channel === "string" && parsed.data !== undefined)
+                                    ? parsed
+                                    : { "channel": channelName || inWsChannel.get() || "message", "data": parsed };
+                                broadcastExcept(envelope, ws);
+                            }
                         });
                         
                         ws.on("close", () =>
@@ -548,6 +604,7 @@ function stop()
     {
         server.wss = null;
         server.wsClients = null;
+        server.broadcastExcept = null;
         server.close();
         server = null;
         outServerInstance.set(null);
@@ -582,21 +639,8 @@ inWsTrigger.onTriggered = () =>
         "data": data
     });
     
-    wsClients.forEach((client) =>
-    {
-        const openState = WebSocket.OPEN !== undefined ? WebSocket.OPEN : 1;
-        if (client.readyState === openState)
-        {
-            try
-            {
-                client.send(payload);
-            }
-            catch (e)
-            {
-                op.logWarn("[HttpFileServer WS] Failed to send to client:", e);
-            }
-        }
-    });
+    wsBroadcastedInTrigger = true;
+    broadcastExcept(payload, activeSenderWs);
 };
 
 function restart()

@@ -1,0 +1,143 @@
+{
+    "id": "b4179e4c-7a2c-4f3b-9e8a-6d12f0c5e891",
+    "created": 1794023400000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for dynamic visualization client registration and parameter synchronization",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1794023400000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 1,
+                "name": "Process Message"
+            },
+            {
+                "type": 2,
+                "name": "WS Message Data"
+            },
+            {
+                "type": 2,
+                "name": "Server Instance"
+            },
+            {
+                "type": 1,
+                "name": "Discover Clients"
+            },
+            {
+                "type": 1,
+                "name": "Clear Registry"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Client Registered"
+            },
+            {
+                "type": 1,
+                "name": "On Parameter Update"
+            },
+            {
+                "type": 1,
+                "name": "Send WS Trigger"
+            },
+            {
+                "type": 2,
+                "name": "WS Out Data"
+            },
+            {
+                "type": 2,
+                "name": "Registered Clients"
+            },
+            {
+                "type": 3,
+                "name": "Client IDs"
+            },
+            {
+                "type": 0,
+                "name": "Client Count",
+                "subType": "number"
+            },
+            {
+                "type": 5,
+                "name": "Last Client ID"
+            },
+            {
+                "type": 2,
+                "name": "Last Parameter Update"
+            }
+        ]
+    },
+    "coreLibs": [
+        "standalone_electron"
+    ],
+    "summary": "Registers visualization client manifests (client:register) and synchronizes editable parameters with the Tweakpane Settings Dashboard.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Process Message",
+                "text": "Trigger to process incoming WS Message Data from HttpFileServer."
+            },
+            {
+                "name": "WS Message Data",
+                "text": "Incoming WebSocket message payload object."
+            },
+            {
+                "name": "Server Instance",
+                "text": "Optional Server Instance from HttpFileServer for automatic broadcastExcept and client discovery."
+            },
+            {
+                "name": "Discover Clients",
+                "text": "Broadcasts a client:discover request so active visualization pages re-send their registration manifests."
+            },
+            {
+                "name": "Clear Registry",
+                "text": "Clears all registered client manifests and notifies connected dashboards."
+            },
+            {
+                "name": "On Client Registered",
+                "text": "Fires whenever a visualization client registers or updates its manifest."
+            },
+            {
+                "name": "On Parameter Update",
+                "text": "Fires when a parameter value is modified by a dashboard controller."
+            },
+            {
+                "name": "Send WS Trigger",
+                "text": "Fires when WS Out Data is ready to be broadcasted via HttpFileServer."
+            },
+            {
+                "name": "WS Out Data",
+                "text": "Outbound WebSocket payload (registry:sync, client:update, or client:discover)."
+            },
+            {
+                "name": "Registered Clients",
+                "text": "Dictionary of all registered client manifests keyed by clientId."
+            },
+            {
+                "name": "Client IDs",
+                "text": "Array of currently registered clientId strings."
+            },
+            {
+                "name": "Client Count",
+                "text": "Total number of registered visualization clients."
+            },
+            {
+                "name": "Last Client ID",
+                "text": "The clientId of the most recently registered or updated client."
+            },
+            {
+                "name": "Last Parameter Update",
+                "text": "Details of the most recent parameter change ({ clientId, key, value, parameters, originId })."
+            }
+        ]
+    },
+    "isReleased": true
+}
+

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualization Settings Dashboard</title>
+    <script src="lib/tweakpane.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0b0e17;
+            --bg-panel: #131826;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --text-primary: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .dashboard-shell {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+
+        .header-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .status-pill.connected {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .btn {
+            background: rgba(99, 102, 241, 0.15);
+            color: #e0e7ff;
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .btn:hover {
+            background: rgba(99, 102, 241, 0.28);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 860px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pane-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .pane-card-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .empty-state {
+            padding: 36px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border: 1px dashed var(--border-subtle);
+            border-radius: 8px;
+        }
+
+        /* Make Tweakpane fill its container cleanly */
+        .tp-dfwv {
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-shell">
+        <header class="dashboard-header">
+            <div class="header-title-group">
+                <div class="header-title">Visualization Controller Dashboard</div>
+                <div class="header-subtitle" id="origin-label">Origin ID: initializing...</div>
+            </div>
+            <div class="header-controls">
+                <button class="btn" id="discover-btn" title="Request active visualization clients to re-send their manifests">
+                    Discover Clients
+                </button>
+                <div class="status-pill" id="ws-status-pill">
+                    <span class="status-dot"></span>
+                    <span id="ws-status-text">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Left Column: 2D Coordinate Pad & Sparklines -->
+            <section class="pane-card">
+                <div class="pane-card-title">
+                    <span>Live Input Telemetry</span>
+                    <span id="telemetry-fps">2D &amp; Sparklines</span>
+                </div>
+                <div id="telemetry-pane-container"></div>
+            </section>
+
+            <!-- Right Column: Dynamic Registered Client Tabs -->
+            <section class="pane-card">
+                <div class="pane-card-title">
+                    <span>Registered Visualization Clients</span>
+                    <span id="client-count-badge">0 Clients</span>
+                </div>
+                <div id="clients-empty-state" class="empty-state">
+                    Waiting for visualization clients to dispatch <code>client:register</code> manifests...
+                </div>
+                <div id="clients-pane-container"></div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CLIENT-INSTANCE ORIGIN ID (Feedback Loop Prevention) ---
+        const originId = 'dashboard-' + (
+            (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+                ? crypto.randomUUID().slice(0, 8)
+                : Math.random().toString(36).substring(2, 10)
+        );
+        document.getElementById('origin-label').textContent = `Origin ID: ${originId}`;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let wsInstance = null;
+        let pubChannel = null;
+        let subChannel = null;
+
+        // Guard flag to prevent programmatic Tweakpane updates from echoing back over WebSocket
+        let isRemoteSync = false;
+        let isTelemetrySync = false;
+
+        // --- 2. TELEMETRY PANE (Point 2D Pad & Sparklines) ---
+        const telemetryState = {
+            cursor: { x: 0.5, y: 0.5 },
+            x: 0.5,
+            y: 0.5,
+            scrollDy: 0,
+            lastButton: 'None'
+        };
+
+        const telemetryPane = new Tweakpane.Pane({
+            container: document.getElementById('telemetry-pane-container'),
+            title: 'Coordinate Monitor'
+        });
+
+        const padFolder = telemetryPane.addFolder({
+            title: 'Point 2D Coordinate Pad',
+            expanded: true
+        });
+
+        const cursorPadInput = padFolder.addInput(telemetryState, 'cursor', {
+            label: 'Position',
+            picker: 'inline',
+            expanded: true,
+            x: { min: 0, max: 1, step: 0.001 },
+            y: { min: 0, max: 1, step: 0.001 }
+        });
+
+        // Allow dragging the 2D pad in the dashboard to also broadcast normalized mouse_move events
+        cursorPadInput.on('change', (ev) => {
+            if (isTelemetrySync) return;
+            telemetryState.x = Number(ev.value.x) || 0;
+            telemetryState.y = Number(ev.value.y) || 0;
+            sendPayload({
+                type: 'mouse_move',
+                originId: originId,
+                x: telemetryState.x,
+                y: telemetryState.y,
+                normalized: true
+            });
+        });
+
+        const sparklineFolder = telemetryPane.addFolder({
+            title: 'Real-Time Sparklines',
+            expanded: true
+        });
+
+        sparklineFolder.addMonitor(telemetryState, 'x', {
+            label: 'Mouse X',
+            view: 'graph',
+            min: 0,
+            max: 1,
+            interval: 50
+        });
+
+        sparklineFolder.addMonitor(telemetryState, 'y', {
+            label: 'Mouse Y',
+            view: 'graph',
+            min: 0,
+            max: 1,
+            interval: 50
+        });
+
+        sparklineFolder.addMonitor(telemetryState, 'scrollDy', {
+            label: 'Scroll dy',
+            view: 'graph',
+            min: -25,
+            max: 25,
+            interval: 50
+        });
+
+        sparklineFolder.addMonitor(telemetryState, 'lastButton', {
+            label: 'Last Click',
+            interval: 100
+        });
+
+        // Decay scrollDy sparkline back to 0 when idle
+        let lastTelemetryScrollTime = 0;
+        setInterval(() => {
+            if (telemetryState.scrollDy !== 0 && performance.now() - lastTelemetryScrollTime > 400) {
+                telemetryState.scrollDy *= 0.8;
+                if (Math.abs(telemetryState.scrollDy) < 0.05) {
+                    telemetryState.scrollDy = 0;
+                }
+            }
+        }, 50);
+
+        // --- 3. DYNAMIC CLIENT TABS PANE ---
+        // Map of clientId -> manifest
+        const registeredClients = new Map();
+        // Map of clientId -> reactive parameter values object bound to Tweakpane inputs
+        const clientParamValues = new Map();
+        let clientsPane = null;
+        let activeTabIndex = 0;
+
+        function getStructureSignature(manifest) {
+            const paramKeys = Object.keys(manifest.parameters || {}).sort().map(k => {
+                const p = manifest.parameters[k] || {};
+                return `${k}:${p.type}:${p.min}:${p.max}:${p.step}:${p.group}`;
+            }).join('|');
+            return `${manifest.clientId}::${manifest.name}::${paramKeys}`;
+        }
+
+        function rebuildClientsPane() {
+            const emptyEl = document.getElementById('clients-empty-state');
+            const badgeEl = document.getElementById('client-count-badge');
+            const count = registeredClients.size;
+
+            badgeEl.textContent = `${count} ${count === 1 ? 'Client' : 'Clients'}`;
+
+            if (clientsPane) {
+                clientsPane.dispose();
+                clientsPane = null;
+            }
+
+            if (count === 0) {
+                emptyEl.style.display = 'block';
+                return;
+            }
+
+            emptyEl.style.display = 'none';
+
+            clientsPane = new Tweakpane.Pane({
+                container: document.getElementById('clients-pane-container'),
+                title: 'Client Parameters'
+            });
+
+            const entries = Array.from(registeredClients.entries());
+            const tabPagesConfig = entries.map(([clientId, manifest]) => ({
+                title: manifest.name ? `${manifest.name}` : clientId
+            }));
+
+            const tab = clientsPane.addTab({
+                pages: tabPagesConfig
+            });
+
+            entries.forEach(([clientId, manifest], pageIdx) => {
+                const page = tab.pages[pageIdx];
+                const paramsSchema = manifest.parameters || {};
+
+                // Initialize or update live values object for this client
+                let valuesObj = clientParamValues.get(clientId);
+                if (!valuesObj) {
+                    valuesObj = {};
+                    clientParamValues.set(clientId, valuesObj);
+                }
+
+                // Group parameters by `group`
+                const groups = new Map();
+                Object.keys(paramsSchema).forEach((paramKey) => {
+                    const spec = paramsSchema[paramKey];
+                    if (!spec || typeof spec !== 'object') return;
+
+                    valuesObj[paramKey] = spec.value;
+                    const groupName = spec.group || 'General';
+                    if (!groups.has(groupName)) {
+                        groups.set(groupName, []);
+                    }
+                    groups.get(groupName).push({ key: paramKey, spec });
+                });
+
+                // Create a folder per parameter group
+                groups.forEach((items, groupName) => {
+                    const folder = page.addFolder({
+                        title: groupName,
+                        expanded: true
+                    });
+
+                    items.forEach(({ key, spec }) => {
+                        const inputOpts = { label: spec.label || key };
+                        const pType = (spec.type || '').toLowerCase();
+
+                        if (pType === 'float' || pType === 'number' || pType === 'int' || pType === 'integer') {
+                            if (typeof spec.min === 'number') inputOpts.min = spec.min;
+                            if (typeof spec.max === 'number') inputOpts.max = spec.max;
+                            if (typeof spec.step === 'number') {
+                                inputOpts.step = spec.step;
+                            } else if (pType === 'int' || pType === 'integer') {
+                                inputOpts.step = 1;
+                            }
+                        } else if (spec.options && typeof spec.options === 'object') {
+                            inputOpts.options = spec.options;
+                        }
+
+                        // Ensure default value matches expected type
+                        if (valuesObj[key] === undefined) {
+                            if (pType === 'color') valuesObj[key] = '#ffffff';
+                            else if (pType === 'boolean' || pType === 'bool') valuesObj[key] = false;
+                            else if (pType === 'string') valuesObj[key] = '';
+                            else valuesObj[key] = 0;
+                        }
+
+                        const binding = folder.addInput(valuesObj, key, inputOpts);
+                        binding.on('change', (ev) => {
+                            if (isRemoteSync) return;
+
+                            // Update stored manifest value
+                            if (manifest.parameters && manifest.parameters[key]) {
+                                manifest.parameters[key].value = ev.value;
+                            }
+
+                            sendPayload({
+                                type: 'client:update',
+                                originId: originId,
+                                clientId: clientId,
+                                key: key,
+                                value: ev.value,
+                                parameters: { [key]: ev.value }
+                            });
+                        });
+                    });
+                });
+
+                // Subscriptions & Metadata Folder
+                const metaFolder = page.addFolder({
+                    title: 'Client Info & Subscriptions',
+                    expanded: false
+                });
+
+                const subs = manifest.subscriptions || {};
+                const metaObj = {
+                    clientId: String(manifest.clientId || clientId),
+                    clientType: String(manifest.clientType || 'unknown'),
+                    subMouse: Boolean(subs.mouse),
+                    subKeyboard: Boolean(subs.keyboard),
+                    subStateUpdates: Boolean(subs.stateUpdates)
+                };
+
+                metaFolder.addMonitor(metaObj, 'clientId', { label: 'Client ID' });
+                metaFolder.addMonitor(metaObj, 'clientType', { label: 'Type' });
+                metaFolder.addMonitor(metaObj, 'subMouse', { label: 'Sub: Mouse' });
+                metaFolder.addMonitor(metaObj, 'subKeyboard', { label: 'Sub: Keyboard' });
+                metaFolder.addMonitor(metaObj, 'subStateUpdates', { label: 'Sub: State' });
+            });
+        }
+
+        function upsertClientManifest(manifest) {
+            if (!manifest || !manifest.clientId) return;
+            const clientId = String(manifest.clientId);
+            const existing = registeredClients.get(clientId);
+
+            const prevSig = existing ? getStructureSignature(existing) : null;
+            const nextSig = getStructureSignature(manifest);
+
+            registeredClients.set(clientId, JSON.parse(JSON.stringify(manifest)));
+
+            if (prevSig !== nextSig || !clientsPane) {
+                rebuildClientsPane();
+            } else {
+                // Structure is identical, update values in-place without rebuilding tabs
+                const valuesObj = clientParamValues.get(clientId);
+                if (valuesObj && manifest.parameters) {
+                    isRemoteSync = true;
+                    try {
+                        Object.keys(manifest.parameters).forEach((k) => {
+                            if (manifest.parameters[k] && manifest.parameters[k].value !== undefined) {
+                                valuesObj[k] = manifest.parameters[k].value;
+                            }
+                        });
+                        clientsPane.refresh();
+                    } finally {
+                        isRemoteSync = false;
+                    }
+                }
+            }
+        }
+
+        function applyRemoteClientUpdate(data) {
+            const clientId = data.clientId;
+            if (!clientId || !registeredClients.has(clientId)) return;
+
+            const manifest = registeredClients.get(clientId);
+            const valuesObj = clientParamValues.get(clientId);
+            if (!valuesObj) return;
+
+            const updates = {};
+            if (data.parameters && typeof data.parameters === 'object') {
+                Object.assign(updates, data.parameters);
+            }
+            if (typeof data.key === 'string' && data.value !== undefined) {
+                updates[data.key] = data.value;
+            }
+
+            isRemoteSync = true;
+            try {
+                Object.keys(updates).forEach((k) => {
+                    valuesObj[k] = updates[k];
+                    if (manifest.parameters && manifest.parameters[k]) {
+                        manifest.parameters[k].value = updates[k];
+                    }
+                });
+                if (clientsPane) {
+                    clientsPane.refresh();
+                }
+            } finally {
+                isRemoteSync = false;
+            }
+        }
+
+        // --- 4. COMMUNICATION LAYER (WebSocket + BroadcastChannel) ---
+        if (urlParams.has('bc')) {
+            const channelName = urlParams.get('bc') || 'magicwand-sync';
+            pubChannel = new BroadcastChannel('sub-' + channelName);
+            subChannel = new BroadcastChannel('pub-' + channelName);
+            subChannel.onmessage = (event) => {
+                if (event.data) handleIncomingMessage(event.data);
+            };
+        }
+
+        function sendPayload(payload) {
+            if (pubChannel) {
+                pubChannel.postMessage(payload);
+            }
+            if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
+                wsInstance.send(JSON.stringify({
+                    channel: 'clientRegistry',
+                    data: payload
+                }));
+            }
+        }
+
+        function requestClientDiscovery() {
+            sendPayload({
+                type: 'registry:request',
+                originId: originId
+            });
+            sendPayload({
+                type: 'client:discover',
+                originId: originId
+            });
+        }
+
+        document.getElementById('discover-btn').addEventListener('click', () => {
+            requestClientDiscovery();
+        });
+
+        function handleIncomingMessage(raw) {
+            if (!raw || typeof raw !== 'object') return;
+
+            // Unwrap HttpFileServer { channel, data } envelope if present
+            const data = (raw.data && typeof raw.data === 'object' && !raw.type) ? raw.data : raw;
+            if (!data || !data.type) return;
+
+            // Ignore self-originated messages to prevent feedback loops
+            if (data.originId && data.originId === originId) return;
+
+            switch (data.type) {
+                case 'client:register':
+                    if (data.manifest) {
+                        upsertClientManifest(data.manifest);
+                    }
+                    break;
+
+                case 'registry:sync':
+                    if (data.clients && typeof data.clients === 'object') {
+                        Object.values(data.clients).forEach((manifest) => {
+                            upsertClientManifest(manifest);
+                        });
+                    }
+                    break;
+
+                case 'client:update':
+                case 'param:update':
+                    applyRemoteClientUpdate(data);
+                    break;
+
+                case 'mouse_move': {
+                    const nx = data.normalized
+                        ? Number(data.x)
+                        : (Number(data.x) / (window.innerWidth || 1920));
+                    const ny = data.normalized
+                        ? Number(data.y)
+                        : (Number(data.y) / (window.innerHeight || 1080));
+
+                    const clampedX = Math.max(0, Math.min(1, isNaN(nx) ? 0 : nx));
+                    const clampedY = Math.max(0, Math.min(1, isNaN(ny) ? 0 : ny));
+
+                    isTelemetrySync = true;
+                    try {
+                        telemetryState.x = clampedX;
+                        telemetryState.y = clampedY;
+                        telemetryState.cursor = { x: clampedX, y: clampedY };
+                        cursorPadInput.refresh();
+                    } finally {
+                        isTelemetrySync = false;
+                    }
+                    break;
+                }
+
+                case 'mouse_scroll':
+                    if (typeof data.dy === 'number') {
+                        telemetryState.scrollDy = Math.max(-25, Math.min(25, data.dy));
+                        lastTelemetryScrollTime = performance.now();
+                    }
+                    break;
+
+                case 'mouse_click':
+                    if (data.pressed) {
+                        telemetryState.lastButton = String(data.button || 'MB1');
+                    }
+                    break;
+            }
+        }
+
+        function setWsStatus(connected) {
+            const pill = document.getElementById('ws-status-pill');
+            const text = document.getElementById('ws-status-text');
+            if (connected) {
+                pill.classList.add('connected');
+                text.textContent = 'Connected';
+            } else {
+                pill.classList.remove('connected');
+                text.textContent = 'Disconnected';
+            }
+        }
+
+        function startWebSocket() {
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsHost = urlParams.get('wsHost') || window.location.host || '127.0.0.1:8080';
+            const wsUrl = `${wsProtocol}//${wsHost}`;
+
+            const ws = new WebSocket(wsUrl);
+            wsInstance = ws;
+
+            ws.onopen = () => {
+                setWsStatus(true);
+                requestClientDiscovery();
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const parsed = JSON.parse(event.data);
+                    handleIncomingMessage(parsed);
+                } catch (e) {
+                    // Ignore non-JSON messages
+                }
+            };
+
+            ws.onclose = () => {
+                setWsStatus(false);
+                setTimeout(startWebSocket, 3000);
+            };
+
+            ws.onerror = () => {
+                ws.close();
+            };
+        }
+
+        startWebSocket();
+    </script>
+</body>
+</html>
+

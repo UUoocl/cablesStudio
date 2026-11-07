@@ -10,7 +10,8 @@ const
     inKeyIndex = op.inInt("Key Index", 0),
     inTexture = op.inTexture("Texture"),
     inQuality = op.inFloat("JPEG Quality", 0.85),
-    next = op.outTrigger("Next");
+    next = op.outTrigger("Next"),
+    outLoaded = op.outTrigger("Loaded");
 
 op.setPortGroup("Target", [inConnection, inKeyIndex]);
 op.setPortGroup("Texture", [inTexture, inActive, inQuality]);
@@ -26,6 +27,7 @@ let canvasTarget = null;
 let ctxTarget = null;
 let pixelBuffer = null;
 let fbo = null;
+let isUpdating = false;
 
 function cleanup() {
     canvasTemp = null;
@@ -33,6 +35,7 @@ function cleanup() {
     canvasTarget = null;
     ctxTarget = null;
     pixelBuffer = null;
+    isUpdating = false;
     
     if (fbo) {
         try {
@@ -44,7 +47,7 @@ function cleanup() {
 
 op.onDelete = cleanup;
 
-inRender.onTriggered = () => {
+inRender.onTriggered = async () => {
     next.trigger();
     
     if (!inActive.get()) return;
@@ -53,6 +56,7 @@ inRender.onTriggered = () => {
     const tex = inTexture.get();
     
     if (!conn || !tex || !tex.tex) return;
+    if (isUpdating) return;
     
     const gl = cgl.gl;
     const w = tex.width;
@@ -108,9 +112,20 @@ inRender.onTriggered = () => {
     const base64 = dataUrl.split(",")[1];
     
     if (base64) {
-        conn.send("set_key_image", {
-            "key": inKeyIndex.get(),
-            "image": base64
-        });
+        isUpdating = true;
+        try {
+            const p = conn.send("set_key_image", {
+                "key": inKeyIndex.get(),
+                "image": base64
+            });
+            if (p && typeof p.then === "function") {
+                await p;
+            }
+            outLoaded.trigger();
+        } catch (e) {
+            op.logWarn("[WebHid.StreamDeckKeyTexture] Error sending key texture: " + (e ? e.message : e));
+        } finally {
+            isUpdating = false;
+        }
     }
 };

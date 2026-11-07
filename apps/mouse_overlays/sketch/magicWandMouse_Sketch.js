@@ -68,14 +68,16 @@ function mouseDragged() {
  */
 function mousePressed(mouseButton) {
   let num = random(20, 50);
-  let fillColor = [255, 0, 255]; //default 
-  //= (window.magicWandConfig && window.magicWandConfig.colorClick) || [255, 0, 255];
+  const configuredClickColor = (window.magicWandConfig && Array.isArray(window.magicWandConfig.colorClick))
+    ? window.magicWandConfig.colorClick
+    : [255, 0, 255];
+  let fillColor = configuredClickColor;
   switch (mouseButton) {
     case ('MB1'):
-      fillColor = [255, 0, 255]
+      fillColor = configuredClickColor;
       break;
     case ('MB2'):
-      fillColor = [129, 210, 235]
+      fillColor = [129, 210, 235];
       break;
   }
   for (let i = 0; i < num; i++) {

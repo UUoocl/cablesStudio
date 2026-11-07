@@ -32,7 +32,12 @@ WebSocket Usage:
   - When a message is received, the **On WS Message** port triggers, updating the **WS Message Channel** and **WS Message Data** outputs.
 - **Sending Messages**:
   - Set the desired channel in **WS Channel** and the payload in **WS Data**.
-  - Trigger **Send WS Message** to broadcast to all connected WebSocket clients. The payload will be wrapped in the same JSON envelope structure: `{"channel": "WS Channel value", "data": "WS Data value"}`.
+  - Trigger **Send WS Message** to broadcast to connected WebSocket clients. The payload will be wrapped in the same JSON envelope structure: `{"channel": "WS Channel value", "data": "WS Data value"}`.
+- **Server-Side Exclusion (`broadcastExcept`)**:
+  - Prevents feedback loops when broadcasting parameter mutations across clients.
+  - Incoming client parameter mutations are relayed to all active WebSocket clients *except* the originating socket.
+  - If **On WS Message** is wired into **Send WS Message** within a patch, the server tracks the active sender socket during the synchronous trigger chain and automatically excludes that socket from the broadcast.
+  - Downstream operators sharing the **Server Instance** can also invoke `server.broadcastExcept(payload, excludeSocket)` directly.
 - **Active Connections**: The **WS Active Clients** port displays the number of currently connected WebSocket clients.
 
 API Usage:

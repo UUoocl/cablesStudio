@@ -53,6 +53,11 @@
                 "group": "Status"
             },
             {
+                "type": 2,
+                "name": "LEDs State Out",
+                "group": "LEDs & Modes"
+            },
+            {
                 "type": 3,
                 "name": "Keys Pressed",
                 "group": "Keys"

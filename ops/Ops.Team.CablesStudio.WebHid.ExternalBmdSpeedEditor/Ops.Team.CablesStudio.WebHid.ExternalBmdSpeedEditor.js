@@ -17,21 +17,26 @@ const
     outEvent = op.outTrigger("On Event"),
     outStatus = op.outString("Status", "Stopped"),
     outWindowStatus = op.outString("Window Status", "Closed"),
-    outIsConnected = op.outBool("Is Connected", false),
+    outIsConnected = op.outBoolNum("Is Connected", false),
+    outLedsState = op.outObject("LEDs State Out"),
     outKeysPressed = op.outArray("Keys Pressed"),
     outKeyNames = op.outArray("Key Names"),
     outLastKey = op.outString("Last Key", ""),
-    outLastKeyPressed = op.outBool("Last Key Pressed", false),
+    outLastKeyPressed = op.outBoolNum("Last Key Pressed", false),
     outKeyEvent = op.outTrigger("Key Event"),
     outJogValue = op.outNumber("Jog Value", 0),
     outJogDelta = op.outNumber("Jog Delta", 0),
     outJogTurned = op.outTrigger("Jog Turned"),
     outBatteryLevel = op.outNumber("Battery Level", 0),
-    outCharging = op.outBool("Charging", false);
+    outCharging = op.outBoolNum("Charging", false);
 
 op.setPortGroup("Controls", [inActive, inOpenWindow]);
-op.setPortGroup("LEDs & Mode", [inLedsObj, inButtonLeds, inJogLeds, inJogMode]);
+op.setPortGroup("LEDs & Modes", [inLedsObj, inButtonLeds, inJogLeds, inJogMode, outLedsState]);
 op.setPortGroup("Settings", [inDeviceIndex]);
+op.setPortGroup("Status", [outStatus, outWindowStatus, outIsConnected, outEvent]);
+op.setPortGroup("Keys", [outKeyEvent, outLastKey, outLastKeyPressed, outKeysPressed, outKeyNames]);
+op.setPortGroup("Jog Wheel", [outJogTurned, outJogValue, outJogDelta]);
+op.setPortGroup("Battery", [outBatteryLevel, outCharging]);
 
 let childWindow = null;
 let windowPollInterval = null;
@@ -41,14 +46,12 @@ const LED_MAP = {
     "CUT": 1 << 1,
     "DIS": 1 << 2,
     "SMOOTH_CUT": 1 << 3,
-    "SMTH_CUT": 1 << 3,
     "TRANS": 1 << 4,
     "SNAP": 1 << 5,
     "CAM7": 1 << 6,
     "CAM8": 1 << 7,
     "CAM9": 1 << 8,
     "LIVE_OVERWRITE": 1 << 9,
-    "LIVE_OWR": 1 << 9,
     "CAM4": 1 << 10,
     "CAM5": 1 << 11,
     "CAM6": 1 << 12,
@@ -57,6 +60,11 @@ const LED_MAP = {
     "CAM2": 1 << 15,
     "CAM3": 1 << 16,
     "AUDIO_ONLY": 1 << 17
+};
+
+const LED_ALIASES = {
+    "SMTH_CUT": LED_MAP.SMOOTH_CUT,
+    "LIVE_OWR": LED_MAP.LIVE_OVERWRITE
 };
 
 const JOG_LED_MAP = {
@@ -265,12 +273,12 @@ const POPUP_HTML = `<!DOCTYPE html>
                 const bridge = window.opener && window.opener.speedEditorOpBridge_${op.id};
                 if (bridge) {
                     for (const k of currentKeys) {
-                        if (!prevKeys.includes(k)) bridge.onKeyEvent(KEY_NAMES[k] || "KEY_" + k, true);
+                        if (!prevKeys.includes(k)) bridge.onKeyEvent(KEY_NAMES[k] || "KEY_0x" + k.toString(16), true);
                     }
                     for (const k of prevKeys) {
-                        if (!currentKeys.includes(k)) bridge.onKeyEvent(KEY_NAMES[k] || "KEY_" + k, false);
+                        if (!currentKeys.includes(k)) bridge.onKeyEvent(KEY_NAMES[k] || "KEY_0x" + k.toString(16), false);
                     }
-                    bridge.updateKeys(currentKeys, currentKeys.map(k => KEY_NAMES[k] || "KEY_" + k));
+                    bridge.updateKeys(currentKeys, currentKeys.map(k => KEY_NAMES[k] || "KEY_0x" + k.toString(16)));
                 }
                 prevKeys = currentKeys;
                 return;
@@ -427,49 +435,63 @@ const POPUP_HTML = `<!DOCTYPE html>
 </body>
 </html>`;
 
-function updateLedsFromObject(obj) {
-    if (!childWindow || childWindow.closed || !childWindow.speedEditorPopupBridge || !obj || typeof obj !== "object") return;
+function buildLedsStateObject(buttonMask, jogMask) {
+    const state = {};
+    for (const [name, bit] of Object.entries(LED_MAP)) {
+        state[name] = Boolean(buttonMask & bit);
+    }
+    for (const [name, bit] of Object.entries(JOG_LED_MAP)) {
+        state[name] = Boolean(jogMask & bit);
+    }
+    return state;
+}
 
-    let buttonBitfield = 0;
-    let jogBitfield = 0;
-    let hasButtonLed = false;
-    let hasJogLed = false;
+function resolveLedMasks() {
+    let buttonMask = Number(inButtonLeds.get()) || 0;
+    let jogMask = Number(inJogLeds.get()) || 0;
 
-    for (const key in obj) {
-        const val = obj[key];
-        const active = (val === 1 || val === true || val === "1");
-
-        if (LED_MAP.hasOwnProperty(key)) {
-            hasButtonLed = true;
-            if (active) {
-                buttonBitfield |= LED_MAP[key];
+    const obj = inLedsObj.get();
+    if (Array.isArray(obj)) {
+        for (const item of obj) {
+            if (typeof item === "string") {
+                const key = item.trim().toUpperCase();
+                const btnBit = LED_MAP[key] !== undefined ? LED_MAP[key] : LED_ALIASES[key];
+                if (btnBit !== undefined) buttonMask |= btnBit;
+                if (JOG_LED_MAP[key] !== undefined) jogMask |= JOG_LED_MAP[key];
             }
-        } else if (JOG_LED_MAP.hasOwnProperty(key)) {
-            hasJogLed = true;
-            if (active) {
-                jogBitfield |= JOG_LED_MAP[key];
+        }
+    } else if (obj && typeof obj === "object") {
+        for (const [rawKey, v] of Object.entries(obj)) {
+            const k = rawKey.trim().toUpperCase();
+            const isOn = Boolean(v);
+            const btnBit = LED_MAP[k] !== undefined ? LED_MAP[k] : LED_ALIASES[k];
+            if (btnBit !== undefined) {
+                if (isOn) buttonMask |= btnBit;
+                else buttonMask &= ~btnBit;
+            }
+            if (JOG_LED_MAP[k] !== undefined) {
+                if (isOn) jogMask |= JOG_LED_MAP[k];
+                else jogMask &= ~JOG_LED_MAP[k];
             }
         }
     }
 
-    if (hasButtonLed) {
-        childWindow.speedEditorPopupBridge.setLeds(buttonBitfield);
-    }
-    if (hasJogLed) {
-        childWindow.speedEditorPopupBridge.setJogLeds(jogBitfield);
-    }
+    return { buttonMask, jogMask };
 }
 
 function syncControls() {
+    const { buttonMask, jogMask } = resolveLedMasks();
+    outLedsState.set(buildLedsStateObject(buttonMask, jogMask));
+
     if (!childWindow || childWindow.closed || !childWindow.speedEditorPopupBridge) return;
 
-    if (inLedsObj.get() && typeof inLedsObj.get() === "object") {
-        updateLedsFromObject(inLedsObj.get());
-    } else {
-        childWindow.speedEditorPopupBridge.setLeds(inButtonLeds.get());
-        childWindow.speedEditorPopupBridge.setJogLeds(inJogLeds.get());
+    try {
+        childWindow.speedEditorPopupBridge.setLeds(buttonMask);
+        childWindow.speedEditorPopupBridge.setJogLeds(jogMask);
+        childWindow.speedEditorPopupBridge.setJogMode(inJogMode.get());
+    } catch (e) {
+        op.logWarn("[WebHid.ExternalBmdSpeedEditor] Failed updating LEDs / Jog Mode: " + e.message);
     }
-    childWindow.speedEditorPopupBridge.setJogMode(inJogMode.get());
 }
 
 function setupOpBridge() {
@@ -493,6 +515,7 @@ function setupOpBridge() {
         updateKeys(keys, names) {
             outKeysPressed.set(keys);
             outKeyNames.set(names);
+            outEvent.trigger();
         },
         onJogEvent(delta, finalVal) {
             outJogDelta.set(delta);
@@ -503,6 +526,7 @@ function setupOpBridge() {
         onBatteryEvent(level, charging) {
             outBatteryLevel.set(level);
             outCharging.set(charging);
+            outEvent.trigger();
         }
     };
 }
@@ -545,27 +569,14 @@ inActive.onChange = () => {
     else if (childWindow && !childWindow.closed) childWindow.close();
 };
 
-inLedsObj.onChange = () => {
-    if (inLedsObj.get() && typeof inLedsObj.get() === "object") {
-        updateLedsFromObject(inLedsObj.get());
-    }
-};
+inButtonLeds.onChange = syncControls;
+inJogLeds.onChange = syncControls;
+inJogMode.onChange = syncControls;
+inLedsObj.onChange = syncControls;
 
-inButtonLeds.onChange = () => {
+inDeviceIndex.onChange = () => {
     if (childWindow && !childWindow.closed && childWindow.speedEditorPopupBridge) {
-        childWindow.speedEditorPopupBridge.setLeds(inButtonLeds.get());
-    }
-};
-
-inJogLeds.onChange = () => {
-    if (childWindow && !childWindow.closed && childWindow.speedEditorPopupBridge) {
-        childWindow.speedEditorPopupBridge.setJogLeds(inJogLeds.get());
-    }
-};
-
-inJogMode.onChange = () => {
-    if (childWindow && !childWindow.closed && childWindow.speedEditorPopupBridge) {
-        childWindow.speedEditorPopupBridge.setJogMode(inJogMode.get());
+        childWindow.speedEditorPopupBridge.connect(inDeviceIndex.get());
     }
 };
 
@@ -574,3 +585,15 @@ op.onDelete = () => {
     delete window[`speedEditorOpBridge_${op.id}`];
     if (childWindow && !childWindow.closed) childWindow.close();
 };
+
+// Initialize LEDs State Out immediately with default (all false) or current input state
+syncControls();
+
+// Initial startup if Active is already true when patch loads
+if (inActive.get()) {
+    setTimeout(() => {
+        if (inActive.get() && (!childWindow || childWindow.closed)) {
+            openPopupWindow();
+        }
+    }, 150);
+}

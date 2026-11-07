@@ -51,6 +51,10 @@
             {
                 "type": 1,
                 "name": "Next"
+            },
+            {
+                "type": 1,
+                "name": "Loaded"
             }
         ]
     },
@@ -87,6 +91,10 @@
             {
                 "name": "Next",
                 "text": "Outward trigger cascading rendering loop."
+            },
+            {
+                "name": "Loaded",
+                "text": "Triggered once the image load and transfer to the Stream Deck key completes."
             }
         ]
     }

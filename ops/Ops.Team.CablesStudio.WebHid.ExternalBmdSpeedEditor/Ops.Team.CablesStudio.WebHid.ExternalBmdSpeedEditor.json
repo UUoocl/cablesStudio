@@ -15,6 +15,12 @@
             "type": "improvement",
             "author": "Antigravity",
             "date": 1786665600000
+        },
+        {
+            "message": "synchronized LED state resolution and LEDs State Out port with standalone BmdSpeedEditor op",
+            "type": "improvement",
+            "author": "Antigravity",
+            "date": 1793577840000
         }
     ],
     "layout": {
@@ -31,26 +37,26 @@
                 "group": "Controls"
             },
             {
-                "type": 3,
+                "type": 2,
                 "name": "LEDs State",
-                "group": "LEDs & Mode"
+                "group": "LEDs & Modes"
             },
             {
                 "type": 0,
                 "name": "Button LEDs",
-                "group": "LEDs & Mode",
+                "group": "LEDs & Modes",
                 "subType": "integer"
             },
             {
                 "type": 0,
                 "name": "Jog LEDs",
-                "group": "LEDs & Mode",
+                "group": "LEDs & Modes",
                 "subType": "integer"
             },
             {
                 "type": 0,
                 "name": "Jog Mode",
-                "group": "LEDs & Mode",
+                "group": "LEDs & Modes",
                 "subType": "integer"
             },
             {
@@ -63,65 +69,84 @@
         "portsOut": [
             {
                 "type": 1,
-                "name": "On Event"
+                "name": "On Event",
+                "group": "Status"
             },
             {
                 "type": 5,
-                "name": "Status"
+                "name": "Status",
+                "group": "Status"
             },
             {
                 "type": 5,
-                "name": "Window Status"
+                "name": "Window Status",
+                "group": "Status"
             },
             {
                 "type": 0,
                 "name": "Is Connected",
-                "subType": "boolean"
+                "subType": "boolean",
+                "group": "Status"
+            },
+            {
+                "type": 2,
+                "name": "LEDs State Out",
+                "group": "LEDs & Modes"
             },
             {
                 "type": 3,
-                "name": "Keys Pressed"
+                "name": "Keys Pressed",
+                "group": "Keys"
             },
             {
                 "type": 3,
-                "name": "Key Names"
+                "name": "Key Names",
+                "group": "Keys"
             },
             {
                 "type": 5,
-                "name": "Last Key"
+                "name": "Last Key",
+                "group": "Keys"
             },
             {
                 "type": 0,
                 "name": "Last Key Pressed",
-                "subType": "boolean"
+                "subType": "boolean",
+                "group": "Keys"
             },
             {
                 "type": 1,
-                "name": "Key Event"
+                "name": "Key Event",
+                "group": "Keys"
             },
             {
                 "type": 0,
                 "name": "Jog Value",
-                "subType": "number"
+                "subType": "number",
+                "group": "Jog Wheel"
             },
             {
                 "type": 0,
                 "name": "Jog Delta",
-                "subType": "number"
+                "subType": "number",
+                "group": "Jog Wheel"
             },
             {
                 "type": 1,
-                "name": "Jog Turned"
+                "name": "Jog Turned",
+                "group": "Jog Wheel"
             },
             {
                 "type": 0,
                 "name": "Battery Level",
-                "subType": "number"
+                "subType": "number",
+                "group": "Battery"
             },
             {
                 "type": 0,
                 "name": "Charging",
-                "subType": "boolean"
+                "subType": "boolean",
+                "group": "Battery"
             }
         ]
     },
@@ -139,7 +164,7 @@
             },
             {
                 "name": "LEDs State",
-                "text": "Object dictionary of button LED keys and their active state (e.g. `{\"CUT\": true, \"JOG\": false}`)."
+                "text": "Object dictionary or Array of button LED keys and their active state (e.g. `{\"CUT\": true, \"JOG\": false}` or `[\"CUT\", \"JOG\"]`)."
             },
             {
                 "name": "Button LEDs",
@@ -172,6 +197,10 @@
             {
                 "name": "Is Connected",
                 "text": "True if the Speed Editor is connected and authenticated."
+            },
+            {
+                "name": "LEDs State Out",
+                "text": "Object dictionary containing the resolved boolean state of all 18 button LEDs and 3 jog mode LEDs."
             },
             {
                 "name": "Keys Pressed",

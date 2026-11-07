@@ -81,7 +81,7 @@ In [star.js](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Team.Ca
 ```javascript
 drawingContext.shadowOffsetX = 5;
 drawingContext.shadowOffsetY = -5;
-drawingContext.shadowBlur = 10;
+drawingContext.shadowBlur = 0;
 drawingContext.shadowColor = color(0, 0, 0, 50);
 ```
 - **Why it lags**: Canvas 2D `shadowBlur` recalculates a software Gaussian blur pass for **every single particle on every single frame**. With 50–200 stars, that's 200 blur passes 60 times a second, which instantly causes major frame drops.

@@ -26,14 +26,134 @@
 
     <script>
         let mousePosX = 0, mousePosY = 0;
+        const CLIENT_ID = 'p5-magic-wand';
+        const originId = `${CLIENT_ID}-${Math.random().toString(36).substring(2, 9)}`;
 
-        // Configuration object synced from Cables
+        // Configuration object synced from Cables / Dashboard
         window.magicWandConfig = {
             colorMove: [255, 255, 0],
             colorClick: [255, 0, 255],
             starSize: 10,
             starDecay: 5
         };
+
+        function rgbToHex(rgb) {
+            if (typeof rgb === 'string') return rgb;
+            if (!Array.isArray(rgb) || rgb.length < 3) return '#ffff00';
+            return '#' + rgb.slice(0, 3).map(v => {
+                const clamped = Math.max(0, Math.min(255, Math.round(Number(v) || 0)));
+                return clamped.toString(16).padStart(2, '0');
+            }).join('');
+        }
+
+        function parseColorToRgb(val) {
+            if (Array.isArray(val) && val.length >= 3) {
+                return [Number(val[0]) || 0, Number(val[1]) || 0, Number(val[2]) || 0];
+            }
+            if (typeof val === 'string') {
+                const clean = val.trim().replace(/^#/, '');
+                if (clean.length === 3) {
+                    return [
+                        parseInt(clean[0] + clean[0], 16),
+                        parseInt(clean[1] + clean[1], 16),
+                        parseInt(clean[2] + clean[2], 16)
+                    ];
+                }
+                if (clean.length >= 6) {
+                    return [
+                        parseInt(clean.substring(0, 2), 16),
+                        parseInt(clean.substring(2, 4), 16),
+                        parseInt(clean.substring(4, 6), 16)
+                    ];
+                }
+            }
+            if (val && typeof val === 'object' && typeof val.r === 'number') {
+                return [Math.round(val.r), Math.round(val.g), Math.round(val.b)];
+            }
+            return null;
+        }
+
+        function getRegistrationPayload() {
+            return {
+                type: 'client:register',
+                originId: originId,
+                manifest: {
+                    clientId: CLIENT_ID,
+                    clientType: 'p5',
+                    name: 'magic wand',
+                    parameters: {
+                        starSize: {
+                            type: 'float',
+                            value: Number(window.magicWandConfig.starSize),
+                            min: 1.0,
+                            max: 50.0,
+                            step: 0.5,
+                            group: 'Rendering'
+                        },
+                        starDecay: {
+                            type: 'float',
+                            value: Number(window.magicWandConfig.starDecay),
+                            min: 0.5,
+                            max: 25.0,
+                            step: 0.5,
+                            group: 'Rendering'
+                        },
+                        colorMove: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorMove),
+                            group: 'Rendering'
+                        },
+                        colorClick: {
+                            type: 'color',
+                            value: rgbToHex(window.magicWandConfig.colorClick),
+                            group: 'Rendering'
+                        }
+                    },
+                    subscriptions: {
+                        mouse: true,
+                        keyboard: false,
+                        stateUpdates: true
+                    }
+                }
+            };
+        }
+
+        function registerClient() {
+            const payload = getRegistrationPayload();
+            if (pubChannel) {
+                pubChannel.postMessage(payload);
+            }
+            if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
+                wsInstance.send(JSON.stringify({
+                    channel: 'clientRegistry',
+                    data: payload
+                }));
+            }
+        }
+
+        function applyParameterUpdates(params) {
+            if (!params || typeof params !== 'object') return;
+
+            const sizeVal = params.starSize !== undefined ? params.starSize : params.particleSize;
+            if (typeof sizeVal === 'number' && !isNaN(sizeVal)) {
+                window.magicWandConfig.starSize = sizeVal;
+            }
+
+            if (typeof params.starDecay === 'number' && !isNaN(params.starDecay)) {
+                window.magicWandConfig.starDecay = params.starDecay;
+            }
+
+            const moveColorVal = params.colorMove !== undefined ? params.colorMove : params.particleColor;
+            if (moveColorVal !== undefined) {
+                const rgb = parseColorToRgb(moveColorVal);
+                if (rgb) window.magicWandConfig.colorMove = rgb;
+            }
+
+            if (params.colorClick !== undefined) {
+                const rgb = parseColorToRgb(params.colorClick);
+                if (rgb) window.magicWandConfig.colorClick = rgb;
+            }
+        }
 
         // --- COMMUNICATION BRIDGE ---
         const urlParams = new URLSearchParams(window.location.search);
@@ -81,7 +201,7 @@
                 try {
                     const data = JSON.parse(event.data);
                     // console.log("[Magic Wand] Received via WebSocket:", data);
-                    handleMessage(data.data);
+                    handleMessage(data.data || data);
                 } catch (e) {
                     console.warn("[Magic Wand] WebSocket message not JSON, parsing as raw text:", event.data);
                 }
@@ -89,7 +209,8 @@
 
             ws.onopen = () => {
                 console.log("[Magic Wand] WebSocket connected!");
-                ws.send(JSON.stringify({ type: 'ready' }));
+                ws.send(JSON.stringify({ type: 'ready', originId: originId }));
+                registerClient();
             };
 
             ws.onclose = () => {
@@ -123,10 +244,10 @@
         });
 
         function handleMessage(data) {
-            // console.log("handleMessage", data);
-            // console.log("Message data", !data ? "no data" : "data");
-            // console.log("Message type", data.type);
             if (!data || !data.type) return;
+
+            // Avoid feedback loops from self-originated messages
+            if (data.originId && data.originId === originId) return;
 
             switch (data.type) {
                 case 'mouse_move':
@@ -148,12 +269,25 @@
                     }
                     break;
 
+                case 'client:discover':
+                    registerClient();
+                    break;
+
+                case 'client:update':
+                case 'param:update':
+                    if (!data.clientId || data.clientId === CLIENT_ID) {
+                        if (data.parameters && typeof data.parameters === 'object') {
+                            applyParameterUpdates(data.parameters);
+                        } else if (typeof data.key === 'string') {
+                            applyParameterUpdates({ [data.key]: data.value });
+                        } else {
+                            applyParameterUpdates(data);
+                        }
+                    }
+                    break;
+
                 case 'config':
-                    // console.log('Received config update:', data);
-                    if (data.colorMove) window.magicWandConfig.colorMove = data.colorMove;
-                    if (data.colorClick) window.magicWandConfig.colorClick = data.colorClick;
-                    if (typeof data.starSize === 'number') window.magicWandConfig.starSize = data.starSize;
-                    if (typeof data.starDecay === 'number') window.magicWandConfig.starDecay = data.starDecay;
+                    applyParameterUpdates(data);
                     break;
             }
         }

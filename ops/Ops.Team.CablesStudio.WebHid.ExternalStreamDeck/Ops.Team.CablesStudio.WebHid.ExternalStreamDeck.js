@@ -540,7 +540,7 @@ function setupOpBridge() {
                 rows: meta.rows,
                 send(action, params) {
                     if (childWindow && !childWindow.closed && childWindow.remoteBridge) {
-                        childWindow.remoteBridge.sendAction(action, params);
+                        return childWindow.remoteBridge.sendAction(action, params);
                     }
                 }
             };
