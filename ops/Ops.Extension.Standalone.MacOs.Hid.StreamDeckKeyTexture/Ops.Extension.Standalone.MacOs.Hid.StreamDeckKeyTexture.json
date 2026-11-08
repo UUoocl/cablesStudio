@@ -38,24 +38,16 @@
                 "name": "JPEG Quality",
                 "group": "Settings",
                 "subType": "number"
-            },
-            {
-                "type": 0,
-                "name": "Flip Y",
-                "group": "Settings",
-                "subType": "boolean"
-            },
-            {
-                "type": 0,
-                "name": "Flip X",
-                "group": "Settings",
-                "subType": "boolean"
             }
         ],
         "portsOut": [
             {
                 "type": 1,
                 "name": "Next"
+            },
+            {
+                "type": 1,
+                "name": "Loaded"
             },
             {
                 "type": 0,

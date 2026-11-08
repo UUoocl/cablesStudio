@@ -1,0 +1,114 @@
+{
+    "id": "e6391d2f-8c4a-4b1e-a723-9f05d4e21c38",
+    "created": 1794031000000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created to filter an object of objects by a nested key value",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1794031000000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 2,
+                "name": "In Object"
+            },
+            {
+                "type": 5,
+                "name": "Filter Key"
+            },
+            {
+                "type": 5,
+                "name": "Filter Values"
+            },
+            {
+                "type": 3,
+                "name": "Filter Values Array"
+            },
+            {
+                "type": 0,
+                "name": "Mode index",
+                "subType": "integer"
+            },
+            {
+                "type": 5,
+                "name": "Mode"
+            },
+            {
+                "type": 0,
+                "name": "Case Sensitive",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 2,
+                "name": "Filtered Object"
+            },
+            {
+                "type": 3,
+                "name": "Filtered Keys"
+            },
+            {
+                "type": 3,
+                "name": "Filtered Values"
+            },
+            {
+                "type": 0,
+                "name": "Count",
+                "subType": "number"
+            }
+        ]
+    },
+    "summary": "Filters a dictionary of child objects by matching a nested property key against one or more allowed values.",
+    "docs": {
+        "ports": [
+            {
+                "name": "In Object",
+                "text": "The object of objects to filter (for example, a client's `manifest.parameters` object)."
+            },
+            {
+                "name": "Filter Key",
+                "text": "The property key inside each child object to inspect (e.g., `type` or `group`). Supports dot notation."
+            },
+            {
+                "name": "Filter Values",
+                "text": "Comma-separated list of values to match against `child[Filter Key]` (e.g., `float,int,boolean`)."
+            },
+            {
+                "name": "Filter Values Array",
+                "text": "Optional array of values to match; overrides `Filter Values` string when linked."
+            },
+            {
+                "name": "Mode",
+                "text": "`Include Matching` keeps entries whose `Filter Key` value is in `Filter Values`; `Exclude Matching` removes them."
+            },
+            {
+                "name": "Case Sensitive",
+                "text": "When false (default), value comparisons are case-insensitive."
+            },
+            {
+                "name": "Filtered Object",
+                "text": "A new object containing only the matching top-level keys and child objects."
+            },
+            {
+                "name": "Filtered Keys",
+                "text": "Ordered array of top-level keys that matched the filter criteria."
+            },
+            {
+                "name": "Filtered Values",
+                "text": "Ordered array of child objects corresponding 1:1 with `Filtered Keys`."
+            },
+            {
+                "name": "Count",
+                "text": "Total number of matched entries."
+            }
+        ]
+    },
+    "isReleased": true
+}
+

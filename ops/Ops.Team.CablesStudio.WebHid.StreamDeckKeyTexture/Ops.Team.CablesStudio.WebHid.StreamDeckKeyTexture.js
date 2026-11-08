@@ -28,8 +28,10 @@ let ctxTarget = null;
 let pixelBuffer = null;
 let fbo = null;
 let isUpdating = false;
+const queue = [];
 
 function cleanup() {
+    queue.length = 0;
     canvasTemp = null;
     ctxTemp = null;
     canvasTarget = null;
@@ -47,7 +49,42 @@ function cleanup() {
 
 op.onDelete = cleanup;
 
-inRender.onTriggered = async () => {
+async function processQueue() {
+    if (isUpdating || queue.length === 0) return;
+
+    const conn = inConnection.get();
+    if (!conn) {
+        queue.length = 0;
+        return;
+    }
+
+    const task = queue.shift();
+    isUpdating = true;
+
+    try {
+        const p = conn.send("set_key_image", {
+            "key": task.key,
+            "image": task.image
+        });
+        if (p && typeof p.then === "function") {
+            await p;
+        }
+    } catch (e) {
+        op.logWarn("[WebHid.StreamDeckKeyTexture] Error sending key texture: " + (e ? e.message : e));
+    } finally {
+        isUpdating = false;
+    }
+
+    // Trigger Loaded once device has finished loading and is completely ready for the next texture
+    outLoaded.trigger();
+
+    // Process any next queued tasks in rapid succession
+    if (queue.length > 0 && !isUpdating) {
+        processQueue();
+    }
+}
+
+inRender.onTriggered = () => {
     next.trigger();
     
     if (!inActive.get()) return;
@@ -56,7 +93,6 @@ inRender.onTriggered = async () => {
     const tex = inTexture.get();
     
     if (!conn || !tex || !tex.tex) return;
-    if (isUpdating) return;
     
     const gl = cgl.gl;
     const w = tex.width;
@@ -86,12 +122,11 @@ inRender.onTriggered = async () => {
         ctxTarget = canvasTarget.getContext("2d");
     }
     
-    // Bind texture to frame buffer to read pixels
+    // Bind texture to frame buffer to read pixels synchronously during current render pass
     if (!fbo) fbo = gl.createFramebuffer();
     gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex.tex, 0);
     
-    // Check if framebuffer is complete
     if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE) {
         gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, pixelBuffer);
     }
@@ -112,20 +147,20 @@ inRender.onTriggered = async () => {
     const base64 = dataUrl.split(",")[1];
     
     if (base64) {
-        isUpdating = true;
-        try {
-            const p = conn.send("set_key_image", {
-                "key": inKeyIndex.get(),
-                "image": base64
-            });
-            if (p && typeof p.then === "function") {
-                await p;
-            }
-            outLoaded.trigger();
-        } catch (e) {
-            op.logWarn("[WebHid.StreamDeckKeyTexture] Error sending key texture: " + (e ? e.message : e));
-        } finally {
-            isUpdating = false;
+        const key = inKeyIndex.get();
+        const task = {
+            key,
+            image: base64
+        };
+
+        // If an item for the same key is already in queue, update with latest
+        const existingIdx = queue.findIndex((item) => item.key === key);
+        if (existingIdx !== -1) {
+            queue[existingIdx] = task;
+        } else {
+            queue.push(task);
         }
+
+        processQueue();
     }
 };

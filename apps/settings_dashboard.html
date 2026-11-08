@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -259,6 +260,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="dashboard-shell">
         <header class="dashboard-header">
@@ -267,16 +269,19 @@
                 <div class="header-subtitle" id="origin-label">Origin ID: initializing...</div>
             </div>
             <div class="header-controls">
-                <button class="btn btn-subtle" id="separate-all-btn" title="Separate all clients into individual draggable panes">
+                <button class="btn btn-subtle" id="separate-all-btn"
+                    title="Separate all clients into individual draggable panes">
                     Separate All Panes
                 </button>
-                <button class="btn btn-subtle" id="dock-all-btn" title="Dock all separated clients back into the tabbed pane">
+                <button class="btn btn-subtle" id="dock-all-btn"
+                    title="Dock all separated clients back into the tabbed pane">
                     Dock All to Tabs
                 </button>
                 <button class="btn btn-subtle" id="reset-layout-btn" title="Reset draggable pane positions">
                     Reset Positions
                 </button>
-                <button class="btn" id="discover-btn" title="Request active visualization clients to re-send their manifests">
+                <button class="btn" id="discover-btn"
+                    title="Request active visualization clients to re-send their manifests">
                     Discover Clients
                 </button>
                 <div class="status-pill" id="ws-status-pill">
@@ -460,7 +465,7 @@
                 if (handleEl.releasePointerCapture && e && e.pointerId !== undefined) {
                     try {
                         handleEl.releasePointerCapture(e.pointerId);
-                    } catch (_) {}
+                    } catch (_) { }
                 }
             };
 
@@ -492,7 +497,7 @@
         });
 
         const cursorPadInput = padFolder.addInput(telemetryState, 'cursor', {
-            label: 'Position',
+            label: '1. Position',
             picker: 'inline',
             expanded: true,
             x: { min: 0, max: 1, step: 0.001 },
@@ -629,6 +634,7 @@
                 groups.get(groupName).push({ key: paramKey, spec });
             });
 
+            let inputIndex = 1;
             groups.forEach((items, groupName) => {
                 const folder = targetContainer.addFolder({
                     title: groupName,
@@ -636,7 +642,8 @@
                 });
 
                 items.forEach(({ key, spec }) => {
-                    const inputOpts = { label: spec.label || key };
+                    const baseLabel = spec.label || key;
+                    const inputOpts = { label: `${inputIndex++}. ${baseLabel}` };
                     const pType = (spec.type || '').toLowerCase();
 
                     if (pType === 'float' || pType === 'number' || pType === 'int' || pType === 'integer') {
@@ -748,7 +755,7 @@
         function renderSeparatedClientPanes() {
             // Dispose existing separated Tweakpane instances
             separatedPanes.forEach((pane) => {
-                try { pane.dispose(); } catch (_) {}
+                try { pane.dispose(); } catch (_) { }
             });
             separatedPanes.clear();
 
@@ -907,7 +914,7 @@
 
         // --- 5. COMMUNICATION LAYER (WebSocket + BroadcastChannel) ---
         if (urlParams.has('bc')) {
-            const channelName = urlParams.get('bc') || 'magicwand-sync';
+            const channelName = urlParams.get('bc');
             pubChannel = new BroadcastChannel('sub-' + channelName);
             subChannel = new BroadcastChannel('pub-' + channelName);
             subChannel.onmessage = (event) => {
@@ -1055,4 +1062,5 @@
         startWebSocket();
     </script>
 </body>
+
 </html>
