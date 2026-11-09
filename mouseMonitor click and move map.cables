@@ -6,7 +6,7 @@
     "userId": "6a5204fba38f50d1a7edfab5",
     "cachedUsername": "",
     "created": 1783760123008,
-    "updated": 1794185296315,
+    "updated": 1794199183235,
     "visibility": "private",
     "ops": [
         {
@@ -1047,7 +1047,7 @@
             "portsOut": [
                 {
                     "name": "HTTP URL",
-                    "value": "/apps/lib/tweakpane.min.js"
+                    "value": "/api/stt/result"
                 },
                 {
                     "name": "On WS Message",
@@ -1077,7 +1077,7 @@
                 },
                 {
                     "name": "WS Active Clients",
-                    "value": 5
+                    "value": 6
                 },
                 {
                     "name": "Error",
@@ -1150,11 +1150,11 @@
                 },
                 {
                     "name": "Client Count",
-                    "value": 3
+                    "value": 4
                 },
                 {
                     "name": "Last Client ID",
-                    "value": "p5-magic-wand"
+                    "value": "stg-stripes"
                 }
             ]
         },
@@ -1226,11 +1226,11 @@
             "portsOut": [
                 {
                     "name": "width",
-                    "value": 1104
+                    "value": 623
                 },
                 {
                     "name": "height",
-                    "value": 963
+                    "value": 465
                 },
                 {
                     "name": "Pixel Density",
@@ -1246,8 +1246,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1299.463742881056,
-                    "y": -38.52905439346145
+                    "x": 1264.652575488662,
+                    "y": -57.34590163259338
                 }
             },
             "portsIn": [
@@ -1282,8 +1282,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1323.463742881056,
-                    "y": 15.10343598875616
+                    "x": 1288.652575488662,
+                    "y": 9.458381817016601
                 }
             },
             "portsIn": [
@@ -1323,7 +1323,7 @@
             "portsOut": [
                 {
                     "name": "CC Value Out",
-                    "value": 0.5039370078740157
+                    "value": 0
                 },
                 {
                     "name": "Event",
@@ -1332,6 +1332,12 @@
                             "portIn": "Number 0",
                             "portOut": "Event",
                             "objIn": "vx3ilbpqt",
+                            "objOut": "dkmgly072"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Event",
+                            "objIn": "wpbe6z9f2",
                             "objOut": "dkmgly072"
                         }
                     ]
@@ -1350,8 +1356,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1603.6880600707839,
-                    "y": 78.88011362356895
+                    "x": 1711.0931802711686,
+                    "y": 103.4334211847837
                 }
             },
             "portsOut": [
@@ -1380,8 +1386,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1603.6880600707839,
-                    "y": 229.01267898177943
+                    "x": 1711.0931802711686,
+                    "y": 230.82728586849765
                 }
             },
             "portsIn": [
@@ -1491,8 +1497,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1627.6880600707839,
-                    "y": 427.0125240031826
+                    "x": 1735.0931802711686,
+                    "y": 424.3972411175783
                 }
             },
             "portsOut": [
@@ -1614,8 +1620,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1280.7644535030822,
-                    "y": 444.41766551192273
+                    "x": 1294.693981869219,
+                    "y": 442.91405007116265
                 }
             },
             "portsIn": [
@@ -3997,7 +4003,7 @@
             "portsOut": [
                 {
                     "name": "Index 0 Value",
-                    "value": 0.504
+                    "value": 0
                 },
                 {
                     "name": "Index 1 Value",
@@ -4034,11 +4040,11 @@
                 },
                 {
                     "name": "Index 4 Value",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Index 5 Value",
-                    "value": 0.04
+                    "value": 0
                 },
                 {
                     "name": "Index 6 Value",
@@ -4050,7 +4056,7 @@
                 },
                 {
                     "name": "Index 8 Value",
-                    "value": 0
+                    "value": 0.112
                 },
                 {
                     "name": "Index 9 Value",
@@ -5017,8 +5023,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1548.280800874698,
-                    "y": 904.9403221893408
+                    "x": 1490.9481642337057,
+                    "y": 932.3060904642978
                 }
             },
             "portsOut": [
@@ -5632,6 +5638,51 @@
                     "value": "modifiers"
                 }
             ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "wpbe6z9f2",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 329.49439714183075,
+                "width": 243.50122333599415,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 1057.7073978725657,
+                    "y": -396.859609393044
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
         }
     ],
     "settings": {
@@ -5654,8 +5705,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 1104,
-            "h": 963,
+            "w": 623,
+            "h": 465,
             "s": 1
         },
         "timeline": {},
@@ -5663,9 +5714,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": -1974.3265607859264,
-                "y": -246.1713798831155,
-                "z": 1060.7968485830488
+                "x": 1721.4997950575719,
+                "y": 492.3874517457475,
+                "z": 1387.263541839339
             }
         },
         "currentSubPatch": "0",
@@ -5687,7 +5738,7 @@
     "summary": {
         "title": "mouseMonitor click and move map"
     },
-    "opsHash": "e3a665290d0622192e1da7e63383405c928be29e",
+    "opsHash": "44fc49ec022ca0b97cffeeedc40f9972a8c15462",
     "buildInfo": {
         "updateWarning": false,
         "core": {
