@@ -654,12 +654,26 @@
                         } else if (pType === 'int' || pType === 'integer') {
                             inputOpts.step = 1;
                         }
+                    } else if (pType === 'color' || spec.view === 'color') {
+                        inputOpts.view = 'color';
+                        if (spec.alpha || (spec.color && spec.color.alpha)) {
+                            inputOpts.color = { alpha: true };
+                        }
                     } else if (spec.options && typeof spec.options === 'object') {
                         inputOpts.options = spec.options;
                     }
 
+                    if (spec.view) inputOpts.view = spec.view;
+                    if (spec.color && typeof spec.color === 'object') {
+                        inputOpts.color = Object.assign(inputOpts.color || {}, spec.color);
+                    } else if (spec.alpha) {
+                        inputOpts.color = Object.assign(inputOpts.color || {}, { alpha: true });
+                    }
+
                     if (valuesObj[key] === undefined) {
-                        if (pType === 'color') valuesObj[key] = '#ffffff';
+                        if (pType === 'color' || spec.view === 'color') {
+                            valuesObj[key] = (spec.alpha || (spec.color && spec.color.alpha)) ? '#ffffff00' : '#ffffff';
+                        }
                         else if (pType === 'boolean' || pType === 'bool') valuesObj[key] = false;
                         else if (pType === 'string') valuesObj[key] = '';
                         else valuesObj[key] = 0;

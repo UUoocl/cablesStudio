@@ -6,7 +6,7 @@
     "userId": "6a5204fba38f50d1a7edfab5",
     "cachedUsername": "",
     "created": 1783760123008,
-    "updated": 1794171390371,
+    "updated": 1794185296315,
     "visibility": "private",
     "ops": [
         {
@@ -252,9 +252,9 @@
                     "name": "Next",
                     "links": [
                         {
-                            "portIn": "exe",
+                            "portIn": "Update",
                             "portOut": "Next",
-                            "objIn": "ektxmgb81",
+                            "objIn": "plvebotrw",
                             "objOut": "04uxqjw5l"
                         }
                     ]
@@ -403,35 +403,6 @@
                             "portOut": "Next",
                             "objIn": "g3r11m2cj",
                             "objOut": "u0lclr813"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "opId": "a466bc1f-06e9-4595-8849-bffb9fe22f99",
-            "id": "ektxmgb81",
-            "attribs": {
-                "area": "dntdpwegi"
-            },
-            "uiAttribs": {
-                "resizable": true,
-                "resizableY": false,
-                "stretchPorts": true,
-                "translate": {
-                    "x": -1040.9731972779946,
-                    "y": -77.02970605348901
-                }
-            },
-            "portsOut": [
-                {
-                    "name": "trigger 0",
-                    "links": [
-                        {
-                            "portIn": "Update",
-                            "portOut": "trigger 0",
-                            "objIn": "plvebotrw",
-                            "objOut": "ektxmgb81"
                         }
                     ]
                 }
@@ -1076,7 +1047,7 @@
             "portsOut": [
                 {
                     "name": "HTTP URL",
-                    "value": "/favicon.ico"
+                    "value": "/apps/lib/tweakpane.min.js"
                 },
                 {
                     "name": "On WS Message",
@@ -1091,7 +1062,7 @@
                 },
                 {
                     "name": "WS Message Channel",
-                    "value": "clientRegistry"
+                    "value": ""
                 },
                 {
                     "name": "WS Message Data",
@@ -1172,18 +1143,18 @@
                         {
                             "portIn": "Array",
                             "portOut": "Client IDs",
-                            "objIn": "uwwt64sda",
+                            "objIn": "3efxicjjl",
                             "objOut": "zkylaetw3"
                         }
                     ]
                 },
                 {
                     "name": "Client Count",
-                    "value": 2
+                    "value": 3
                 },
                 {
                     "name": "Last Client ID",
-                    "value": "js-trassel"
+                    "value": "p5-magic-wand"
                 }
             ]
         },
@@ -1194,7 +1165,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": 1443,
-                    "y": -1363.087632762862
+                    "y": -1363.0782979354765
                 }
             },
             "portsIn": [
@@ -1255,11 +1226,11 @@
             "portsOut": [
                 {
                     "name": "width",
-                    "value": 488
+                    "value": 1104
                 },
                 {
                     "name": "height",
-                    "value": 550
+                    "value": 963
                 },
                 {
                     "name": "Pixel Density",
@@ -1275,8 +1246,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 892.0348517838183,
-                    "y": -69.27840466495113
+                    "x": 1299.463742881056,
+                    "y": -38.52905439346145
                 }
             },
             "portsIn": [
@@ -1311,8 +1282,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 916.0348517838183,
-                    "y": -15.645914282733514
+                    "x": 1323.463742881056,
+                    "y": 15.10343598875616
                 }
             },
             "portsIn": [
@@ -1352,7 +1323,7 @@
             "portsOut": [
                 {
                     "name": "CC Value Out",
-                    "value": 1
+                    "value": 0.5039370078740157
                 },
                 {
                     "name": "Event",
@@ -1379,8 +1350,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1196.2591689735461,
-                    "y": 48.13076335207927
+                    "x": 1603.6880600707839,
+                    "y": 78.88011362356895
                 }
             },
             "portsOut": [
@@ -1397,7 +1368,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1409,8 +1380,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1196.2591689735461,
-                    "y": 198.26332871028976
+                    "x": 1603.6880600707839,
+                    "y": 229.01267898177943
                 }
             },
             "portsIn": [
@@ -1484,8 +1455,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 971.1148651316287,
-                    "y": 151.01191089770302
+                    "x": 1378.5437562288664,
+                    "y": 181.7612611691927
                 }
             },
             "portsIn": [
@@ -1520,8 +1491,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1220.2591689735461,
-                    "y": 396.2631737316929
+                    "x": 1627.6880600707839,
+                    "y": 427.0125240031826
                 }
             },
             "portsOut": [
@@ -1556,7 +1527,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1569,8 +1540,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1220.2591689735461,
-                    "y": 495.8925191312564
+                    "x": 1627.6880600707839,
+                    "y": 526.6418694027461
                 }
             },
             "portsIn": [
@@ -1593,7 +1564,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1606,8 +1577,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1467.3434001231115,
-                    "y": 498.82122999486705
+                    "x": 1877.3347370763067,
+                    "y": 529.5705802663567
                 }
             },
             "portsIn": [
@@ -1630,7 +1601,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1643,8 +1614,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 870.773116549887,
-                    "y": 413.66831524043306
+                    "x": 1280.7644535030822,
+                    "y": 444.41766551192273
                 }
             },
             "portsIn": [
@@ -1685,8 +1656,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1274.4507862229518,
-                    "y": 901.9934125701316
+                    "x": 1681.8796773201896,
+                    "y": 932.7427628416212
                 }
             },
             "portsIn": [
@@ -1733,8 +1704,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1080.065152364653,
-                    "y": 562.4678452257866
+                    "x": 1487.4940434618907,
+                    "y": 593.2171954972763
                 }
             },
             "portsIn": [
@@ -1774,8 +1745,8 @@
             "uiAttribs": {
                 "mathTitle": true,
                 "translate": {
-                    "x": 1092.065152364653,
-                    "y": 275.5779692044555
+                    "x": 1499.4940434618907,
+                    "y": 306.32731947594516
                 }
             },
             "portsOut": [
@@ -1806,8 +1777,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 983.1148651316287,
-                    "y": 334.3704878253768
+                    "x": 1390.5437562288664,
+                    "y": 365.1198380968665
                 }
             },
             "portsIn": [
@@ -1852,8 +1823,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 971.1148651316287,
-                    "y": 200.6634886574657
+                    "x": 1378.5437562288664,
+                    "y": 231.41283892895538
                 }
             },
             "portsIn": [
@@ -1943,59 +1914,59 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 3",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 4",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 5",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 6",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 7",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 8",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 9",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 10",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 11",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 12",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 13",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 14",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 15",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -2034,8 +2005,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1254.7240523205517,
-                    "y": 614.0649885471328
+                    "x": 1664.715389273747,
+                    "y": 644.8143388186224
                 }
             },
             "portsOut": [
@@ -2064,7 +2035,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -2076,8 +2047,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1186.4868113716234,
-                    "y": 738.715668198606
+                    "x": 1596.4781483248187,
+                    "y": 769.4650184700956
                 }
             },
             "portsOut": [
@@ -2119,8 +2090,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1250.4507862229518,
-                    "y": 978.210853311376
+                    "x": 1657.8796773201896,
+                    "y": 1008.9602035828657
                 }
             },
             "portsIn": [
@@ -2149,12 +2120,6 @@
                             "portOut": "Result",
                             "objIn": "mt4ho66t9",
                             "objOut": "wu6vg5daq"
-                        },
-                        {
-                            "portIn": "Object",
-                            "portOut": "Result",
-                            "objIn": "dyolfzwqq",
-                            "objOut": "wu6vg5daq"
                         }
                     ]
                 }
@@ -2169,8 +2134,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1250.4507862229518,
-                    "y": 1047.9627826666078
+                    "x": 1657.8796773201896,
+                    "y": 1078.7121329380975
                 }
             },
             "portsIn": [
@@ -2206,8 +2171,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1312.726580181021,
-                    "y": 1185.2794417776686
+                    "x": 1722.7179171342163,
+                    "y": 1216.0287920491583
                 }
             },
             "portsIn": [
@@ -2239,8 +2204,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1269.6996679918095,
-                    "y": 1254.8901747782422
+                    "x": 1679.6910049450048,
+                    "y": 1285.639525049732
                 }
             },
             "portsIn": [
@@ -2272,8 +2237,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1250.4507862229518,
-                    "y": 1312.8218118550055
+                    "x": 1657.8796773201896,
+                    "y": 1343.5711621264952
                 }
             },
             "portsIn": [
@@ -2287,12 +2252,12 @@
             "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
             "id": "mt4ho66t9",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2012.110974277084,
-                    "y": 1054.0962846089155
+                    "x": 2419.539865374322,
+                    "y": 1084.8456348804052
                 }
             },
             "portsOut": [
@@ -2329,7 +2294,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": -106.74352334318945,
-                    "y": -105.00943735021548
+                    "y": -92.23944203589802
                 }
             },
             "portsOut": [
@@ -2367,7 +2332,7 @@
                 "title": "var set",
                 "translate": {
                     "x": -94.74352334318945,
-                    "y": -35.48994923182504
+                    "y": -22.71995391750758
                 }
             },
             "portsIn": [
@@ -2420,7 +2385,7 @@
                 "title": ">varWsTrigger",
                 "translate": {
                     "x": -106.74352334318945,
-                    "y": -0.8816974626219434
+                    "y": 11.888297851695512
                 }
             },
             "portsIn": [
@@ -2494,13 +2459,13 @@
             "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
             "id": "01foczspx",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": 2024.110974277084,
-                    "y": 1118.0322520979375
+                    "x": 2431.539865374322,
+                    "y": 1148.7816023694272
                 }
             },
             "portsIn": [
@@ -2576,13 +2541,13 @@
             "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
             "id": "h878jprew",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "title": ">varControlSettingTrigger",
                 "translate": {
-                    "x": 2012.110974277084,
-                    "y": 1164.5289190351882
+                    "x": 2419.539865374322,
+                    "y": 1195.2782693066779
                 }
             },
             "portsIn": [
@@ -2601,8 +2566,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1250.4507862229518,
-                    "y": 1112.38808321888
+                    "x": 1657.8796773201896,
+                    "y": 1143.1374334903696
                 }
             },
             "portsIn": [
@@ -2644,8 +2609,8 @@
                     "y": -139.5378620346587
                 },
                 "area": {
-                    "w": 1406.8317901257817,
-                    "h": 1644.777093584849,
+                    "w": 2070.2994422539105,
+                    "h": 1708.0060945887385,
                     "id": "9f09yv43w"
                 }
             },
@@ -2660,15 +2625,15 @@
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "b5a3jrdlq",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "hasArea": true,
                 "comment_title": "Output Settings Object",
                 "title": "Output Settings Object",
                 "translate": {
-                    "x": 1934.8274945535231,
-                    "y": 933.4988227960374
+                    "x": 2344.818831506718,
+                    "y": 964.2481730675271
                 },
                 "area": {
                     "w": 328.6259718604256,
@@ -2730,6 +2695,17 @@
                     "value": "Connected: Stream Deck V2 (Stream Deck)"
                 },
                 {
+                    "name": "Key Event",
+                    "links": [
+                        {
+                            "portIn": "Render",
+                            "portOut": "Key Event",
+                            "objIn": "e96mdp3sl",
+                            "objOut": "mbkhw4v2i"
+                        }
+                    ]
+                },
+                {
                     "name": "Event Key Index",
                     "links": [
                         {
@@ -2737,12 +2713,31 @@
                             "portOut": "Event Key Index",
                             "objIn": "3efxicjjl",
                             "objOut": "mbkhw4v2i"
+                        },
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "Event Key Index",
+                            "objIn": "fsldof1gn",
+                            "objOut": "mbkhw4v2i"
+                        },
+                        {
+                            "portIn": "Key Index",
+                            "portOut": "Event Key Index",
+                            "objIn": "lx50khphi",
+                            "objOut": "mbkhw4v2i"
                         }
                     ]
                 },
                 {
                     "name": "Event Pressed",
-                    "value": false
+                    "links": [
+                        {
+                            "portIn": "background R",
+                            "portOut": "Event Pressed",
+                            "objIn": "e96mdp3sl",
+                            "objOut": "mbkhw4v2i"
+                        }
+                    ]
                 },
                 {
                     "name": "Dial Index",
@@ -2767,7 +2762,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": 2700.7473535173126,
-                    "y": -723.4644728179139
+                    "y": -672.4100716965336
                 }
             },
             "portsIn": [
@@ -2904,10 +2899,6 @@
                     "value": 1
                 },
                 {
-                    "name": "background R",
-                    "value": 0
-                },
-                {
                     "name": "background G",
                     "value": 0
                 },
@@ -2953,7 +2944,7 @@
                 },
                 {
                     "name": "Num Lines",
-                    "value": 1
+                    "value": 3
                 }
             ]
         },
@@ -2966,7 +2957,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": 2790.7511886792413,
-                    "y": -593.2853355991666
+                    "y": -542.2309344777863
                 }
             },
             "portsIn": [
@@ -3002,7 +2993,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": 2790.7511886792413,
-                    "y": -663.3871746193847
+                    "y": -612.3327734980044
                 }
             },
             "portsIn": [
@@ -3120,8 +3111,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2811.2385119779233,
-                    "y": -786.0275944706884
+                    "x": 2972.1400297423793,
+                    "y": -841.9660127559875
                 }
             },
             "portsIn": [
@@ -3277,59 +3268,59 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 3",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 4",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 5",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 6",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 7",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 8",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 9",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 10",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 11",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 12",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 13",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 14",
-                    "value": 14
+                    "value": 0
                 },
                 {
                     "name": "Output 15",
-                    "value": 14
+                    "value": 0
                 }
             ]
         },
@@ -3341,8 +3332,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2958.018321253227,
-                    "y": -785.7027033653865
+                    "x": 2995.2915283366965,
+                    "y": -795.5114420715627
                 }
             },
             "portsIn": [
@@ -3667,7 +3658,7 @@
                 "title": ">stream deck key loop",
                 "translate": {
                     "x": 2688.7473535173126,
-                    "y": -470.96924833689377
+                    "y": -419.9148472155134
                 }
             },
             "portsIn": [
@@ -3844,12 +3835,12 @@
             "opId": "c0233dfa-ef4c-4451-b86e-3b2aadc8e9a5",
             "id": "irqm4u39e",
             "attribs": {
-                "area": "1dgkg2xgh"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 560.5257538995241,
-                    "y": 448.8680042919716
+                    "x": 967.9546449967619,
+                    "y": 479.6173545634613
                 }
             },
             "portsOut": [
@@ -3875,8 +3866,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1414.217448546212,
-                    "y": 625.7498824897729
+                    "x": 1824.2087854994072,
+                    "y": 656.4992327612625
                 }
             },
             "portsIn": [
@@ -3903,52 +3894,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
-                }
-            ]
-        },
-        {
-            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
-            "id": "dyolfzwqq",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 200,
-                "width": 400,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": 205.4431715354076,
-                    "y": 1147.220491654125
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "ZoomText",
-                    "value": 0
-                },
-                {
-                    "name": "Line Numbers",
-                    "value": 0
-                },
-                {
-                    "name": "Sort Keys",
-                    "value": 0
-                },
-                {
-                    "name": "Hide Array Data",
                     "value": 1
-                },
-                {
-                    "name": "Font Size",
-                    "value": 10
-                },
-                {
-                    "name": "Scroll",
-                    "value": 0
-                },
-                {
-                    "name": "Search",
-                    "value": ""
                 }
             ]
         },
@@ -3960,8 +3906,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 854.447432079254,
-                    "y": 840.6985264395009
+                    "x": 1264.4387690324493,
+                    "y": 871.4478767109906
                 }
             },
             "portsOut": [
@@ -3993,13 +3939,13 @@
             "opId": "a7335e79-046e-40da-9e9c-db779b0a5e53",
             "id": "xs0vzaw0c",
             "attribs": {
-                "area": "1dgkg2xgh"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 548.5257538995241,
-                    "y": 194.16846783664928
+                    "x": 955.9546449967619,
+                    "y": 224.91781810813896
                 }
             },
             "portsIn": [
@@ -4030,12 +3976,12 @@
             "opId": "e3b1fc2d-a813-4d9b-8cb0-595fc95af4e2",
             "id": "wefbg1z35",
             "attribs": {
-                "area": "1dgkg2xgh"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 548.5257538995241,
-                    "y": 364.73344529528435
+                    "x": 955.9546449967619,
+                    "y": 395.48279556677403
                 }
             },
             "portsIn": [
@@ -4051,7 +3997,7 @@
             "portsOut": [
                 {
                     "name": "Index 0 Value",
-                    "value": 0.584
+                    "value": 0.504
                 },
                 {
                     "name": "Index 1 Value",
@@ -4121,8 +4067,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 853.1589080004704,
-                    "y": 1047.1332416921991
+                    "x": 1260.5877990977083,
+                    "y": 1077.8825919636888
                 }
             },
             "portsIn": [
@@ -4158,8 +4104,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 853.1589080004704,
-                    "y": 1177.3499680491793
+                    "x": 1260.5877990977083,
+                    "y": 1208.099318320669
                 }
             },
             "portsIn": [
@@ -4191,8 +4137,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 853.1589080004704,
-                    "y": 1242.5141120150981
+                    "x": 1260.5877990977083,
+                    "y": 1273.2634622865878
                 }
             },
             "portsIn": [
@@ -4224,8 +4170,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 853.1589080004704,
-                    "y": 1112.829180801553
+                    "x": 1260.5877990977083,
+                    "y": 1143.5785310730428
                 }
             },
             "portsIn": [
@@ -4260,8 +4206,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 853.1589080004704,
-                    "y": 973.1168198454099
+                    "x": 1260.5877990977083,
+                    "y": 1003.8661701168995
                 }
             },
             "portsIn": [
@@ -4290,12 +4236,6 @@
                             "portOut": "Result",
                             "objIn": "mt4ho66t9",
                             "objOut": "565ld6utw"
-                        },
-                        {
-                            "portIn": "Object",
-                            "portOut": "Result",
-                            "objIn": "dyolfzwqq",
-                            "objOut": "565ld6utw"
                         }
                     ]
                 }
@@ -4310,8 +4250,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 853.1589080004704,
-                    "y": 1402.1609877460512
+                    "x": 1260.5877990977083,
+                    "y": 1432.9103380175409
                 }
             },
             "portsIn": [
@@ -4329,8 +4269,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 877.1589080004704,
-                    "y": 1320.1780030739124
+                    "x": 1284.5877990977083,
+                    "y": 1350.927353345402
                 }
             },
             "portsIn": [
@@ -4379,12 +4319,12 @@
             "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
             "id": "v9bu948gm",
             "attribs": {
-                "area": "1dgkg2xgh"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 669.4177399207655,
-                    "y": 270.957229185771
+                    "x": 1079.4090768739607,
+                    "y": 301.70657945726066
                 }
             },
             "portsIn": [
@@ -4435,12 +4375,12 @@
             "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
             "id": "44f8459ds",
             "attribs": {
-                "area": "1dgkg2xgh"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 548.5257538995241,
-                    "y": 264.4854497571391
+                    "x": 955.9546449967619,
+                    "y": 295.2348000286288
                 }
             },
             "portsIn": [
@@ -4495,8 +4435,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 860.7026449160237,
-                    "y": 75.61768980589113
+                    "x": 1270.693981869219,
+                    "y": 106.3670400773808
                 }
             },
             "portsOut": [
@@ -4544,7 +4484,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": 2676.7473535173126,
-                    "y": -534.4810291017399
+                    "y": -483.4266279803595
                 }
             },
             "portsIn": [
@@ -4588,8 +4528,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1663.658310094013,
-                    "y": 625.9533356585383
+                    "x": 2071.0872011912506,
+                    "y": 656.702685930028
                 }
             },
             "portsIn": [
@@ -4620,8 +4560,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1663.658310094013,
-                    "y": 686.475307867369
+                    "x": 2071.0872011912506,
+                    "y": 717.2246581388587
                 }
             },
             "portsOut": [
@@ -4657,8 +4597,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1641.5414891354185,
-                    "y": 926.5778567712753
+                    "x": 2048.970380232656,
+                    "y": 957.3272070427649
                 }
             },
             "portsOut": [
@@ -4687,14 +4627,14 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 975.5607120417318,
-                    "y": 728.6872499123458
+                    "x": 1385.5520489949272,
+                    "y": 759.4366001838355
                 }
             },
             "portsOut": [
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Index",
@@ -4717,8 +4657,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 918.4941662102361,
-                    "y": 668.4538983217882
+                    "x": 1328.4855031634315,
+                    "y": 699.2032485932779
                 }
             },
             "portsIn": [
@@ -4789,15 +4729,15 @@
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "m1smtz117",
             "attribs": {
-                "area": "1dgkg2xgh"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "hasArea": true,
                 "comment_title": "RGB Faders",
                 "title": "RGB Faders",
                 "translate": {
-                    "x": 468.97719622998557,
-                    "y": 107.34070666686674
+                    "x": 870,
+                    "y": 138.0900569383564
                 },
                 "area": {
                     "w": 345.65005879503474,
@@ -4820,8 +4760,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1313.1018433179734,
-                    "y": -11.494833754489491
+                    "x": 1723.0931802711686,
+                    "y": 19.254516517000184
                 }
             },
             "portsIn": [
@@ -4875,8 +4815,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1617.5414891354185,
-                    "y": 1052.2128173443073
+                    "x": 2024.9703802326562,
+                    "y": 1082.962167615797
                 }
             },
             "portsIn": [
@@ -4912,8 +4852,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1617.5414891354185,
-                    "y": 1167.8441004165365
+                    "x": 2024.9703802326562,
+                    "y": 1198.5934506880262
                 }
             },
             "portsIn": [
@@ -4945,8 +4885,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1664.0063724824238,
-                    "y": 1242.5464282920996
+                    "x": 2073.997709435619,
+                    "y": 1273.2957785635892
                 }
             },
             "portsIn": [
@@ -4978,8 +4918,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1617.5414891354185,
-                    "y": 1104.2235333598042
+                    "x": 2024.9703802326562,
+                    "y": 1134.9728836312938
                 }
             },
             "portsIn": [
@@ -5014,8 +4954,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1617.5414891354185,
-                    "y": 982.8690509501304
+                    "x": 2024.9703802326562,
+                    "y": 1013.61840122162
                 }
             },
             "portsIn": [
@@ -5058,8 +4998,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1617.5414891354185,
-                    "y": 1313.0969187507428
+                    "x": 2024.9703802326562,
+                    "y": 1343.8462690222325
                 }
             },
             "portsIn": [
@@ -5077,8 +5017,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1138.2894639215026,
-                    "y": 874.1909719178511
+                    "x": 1548.280800874698,
+                    "y": 904.9403221893408
                 }
             },
             "portsOut": [
@@ -5135,8 +5075,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1019.2325236820035,
-                    "y": 801.1501275538463
+                    "x": 1429.223860635199,
+                    "y": 831.899477825336
                 }
             },
             "portsOut": [
@@ -5161,8 +5101,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1530.033015915307,
-                    "y": 864.493031533637
+                    "x": 1940.0243528685023,
+                    "y": 895.2423818051267
                 }
             },
             "portsIn": [
@@ -5193,8 +5133,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1435.145024124299,
-                    "y": 812.2962384932205
+                    "x": 1845.1363610774943,
+                    "y": 843.0455887647101
                 }
             },
             "portsIn": [
@@ -5246,8 +5186,8 @@
             "uiAttribs": {
                 "mathTitle": true,
                 "translate": {
-                    "x": 1539.0015365646495,
-                    "y": 759.2887654442227
+                    "x": 1948.9928735178448,
+                    "y": 790.0381157157124
                 }
             },
             "portsIn": [
@@ -5265,44 +5205,6 @@
                             "portOut": "result",
                             "objIn": "138147nny",
                             "objOut": "p5f2dwg5w"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "opId": "6c3bf614-a734-4539-98cd-7a7d5bfc38c9",
-            "id": "uwwt64sda",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 200,
-                "width": 400,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": 1418.7815428726467,
-                    "y": -613.0512004179326
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Stride",
-                    "value": 0
-                },
-                {
-                    "name": "Scroll",
-                    "value": 0
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Passthrough Array",
-                    "links": [
-                        {
-                            "portIn": "Array",
-                            "portOut": "Passthrough Array",
-                            "objIn": "3efxicjjl",
-                            "objOut": "uwwt64sda"
                         }
                     ]
                 }
@@ -5356,7 +5258,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -5401,6 +5303,335 @@
                     ]
                 }
             ]
+        },
+        {
+            "opId": "kb000002-3e5f-4a0b-9304-954992688011",
+            "id": "sf41rtnnd",
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": -2297.618574240869,
+                    "y": -373.7283715012959
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Active",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "On Press",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "On Press",
+                            "objIn": "khsxvr3gc",
+                            "objOut": "sf41rtnnd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Combo",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Combo",
+                            "objIn": "l4dvyc4j9",
+                            "objOut": "sf41rtnnd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Key",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Key",
+                            "objIn": "md7bnlf2v",
+                            "objOut": "sf41rtnnd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Modifiers",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Modifiers",
+                            "objIn": "x8w4dfgh8",
+                            "objOut": "sf41rtnnd"
+                        }
+                    ]
+                },
+                {
+                    "name": "Running",
+                    "value": true
+                },
+                {
+                    "name": "Status",
+                    "value": "Running"
+                }
+            ]
+        },
+        {
+            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
+            "id": "khsxvr3gc",
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": -2297.618574240869,
+                    "y": -298.56213515820156
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Clear",
+                    "value": 1
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "b3c2gwoy6",
+                            "objOut": "khsxvr3gc"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result",
+                            "objIn": "i5trfd9e7",
+                            "objOut": "khsxvr3gc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "996p8qq0s",
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Keyboard Input",
+                "title": "Keyboard Input",
+                "translate": {
+                    "x": -2394.037927339439,
+                    "y": -499.3741848547102
+                },
+                "area": {
+                    "w": 690.7390228483487,
+                    "h": 458.8296257507246,
+                    "id": "xm50wp2bz"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Keyboard Input"
+                }
+            ]
+        },
+        {
+            "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
+            "id": "il1yk5257",
+            "attribs": {},
+            "uiAttribs": {
+                "title": ">varWsTrigger",
+                "translate": {
+                    "x": -1942.5557841085094,
+                    "y": -139.1755077085537
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Named Trigger",
+                    "value": "varWsTrigger"
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "gymaqpcvs",
+            "attribs": {},
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": -1930.5557841085094,
+                    "y": -173.7837594777568
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "varWsDataObject"
+                }
+            ]
+        },
+        {
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "i5trfd9e7",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -1942.5557841085094,
+                    "y": -242.68650524231992
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "Changed",
+                            "objIn": "il1yk5257",
+                            "objOut": "i5trfd9e7"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "Result",
+                            "objIn": "gymaqpcvs",
+                            "objOut": "i5trfd9e7"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "l4dvyc4j9",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -2297.618574240869,
+                    "y": -173.95001394736119
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "combo"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "md7bnlf2v",
+                            "objOut": "l4dvyc4j9"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "b3c2gwoy6",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -2297.618574240869,
+                    "y": -238.92667781831364
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "type"
+                },
+                {
+                    "name": "String",
+                    "value": "keyboard_pressed"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "l4dvyc4j9",
+                            "objOut": "b3c2gwoy6"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "md7bnlf2v",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -2297,
+                    "y": -106.92594181601383
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "key"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Update",
+                            "portOut": "Next",
+                            "objIn": "x8w4dfgh8",
+                            "objOut": "md7bnlf2v"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
+            "id": "x8w4dfgh8",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -2297,
+                    "y": -40.93450995648695
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "modifiers"
+                }
+            ]
         }
     ],
     "settings": {
@@ -5423,8 +5654,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 488,
-            "h": 550,
+            "w": 1104,
+            "h": 963,
             "s": 1
         },
         "timeline": {},
@@ -5432,9 +5663,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 1571.68074739561,
-                "y": -1891.6736916366997,
-                "z": 2384.9611802332906
+                "x": -1974.3265607859264,
+                "y": -246.1713798831155,
+                "z": 1060.7968485830488
             }
         },
         "currentSubPatch": "0",
@@ -5456,7 +5687,7 @@
     "summary": {
         "title": "mouseMonitor click and move map"
     },
-    "opsHash": "71b6b945642ce60032a9b9c792b3beb86cefab22",
+    "opsHash": "e3a665290d0622192e1da7e63383405c928be29e",
     "buildInfo": {
         "updateWarning": false,
         "core": {

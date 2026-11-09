@@ -6,7 +6,7 @@
     "userId": "6aaac6d92a26ac238d21e957",
     "cachedUsername": "",
     "created": 1789576921764,
-    "updated": 1789845367537,
+    "updated": 1790519952145,
     "visibility": "private",
     "ops": [
         {
@@ -1284,7 +1284,7 @@
                 },
                 {
                     "name": "Scroll Delta Y",
-                    "value": 5.6420135498046875
+                    "value": -0.2857208251953125
                 },
                 {
                     "name": "Running",
@@ -1346,25 +1346,329 @@
             ]
         },
         {
-            "opId": "8c8c967e-15e6-4697-917e-5b44d63d1b40",
-            "id": "r13b81vxr",
+            "opId": "484b3a00-41b7-4e3f-8a99-a1b32a764eff",
+            "id": "vce6m7jf1",
             "attribs": {},
             "uiAttribs": {
                 "translate": {
-                    "x": 106.43112314574398,
-                    "y": 192.63062058623152
+                    "x": 206.46984427370228,
+                    "y": -413.8392453448452
                 }
             },
             "portsIn": [
                 {
-                    "name": "Number",
+                    "name": "Device index",
+                    "value": 2
+                },
+                {
+                    "name": "Device",
+                    "value": "WORLDE   "
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Note",
+                    "links": [
+                        {
+                            "portIn": "MIDI Event In",
+                            "portOut": "Note",
+                            "objIn": "fa9v9i911",
+                            "objOut": "vce6m7jf1"
+                        }
+                    ]
+                },
+                {
+                    "name": "CC",
+                    "links": [
+                        {
+                            "portIn": "MIDI Event In",
+                            "portOut": "CC",
+                            "objIn": "3nrlxkt1e",
+                            "objOut": "vce6m7jf1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "57b03878-c707-48ee-ad8e-9b85ff901dc0",
+            "id": "3nrlxkt1e",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 328.2476220514425,
+                    "y": -358.26219676183075
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "MIDI Channel index",
+                    "value": 0
+                },
+                {
+                    "name": "MIDI Channel",
+                    "value": 1
+                },
+                {
+                    "name": "CC Index",
+                    "value": 18
+                },
+                {
+                    "name": "Speed",
+                    "value": 1
+                },
+                {
+                    "name": "Normalize index",
+                    "value": 1
+                },
+                {
+                    "name": "Normalize",
+                    "value": "0 to 1"
+                },
+                {
+                    "name": "Trigger On index",
+                    "value": 1
+                },
+                {
+                    "name": "Trigger On",
+                    "value": "Down"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "CC Value Out",
+                    "value": 1
+                },
+                {
+                    "name": "CC Index Out",
+                    "value": 18
+                }
+            ]
+        },
+        {
+            "opId": "517ed1fc-6110-4611-9cc7-8dd459191c65",
+            "id": "fa9v9i911",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 161.18589365644036,
+                    "y": -328.88888888885475
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "MIDI Channel index",
+                    "value": 0
+                },
+                {
+                    "name": "MIDI Channel",
+                    "value": 1
+                },
+                {
+                    "name": "Note index",
+                    "value": 1
+                },
+                {
+                    "name": "Note",
+                    "value": "C#-2 - 1"
+                },
+                {
+                    "name": "Normalize Velocity index",
+                    "value": 0
+                },
+                {
+                    "name": "Normalize Velocity",
+                    "value": "none"
+                },
+                {
+                    "name": "Toggle Gate",
                     "value": 0
                 }
             ],
             "portsOut": [
                 {
-                    "name": "Result",
+                    "name": "MIDI Event Out",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "MIDI Event Out",
+                            "objIn": "hxnnc7up6",
+                            "objOut": "fa9v9i911"
+                        }
+                    ]
+                },
+                {
+                    "name": "Current Note",
+                    "value": 1
+                },
+                {
+                    "name": "Velocity",
                     "value": 0
+                },
+                {
+                    "name": "Gate",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
+            "id": "t6z7b2hut",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 222.86490600210948,
+                    "y": -176.29629629627462
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "JSON String",
+                    "value": "{\n  \"if\": [\n    {\n      \"and\": [\n        { \"==\": [{ \"var\": \"type\" }, 144] },\n        { \"==\": [{ \"var\": \"note\" }, 1] },\n        { \"==\": [{ \"var\": \"velocity\" }, 127] }\n      ]\n    },\n    1,\n    0\n  ]\n}"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Rule JSON",
+                            "portOut": "Result",
+                            "objIn": "dn17sa9g4",
+                            "objOut": "t6z7b2hut"
+                        }
+                    ]
+                },
+                {
+                    "name": "Valid",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "21630924-39e4-4df5-9965-b9136510d156",
+            "id": "frf9dyqhk",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": -10.517810047192697,
+                    "y": -222.96296296293107
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Next",
+                    "links": [
+                        {
+                            "portIn": "Evaluate",
+                            "portOut": "Next",
+                            "objIn": "dn17sa9g4",
+                            "objOut": "frf9dyqhk"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "hxnnc7up6",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 161.18589365644036,
+                    "y": -249.62541019099763
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "Evaluate",
+                            "portOut": "Changed",
+                            "objIn": "dn17sa9g4",
+                            "objOut": "hxnnc7up6"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result",
+                            "objIn": "pzchl95bj",
+                            "objOut": "hxnnc7up6"
+                        },
+                        {
+                            "portIn": "Input Facts",
+                            "portOut": "Result",
+                            "objIn": "dn17sa9g4",
+                            "objOut": "hxnnc7up6"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "pzchl95bj",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 384.20175030263954,
+                "width": 438.9478095740503,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 394.9135802469417,
+                    "y": -197.2839506172619
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "8c8c967e-15e6-4697-917e-5b44d63d1b40",
+            "id": "dn17sa9g4",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 163.3093504465676,
+                    "y": -98.33511818076805
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Is Matched",
+                    "value": false
                 }
             ]
         }
@@ -1398,9 +1702,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 179.21047224261235,
-                "y": 192.63062058623152,
-                "z": 2173.754455027805
+                "x": 195.51037634469716,
+                "y": 1142.2398108381221,
+                "z": 2824.712662947164
             },
             "bp2sub_sde4m936g": {
                 "x": -37.15243178775668,
@@ -1426,7 +1730,7 @@
     "summary": {
         "title": "excalidrawForCables httpBase copy 2"
     },
-    "opsHash": "d98a54769637312ed20927003dc40ae0ba2745c0",
+    "opsHash": "0201cccd8f0ee5748bf3dd6ce9b1296e92e957b6",
     "buildInfo": {
         "updateWarning": false,
         "core": {
