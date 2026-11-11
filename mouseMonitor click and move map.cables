@@ -6,7 +6,7 @@
     "userId": "6a5204fba38f50d1a7edfab5",
     "cachedUsername": "",
     "created": 1783760123008,
-    "updated": 1794199183235,
+    "updated": 1794280622145,
     "visibility": "private",
     "ops": [
         {
@@ -1047,7 +1047,7 @@
             "portsOut": [
                 {
                     "name": "HTTP URL",
-                    "value": "/api/stt/result"
+                    "value": "/apps/space_type_generator-ws/assets/IBMPlexMono-Regular.otf"
                 },
                 {
                     "name": "On WS Message",
@@ -1072,12 +1072,18 @@
                             "portOut": "WS Message Data",
                             "objIn": "zkylaetw3",
                             "objOut": "esgruuzis"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "WS Message Data",
+                            "objIn": "1vb8d0ud0",
+                            "objOut": "esgruuzis"
                         }
                     ]
                 },
                 {
                     "name": "WS Active Clients",
-                    "value": 6
+                    "value": 0
                 },
                 {
                     "name": "Error",
@@ -1150,11 +1156,11 @@
                 },
                 {
                     "name": "Client Count",
-                    "value": 4
+                    "value": 2
                 },
                 {
                     "name": "Last Client ID",
-                    "value": "stg-stripes"
+                    "value": "stripe-obs"
                 }
             ]
         },
@@ -1179,7 +1185,7 @@
                 },
                 {
                     "name": "Active",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Style",
@@ -1226,11 +1232,11 @@
             "portsOut": [
                 {
                     "name": "width",
-                    "value": 623
+                    "value": 723
                 },
                 {
                     "name": "height",
-                    "value": 465
+                    "value": 220
                 },
                 {
                     "name": "Pixel Density",
@@ -1485,7 +1491,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -1570,7 +1576,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -1607,7 +1613,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -1650,7 +1656,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -2258,7 +2264,7 @@
             "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
             "id": "mt4ho66t9",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "jkipjl9sn"
             },
             "uiAttribs": {
                 "translate": {
@@ -2465,7 +2471,7 @@
             "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
             "id": "01foczspx",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "jkipjl9sn"
             },
             "uiAttribs": {
                 "title": "var set",
@@ -2488,8 +2494,8 @@
             "uiAttribs": {
                 "title": "var get",
                 "translate": {
-                    "x": 895.0287968163681,
-                    "y": -824.3729797935598
+                    "x": 846.4585878748072,
+                    "y": -806.6261726802971
                 }
             },
             "portsIn": [
@@ -2519,7 +2525,7 @@
             "uiAttribs": {
                 "title": ">varControlSettingTrigger",
                 "translate": {
-                    "x": 910.6739979798637,
+                    "x": 843.4229394453948,
                     "y": -722.1440600312762
                 }
             },
@@ -2547,7 +2553,7 @@
             "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
             "id": "h878jprew",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "jkipjl9sn"
             },
             "uiAttribs": {
                 "title": ">varControlSettingTrigger",
@@ -2631,7 +2637,7 @@
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "b5a3jrdlq",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "jkipjl9sn"
             },
             "uiAttribs": {
                 "hasArea": true,
@@ -2694,11 +2700,11 @@
                 },
                 {
                     "name": "Is Connected",
-                    "value": true
+                    "value": false
                 },
                 {
                     "name": "Status",
-                    "value": "Connected: Stream Deck V2 (Stream Deck)"
+                    "value": "No Stream Deck Connected"
                 },
                 {
                     "name": "Key Event",
@@ -2950,7 +2956,7 @@
                 },
                 {
                     "name": "Num Lines",
-                    "value": 3
+                    "value": 2
                 }
             ]
         },
@@ -3462,7 +3468,7 @@
                 },
                 {
                     "name": "bs between",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -3554,15 +3560,15 @@
                 },
                 {
                     "name": "Output 1",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 2",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 3",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 4",
@@ -3577,47 +3583,47 @@
                 },
                 {
                     "name": "Output 5",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 6",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 7",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 8",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 9",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 10",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 11",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 12",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 13",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 14",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 15",
-                    "value": 15
+                    "value": 0
                 }
             ]
         },
@@ -3841,7 +3847,7 @@
             "opId": "c0233dfa-ef4c-4451-b86e-3b2aadc8e9a5",
             "id": "irqm4u39e",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
@@ -3945,7 +3951,7 @@
             "opId": "a7335e79-046e-40da-9e9c-db779b0a5e53",
             "id": "xs0vzaw0c",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
@@ -3974,7 +3980,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -3982,7 +3988,7 @@
             "opId": "e3b1fc2d-a813-4d9b-8cb0-595fc95af4e2",
             "id": "wefbg1z35",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
@@ -4325,7 +4331,7 @@
             "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
             "id": "v9bu948gm",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
@@ -4381,7 +4387,7 @@
             "opId": "2617b407-60a0-4ff6-b4a7-18136cfa7817",
             "id": "44f8459ds",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
@@ -4640,7 +4646,7 @@
             "portsOut": [
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "name": "Index",
@@ -4735,7 +4741,7 @@
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "m1smtz117",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "hasArea": true,
@@ -5456,7 +5462,9 @@
         {
             "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
             "id": "il1yk5257",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "title": ">varWsTrigger",
                 "translate": {
@@ -5474,7 +5482,9 @@
         {
             "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
             "id": "gymaqpcvs",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
@@ -5492,7 +5502,9 @@
         {
             "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
             "id": "i5trfd9e7",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "translate": {
                     "x": -1942.5557841085094,
@@ -5527,7 +5539,9 @@
         {
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "l4dvyc4j9",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
@@ -5558,7 +5572,9 @@
         {
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "b3c2gwoy6",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
@@ -5593,7 +5609,9 @@
         {
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "md7bnlf2v",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
@@ -5624,7 +5642,9 @@
         {
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "x8w4dfgh8",
-            "attribs": {},
+            "attribs": {
+                "area": "xm50wp2bz"
+            },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
@@ -5642,15 +5662,62 @@
         {
             "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
             "id": "wpbe6z9f2",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
                 "height": 329.49439714183075,
                 "width": 243.50122333599415,
                 "resizable": true,
                 "vizLayerMaxZoom": 3500,
                 "translate": {
-                    "x": 1057.7073978725657,
-                    "y": -396.859609393044
+                    "x": 485.4611868638383,
+                    "y": 54.00104170474117
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "1vb8d0ud0",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 227.4463161419817,
+                "width": 288.4565454565238,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 1468.1041976575402,
+                    "y": -761.3049189122464
                 }
             },
             "portsIn": [
@@ -5705,8 +5772,8 @@
     "ui": {
         "viewBox": {},
         "renderer": {
-            "w": 623,
-            "h": 465,
+            "w": 723,
+            "h": 220,
             "s": 1
         },
         "timeline": {},
@@ -5714,9 +5781,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 1721.4997950575719,
-                "y": 492.3874517457475,
-                "z": 1387.263541839339
+                "x": 1417.2312282567848,
+                "y": -737.2770896846631,
+                "z": 473.4326903832888
             }
         },
         "currentSubPatch": "0",
@@ -5738,7 +5805,7 @@
     "summary": {
         "title": "mouseMonitor click and move map"
     },
-    "opsHash": "44fc49ec022ca0b97cffeeedc40f9972a8c15462",
+    "opsHash": "ea26e29f111c900df50c1799e22558fc5f84e463",
     "buildInfo": {
         "updateWarning": false,
         "core": {

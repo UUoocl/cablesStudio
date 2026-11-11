@@ -4,16 +4,32 @@
  */
 
 // --- CLIENT IDENTITY & CONFIGURATION ---
-var CLIENT_ID = 'stg-cylinder';
+var urlParams = window.urlParams || new URLSearchParams(window.location.search);
+window.urlParams = urlParams;
+
+var defaultClientId = 'stg-cylinder';
+var customClientId = urlParams.get('clientID') || urlParams.get('clientId') || urlParams.get('clientid');
+var CLIENT_ID = (customClientId && customClientId.trim()) ? customClientId.trim() : defaultClientId;
 var originId = `${CLIENT_ID}-${Math.random().toString(36).substring(2, 9)}`;
 
 window.CLIENT_ID = CLIENT_ID;
 window.originId = originId;
 
+// Determine initial preset from query parameter if provided
+var initialPresetParam = urlParams.get('preset') || urlParams.get('p');
+var initialPreset = "simple";
+if (initialPresetParam && typeof customPresets !== 'undefined') {
+    const pLower = initialPresetParam.toLowerCase();
+    const matchedKey = Object.keys(customPresets).find(k => k.toLowerCase() === pLower);
+    if (matchedKey) {
+        initialPreset = matchedKey;
+    }
+}
+
 // Central configuration synced with Dashboard / Cables
 window.cylinderConfig = {
     text: "SPACE-TYPE-GENERATOR",
-    preset: "simple",
+    preset: initialPreset,
     hideNoText: false,
 
     radius: 250,
@@ -113,7 +129,7 @@ function getRegistrationPayload() {
         manifest: {
             clientId: CLIENT_ID,
             clientType: 'p5',
-            name: 'STG Cylinder',
+            name: CLIENT_ID !== defaultClientId ? `STG Cylinder (${CLIENT_ID})` : 'STG Cylinder',
             parameters: {
                 text: {
                     type: 'string',

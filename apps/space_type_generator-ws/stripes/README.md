@@ -23,17 +23,33 @@ Launch with `?ws=true` (or pointing to a custom WebSocket server):
 ```
 http://127.0.0.1:8080/space_type_generator-ws/stripes/index.html?ws=true
 ```
-When connected, the client automatically dispatches a `client:register` manifest under client ID `stg-stripes`. In the dashboard, parameters are dynamically rendered into grouped Tweakpane controls (`Content`, `Ribbons`, `Wave`, `Typography`, `Colors`, and `Text Clear`), with support for undocking into a separate draggable pane.
+When connected, the client automatically dispatches a `client:register` manifest under client ID `stg-stripes` (or a custom `clientID` if specified). In the dashboard, parameters are dynamically rendered into grouped Tweakpane controls (`Content`, `Ribbons`, `Wave`, `Typography`, `Colors`, and `Text Clear`), with support for undocking into a separate draggable pane.
 
-### 2. BroadcastChannel
+### 2. Multi-Instance Setup (No Feedback Loop)
+You can open multiple concurrent instances of the client (e.g. two OBS browser sources or dual Camo Studio overlays) simultaneously without interference or feedback loops by providing unique `clientID` and initial `preset` query parameters:
+
+```
+Instance 1 (Left Overlay):
+http://127.0.0.1:8080/space_type_generator-ws/stripes/index.html?ws=true&clientID=stripes-left&preset=subway
+
+Instance 2 (Right Overlay):
+http://127.0.0.1:8080/space_type_generator-ws/stripes/index.html?ws=true&clientID=stripes-right&preset=oldsea
+```
+
+- **`clientID`**: Sets an isolated client identifier (`stg-stripes` by default). Messages and parameter updates destined for one client ID are ignored by other instances.
+- **`preset`** (or `p`): Immediately applies a preset style (`subway`, `oldsea`, `colorsea`, `marquee`, etc.) on initial load and synchronizes it with the dashboard manifest.
+
+### 3. BroadcastChannel
 ```
 http://127.0.0.1:8080/space_type_generator-ws/stripes/index.html?channel=YOUR_CHANNEL_NAME&width=1024&height=1024
 ```
 - `channel` or `bc`: BroadcastChannel name for synchronization.
+- `clientID`: Custom client ID for targeted message handling.
+- `preset`: Preload visual preset on startup.
 - `width` / `height`: Optional initial canvas dimensions.
 - `ws`: Enable WebSocket client connection (defaults to `127.0.0.1:8080` or pass custom host `?ws=127.0.0.1:8080`).
 
-### 3. Real-Time Keyboard Input
+### 4. Real-Time Keyboard Input
 The sketch listens for `keyboard_pressed` messages from the macOS keyboard monitor or WebSocket bridges:
 ```json
 {

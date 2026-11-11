@@ -60,6 +60,26 @@ function setup() {
   // Initialize defaults
   reSetting();
 
+  // Apply preset from query parameter if provided, or from initial config
+  const params = (typeof urlParams !== 'undefined') ? urlParams : new URLSearchParams(window.location.search);
+  const requestedPreset = params.get('preset') || params.get('p') || (window.stripesConfig && window.stripesConfig.preset);
+
+  if (requestedPreset && typeof customPresets !== 'undefined') {
+    const pLower = String(requestedPreset).toLowerCase();
+    const matchedKey = Object.keys(customPresets).find(k => k.toLowerCase() === pLower);
+    if (matchedKey && typeof applyCustomPreset === 'function') {
+      applyCustomPreset(customPresets[matchedKey]);
+      if (window.stripesConfig) {
+        window.stripesConfig.preset = matchedKey;
+      }
+      if (typeof syncConfigFromSketch === 'function') {
+        syncConfigFromSketch();
+      }
+    } else if (params.has('preset') || params.has('p')) {
+      console.warn(`[STG Stripes] Preset "${requestedPreset}" not found. Available presets:`, Object.keys(customPresets));
+    }
+  }
+
   if (typeof signalReady === 'function') signalReady();
   if (typeof registerClient === 'function') registerClient();
 }

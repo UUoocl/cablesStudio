@@ -4,7 +4,7 @@
  */
 
 // --- COMMUNICATION BRIDGE ---
-var urlParams = new URLSearchParams(window.location.search);
+var urlParams = window.urlParams || new URLSearchParams(window.location.search);
 var initialWidth = parseInt(urlParams.get('width')) || window.innerWidth;
 var initialHeight = parseInt(urlParams.get('height')) || window.innerHeight;
 
@@ -79,7 +79,8 @@ function startWebSocket() {
     ws.onopen = () => {
         console.log("[STG Cylinder] WebSocket connected!");
         const activeOriginId = typeof originId !== 'undefined' ? originId : 'stg-cylinder';
-        ws.send(JSON.stringify({ type: 'ready', originId: activeOriginId }));
+        const activeClientId = typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'stg-cylinder';
+        ws.send(JSON.stringify({ type: 'ready', originId: activeOriginId, clientId: activeClientId }));
         if (typeof registerClient === 'function') {
             registerClient();
         }
@@ -118,6 +119,11 @@ function handleMessage(data) {
         return;
     }
 
+    // Ignore messages explicitly targeted at another clientId
+    if (typeof CLIENT_ID !== 'undefined' && data.clientId && data.clientId !== CLIENT_ID) {
+        return;
+    }
+
     switch (data.type) {
         case 'client:discover':
         case 'registry:request':
@@ -128,15 +134,13 @@ function handleMessage(data) {
 
         case 'client:update':
         case 'param:update':
-            if (typeof CLIENT_ID === 'undefined' || !data.clientId || data.clientId === CLIENT_ID) {
-                if (typeof applyParameterUpdates === 'function') {
-                    if (data.parameters && typeof data.parameters === 'object') {
-                        applyParameterUpdates(data.parameters);
-                    } else if (typeof data.key === 'string' && data.value !== undefined) {
-                        applyParameterUpdates({ [data.key]: data.value });
-                    } else {
-                        applyParameterUpdates(data);
-                    }
+            if (typeof applyParameterUpdates === 'function') {
+                if (data.parameters && typeof data.parameters === 'object') {
+                    applyParameterUpdates(data.parameters);
+                } else if (typeof data.key === 'string' && data.value !== undefined) {
+                    applyParameterUpdates({ [data.key]: data.value });
+                } else {
+                    applyParameterUpdates(data);
                 }
             }
             break;
@@ -235,10 +239,15 @@ function captureFrame() {
 
 function signalReady() {
     console.log("[STG Cylinder] Sending ready signal...");
+    const payload = {
+        type: 'ready',
+        originId: typeof originId !== 'undefined' ? originId : 'stg-cylinder',
+        clientId: typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'stg-cylinder'
+    };
     if (pubChannel) {
-        pubChannel.postMessage({ type: 'ready' });
+        pubChannel.postMessage(payload);
     }
     if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
-        wsInstance.send(JSON.stringify({ type: 'ready' }));
+        wsInstance.send(JSON.stringify(payload));
     }
 }

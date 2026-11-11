@@ -20,7 +20,7 @@ var customPresets = {
     "color5": "#000000",
     "text": "gHoEoLdLbOy?e",
     "inpNumber": 5,
-    "bkgdColor": "#ffff00"
+    "bkgdColor": "#ffff0000"
   },
   "subway": {
     "typeX": 20,

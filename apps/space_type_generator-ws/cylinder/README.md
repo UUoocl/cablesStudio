@@ -23,17 +23,33 @@ Launch with `?ws=true` (or pointing to a custom WebSocket server):
 ```
 http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?ws=true
 ```
-When connected, the client automatically dispatches a `client:register` manifest under client ID `stg-cylinder`. In the dashboard, all 36 parameters are dynamically rendered into grouped Tweakpane controls (`Content`, `Cylinder`, `Wave & Depth`, `Typography`, `Camera`, `Colors`, and `Text Clear`), with support for undocking into a separate draggable pane and MIDI knob mapping.
+When connected, the client automatically dispatches a `client:register` manifest under client ID `stg-cylinder` (or a custom `clientID` if specified). In the dashboard, all 36 parameters are dynamically rendered into grouped Tweakpane controls (`Content`, `Cylinder`, `Wave & Depth`, `Typography`, `Camera`, `Colors`, and `Text Clear`), with support for undocking into a separate draggable pane and MIDI knob mapping.
 
-### 2. BroadcastChannel
+### 2. Multi-Instance Setup (No Feedback Loop)
+You can open multiple concurrent instances of the client simultaneously without feedback loops by providing unique `clientID` and initial `preset` query parameters:
+
+```
+Instance 1:
+http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?ws=true&clientID=cylinder-left&preset=weave
+
+Instance 2:
+http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?ws=true&clientID=cylinder-right&preset=jellyfish
+```
+
+- **`clientID`**: Sets an isolated client identifier (`stg-cylinder` by default). Messages and parameter updates destined for one client ID are ignored by other instances.
+- **`preset`** (or `p`): Immediately applies a preset style (`simple`, `weave`, `jellyfish`, `crown`, `complex`, `zebra`, `hoops`, `pride`) on initial load and synchronizes it with the dashboard manifest.
+
+### 3. BroadcastChannel
 ```
 http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?channel=YOUR_CHANNEL_NAME&width=1024&height=1024
 ```
 - `channel` or `bc`: BroadcastChannel name for synchronization.
+- `clientID`: Custom client ID for targeted message handling.
+- `preset`: Preload visual preset on startup.
 - `width` / `height`: Optional initial canvas dimensions.
 - `ws`: Enable WebSocket client connection (defaults to `127.0.0.1:8080` or pass custom host `?ws=127.0.0.1:8080`).
 
-### 3. Capture
+### 4. Capture
 Use the `Ops.Local.GetIframeCanvas` operator in Cables to retrieve the DOM canvas element from the iframe and pipe it into a `CanvasToTexture` operator.
 
 
