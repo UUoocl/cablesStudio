@@ -400,4 +400,57 @@ flowchart TD
      - Branch via **`Ops.String.StringEquals_v2`** (`"boolean"`) + **`Ops.Boolean.IfTrueThen`** to set `"value"` with **`Ops.Data.Compose.Object.CompObjectSetBool`** (`Then`) or **`Ops.Data.Compose.Object.CompObjectSetNumber`** (`Else`).
    - Wire `CompObject` (`Result`) ➔ **`WS Message Data`** and trigger **`Process Message`** on `Ops.Extension.Standalone.ClientRegistry` (or send via `Ops.Extension.Standalone.HttpFileServer`).
 
+---
+
+## Soft Takeover & Dashboard-Targeted MIDI Routing
+
+Because WebSocket servers broadcast messages to all connected sockets, two complementary mechanisms prevent unlatched MIDI knobs from jumping client parameters:
+
+1. **Target `settings_dashboard.html` Specifically**:
+   - Set **`target: "dashboard"`** on `client:update`, or use **`type: "dashboard:update"`** / **`type: "midi:update"`**:
+     ```json
+     {
+       "type": "dashboard:update",
+       "originId": "cables-midi",
+       "clientId": "stg-stripes-left",
+       "key": "speed",
+       "value": 0.45
+     }
+     ```
+   - Use **`clientId: "active"`** (or `paneId`) to target whichever tab is currently selected in `settings_dashboard.html`.
+   - Visualization clients ignore `target: "dashboard"`, `dashboard:update`, and `midi:update`, so updates only reach the target client once latched in the dashboard.
+   - Switch panes remotely via WebSocket with `{ "type": "client:select", "clientId": "stg-stripes-right" }` (or `pane:select` / `tab:select`).
+
+2. **Common Client Soft Takeover ([soft-takeover-client.js](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/lib/soft-takeover-client.js))**:
+   - Visualization clients (`stripes`, `cylinder`, `p5_magicWand`, `js_trassel`) also run a shared Soft Takeover filter that gates direct `cables-midi` broadcasts until the knob catches up, and automatically unlatches whenever MIDI traffic or `client:select` targets another `clientId`.
+   - Query parameters: `?softTakeover=false` disables client-side pickup filtering; `?softTakeover=all` applies pickup filtering to all non-dashboard updates.
+
+---
+
+## Saving Pane Presets (`POST /savepreset`) & Persisting Pane Positions
+
+1. **Per-Pane Save Preset UI**:
+   - Each docked tab and separated client pane includes a **Save Preset** folder containing a **Preset Name** text input and a **Save Preset** button.
+   - Clicking **Save Preset** dispatches `POST /savepreset` with `Content-Type: application/json`:
+     ```json
+     {
+       "clientId": "stripes-left",
+       "clientName": "STG Stripes (stripes-left)",
+       "appType": "stripes",
+       "presetFile": "apps/space_type_generator-ws/stripes/preset.js",
+       "presetName": "my_custom_preset",
+       "parameters": {
+         "text": "HELLO",
+         "speed": 0.025,
+         "ribbonCount": 14
+       }
+     }
+     ```
+   - In Cables Standalone, [HttpFileServer](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.HttpFileServer/Ops.Extension.Standalone.HttpFileServer.js) routes `POST /savepreset` to `On HTTP Request` (`HTTP URL` = `"/savepreset"`). Standard Cables ops extract `presetFile`, `presetName`, and `parameters` from `HTTP Request Data`, merge the entry into `customPresets` in the target `preset.js` file (`var customPresets = <JSON>;`), and respond via [HttpFileServerResponse](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Net.HttpFileServerResponse/Ops.Extension.Standalone.Net.HttpFileServerResponse.js).
+   - Client manifests dynamically merge keys from `customPresets` into `preset.options` on registration, and the dashboard updates the pane's local `Preset` dropdown immediately on `200 OK`.
+
+2. **Pane Position Persistence (`localStorage`)**:
+   - Draggable pane positions (`x`, `y`, `z`) are persisted under `localStorage` key `stg_dashboard_pane_positions_v1`, and separated client pane IDs under `stg_dashboard_separated_clients_v1`.
+   - Clicking **Reset Positions** clears `stg_dashboard_pane_positions_v1` and restores default coordinates.
+
 

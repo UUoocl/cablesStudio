@@ -112,6 +112,26 @@ function parseColor(val) {
     return String(val);
 }
 
+function buildPresetOptions(baseOptions) {
+    const opts = Object.assign({}, baseOptions);
+    if (typeof customPresets !== 'undefined' && customPresets && typeof customPresets === 'object') {
+        const existingValues = new Set(Object.values(opts).map(v => String(v).toLowerCase()));
+        Object.keys(customPresets).forEach((key) => {
+            if (!existingValues.has(key.toLowerCase())) {
+                opts[key] = key;
+            }
+        });
+    }
+    if ('Reset' in opts) {
+        const resetVal = opts['Reset'];
+        delete opts['Reset'];
+        opts['Reset'] = resetVal;
+    } else {
+        opts['Reset'] = 'reset';
+    }
+    return opts;
+}
+
 function getRegistrationPayload() {
     return {
         type: 'client:register',
@@ -119,6 +139,8 @@ function getRegistrationPayload() {
         manifest: {
             clientId: CLIENT_ID,
             clientType: 'p5',
+            appType: 'stripes',
+            presetFile: 'apps/space_type_generator-ws/stripes/preset.js',
             name: CLIENT_ID !== defaultClientId ? `STG Stripes (${CLIENT_ID})` : 'STG Stripes',
             parameters: {
                 text: {
@@ -132,7 +154,7 @@ function getRegistrationPayload() {
                     value: String(window.stripesConfig.preset),
                     label: 'Preset',
                     group: 'Content',
-                    options: {
+                    options: buildPresetOptions({
                         'Marquee': 'marquee',
                         'Subway': 'subway',
                         'Simple Wave': 'simplewave',
@@ -145,7 +167,7 @@ function getRegistrationPayload() {
                         'Simple Wave 2': 'simplewave2',
                         'Pride': 'pride',
                         'Reset': 'reset'
-                    }
+                    })
                 },
                 hideNoText: {
                     type: 'boolean',

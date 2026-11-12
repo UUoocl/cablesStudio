@@ -15,23 +15,28 @@
         "portsIn": [
             {
                 "type": 1,
-                "name": "Process Message"
+                "name": "Process Message",
+                "group": "WebSocket Input"
             },
             {
                 "type": 2,
-                "name": "WS Message Data"
+                "name": "WS Message Data",
+                "group": "WebSocket Input"
             },
             {
                 "type": 2,
-                "name": "Server Instance"
+                "name": "Server Instance",
+                "group": "WebSocket Input"
             },
             {
                 "type": 1,
-                "name": "Discover Clients"
+                "name": "Discover Clients",
+                "group": "Actions"
             },
             {
                 "type": 1,
-                "name": "Clear Registry"
+                "name": "Clear Registry",
+                "group": "Actions"
             }
         ],
         "portsOut": [
@@ -140,4 +145,3 @@
     },
     "isReleased": true
 }
-

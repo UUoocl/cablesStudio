@@ -6,7 +6,7 @@
     "userId": "6a5204fba38f50d1a7edfab5",
     "cachedUsername": "",
     "created": 1783760123008,
-    "updated": 1794280622145,
+    "updated": 1794449657273,
     "visibility": "private",
     "ops": [
         {
@@ -20,8 +20,8 @@
                 "comment_title": "Normalize Position",
                 "title": "Normalize Position",
                 "translate": {
-                    "x": -1019.0217989757358,
-                    "y": 162.68810823070697
+                    "x": -1473.979894631398,
+                    "y": -42.597861760262674
                 },
                 "area": {
                     "w": 432.5031019745726,
@@ -44,8 +44,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -742.8098106970699,
-                    "y": 254.22400410575133
+                    "x": -1197.7679063527323,
+                    "y": 48.938034114781686
                 },
                 "comment": "y"
             },
@@ -101,8 +101,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -961.7113690942207,
-                    "y": 261.1042948354335
+                    "x": -1416.669464749883,
+                    "y": 55.81832484446386
                 },
                 "comment": "x"
             },
@@ -160,8 +160,8 @@
                 "comment_title": "mapRange",
                 "comment_text": "Set the old min and max to the screen area to capture.\nExample. main screen \nx min 0, max 1920\ny min 0, max 1200\n\nset the new min and max to 0 and 1.    ",
                 "translate": {
-                    "x": -972.0596433822445,
-                    "y": 303.52656556199736
+                    "x": -1427.017739037907,
+                    "y": 98.24059557102771
                 }
             },
             "portsIn": [
@@ -186,8 +186,8 @@
                 "comment_title": "Clicks",
                 "title": "Clicks",
                 "translate": {
-                    "x": -517.6786263457047,
-                    "y": 556.6599664161619
+                    "x": -972,
+                    "y": 351.3739964251922
                 },
                 "area": {
                     "w": 310.1728659537796,
@@ -213,8 +213,8 @@
                 "comment_title": "Position",
                 "title": "Position",
                 "translate": {
-                    "x": -1088.4380874473318,
-                    "y": 564.4341709653053
+                    "x": -1543.3961831029942,
+                    "y": 359.1482009743356
                 },
                 "area": {
                     "w": 457.4773623163133,
@@ -237,8 +237,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -1040.9731972779946,
-                    "y": -143.36678790956955
+                    "x": -1490.3830234744414,
+                    "y": -348.6527579005392
                 }
             },
             "portsIn": [
@@ -281,8 +281,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1040.9731972779946,
-                    "y": 775.506671075062
+                    "x": -1490.3830234744414,
+                    "y": 570.2207010840923
                 }
             },
             "portsIn": [
@@ -318,8 +318,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1040.9731972779946,
-                    "y": 657.3589517766171
+                    "x": -1490.3830234744414,
+                    "y": 452.07298178564747
                 }
             },
             "portsIn": [
@@ -351,8 +351,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1040.9731972779946,
-                    "y": 33.38010450401917
+                    "x": -1490.3830234744414,
+                    "y": -171.90586548695046
                 }
             },
             "portsIn": [
@@ -384,8 +384,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1040.9731972779946,
-                    "y": 711.7289648526581
+                    "x": -1490.3830234744414,
+                    "y": 506.4429948616885
                 }
             },
             "portsIn": [
@@ -471,8 +471,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -492.78801172133404,
-                    "y": -540.6844796079747
+                    "x": -947.2862138257448,
+                    "y": -745.9704495989444
                 }
             },
             "portsIn": [
@@ -610,8 +610,8 @@
                 "comment_title": "Scroll",
                 "title": "Scroll",
                 "translate": {
-                    "x": -130.79473253668345,
-                    "y": 569.321958561222
+                    "x": -585.7528281923459,
+                    "y": 364.03598857025236
                 },
                 "area": {
                     "w": 308.1978489296999,
@@ -635,8 +635,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -93.91110187048182,
-                    "y": 748.0551685703385
+                    "x": -543.3209280669287,
+                    "y": 542.7691985793689
                 }
             },
             "portsIn": [
@@ -654,8 +654,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -789.7198289049308,
-                    "y": -194.90966184316005
+                    "x": -1244.677924560593,
+                    "y": -400.1956318341297
                 }
             },
             "portsOut": [
@@ -692,8 +692,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -449.87638762929794,
-                    "y": 773.8194818231332
+                    "x": -899.2862138257448,
+                    "y": 568.5335118321635
                 }
             },
             "portsIn": [
@@ -724,8 +724,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -401.87638762929794,
-                    "y": 677.7866517434172
+                    "x": -851.2862138257448,
+                    "y": 472.5006817524476
                 }
             },
             "portsIn": [
@@ -756,8 +756,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -425.87638762929794,
-                    "y": 720.2832997484838
+                    "x": -875.2862138257448,
+                    "y": 514.9973297575142
                 }
             },
             "portsIn": [
@@ -811,8 +811,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -449.87638762929794,
-                    "y": 826.5094525914354
+                    "x": -899.2862138257448,
+                    "y": 621.2234826004658
                 }
             },
             "portsIn": [
@@ -843,8 +843,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -828.4017634707798,
-                    "y": -22.75034690227386
+                    "x": -1283.3598591264422,
+                    "y": -228.0363168932435
                 }
             },
             "portsIn": [
@@ -912,8 +912,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -93.91110187048182,
-                    "y": 674.6301560385128
+                    "x": -543.3209280669287,
+                    "y": 469.3441860475432
                 }
             },
             "portsIn": [
@@ -947,8 +947,8 @@
                 "comment_title": "Mouse Object",
                 "title": "Mouse Object",
                 "translate": {
-                    "x": -1075,
-                    "y": -290.8165456688886
+                    "x": -1529.9580956556624,
+                    "y": -496.1025156598582
                 },
                 "area": {
                     "w": 425.28401624245816,
@@ -1047,7 +1047,7 @@
             "portsOut": [
                 {
                     "name": "HTTP URL",
-                    "value": "/apps/space_type_generator-ws/assets/IBMPlexMono-Regular.otf"
+                    "value": "/tweakpane_plugin/tweakpane-soft-takeover.js"
                 },
                 {
                     "name": "On WS Message",
@@ -1055,7 +1055,7 @@
                         {
                             "portIn": "Process Message",
                             "portOut": "On WS Message",
-                            "objIn": "zkylaetw3",
+                            "objIn": "k28eenlrx",
                             "objOut": "esgruuzis"
                         }
                     ]
@@ -1070,20 +1070,14 @@
                         {
                             "portIn": "WS Message Data",
                             "portOut": "WS Message Data",
-                            "objIn": "zkylaetw3",
-                            "objOut": "esgruuzis"
-                        },
-                        {
-                            "portIn": "Object",
-                            "portOut": "WS Message Data",
-                            "objIn": "1vb8d0ud0",
+                            "objIn": "k28eenlrx",
                             "objOut": "esgruuzis"
                         }
                     ]
                 },
                 {
                     "name": "WS Active Clients",
-                    "value": 0
+                    "value": 5
                 },
                 {
                     "name": "Error",
@@ -1099,7 +1093,7 @@
                         {
                             "portIn": "Server Instance",
                             "portOut": "Server Instance",
-                            "objIn": "zkylaetw3",
+                            "objIn": "k28eenlrx",
                             "objOut": "esgruuzis"
                         }
                     ]
@@ -1107,60 +1101,6 @@
                 {
                     "name": "Active Clients",
                     "value": 0
-                }
-            ]
-        },
-        {
-            "opId": "b4179e4c-7a2c-4f3b-9e8a-6d12f0c5e891",
-            "id": "zkylaetw3",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 1148.2591689735461,
-                    "y": -667.3274130709501
-                }
-            },
-            "portsOut": [
-                {
-                    "name": "On Client Registered",
-                    "links": [
-                        {
-                            "portIn": "Trigger",
-                            "portOut": "On Client Registered",
-                            "objIn": "ficctl4a2",
-                            "objOut": "zkylaetw3"
-                        }
-                    ]
-                },
-                {
-                    "name": "Registered Clients",
-                    "links": [
-                        {
-                            "portIn": "Object",
-                            "portOut": "Registered Clients",
-                            "objIn": "n3mif1fbn",
-                            "objOut": "zkylaetw3"
-                        }
-                    ]
-                },
-                {
-                    "name": "Client IDs",
-                    "links": [
-                        {
-                            "portIn": "Array",
-                            "portOut": "Client IDs",
-                            "objIn": "3efxicjjl",
-                            "objOut": "zkylaetw3"
-                        }
-                    ]
-                },
-                {
-                    "name": "Client Count",
-                    "value": 2
-                },
-                {
-                    "name": "Last Client ID",
-                    "value": "stripe-obs"
                 }
             ]
         },
@@ -1252,8 +1192,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1264.652575488662,
-                    "y": -57.34590163259338
+                    "x": 1190.587869219833,
+                    "y": -59.63656265121696
                 }
             },
             "portsIn": [
@@ -1268,12 +1208,29 @@
             ],
             "portsOut": [
                 {
+                    "name": "Event",
+                    "links": [
+                        {
+                            "portIn": "Event",
+                            "portOut": "Event",
+                            "objIn": "8kouoyy89",
+                            "objOut": "cgna8axrr"
+                        }
+                    ]
+                },
+                {
                     "name": "CC",
                     "links": [
                         {
                             "portIn": "MIDI Event In",
                             "portOut": "CC",
                             "objIn": "dkmgly072",
+                            "objOut": "cgna8axrr"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "CC",
+                            "objIn": "xve6hb32s",
                             "objOut": "cgna8axrr"
                         }
                     ]
@@ -1288,8 +1245,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1288.652575488662,
-                    "y": 9.458381817016601
+                    "x": 1214.587869219833,
+                    "y": -1.997710535823316
                 }
             },
             "portsIn": [
@@ -1299,11 +1256,11 @@
                 },
                 {
                     "name": "MIDI Channel",
-                    "value": 1
+                    "value": 3
                 },
                 {
                     "name": "CC Index",
-                    "value": 0
+                    "value": 105
                 },
                 {
                     "name": "Speed",
@@ -1319,17 +1276,17 @@
                 },
                 {
                     "name": "Trigger On index",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Trigger On",
-                    "value": "Down"
+                    "value": "Both"
                 }
             ],
             "portsOut": [
                 {
                     "name": "CC Value Out",
-                    "value": 0
+                    "value": 0.007874015748031496
                 },
                 {
                     "name": "Event",
@@ -1349,8 +1306,19 @@
                     ]
                 },
                 {
+                    "name": "Trigger Out",
+                    "links": [
+                        {
+                            "portIn": "trigger",
+                            "portOut": "Trigger Out",
+                            "objIn": "b6yvji3br",
+                            "objOut": "dkmgly072"
+                        }
+                    ]
+                },
+                {
                     "name": "CC Index Out",
-                    "value": 0
+                    "value": 105
                 }
             ]
         },
@@ -1362,8 +1330,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1711.0931802711686,
-                    "y": 103.4334211847837
+                    "x": 2281.9924168504704,
+                    "y": 410.40808442150745
                 }
             },
             "portsOut": [
@@ -1392,8 +1360,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1711.0931802711686,
-                    "y": 230.82728586849765
+                    "x": 2281.9924168504704,
+                    "y": 467.8770675413876
                 }
             },
             "portsIn": [
@@ -1467,8 +1435,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1378.5437562288664,
-                    "y": 181.7612611691927
+                    "x": 1753.396203857412,
+                    "y": 386.970652384657
                 }
             },
             "portsIn": [
@@ -1482,16 +1450,16 @@
                     "name": "Result",
                     "links": [
                         {
-                            "portIn": "Number 0",
+                            "portIn": "number1",
                             "portOut": "Result",
-                            "objIn": "3bwfuvc29",
+                            "objIn": "4bf0c1urg",
                             "objOut": "ubojvywif"
                         }
                     ]
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1503,8 +1471,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1735.0931802711686,
-                    "y": 424.3972411175783
+                    "x": 2449.4234324382196,
+                    "y": 858.829917526629
                 }
             },
             "portsOut": [
@@ -1552,8 +1520,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1627.6880600707839,
-                    "y": 526.6418694027461
+                    "x": 2203.5644609900464,
+                    "y": 1004.476312560679
                 }
             },
             "portsIn": [
@@ -1576,7 +1544,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1589,8 +1557,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1877.3347370763067,
-                    "y": 529.5705802663567
+                    "x": 2449.4234324382196,
+                    "y": 994.7793382331241
                 }
             },
             "portsIn": [
@@ -1613,7 +1581,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1626,8 +1594,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1294.693981869219,
-                    "y": 442.91405007116265
+                    "x": 1363.0510030219996,
+                    "y": 380.9597588530283
                 }
             },
             "portsIn": [
@@ -1656,7 +1624,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -1668,8 +1636,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1681.8796773201896,
-                    "y": 932.7427628416212
+                    "x": 1977.3407827903234,
+                    "y": 1397.9515208083885
                 }
             },
             "portsIn": [
@@ -1716,8 +1684,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1487.4940434618907,
-                    "y": 593.2171954972763
+                    "x": 1851.2021411707542,
+                    "y": 930.4410618605765
                 }
             },
             "portsIn": [
@@ -1757,8 +1725,8 @@
             "uiAttribs": {
                 "mathTitle": true,
                 "translate": {
-                    "x": 1499.4940434618907,
-                    "y": 306.32731947594516
+                    "x": 2075.3769613917093,
+                    "y": 641.7898974238606
                 }
             },
             "portsOut": [
@@ -1789,8 +1757,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1390.5437562288664,
-                    "y": 365.1198380968665
+                    "x": 1819.7822228515054,
+                    "y": 705.4874809868072
                 }
             },
             "portsIn": [
@@ -1835,8 +1803,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1378.5437562288664,
-                    "y": 231.41283892895538
+                    "x": 1807.7822228515054,
+                    "y": 570.5522853542328
                 }
             },
             "portsIn": [
@@ -1926,59 +1894,59 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 3",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 4",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 5",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 6",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 7",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 8",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 9",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 10",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 11",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 12",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 13",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 14",
-                    "value": 0
+                    "value": 121
                 },
                 {
                     "name": "Output 15",
-                    "value": 0
+                    "value": 121
                 }
             ]
         },
@@ -1993,8 +1961,8 @@
                 "comment_title": "Mouse Input",
                 "title": "Mouse Input",
                 "translate": {
-                    "x": -1174.3405996585786,
-                    "y": -581.4412624032951
+                    "x": -1629.298695314241,
+                    "y": -786.7272323942648
                 },
                 "area": {
                     "w": 1429.0962192915772,
@@ -2017,8 +1985,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1664.715389273747,
-                    "y": 644.8143388186224
+                    "x": 2068.8824715931564,
+                    "y": 997.6544985840162
                 }
             },
             "portsOut": [
@@ -2059,8 +2027,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1596.4781483248187,
-                    "y": 769.4650184700956
+                    "x": 1851.2021411707542,
+                    "y": 1019.6678309222052
                 }
             },
             "portsOut": [
@@ -2102,8 +2070,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1657.8796773201896,
-                    "y": 1008.9602035828657
+                    "x": 1548.1551332606941,
+                    "y": 1798.6331653813186
                 }
             },
             "portsIn": [
@@ -2146,8 +2114,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1657.8796773201896,
-                    "y": 1078.7121329380975
+                    "x": 1548.1551332606941,
+                    "y": 1868.3850947365504
                 }
             },
             "portsIn": [
@@ -2183,8 +2151,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1722.7179171342163,
-                    "y": 1216.0287920491583
+                    "x": 1602.6338362331705,
+                    "y": 2005.7017538476111
                 }
             },
             "portsIn": [
@@ -2216,8 +2184,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1679.6910049450048,
-                    "y": 1285.639525049732
+                    "x": 1559.606924043959,
+                    "y": 2075.3124868481846
                 }
             },
             "portsIn": [
@@ -2249,8 +2217,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1657.8796773201896,
-                    "y": 1343.5711621264952
+                    "x": 1541.3601499527927,
+                    "y": 2133.2441239249483
                 }
             },
             "portsIn": [
@@ -2264,12 +2232,12 @@
             "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
             "id": "mt4ho66t9",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2419.539865374322,
-                    "y": 1084.8456348804052
+                    "x": 2770.649568507073,
+                    "y": 1508.3179446002098
                 }
             },
             "portsOut": [
@@ -2305,8 +2273,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -106.74352334318945,
-                    "y": -92.23944203589802
+                    "x": -556.1533495396363,
+                    "y": -297.5254120268677
                 }
             },
             "portsOut": [
@@ -2343,8 +2311,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": -94.74352334318945,
-                    "y": -22.71995391750758
+                    "x": -544.1533495396363,
+                    "y": -228.00592390847723
                 }
             },
             "portsIn": [
@@ -2396,8 +2364,8 @@
             "uiAttribs": {
                 "title": ">varWsTrigger",
                 "translate": {
-                    "x": -106.74352334318945,
-                    "y": 11.888297851695512
+                    "x": -556.1533495396363,
+                    "y": -193.39767213927414
                 }
             },
             "portsIn": [
@@ -2451,8 +2419,8 @@
                 "comment_title": "Mouse Output",
                 "title": "Mouse Output",
                 "translate": {
-                    "x": -176.76241677883527,
-                    "y": -219.2025482937981
+                    "x": -631.7205124344977,
+                    "y": -424.48851828476774
                 },
                 "area": {
                     "w": 380.063702326505,
@@ -2471,13 +2439,13 @@
             "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
             "id": "01foczspx",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": 2431.539865374322,
-                    "y": 1148.7816023694272
+                    "x": 2782.649568507073,
+                    "y": 1572.2539120892318
                 }
             },
             "portsIn": [
@@ -2511,7 +2479,7 @@
                         {
                             "portIn": "WS Message Data",
                             "portOut": "Value",
-                            "objIn": "zkylaetw3",
+                            "objIn": "k28eenlrx",
                             "objOut": "0h0ccrhym"
                         }
                     ]
@@ -2542,7 +2510,7 @@
                         {
                             "portIn": "Process Message",
                             "portOut": "Triggered",
-                            "objIn": "zkylaetw3",
+                            "objIn": "k28eenlrx",
                             "objOut": "1hlx3x6ep"
                         }
                     ]
@@ -2553,13 +2521,13 @@
             "opId": "ce1eaf2b-943b-4dc0-ab5e-ee11b63c9ed0",
             "id": "h878jprew",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "title": ">varControlSettingTrigger",
                 "translate": {
-                    "x": 2419.539865374322,
-                    "y": 1195.2782693066779
+                    "x": 2770.649568507073,
+                    "y": 1618.7505790264825
                 }
             },
             "portsIn": [
@@ -2578,8 +2546,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1657.8796773201896,
-                    "y": 1143.1374334903696
+                    "x": 1548.1551332606941,
+                    "y": 1932.8103952888225
                 }
             },
             "portsIn": [
@@ -2621,8 +2589,8 @@
                     "y": -139.5378620346587
                 },
                 "area": {
-                    "w": 2070.2994422539105,
-                    "h": 1708.0060945887385,
+                    "w": 2693.374172023824,
+                    "h": 2703.161860897188,
                     "id": "9f09yv43w"
                 }
             },
@@ -2637,15 +2605,15 @@
             "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
             "id": "b5a3jrdlq",
             "attribs": {
-                "area": "jkipjl9sn"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
                 "hasArea": true,
                 "comment_title": "Output Settings Object",
                 "title": "Output Settings Object",
                 "translate": {
-                    "x": 2344.818831506718,
-                    "y": 964.2481730675271
+                    "x": 2718,
+                    "y": 1387.7204827873315
                 },
                 "area": {
                     "w": 328.6259718604256,
@@ -2700,11 +2668,11 @@
                 },
                 {
                     "name": "Is Connected",
-                    "value": false
+                    "value": true
                 },
                 {
                     "name": "Status",
-                    "value": "No Stream Deck Connected"
+                    "value": "Connected: Stream Deck V2 (Stream Deck)"
                 },
                 {
                     "name": "Key Event",
@@ -3280,59 +3248,59 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 3",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 4",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 5",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 6",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 7",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 8",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 9",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 10",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 11",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 12",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 13",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 14",
-                    "value": 0
+                    "value": 3
                 },
                 {
                     "name": "Output 15",
-                    "value": 0
+                    "value": 3
                 }
             ]
         },
@@ -3468,7 +3436,7 @@
                 },
                 {
                     "name": "bs between",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -3560,15 +3528,15 @@
                 },
                 {
                     "name": "Output 1",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 2",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 3",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 4",
@@ -3583,47 +3551,47 @@
                 },
                 {
                     "name": "Output 5",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 6",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 7",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 8",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 9",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 10",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 11",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 12",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 13",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 14",
-                    "value": 0
+                    "value": 15
                 },
                 {
                     "name": "Output 15",
-                    "value": 0
+                    "value": 15
                 }
             ]
         },
@@ -3851,8 +3819,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 967.9546449967619,
-                    "y": 479.6173545634613
+                    "x": 926.8195700666582,
+                    "y": 1597.5506748481066
                 }
             },
             "portsOut": [
@@ -3878,8 +3846,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1824.2087854994072,
-                    "y": 656.4992327612625
+                    "x": 2396.29748086132,
+                    "y": 1121.70799072803
                 }
             },
             "portsIn": [
@@ -3914,12 +3882,12 @@
             "opId": "874380ae-4a10-4a53-92d9-4982f4c1f3a2",
             "id": "z6vgd8ybi",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1264.4387690324493,
-                    "y": 871.4478767109906
+                    "x": 926.8195700666582,
+                    "y": 1695.5558516034664
                 }
             },
             "portsOut": [
@@ -3956,8 +3924,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 955.9546449967619,
-                    "y": 224.91781810813896
+                    "x": 972.2950321240222,
+                    "y": 1353.9020653322814
                 }
             },
             "portsIn": [
@@ -3980,7 +3948,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -3992,8 +3960,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 955.9546449967619,
-                    "y": 395.48279556677403
+                    "x": 972.2950321240222,
+                    "y": 1524.4670427909166
                 }
             },
             "portsIn": [
@@ -4009,7 +3977,7 @@
             "portsOut": [
                 {
                     "name": "Index 0 Value",
-                    "value": 0
+                    "value": 0.656
                 },
                 {
                     "name": "Index 1 Value",
@@ -4046,23 +4014,23 @@
                 },
                 {
                     "name": "Index 4 Value",
-                    "value": 0
+                    "value": 0.656
                 },
                 {
                     "name": "Index 5 Value",
-                    "value": 0
+                    "value": 0.72
                 },
                 {
                     "name": "Index 6 Value",
-                    "value": 0
+                    "value": 0.816
                 },
                 {
                     "name": "Index 7 Value",
-                    "value": 0
+                    "value": 0.696
                 },
                 {
                     "name": "Index 8 Value",
-                    "value": 0.112
+                    "value": 0.848
                 },
                 {
                     "name": "Index 9 Value",
@@ -4074,13 +4042,13 @@
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "ledwnhqkp",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1260.5877990977083,
-                    "y": 1077.8825919636888
+                    "x": 924.6339992953746,
+                    "y": 1881.8303632206769
                 }
             },
             "portsIn": [
@@ -4111,13 +4079,13 @@
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "7ke1ilzp6",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1260.5877990977083,
-                    "y": 1208.099318320669
+                    "x": 924.6339992953746,
+                    "y": 2012.0470895776573
                 }
             },
             "portsIn": [
@@ -4144,13 +4112,13 @@
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "epqcgdd3m",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1260.5877990977083,
-                    "y": 1273.2634622865878
+                    "x": 924.6339992953746,
+                    "y": 2077.211233543576
                 }
             },
             "portsIn": [
@@ -4177,13 +4145,13 @@
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "85d1ziys6",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1260.5877990977083,
-                    "y": 1143.5785310730428
+                    "x": 924.6339992953746,
+                    "y": 1947.526302330031
                 }
             },
             "portsIn": [
@@ -4214,12 +4182,12 @@
             "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
             "id": "565ld6utw",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1260.5877990977083,
-                    "y": 1003.8661701168995
+                    "x": 924.6339992953746,
+                    "y": 1807.1149975964531
                 }
             },
             "portsIn": [
@@ -4248,6 +4216,12 @@
                             "portOut": "Result",
                             "objIn": "mt4ho66t9",
                             "objOut": "565ld6utw"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Result",
+                            "objIn": "3zvish47p",
+                            "objOut": "565ld6utw"
                         }
                     ]
                 }
@@ -4257,13 +4231,13 @@
             "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
             "id": "b56qzplny",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1260.5877990977083,
-                    "y": 1432.9103380175409
+                    "x": 924.6339992953746,
+                    "y": 2236.8581092745294
                 }
             },
             "portsIn": [
@@ -4277,12 +4251,12 @@
             "opId": "f44bfe36-c44a-45f3-a2e7-a71399c22733",
             "id": "02fneqds2",
             "attribs": {
-                "area": "9f09yv43w"
+                "area": "1dgkg2xgh"
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1284.5877990977083,
-                    "y": 1350.927353345402
+                    "x": 948.6339992953746,
+                    "y": 2154.87512460239
                 }
             },
             "portsIn": [
@@ -4335,8 +4309,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1079.4090768739607,
-                    "y": 301.70657945726066
+                    "x": 1062.7227707317998,
+                    "y": 1465.0826012462835
                 }
             },
             "portsIn": [
@@ -4391,18 +4365,18 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 955.9546449967619,
-                    "y": 295.2348000286288
+                    "x": 972.2950321240222,
+                    "y": 1445.761683704172
                 }
             },
             "portsIn": [
                 {
                     "name": "old min",
-                    "value": 25
+                    "value": 97
                 },
                 {
                     "name": "old max",
-                    "value": 27
+                    "value": 99
                 },
                 {
                     "name": "new min",
@@ -4447,8 +4421,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1270.693981869219,
-                    "y": 106.3670400773808
+                    "x": 1226.587869219833,
+                    "y": 82.52581655185664
                 }
             },
             "portsOut": [
@@ -4464,22 +4438,22 @@
                     ]
                 },
                 {
-                    "name": "Output 1",
+                    "name": "Output 4",
                     "links": [
                         {
                             "portIn": "Data",
-                            "portOut": "Output 1",
+                            "portOut": "Output 4",
                             "objIn": "ubojvywif",
                             "objOut": "vx3ilbpqt"
                         }
                     ]
                 },
                 {
-                    "name": "Output 2",
+                    "name": "Output 10",
                     "links": [
                         {
                             "portIn": "Data",
-                            "portOut": "Output 2",
+                            "portOut": "Output 10",
                             "objIn": "ou8gzwg9l",
                             "objOut": "vx3ilbpqt"
                         }
@@ -4540,8 +4514,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2071.0872011912506,
-                    "y": 656.702685930028
+                    "x": 2641.9864377705526,
+                    "y": 1121.9114438967954
                 }
             },
             "portsIn": [
@@ -4572,8 +4546,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2071.0872011912506,
-                    "y": 717.2246581388587
+                    "x": 2641.9864377705526,
+                    "y": 1182.4334161056258
                 }
             },
             "portsOut": [
@@ -4609,8 +4583,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2048.970380232656,
-                    "y": 957.3272070427649
+                    "x": 2342.5256067842574,
+                    "y": 1435.1833735692182
                 }
             },
             "portsOut": [
@@ -4639,14 +4613,14 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1385.5520489949272,
-                    "y": 759.4366001838355
+                    "x": 2319.7601484131683,
+                    "y": 1295.905295877855
                 }
             },
             "portsOut": [
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Index",
@@ -4669,8 +4643,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1328.4855031634315,
-                    "y": 699.2032485932779
+                    "x": 2235.877053931022,
+                    "y": 1236.3941448432704
                 }
             },
             "portsIn": [
@@ -4748,12 +4722,12 @@
                 "comment_title": "RGB Faders",
                 "title": "RGB Faders",
                 "translate": {
-                    "x": 870,
-                    "y": 138.0900569383564
+                    "x": 878.8606176923449,
+                    "y": 1216.6608082003117
                 },
                 "area": {
-                    "w": 345.65005879503474,
-                    "h": 447.7483807533406,
+                    "w": 368.3354649022881,
+                    "h": 1079.4708408049016,
                     "id": "1dgkg2xgh"
                 }
             },
@@ -4772,8 +4746,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1723.0931802711686,
-                    "y": 19.254516517000184
+                    "x": 2293.9924168504704,
+                    "y": 350.4007437510986
                 }
             },
             "portsIn": [
@@ -4827,8 +4801,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2024.9703802326562,
-                    "y": 1082.962167615797
+                    "x": 2229.5330693369538,
+                    "y": 1871.8096882720138
                 }
             },
             "portsIn": [
@@ -4864,8 +4838,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2024.9703802326562,
-                    "y": 1198.5934506880262
+                    "x": 2229.5330693369538,
+                    "y": 1987.440971344243
                 }
             },
             "portsIn": [
@@ -4897,8 +4871,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2073.997709435619,
-                    "y": 1273.2957785635892
+                    "x": 2261.6469487466243,
+                    "y": 2062.143299219806
                 }
             },
             "portsIn": [
@@ -4930,8 +4904,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2024.9703802326562,
-                    "y": 1134.9728836312938
+                    "x": 2229.5330693369538,
+                    "y": 1923.8204042875107
                 }
             },
             "portsIn": [
@@ -4966,8 +4940,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 2024.9703802326562,
-                    "y": 1013.61840122162
+                    "x": 2229.5330693369538,
+                    "y": 1802.4659218778368
                 }
             },
             "portsIn": [
@@ -5010,8 +4984,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2024.9703802326562,
-                    "y": 1343.8462690222325
+                    "x": 2218.782693774049,
+                    "y": 2132.6937896784493
                 }
             },
             "portsIn": [
@@ -5029,8 +5003,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1490.9481642337057,
-                    "y": 932.3060904642978
+                    "x": 1512.1551332606941,
+                    "y": 1500.238244158753
                 }
             },
             "portsOut": [
@@ -5087,8 +5061,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1429.223860635199,
-                    "y": 831.899477825336
+                    "x": 2180.4788052053145,
+                    "y": 1379.4267059691717
                 }
             },
             "portsOut": [
@@ -5113,8 +5087,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1940.0243528685023,
-                    "y": 895.2423818051267
+                    "x": 2476.66787666993,
+                    "y": 1375.6280300435167
                 }
             },
             "portsIn": [
@@ -5145,8 +5119,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1845.1363610774943,
-                    "y": 843.0455887647101
+                    "x": 2543.6991420362647,
+                    "y": 1318.3722735792262
                 }
             },
             "portsIn": [
@@ -5198,8 +5172,8 @@
             "uiAttribs": {
                 "mathTitle": true,
                 "translate": {
-                    "x": 1948.9928735178448,
-                    "y": 790.0381157157124
+                    "x": 2653.9864377705526,
+                    "y": 1256.5116145384484
                 }
             },
             "portsIn": [
@@ -5225,11 +5199,13 @@
         {
             "opId": "5199b608-e895-420f-9391-da8e10370b2e",
             "id": "3efxicjjl",
-            "attribs": {},
+            "attribs": {
+                "area": "17tdktoyz"
+            },
             "uiAttribs": {
                 "translate": {
-                    "x": 1592.0926589126552,
-                    "y": -293.4297196216302
+                    "x": 1724.9013275812526,
+                    "y": -377.7210883489899
                 }
             },
             "portsOut": [
@@ -5324,8 +5300,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -2297.618574240869,
-                    "y": -373.7283715012959
+                    "x": -2604.580316660854,
+                    "y": -357.0835631236497
                 }
             },
             "portsIn": [
@@ -5397,8 +5373,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -2297.618574240869,
-                    "y": -298.56213515820156
+                    "x": -2604.580316660854,
+                    "y": -281.91732678055536
                 }
             },
             "portsIn": [
@@ -5443,8 +5419,8 @@
                 "comment_title": "Keyboard Input",
                 "title": "Keyboard Input",
                 "translate": {
-                    "x": -2394.037927339439,
-                    "y": -499.3741848547102
+                    "x": -2704.7410170555013,
+                    "y": -482.729376477064
                 },
                 "area": {
                     "w": 690.7390228483487,
@@ -5468,8 +5444,8 @@
             "uiAttribs": {
                 "title": ">varWsTrigger",
                 "translate": {
-                    "x": -1942.5557841085094,
-                    "y": -139.1755077085537
+                    "x": -2253.2588738245713,
+                    "y": -122.53069933090751
                 }
             },
             "portsIn": [
@@ -5488,8 +5464,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": -1930.5557841085094,
-                    "y": -173.7837594777568
+                    "x": -2241.2588738245713,
+                    "y": -157.1389511001106
                 }
             },
             "portsIn": [
@@ -5507,8 +5483,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -1942.5557841085094,
-                    "y": -242.68650524231992
+                    "x": -2253.2588738245713,
+                    "y": -226.04169686467372
                 }
             },
             "portsOut": [
@@ -5545,8 +5521,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -2297.618574240869,
-                    "y": -173.95001394736119
+                    "x": -2604.580316660854,
+                    "y": -157.30520556971499
                 }
             },
             "portsIn": [
@@ -5578,8 +5554,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -2297.618574240869,
-                    "y": -238.92667781831364
+                    "x": -2604.580316660854,
+                    "y": -222.28186944066744
                 }
             },
             "portsIn": [
@@ -5615,8 +5591,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -2297,
-                    "y": -106.92594181601383
+                    "x": -2604.580316660854,
+                    "y": -90.28113343836763
                 }
             },
             "portsIn": [
@@ -5648,8 +5624,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -2297,
-                    "y": -40.93450995648695
+                    "x": -2604.580316660854,
+                    "y": -24.28970157884075
                 }
             },
             "portsIn": [
@@ -5662,9 +5638,7 @@
         {
             "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
             "id": "wpbe6z9f2",
-            "attribs": {
-                "area": "9f09yv43w"
-            },
+            "attribs": {},
             "uiAttribs": {
                 "height": 329.49439714183075,
                 "width": 243.50122333599415,
@@ -5716,8 +5690,8 @@
                 "resizable": true,
                 "vizLayerMaxZoom": 3500,
                 "translate": {
-                    "x": 1468.1041976575402,
-                    "y": -761.3049189122464
+                    "x": 901.8053463231286,
+                    "y": -565.8404766774656
                 }
             },
             "portsIn": [
@@ -5748,6 +5722,501 @@
                 {
                     "name": "Search",
                     "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "b4179e4c-7a2c-4f3b-9e8a-6d12f0c5e891",
+            "id": "k28eenlrx",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1148.2591689735461,
+                    "y": -667.3274130709501
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "On Client Registered",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "On Client Registered",
+                            "objIn": "ficctl4a2",
+                            "objOut": "k28eenlrx"
+                        }
+                    ]
+                },
+                {
+                    "name": "Registered Clients",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Registered Clients",
+                            "objIn": "n3mif1fbn",
+                            "objOut": "k28eenlrx"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Registered Clients",
+                            "objIn": "1vb8d0ud0",
+                            "objOut": "k28eenlrx"
+                        }
+                    ]
+                },
+                {
+                    "name": "Client IDs",
+                    "links": [
+                        {
+                            "portIn": "Array",
+                            "portOut": "Client IDs",
+                            "objIn": "3efxicjjl",
+                            "objOut": "k28eenlrx"
+                        }
+                    ]
+                },
+                {
+                    "name": "Client Count",
+                    "value": 4
+                },
+                {
+                    "name": "Last Client ID",
+                    "value": "stg-stripes"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "dq619qvkl",
+            "attribs": {
+                "area": "17tdktoyz"
+            },
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Client Name Array",
+                "title": "Client Name Array",
+                "translate": {
+                    "x": 1627,
+                    "y": -481.1583999315314
+                },
+                "area": {
+                    "w": 300,
+                    "h": 200,
+                    "id": "17tdktoyz"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Client Name Array"
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "3zvish47p",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 409.60960632337117,
+                    "y": 1111.4408893004725
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "b5249226-6095-4828-8a1c-080654e192fa",
+            "id": "2nnr30iaf",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 2268.977390909526,
+                    "y": 168.4546391640465
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "knobBank"
+                }
+            ]
+        },
+        {
+            "opId": "421f5b52-c0fa-47c4-8b7a-012b9e1c864a",
+            "id": "08fvfnhxy",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": 1881.2737983345082,
+                    "y": 432.1663994920012
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "knobBank"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "number2",
+                            "portOut": "Value",
+                            "objIn": "4bf0c1urg",
+                            "objOut": "08fvfnhxy"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "xve6hb32s",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "height": 375.8841838865534,
+                "width": 350.77621894915546,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 3085.783354717615,
+                    "y": 213.51167119201344
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "3f585ff5-afd6-45d5-b082-80c62f6cdf2b",
+            "id": "8kouoyy89",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 1042.260472016231,
+                    "y": -3.8007428152109526
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Device",
+                    "value": "WORLDE   "
+                },
+                {
+                    "name": "MIDI Channel",
+                    "value": 1
+                },
+                {
+                    "name": "Message Type",
+                    "value": "CC"
+                },
+                {
+                    "name": "Note",
+                    "value": "-"
+                },
+                {
+                    "name": "Note Velocity",
+                    "value": "-"
+                },
+                {
+                    "name": "CC Number",
+                    "value": 97
+                },
+                {
+                    "name": "CC Value",
+                    "value": 36
+                },
+                {
+                    "name": "Pitch Bend Value",
+                    "value": "-"
+                },
+                {
+                    "name": "NRPN Number",
+                    "value": "-"
+                },
+                {
+                    "name": "NRPN Value",
+                    "value": "-"
+                },
+                {
+                    "name": "Program Change Value",
+                    "value": "-"
+                }
+            ]
+        },
+        {
+            "opId": "c8fb181e-0b03-4b41-9e55-06b6267bc634",
+            "id": "4bf0c1urg",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "mathTitle": true,
+                "translate": {
+                    "x": 1807.7822228515054,
+                    "y": 501.7656032054939
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Number 0",
+                            "portOut": "result",
+                            "objIn": "3bwfuvc29",
+                            "objOut": "4bf0c1urg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "fbb89f72-f2e3-4d34-ad01-7d884a1bcdc0",
+            "id": "xrd28qqw8",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 2268.977390909526,
+                    "y": 116.29287025587143
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Value 0",
+                    "value": 0
+                },
+                {
+                    "name": "Value 1",
+                    "value": 24
+                },
+                {
+                    "name": "Value 2",
+                    "value": 0
+                },
+                {
+                    "name": "Value 3",
+                    "value": 0
+                },
+                {
+                    "name": "Value 4",
+                    "value": 0
+                },
+                {
+                    "name": "Value 5",
+                    "value": 0
+                },
+                {
+                    "name": "Value 6",
+                    "value": 0
+                },
+                {
+                    "name": "Value 7",
+                    "value": 0
+                },
+                {
+                    "name": "Value 8",
+                    "value": 0
+                },
+                {
+                    "name": "Value 9",
+                    "value": 0
+                },
+                {
+                    "name": "Value 10",
+                    "value": 0
+                },
+                {
+                    "name": "Value 11",
+                    "value": 0
+                },
+                {
+                    "name": "Value 12",
+                    "value": 0
+                },
+                {
+                    "name": "Value 13",
+                    "value": 0
+                },
+                {
+                    "name": "Value 14",
+                    "value": 0
+                },
+                {
+                    "name": "Value 15",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "Result",
+                            "objIn": "2nnr30iaf",
+                            "objOut": "xrd28qqw8"
+                        },
+                        {
+                            "portIn": "Number",
+                            "portOut": "Result",
+                            "objIn": "0kjpyjykz",
+                            "objOut": "xrd28qqw8"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "2b60d12d-2884-4ad0-bda4-0caeb6882f5c",
+            "id": "0kjpyjykz",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "widthOnlyGrow": true,
+                "translate": {
+                    "x": 2447.248806854412,
+                    "y": 171.927218150815
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "value": 24
+                }
+            ]
+        },
+        {
+            "opId": "4313d9bb-96b6-43bc-9190-6068cfb2593c",
+            "id": "b6yvji3br",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 2256.977390909526,
+                    "y": 52.361389085904875
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Default",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "links": [
+                        {
+                            "portIn": "Index",
+                            "portOut": "result",
+                            "objIn": "xrd28qqw8",
+                            "objOut": "b6yvji3br"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "opw2kv9iq",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "knob range 25-48",
+                "title": "knob range 25-48",
+                "translate": {
+                    "x": 2240,
+                    "y": -31.679214942605142
+                },
+                "area": {
+                    "w": 438.44124510430515,
+                    "h": 252.61381659499887,
+                    "id": "y2g5otvmo"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "knob range 25-48"
                 }
             ]
         }
@@ -5781,9 +6250,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 1417.2312282567848,
-                "y": -737.2770896846631,
-                "z": 473.4326903832888
+                "x": 2637.7874832866155,
+                "y": 4455.9153223620015,
+                "z": 1362.8779843820473
             }
         },
         "currentSubPatch": "0",
@@ -5805,7 +6274,7 @@
     "summary": {
         "title": "mouseMonitor click and move map"
     },
-    "opsHash": "ea26e29f111c900df50c1799e22558fc5f84e463",
+    "opsHash": "e8dc127b97493b43d8160d5c1eaf8cf901772069",
     "buildInfo": {
         "updateWarning": false,
         "core": {
@@ -5856,5 +6325,5 @@
         }
     },
     "updatedByUser": "",
-    "screenshot": "data:image/png;base64,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"
+    "screenshot": "data:image/png;base64,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"
 }

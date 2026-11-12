@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Visualization Settings Dashboard</title>
     <script src="lib/tweakpane.min.js"></script>
+    <script src="../tweakpane_plugin/tweakpane-soft-takeover.js"></script>
     <style>
         :root {
             --bg-primary: #0b0e17;
@@ -145,6 +146,17 @@
             border-radius: 5px;
         }
 
+        .btn-pickup-active {
+            background: rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.45);
+            color: #fbbf24;
+        }
+
+        .btn-pickup-active:hover {
+            background: rgba(245, 158, 11, 0.24);
+            border-color: rgba(245, 158, 11, 0.65);
+        }
+
         /* Freeform Draggable Workspace */
         .workspace-canvas {
             position: relative;
@@ -269,6 +281,10 @@
                 <div class="header-subtitle" id="origin-label">Origin ID: initializing...</div>
             </div>
             <div class="header-controls">
+                <button class="btn btn-subtle btn-pickup-active" id="soft-takeover-btn"
+                    title="Soft Takeover (MIDI Pickup): Prevent physical MIDI knobs from jumping pane values until they catch up">
+                    MIDI Pickup: ON
+                </button>
                 <button class="btn btn-subtle" id="separate-all-btn"
                     title="Separate all clients into individual draggable panes">
                     Separate All Panes
@@ -359,9 +375,44 @@
         let isTelemetrySync = false;
 
         // --- 2. DRAGGABLE PANE WINDOW MANAGER ---
+        const STORAGE_KEY_POSITIONS = 'stg_dashboard_pane_positions_v1';
+        const STORAGE_KEY_SEPARATED = 'stg_dashboard_separated_clients_v1';
         const workspaceEl = document.getElementById('workspace-canvas');
         const panePositions = new Map(); // paneId -> { x, y, z }
         let topZIndex = 20;
+
+        function loadPanePositions() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY_POSITIONS);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (!parsed || typeof parsed !== 'object') return;
+                Object.keys(parsed).forEach((paneId) => {
+                    const entry = parsed[paneId];
+                    if (entry && typeof entry.x === 'number' && typeof entry.y === 'number') {
+                        const z = typeof entry.z === 'number' ? entry.z : 20;
+                        panePositions.set(paneId, { x: entry.x, y: entry.y, z });
+                        if (z > topZIndex) topZIndex = z;
+                    }
+                });
+            } catch (_) { /* ignore storage errors */ }
+        }
+
+        function savePanePositions() {
+            try {
+                const obj = {};
+                panePositions.forEach((pos, paneId) => {
+                    obj[paneId] = { x: pos.x, y: pos.y, z: pos.z || 20 };
+                });
+                localStorage.setItem(STORAGE_KEY_POSITIONS, JSON.stringify(obj));
+            } catch (_) { /* ignore storage errors */ }
+        }
+
+        function saveSeparatedClients() {
+            try {
+                localStorage.setItem(STORAGE_KEY_SEPARATED, JSON.stringify(Array.from(separatedClients)));
+            } catch (_) { /* ignore storage errors */ }
+        }
 
         function getDefaultPanePosition(paneId, indexHint = 0) {
             if (paneId === 'telemetry') {
@@ -390,18 +441,28 @@
                 const y = def.x > maxW ? def.y + 40 + (indexHint * 32) : def.y;
                 pos = { x, y, z: ++topZIndex };
                 panePositions.set(paneId, pos);
+                savePanePositions();
             }
             cardEl.style.left = `${pos.x}px`;
             cardEl.style.top = `${pos.y}px`;
             cardEl.style.zIndex = String(pos.z || ++topZIndex);
         }
 
+        let lastFrontPaneId = null;
+
         function bringPaneToFront(cardEl, paneId) {
             if (!cardEl) return;
+            const pos = panePositions.get(paneId);
+            if (lastFrontPaneId === paneId && Number(cardEl.style.zIndex) >= topZIndex && pos && pos.z >= topZIndex) {
+                return;
+            }
             const z = ++topZIndex;
             cardEl.style.zIndex = String(z);
-            const pos = panePositions.get(paneId);
-            if (pos) pos.z = z;
+            lastFrontPaneId = paneId;
+            if (pos) {
+                pos.z = z;
+                savePanePositions();
+            }
         }
 
         function makePaneDraggable(cardEl, paneId, indexHint = 0) {
@@ -462,6 +523,7 @@
                 if (!isDragging) return;
                 isDragging = false;
                 cardEl.classList.remove('is-dragging');
+                savePanePositions();
                 if (handleEl.releasePointerCapture && e && e.pointerId !== undefined) {
                     try {
                         handleEl.releasePointerCapture(e.pointerId);
@@ -473,7 +535,8 @@
             handleEl.addEventListener('pointercancel', stopDrag);
         }
 
-        // Initialize static draggable panes
+        // Restore persisted pane positions and initialize static draggable panes
+        loadPanePositions();
         makePaneDraggable(document.getElementById('pane-card-telemetry'), 'telemetry', 0);
         makePaneDraggable(document.getElementById('pane-card-docked'), 'docked-clients', 0);
 
@@ -564,14 +627,55 @@
         // --- 4. DYNAMIC CLIENT TABS & SEPARATED DRAGGABLE PANES ---
         // Map of clientId -> manifest
         const registeredClients = new Map();
+        // Map of clientId -> originId from client:register (to distinguish client self-sync vs external MIDI controllers)
+        const clientOriginIds = new Map();
         // Map of clientId -> reactive parameter values object bound to Tweakpane inputs
         const clientParamValues = new Map();
         // Set of clientIds separated into their own standalone draggable panes
         const separatedClients = new Set();
+        try {
+            const savedSeparated = JSON.parse(localStorage.getItem(STORAGE_KEY_SEPARATED) || '[]');
+            if (Array.isArray(savedSeparated)) {
+                savedSeparated.forEach((cid) => {
+                    if (typeof cid === 'string' && cid) separatedClients.add(cid);
+                });
+            }
+        } catch (_) { /* ignore storage errors */ }
         // Map of clientId -> standalone Tweakpane.Pane instance
         const separatedPanes = new Map();
+        // Map of clientId -> separated card DOM element
+        const separatedCardElements = new Map();
 
         let clientsPane = null;
+        let clientsTab = null;
+        let clientsTabEntries = [];
+        let activeDockedClientId = null;
+        let softTakeoverEnabled = true;
+
+        const softTakeoverManager = (typeof TweakpaneSoftTakeoverPlugin !== 'undefined')
+            ? TweakpaneSoftTakeoverPlugin.createManager({
+                toleranceRatio: 0.02,
+                colorTolerance: 4,
+                alphaTolerance: 0.02,
+                fadeLatchedMs: 700
+            })
+            : null;
+
+        const softTakeoverBtn = document.getElementById('soft-takeover-btn');
+        if (softTakeoverBtn) {
+            softTakeoverBtn.addEventListener('click', () => {
+                softTakeoverEnabled = !softTakeoverEnabled;
+                softTakeoverBtn.textContent = softTakeoverEnabled ? 'MIDI Pickup: ON' : 'MIDI Pickup: OFF';
+                softTakeoverBtn.classList.toggle('btn-pickup-active', softTakeoverEnabled);
+                if (softTakeoverManager) {
+                    if (softTakeoverEnabled) {
+                        softTakeoverManager.unlatchAll(true);
+                    } else {
+                        softTakeoverManager.unlatchAll(true);
+                    }
+                }
+            });
+        }
 
         function getStructureSignature(manifest) {
             const paramKeys = Object.keys(manifest.parameters || {}).sort().map(k => {
@@ -584,13 +688,109 @@
         function separateClientToPane(clientId) {
             if (!registeredClients.has(clientId)) return;
             separatedClients.add(clientId);
+            saveSeparatedClients();
             renderAllClients();
         }
 
         function dockClientToTabs(clientId) {
             if (!separatedClients.has(clientId)) return;
             separatedClients.delete(clientId);
+            saveSeparatedClients();
             renderAllClients();
+        }
+
+        function resolvePresetMetadata(clientId, manifest) {
+            const nameLower = String((manifest && manifest.name) || '').toLowerCase();
+            const cidLower = String(clientId || '').toLowerCase();
+            const appType = (manifest && manifest.appType) || (
+                cidLower.includes('cylinder') || nameLower.includes('cylinder')
+                    ? 'cylinder'
+                    : (cidLower.includes('stripes') || nameLower.includes('stripes') ? 'stripes' : '')
+            );
+            const presetFile = (manifest && manifest.presetFile) || (
+                appType === 'stripes'
+                    ? 'apps/space_type_generator-ws/stripes/preset.js'
+                    : (appType === 'cylinder'
+                        ? 'apps/space_type_generator-ws/cylinder/preset.js'
+                        : '')
+            );
+            return { appType, presetFile };
+        }
+
+        async function saveClientPreset(clientId, manifest, presetNameInputVal, saveBtn) {
+            const presetName = String(presetNameInputVal || '').trim();
+            if (!presetName) {
+                saveBtn.title = 'Enter a preset name!';
+                setTimeout(() => { saveBtn.title = 'Save Preset'; }, 1800);
+                return;
+            }
+
+            const paramsSchema = (manifest && manifest.parameters) || {};
+            const valuesObj = clientParamValues.get(clientId) || {};
+            const presetParams = {};
+            Object.keys(paramsSchema).forEach((k) => {
+                if (k === 'preset') return;
+                if (valuesObj[k] !== undefined) {
+                    presetParams[k] = valuesObj[k];
+                }
+            });
+
+            const meta = resolvePresetMetadata(clientId, manifest);
+            const payload = {
+                clientId: clientId,
+                clientName: (manifest && manifest.name) || clientId,
+                appType: meta.appType,
+                presetFile: meta.presetFile,
+                presetName: presetName,
+                parameters: presetParams
+            };
+
+            saveBtn.disabled = true;
+            saveBtn.title = 'Saving...';
+
+            try {
+                const res = await fetch('/savepreset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                if (manifest && manifest.parameters && manifest.parameters.preset) {
+                    const presetSpec = manifest.parameters.preset;
+                    if (!presetSpec.options || typeof presetSpec.options !== 'object') {
+                        presetSpec.options = {};
+                    }
+                    const existingMatch = Object.values(presetSpec.options).some(
+                        (v) => String(v).toLowerCase() === presetName.toLowerCase()
+                    );
+                    if (!existingMatch) {
+                        presetSpec.options[presetName] = presetName;
+                    }
+                    isRemoteSync = true;
+                    try {
+                        valuesObj.preset = presetName;
+                        presetSpec.value = presetName;
+                        if (softTakeoverManager) {
+                            softTakeoverManager.syncTarget(clientId, 'preset', presetName);
+                        }
+                    } finally {
+                        isRemoteSync = false;
+                    }
+                    renderAllClients();
+                }
+
+                saveBtn.title = 'Saved ✓';
+                setTimeout(() => { saveBtn.title = 'Save Preset'; }, 2000);
+            } catch (err) {
+                console.error('[Dashboard] Save preset failed:', err);
+                saveBtn.title = 'Save Failed';
+                setTimeout(() => { saveBtn.title = 'Save Preset'; }, 2200);
+            } finally {
+                saveBtn.disabled = false;
+            }
         }
 
         /**
@@ -632,6 +832,25 @@
                     groups.set(groupName, []);
                 }
                 groups.get(groupName).push({ key: paramKey, spec });
+            });
+
+            // Save Preset section (Preset Name input + Save button per pane)
+            const initialPresetName = (valuesObj.preset && valuesObj.preset !== 'reset')
+                ? String(valuesObj.preset)
+                : 'custom';
+            const savePresetState = { presetName: initialPresetName };
+            const saveFolder = targetContainer.addFolder({
+                title: 'Save Preset',
+                expanded: true
+            });
+            saveFolder.addInput(savePresetState, 'presetName', {
+                label: 'Preset Name'
+            });
+            const savePresetBtn = saveFolder.addButton({
+                title: 'Save Preset'
+            });
+            savePresetBtn.on('click', () => {
+                saveClientPreset(clientId, manifest, savePresetState.presetName, savePresetBtn);
             });
 
             let inputIndex = 1;
@@ -677,11 +896,48 @@
                         else if (pType === 'boolean' || pType === 'bool') valuesObj[key] = false;
                         else if (pType === 'string') valuesObj[key] = '';
                         else valuesObj[key] = 0;
+                    } else if ((pType === 'float' || pType === 'number' || pType === 'int' || pType === 'integer') && typeof valuesObj[key] !== 'number') {
+                        const coerced = Number(valuesObj[key]);
+                        if (Number.isFinite(coerced)) valuesObj[key] = coerced;
+                    } else if ((pType === 'boolean' || pType === 'bool') && typeof valuesObj[key] !== 'boolean') {
+                        valuesObj[key] = valuesObj[key] === 'true' || valuesObj[key] === 1 || valuesObj[key] === '1' || Boolean(valuesObj[key]);
+                    }
+
+                    const isSoftTakeoverControl = Boolean(
+                        softTakeoverManager && (
+                            pType === 'float' ||
+                            pType === 'number' ||
+                            pType === 'int' ||
+                            pType === 'integer' ||
+                            pType === 'boolean' ||
+                            pType === 'bool' ||
+                            pType === 'color' ||
+                            spec.view === 'color' ||
+                            typeof valuesObj[key] === 'number' ||
+                            typeof valuesObj[key] === 'boolean' ||
+                            typeof spec.min === 'number' ||
+                            typeof spec.max === 'number' ||
+                            (spec.options && typeof spec.options === 'object')
+                        )
+                    );
+                    if (isSoftTakeoverControl) {
+                        inputOpts.softTakeover = {
+                            manager: softTakeoverManager,
+                            paneId: clientId,
+                            key: key
+                        };
                     }
 
                     const binding = folder.addInput(valuesObj, key, inputOpts);
                     binding.on('change', (ev) => {
                         if (isRemoteSync) return;
+
+                        if (softTakeoverEnabled && isSoftTakeoverControl && softTakeoverManager) {
+                            const handle = softTakeoverManager.getControl(clientId, key);
+                            if (!handle || !handle.isLatched()) {
+                                return;
+                            }
+                        }
 
                         if (manifest.parameters && manifest.parameters[key]) {
                             manifest.parameters[key].value = ev.value;
@@ -728,6 +984,8 @@
                 clientsPane.dispose();
                 clientsPane = null;
             }
+            clientsTab = null;
+            clientsTabEntries = [];
 
             const dockedEntries = Array.from(registeredClients.entries())
                 .filter(([clientId]) => !separatedClients.has(clientId));
@@ -752,6 +1010,9 @@
                 container: document.getElementById('clients-pane-container'),
                 title: 'Client Parameters'
             });
+            if (typeof TweakpaneSoftTakeoverPlugin !== 'undefined') {
+                clientsPane.registerPlugin(TweakpaneSoftTakeoverPlugin);
+            }
 
             const tabPagesConfig = dockedEntries.map(([clientId, manifest]) => ({
                 title: manifest.name ? `${manifest.name}` : clientId
@@ -760,9 +1021,34 @@
             const tab = clientsPane.addTab({
                 pages: tabPagesConfig
             });
+            clientsTab = tab;
+            clientsTabEntries = dockedEntries;
 
             dockedEntries.forEach(([clientId, manifest], pageIdx) => {
                 populateClientControls(tab.pages[pageIdx], clientId, manifest, false);
+            });
+
+            let initialIdx = 0;
+            if (activeDockedClientId) {
+                const foundIdx = dockedEntries.findIndex(([cid]) => cid === activeDockedClientId);
+                if (foundIdx >= 0) initialIdx = foundIdx;
+            }
+            if (dockedEntries[initialIdx]) {
+                activeDockedClientId = dockedEntries[initialIdx][0];
+                tab.pages[initialIdx].selected = true;
+                if (softTakeoverManager) {
+                    softTakeoverManager.setActivePane(activeDockedClientId);
+                }
+            }
+
+            tab.on('select', (ev) => {
+                const selectedEntry = dockedEntries[ev.index];
+                if (selectedEntry) {
+                    activeDockedClientId = selectedEntry[0];
+                    if (softTakeoverManager) {
+                        softTakeoverManager.setActivePane(activeDockedClientId);
+                    }
+                }
             });
         }
 
@@ -772,6 +1058,7 @@
                 try { pane.dispose(); } catch (_) { }
             });
             separatedPanes.clear();
+            separatedCardElements.clear();
 
             const layerEl = document.getElementById('separated-panes-layer');
             layerEl.innerHTML = '';
@@ -815,6 +1102,7 @@
                 });
 
                 layerEl.appendChild(cardEl);
+                separatedCardElements.set(clientId, cardEl);
                 makePaneDraggable(cardEl, paneId, sepIndex++);
 
                 const mountEl = cardEl.querySelector('.separated-pane-mount');
@@ -822,10 +1110,40 @@
                     container: mountEl,
                     title: manifest.name || clientId
                 });
+                if (typeof TweakpaneSoftTakeoverPlugin !== 'undefined') {
+                    standalonePane.registerPlugin(TweakpaneSoftTakeoverPlugin);
+                }
 
                 populateClientControls(standalonePane, clientId, manifest, true);
                 separatedPanes.set(clientId, standalonePane);
             });
+        }
+
+        function focusClientPane(clientId) {
+            if (!clientId || !registeredClients.has(clientId)) return;
+
+            if (separatedClients.has(clientId)) {
+                const cardEl = separatedCardElements.get(clientId);
+                if (cardEl) {
+                    bringPaneToFront(cardEl, `client:${clientId}`);
+                }
+                return;
+            }
+
+            const dockedCardEl = document.getElementById('pane-card-docked');
+            if (dockedCardEl) {
+                bringPaneToFront(dockedCardEl, 'docked-clients');
+            }
+
+            if (clientsTab && clientsTabEntries.length > 0) {
+                const idx = clientsTabEntries.findIndex(([cid]) => cid === clientId);
+                if (idx >= 0 && clientsTab.pages[idx]) {
+                    activeDockedClientId = clientId;
+                    if (!clientsTab.pages[idx].selected) {
+                        clientsTab.pages[idx].selected = true;
+                    }
+                }
+            }
         }
 
         function renderAllClients() {
@@ -842,9 +1160,12 @@
             });
         }
 
-        function upsertClientManifest(manifest) {
+        function upsertClientManifest(manifest, sourceOriginId) {
             if (!manifest || !manifest.clientId) return;
             const clientId = String(manifest.clientId);
+            if (sourceOriginId) {
+                clientOriginIds.set(clientId, sourceOriginId);
+            }
             const existing = registeredClients.get(clientId);
 
             const prevSig = existing ? getStructureSignature(existing) : null;
@@ -866,6 +1187,9 @@
                         Object.keys(manifest.parameters).forEach((k) => {
                             if (manifest.parameters[k] && manifest.parameters[k].value !== undefined) {
                                 valuesObj[k] = manifest.parameters[k].value;
+                                if (softTakeoverManager) {
+                                    softTakeoverManager.syncTarget(clientId, k, manifest.parameters[k].value);
+                                }
                             }
                         });
                         refreshActiveClientPanes();
@@ -877,12 +1201,17 @@
         }
 
         function applyRemoteClientUpdate(data) {
-            const clientId = data.clientId;
+            const rawTarget = data.clientId || data.paneId;
+            const clientId = (rawTarget && rawTarget !== 'active')
+                ? String(rawTarget)
+                : activeDockedClientId;
             if (!clientId || !registeredClients.has(clientId)) return;
 
             const manifest = registeredClients.get(clientId);
             const valuesObj = clientParamValues.get(clientId);
             if (!valuesObj) return;
+
+            focusClientPane(clientId);
 
             const updates = {};
             if (data.parameters && typeof data.parameters === 'object') {
@@ -892,17 +1221,51 @@
                 updates[data.key] = data.value;
             }
 
-            isRemoteSync = true;
-            try {
-                Object.keys(updates).forEach((k) => {
-                    valuesObj[k] = updates[k];
-                    if (manifest.parameters && manifest.parameters[k]) {
-                        manifest.parameters[k].value = updates[k];
+            const ownerOriginId = clientOriginIds.get(clientId);
+            const isAuthoritativeSync = Boolean(
+                data.sync === true ||
+                data.softTakeover === false ||
+                (ownerOriginId && data.originId && data.originId === ownerOriginId)
+            );
+            const useSoftTakeover = Boolean(
+                softTakeoverEnabled &&
+                softTakeoverManager &&
+                !isAuthoritativeSync
+            );
+
+            if (useSoftTakeover && softTakeoverManager.activePaneId !== clientId) {
+                softTakeoverManager.setActivePane(clientId);
+            }
+
+            const directUpdates = {};
+            Object.keys(updates).forEach((k) => {
+                if (useSoftTakeover) {
+                    const handled = softTakeoverManager.handleUpdate(clientId, k, updates[k]);
+                    if (!handled) {
+                        directUpdates[k] = updates[k];
                     }
-                });
-                refreshActiveClientPanes();
-            } finally {
-                isRemoteSync = false;
+                } else {
+                    directUpdates[k] = updates[k];
+                }
+            });
+
+            const directKeys = Object.keys(directUpdates);
+            if (directKeys.length > 0) {
+                isRemoteSync = true;
+                try {
+                    directKeys.forEach((k) => {
+                        valuesObj[k] = directUpdates[k];
+                        if (manifest.parameters && manifest.parameters[k]) {
+                            manifest.parameters[k].value = directUpdates[k];
+                        }
+                        if (softTakeoverManager && isAuthoritativeSync) {
+                            softTakeoverManager.syncTarget(clientId, k, directUpdates[k]);
+                        }
+                    });
+                    refreshActiveClientPanes();
+                } finally {
+                    isRemoteSync = false;
+                }
             }
         }
 
@@ -911,16 +1274,21 @@
             registeredClients.forEach((_, clientId) => {
                 separatedClients.add(clientId);
             });
+            saveSeparatedClients();
             renderAllClients();
         });
 
         document.getElementById('dock-all-btn').addEventListener('click', () => {
             separatedClients.clear();
+            saveSeparatedClients();
             renderAllClients();
         });
 
         document.getElementById('reset-layout-btn').addEventListener('click', () => {
             panePositions.clear();
+            try {
+                localStorage.removeItem(STORAGE_KEY_POSITIONS);
+            } catch (_) { /* ignore storage errors */ }
             applyPanePosition(document.getElementById('pane-card-telemetry'), 'telemetry', 0);
             applyPanePosition(document.getElementById('pane-card-docked'), 'docked-clients', 0);
             renderSeparatedClientPanes();
@@ -974,22 +1342,42 @@
             switch (data.type) {
                 case 'client:register':
                     if (data.manifest) {
-                        upsertClientManifest(data.manifest);
+                        upsertClientManifest(data.manifest, data.originId);
                     }
                     break;
 
                 case 'registry:sync':
                     if (data.clients && typeof data.clients === 'object') {
                         Object.values(data.clients).forEach((manifest) => {
-                            upsertClientManifest(manifest);
+                            upsertClientManifest(manifest, manifest && manifest.originId);
                         });
                     }
                     break;
 
                 case 'client:update':
                 case 'param:update':
+                case 'dashboard:update':
+                case 'midi:update':
                     applyRemoteClientUpdate(data);
                     break;
+
+                case 'client:select':
+                case 'pane:select':
+                case 'tab:select':
+                case 'activePane': {
+                    let targetClientId = data.clientId || data.paneId || data.activePane || null;
+                    if (!targetClientId && typeof data.index === 'number' && clientsTabEntries[data.index]) {
+                        targetClientId = clientsTabEntries[data.index][0];
+                    }
+                    if (targetClientId) {
+                        const targetStr = String(targetClientId);
+                        focusClientPane(targetStr);
+                        if (softTakeoverManager) {
+                            softTakeoverManager.setActivePane(targetStr);
+                        }
+                    }
+                    break;
+                }
 
                 case 'mouse_move': {
                     const nx = data.normalized

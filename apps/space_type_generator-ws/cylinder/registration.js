@@ -122,6 +122,26 @@ function parseColor(val) {
     return String(val);
 }
 
+function buildPresetOptions(baseOptions) {
+    const opts = Object.assign({}, baseOptions);
+    if (typeof customPresets !== 'undefined' && customPresets && typeof customPresets === 'object') {
+        const existingValues = new Set(Object.values(opts).map(v => String(v).toLowerCase()));
+        Object.keys(customPresets).forEach((key) => {
+            if (!existingValues.has(key.toLowerCase())) {
+                opts[key] = key;
+            }
+        });
+    }
+    if ('Reset' in opts) {
+        const resetVal = opts['Reset'];
+        delete opts['Reset'];
+        opts['Reset'] = resetVal;
+    } else {
+        opts['Reset'] = 'reset';
+    }
+    return opts;
+}
+
 function getRegistrationPayload() {
     return {
         type: 'client:register',
@@ -129,6 +149,8 @@ function getRegistrationPayload() {
         manifest: {
             clientId: CLIENT_ID,
             clientType: 'p5',
+            appType: 'cylinder',
+            presetFile: 'apps/space_type_generator-ws/cylinder/preset.js',
             name: CLIENT_ID !== defaultClientId ? `STG Cylinder (${CLIENT_ID})` : 'STG Cylinder',
             parameters: {
                 text: {
@@ -142,7 +164,7 @@ function getRegistrationPayload() {
                     value: String(window.cylinderConfig.preset),
                     label: 'Preset',
                     group: 'Content',
-                    options: {
+                    options: buildPresetOptions({
                         'Simple': 'simple',
                         'Jellyfish': 'jellyfish',
                         'Crown': 'crown',
@@ -152,7 +174,7 @@ function getRegistrationPayload() {
                         'Hoops': 'hoops',
                         'Pride': 'pride',
                         'Reset': 'reset'
-                    }
+                    })
                 },
                 hideNoText: {
                     type: 'boolean',

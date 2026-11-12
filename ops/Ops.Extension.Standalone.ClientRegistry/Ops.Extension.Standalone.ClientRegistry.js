@@ -259,7 +259,23 @@ function processIncomingMessage(rawMsg, senderWs = null)
 
     case "client:update":
     case "param:update":
-        handleClientUpdate(msg, senderWs);
+        if (msg.target === "dashboard")
+        {
+            dispatchWsPayload(msg, senderWs);
+        }
+        else
+        {
+            handleClientUpdate(msg, senderWs);
+        }
+        break;
+
+    case "dashboard:update":
+    case "midi:update":
+    case "client:select":
+    case "pane:select":
+    case "tab:select":
+    case "activePane":
+        dispatchWsPayload(msg, senderWs);
         break;
 
     case "registry:request":

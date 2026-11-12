@@ -24,10 +24,18 @@
 
     </main>
 
+    <script src="../lib/soft-takeover-client.js"></script>
     <script>
         let mousePosX = 0, mousePosY = 0;
         const CLIENT_ID = 'p5-magic-wand';
         const originId = `${CLIENT_ID}-${Math.random().toString(36).substring(2, 9)}`;
+
+        const softTakeoverFilter = (typeof SoftTakeoverClient !== 'undefined')
+            ? SoftTakeoverClient.createClientFilter({
+                getClientId: () => CLIENT_ID,
+                getValue: (key) => (window.magicWandConfig && key in window.magicWandConfig) ? window.magicWandConfig[key] : undefined
+            })
+            : null;
 
         // Configuration object synced from Cables / Dashboard
         window.magicWandConfig = {
@@ -313,6 +321,11 @@
             // Avoid feedback loops from self-originated messages
             if (data.originId && data.originId === originId) return;
 
+            if (softTakeoverFilter) {
+                const verdict = softTakeoverFilter.observeMessage(data);
+                if (verdict.ignore) return;
+            }
+
             switch (data.type) {
                 case 'mouse_move':
                     if (data.normalized) {
@@ -340,12 +353,14 @@
                 case 'client:update':
                 case 'param:update':
                     if (!data.clientId || data.clientId === CLIENT_ID) {
-                        if (data.parameters && typeof data.parameters === 'object') {
-                            applyParameterUpdates(data.parameters);
-                        } else if (typeof data.key === 'string') {
-                            applyParameterUpdates({ [data.key]: data.value });
-                        } else {
-                            applyParameterUpdates(data);
+                        const rawParams = (data.parameters && typeof data.parameters === 'object')
+                            ? data.parameters
+                            : (typeof data.key === 'string' ? { [data.key]: data.value } : data);
+                        const filtered = softTakeoverFilter
+                            ? softTakeoverFilter.filterParameters(rawParams, data)
+                            : rawParams;
+                        if (filtered && Object.keys(filtered).length > 0) {
+                            applyParameterUpdates(filtered);
                         }
                     }
                     break;

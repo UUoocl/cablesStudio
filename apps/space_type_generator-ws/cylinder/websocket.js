@@ -16,6 +16,16 @@ var pubChannel = null;
 var subChannel = null;
 var wsInstance = null;
 
+var softTakeoverFilter = (typeof SoftTakeoverClient !== 'undefined')
+    ? SoftTakeoverClient.createClientFilter({
+        getClientId: function () { return typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'stg-cylinder'; },
+        getValue: function (key) {
+            return (window.cylinderConfig && key in window.cylinderConfig) ? window.cylinderConfig[key] : undefined;
+        }
+    })
+    : null;
+window.softTakeoverFilter = softTakeoverFilter;
+
 // BroadcastChannel support for both 'bc' and 'channel' parameters
 var bcName = urlParams.get('bc') || urlParams.get('channel');
 if (bcName) {
@@ -119,6 +129,12 @@ function handleMessage(data) {
         return;
     }
 
+    // Ignore dashboard-only payloads & unlatch when MIDI traffic switches to another client
+    if (softTakeoverFilter) {
+        const verdict = softTakeoverFilter.observeMessage(data);
+        if (verdict.ignore) return;
+    }
+
     // Ignore messages explicitly targeted at another clientId
     if (typeof CLIENT_ID !== 'undefined' && data.clientId && data.clientId !== CLIENT_ID) {
         return;
@@ -135,12 +151,16 @@ function handleMessage(data) {
         case 'client:update':
         case 'param:update':
             if (typeof applyParameterUpdates === 'function') {
-                if (data.parameters && typeof data.parameters === 'object') {
-                    applyParameterUpdates(data.parameters);
-                } else if (typeof data.key === 'string' && data.value !== undefined) {
-                    applyParameterUpdates({ [data.key]: data.value });
-                } else {
-                    applyParameterUpdates(data);
+                const rawParams = (data.parameters && typeof data.parameters === 'object')
+                    ? data.parameters
+                    : (typeof data.key === 'string' && data.value !== undefined)
+                        ? { [data.key]: data.value }
+                        : data;
+                const filteredParams = softTakeoverFilter
+                    ? softTakeoverFilter.filterParameters(rawParams, data)
+                    : rawParams;
+                if (filteredParams && Object.keys(filteredParams).length > 0) {
+                    applyParameterUpdates(filteredParams);
                 }
             }
             break;

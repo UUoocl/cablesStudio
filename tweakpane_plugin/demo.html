@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tweakpane Soft Takeover (MIDI Pickup) Plugin Demo</title>
+    <script src="../apps/lib/tweakpane.min.js"></script>
+    <script src="./tweakpane-soft-takeover.js"></script>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0f1117;
+            --panel: #171a23;
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #e6eaf2;
+            --muted: #93a0b8;
+            --accent: #ffb84d;
+            --cyan: #38bdf8;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        header {
+            max-width: 1180px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        h1 { margin: 0; font-size: 1.25rem; }
+        .subtitle { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+        .grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tp-dfwv { width: 100% !important; }
+        .knob-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+            gap: 12px;
+        }
+        .knob-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .knob-box label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+        .knob-box label strong { color: var(--text); }
+        .knob-box input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .log {
+            margin-top: 14px;
+            background: #0b0d12;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.75rem;
+            color: #9cb3d1;
+            max-height: 150px;
+            overflow-y: auto;
+            line-height: 1.45;
+        }
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        button {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+        button:hover { background: rgba(255, 255, 255, 0.14); }
+        .pill {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Tweakpane Soft Takeover (MIDI Pickup) Demo</h1>
+            <div class="subtitle">
+                Switch between Pane A and Pane B below, then rotate the simulated Akai knobs. Values stay locked until each knob catches the pane's stored target.
+            </div>
+        </div>
+        <div class="actions">
+            <span class="pill" id="active-pane-pill">Active Pane: pane-a</span>
+            <button id="ws-switch-btn">Simulate WS Pane Switch (A ↔ B)</button>
+            <button id="unlatch-btn">Force Unlatch Active Pane</button>
+            <button id="sync-btn">Send All Current Knobs (Test No-Jump)</button>
+        </div>
+    </header>
+
+    <main class="grid">
+        <section class="card">
+            <div class="card-title">
+                <span>Tweakpane Multi-Pane Target</span>
+            </div>
+            <div id="pane-mount"></div>
+            <div class="log" id="ws-log"></div>
+        </section>
+
+        <section class="card">
+            <div class="card-title">
+                <span>Simulated Akai MIDI Mixer (WebSocket Knob Stream)</span>
+                <span style="font-size:0.75rem;color:var(--muted);font-weight:400;">Mapped Range -> Active Pane</span>
+            </div>
+            <div class="knob-grid" id="knob-grid"></div>
+        </section>
+    </main>
+
+    <script>
+        const pane = new Tweakpane.Pane({
+            container: document.getElementById('pane-mount'),
+            title: 'Scene Layers'
+        });
+        pane.registerPlugin(TweakpaneSoftTakeoverPlugin);
+
+        const manager = TweakpaneSoftTakeoverPlugin.createManager({
+            toleranceRatio: 0.02,
+            colorTolerance: 5,
+            alphaTolerance: 0.03,
+            fadeLatchedMs: 800
+        });
+
+        const PRESET_OPTIONS = {
+            'Marquee': 'marquee',
+            'Subway': 'subway',
+            'Simple Wave': 'simplewave',
+            'Old Sea': 'oldsea',
+            'Color Sea': 'colorsea',
+            'Pride': 'pride'
+        };
+        const PRESET_KEYS = Object.values(PRESET_OPTIONS);
+
+        const paneStates = {
+            'pane-a': {
+                speed: 0.15,
+                ribbonCount: 12,
+                yWave: 95,
+                preset: 'marquee',
+                color: '#22c55ecc'
+            },
+            'pane-b': {
+                speed: 0.85,
+                ribbonCount: 42,
+                yWave: 25,
+                preset: 'oldsea',
+                color: '#ef444466'
+            }
+        };
+
+        const tab = pane.addTab({
+            pages: [
+                { title: 'Pane A (Left)' },
+                { title: 'Pane B (Right)' }
+            ]
+        });
+
+        const paneIds = ['pane-a', 'pane-b'];
+        let activePaneId = 'pane-a';
+        manager.setActivePane(activePaneId);
+
+        const logEl = document.getElementById('ws-log');
+        function appendLog(msg) {
+            const line = document.createElement('div');
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logEl.prepend(line);
+            while (logEl.children.length > 30) {
+                logEl.removeChild(logEl.lastChild);
+            }
+        }
+
+        function buildPaneControls(page, paneId) {
+            const state = paneStates[paneId];
+            const stOpts = (key) => ({ manager, paneId, key });
+
+            page.addInput(state, 'speed', {
+                label: 'Speed',
+                min: 0, max: 1, step: 0.01,
+                softTakeover: stOpts('speed')
+            }).on('change', (ev) => {
+                appendLog(`COMMIT [${paneId}] speed = ${ev.value.toFixed(2)}`);
+            });
+
+            page.addInput(state, 'ribbonCount', {
+                label: 'Ribbons',
+                min: 1, max: 50, step: 1,
+                softTakeover: stOpts('ribbonCount')
+            }).on('change', (ev) => {
+                appendLog(`COMMIT [${paneId}] ribbonCount = ${ev.value}`);
+            });
+
+            page.addInput(state, 'yWave', {
+                label: 'Wave Amp',
+                min: 0, max: 200, step: 1,
+                softTakeover: stOpts('yWave')
+            }).on('change', (ev) => {
+                appendLog(`COMMIT [${paneId}] yWave = ${ev.value}`);
+            });
+
+            page.addInput(state, 'preset', {
+                label: 'Preset',
+                options: PRESET_OPTIONS,
+                softTakeover: stOpts('preset')
+            }).on('change', (ev) => {
+                appendLog(`COMMIT [${paneId}] preset = ${ev.value}`);
+            });
+
+            page.addInput(state, 'color', {
+                label: 'Color RGBA',
+                view: 'color',
+                color: { alpha: true },
+                softTakeover: stOpts('color')
+            }).on('change', (ev) => {
+                appendLog(`COMMIT [${paneId}] color = ${ev.value}`);
+            });
+        }
+
+        buildPaneControls(tab.pages[0], 'pane-a');
+        buildPaneControls(tab.pages[1], 'pane-b');
+
+        tab.on('select', (ev) => {
+            activePaneId = paneIds[ev.index];
+            document.getElementById('active-pane-pill').textContent = `Active Pane: ${activePaneId}`;
+            manager.setActivePane(activePaneId);
+            appendLog(`Switched to ${activePaneId} -> unlatched all knobs`);
+        });
+
+        // Simulated 8 Akai Knobs mapped to active pane parameters (including 4 RGBA knobs)
+        const knobDefs = [
+            { id: 'CC 1: Speed', key: 'speed', min: 0, max: 1, step: 0.01, val: 0.50 },
+            { id: 'CC 2: Ribbons', key: 'ribbonCount', min: 1, max: 50, step: 1, val: 25 },
+            { id: 'CC 3: Wave Amp', key: 'yWave', min: 0, max: 200, step: 1, val: 140 },
+            { id: 'CC 4: Preset Idx', key: 'preset', min: 0, max: PRESET_KEYS.length - 1, step: 1, val: 4, isPreset: true },
+            { id: 'CC 5: Color R', key: 'color', channel: 'r', min: 0, max: 255, step: 1, val: 120 },
+            { id: 'CC 6: Color G', key: 'color', channel: 'g', min: 0, max: 255, step: 1, val: 60 },
+            { id: 'CC 7: Color B', key: 'color', channel: 'b', min: 0, max: 255, step: 1, val: 210 },
+            { id: 'CC 8: Color A', key: 'color', channel: 'a', min: 0, max: 1, step: 0.01, val: 0.90 }
+        ];
+
+        function dispatchKnob(def) {
+            let payloadVal = def.val;
+            if (def.isPreset) {
+                payloadVal = PRESET_KEYS[Math.round(def.val)] || PRESET_KEYS[0];
+            } else if (def.channel) {
+                payloadVal = { channel: def.channel, value: def.val };
+            }
+            manager.handleUpdate(activePaneId, def.key, payloadVal);
+        }
+
+        const knobGrid = document.getElementById('knob-grid');
+        knobDefs.forEach((def) => {
+            const box = document.createElement('div');
+            box.className = 'knob-box';
+            const label = document.createElement('label');
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = def.id;
+            const valStrong = document.createElement('strong');
+            valStrong.textContent = def.isPreset ? PRESET_KEYS[def.val] : def.val;
+            label.appendChild(nameSpan);
+            label.appendChild(valStrong);
+
+            const slider = document.createElement('input');
+            slider.type = 'range';
+            slider.min = def.min;
+            slider.max = def.max;
+            slider.step = def.step;
+            slider.value = def.val;
+
+            slider.addEventListener('input', () => {
+                def.val = Number(slider.value);
+                valStrong.textContent = def.isPreset ? PRESET_KEYS[Math.round(def.val)] : def.val;
+                dispatchKnob(def);
+            });
+
+            box.appendChild(label);
+            box.appendChild(slider);
+            knobGrid.appendChild(box);
+        });
+
+        document.getElementById('unlatch-btn').addEventListener('click', () => {
+            manager.unlatchPane(activePaneId, true);
+            appendLog(`Manually unlatched ${activePaneId}`);
+        });
+
+        document.getElementById('sync-btn').addEventListener('click', () => {
+            knobDefs.forEach(dispatchKnob);
+            appendLog(`Broadcast all physical knob positions to ${activePaneId}`);
+        });
+
+        function handleWsPayload(msg) {
+            if (!msg || typeof msg !== 'object') return;
+            const payload = (msg.data && typeof msg.data === 'object' && !msg.type) ? msg.data : msg;
+
+            if (payload.type === 'pane:select' || payload.type === 'client:select' || payload.type === 'tab:select') {
+                const nextId = payload.paneId || payload.clientId || paneIds[payload.index];
+                const idx = paneIds.indexOf(nextId);
+                if (idx >= 0) {
+                    activePaneId = nextId;
+                    tab.pages[idx].selected = true;
+                    document.getElementById('active-pane-pill').textContent = `Active Pane: ${activePaneId}`;
+                    manager.setActivePane(activePaneId);
+                    appendLog(`WS switched pane -> ${activePaneId} (all controls unlatched)`);
+                }
+                return;
+            }
+
+            if (payload.type === 'client:update' || payload.type === 'param:update') {
+                const targetPane = payload.clientId || payload.paneId || activePaneId;
+                if (payload.parameters && typeof payload.parameters === 'object') {
+                    manager.handleBatchUpdate(targetPane, payload.parameters);
+                } else if (payload.key !== undefined && payload.value !== undefined) {
+                    manager.handleUpdate(targetPane, payload.key, payload.value);
+                }
+            }
+        }
+
+        document.getElementById('ws-switch-btn').addEventListener('click', () => {
+            const nextPane = activePaneId === 'pane-a' ? 'pane-b' : 'pane-a';
+            handleWsPayload({ type: 'pane:select', paneId: nextPane });
+        });
+    </script>
+</body>
+</html>
+
