@@ -1,4 +1,5 @@
-var customPresets = {
+var customPresets =
+{
   "simple": {
     "radius": 185,
     "stackNum": 8,
@@ -126,5 +127,41 @@ var customPresets = {
     "color5": "#0044ff",
     "color6": "#760089",
     "bkgdColor": "#ffffff"
+  },
+  "wide": {
+    "radius": 437,
+    "stackNum": 8,
+    "stackHeightAdjust": 0,
+    "rRotate": -10,
+    "rOffset": 0.2,
+    "rWaveCount": 2,
+    "rWaveSpeed": 75,
+    "rWave": 41,
+    "rZaxis": 0,
+    "rLong": 0,
+    "typeX": 20,
+    "typeY": 40,
+    "typeStroke": 2,
+    "strecherX": 0,
+    "strecherY": 0,
+    "xRotTweak": 24,
+    "yRotTweak": 27,
+    "zRotTweak": 0,
+    "xRotCamera": 20,
+    "yRotCamera": 0,
+    "zRotCamera": 0,
+    "zoomCamera": 0,
+    "bkgdColor": "#ffffff00",
+    "color1": "#000000",
+    "color2": "#ff8c00",
+    "color3": "#ffef00",
+    "color4": "#00811f",
+    "color5": "#0044ff",
+    "color6": "#760089",
+    "inpNumber": 1,
+    "clearTextDelay": 0,
+    "clearMethod": "all at once",
+    "seqInterval": 100
   }
-};
+}
+  ; if (typeof module !== 'undefined' && module.exports) { module.exports = customPresets; }

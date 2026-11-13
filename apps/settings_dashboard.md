@@ -52,7 +52,7 @@ When `normalized: true` (or when `x` and `y` are between `0.0` and `1.0`), the d
 > **Note:** Dragging the 2D Coordinate Pad inside `settings_dashboard.html` also broadcasts this `mouse_move` payload (wrapped in `{ "channel": "clientRegistry", "data": ... }`) so you can test and control visualizations directly from the dashboard.
 
 #### 2. `mouse_scroll` (Scroll Delta)
-Updates the `Scroll dy` sparkline on the dashboard and drives scroll-reactive visualizations (such as [js_trassel.html](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/mouse_overlays/js_trassel.html)):
+Updates the `Scroll dy` sparkline on the dashboard and drives scroll-reactive visualizations (such as [trassel](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/mouse_overlays/trassel/index.html)):
 ```json
 {
   "type": "mouse_scroll",
@@ -127,7 +127,7 @@ window.addEventListener("wheel", (e) => {
 
 ## Example 2: Creating a Visualization Client with a Dynamic Pane
 
-Any visualization page (like [p5_magicWand.html](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/mouse_overlays/p5_magicWand.html) or [js_trassel.html](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/mouse_overlays/js_trassel.html)) can automatically generate a custom Tweakpane UI in `settings_dashboard.html` by dispatching a `client:register` manifest.
+Any visualization page (like [magic_wand](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/mouse_overlays/magic_wand/index.html) or [trassel](file:///Users/jonwood/Github_local_dev/cablesStudio/apps/mouse_overlays/trassel/index.html)) can automatically generate a custom Tweakpane UI in `settings_dashboard.html` by dispatching a `client:register` manifest.
 
 ### Supported Parameter Types in `manifest.parameters`
 
@@ -427,11 +427,11 @@ Because WebSocket servers broadcast messages to all connected sockets, two compl
 
 ---
 
-## Saving Pane Presets (`POST /savepreset`) & Persisting Pane Positions
+## Saving Pane Presets (`POST /api/savepreset`) & Persisting Pane Positions
 
 1. **Per-Pane Save Preset UI**:
    - Each docked tab and separated client pane includes a **Save Preset** folder containing a **Preset Name** text input and a **Save Preset** button.
-   - Clicking **Save Preset** dispatches `POST /savepreset` with `Content-Type: application/json`:
+   - Clicking **Save Preset** dispatches `POST /api/savepreset` with `Content-Type: application/json`:
      ```json
      {
        "clientId": "stripes-left",
@@ -446,7 +446,7 @@ Because WebSocket servers broadcast messages to all connected sockets, two compl
        }
      }
      ```
-   - In Cables Standalone, [HttpFileServer](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.HttpFileServer/Ops.Extension.Standalone.HttpFileServer.js) routes `POST /savepreset` to `On HTTP Request` (`HTTP URL` = `"/savepreset"`). Standard Cables ops extract `presetFile`, `presetName`, and `parameters` from `HTTP Request Data`, merge the entry into `customPresets` in the target `preset.js` file (`var customPresets = <JSON>;`), and respond via [HttpFileServerResponse](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Net.HttpFileServerResponse/Ops.Extension.Standalone.Net.HttpFileServerResponse.js).
+   - In Cables Standalone, [HttpFileServer](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.HttpFileServer/Ops.Extension.Standalone.HttpFileServer.js) routes `POST /api/savepreset` to `On HTTP Request` (`HTTP URL` = `"/api/savepreset"`). Standard Cables ops extract `presetFile`, `presetName`, and `parameters` from `HTTP Request Data`, merge the entry into `customPresets` in the target `preset.js` file (`var customPresets = <JSON>;`), and respond via [HttpFileServerResponse](file:///Users/jonwood/Github_local_dev/cablesStudio/ops/Ops.Extension.Standalone.Net.HttpFileServerResponse/Ops.Extension.Standalone.Net.HttpFileServerResponse.js).
    - Client manifests dynamically merge keys from `customPresets` into `preset.options` on registration, and the dashboard updates the pane's local `Preset` dropdown immediately on `200 OK`.
 
 2. **Pane Position Persistence (`localStorage`)**:

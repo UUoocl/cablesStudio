@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    background-color: transparent;
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    outline: 0;
+    background: transparent !important;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+

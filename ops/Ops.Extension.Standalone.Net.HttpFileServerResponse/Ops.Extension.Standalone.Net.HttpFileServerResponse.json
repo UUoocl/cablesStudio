@@ -29,7 +29,8 @@
                 "type": 2,
                 "name": "Body Object"
             }
-        ]
+        ],
+        "portsOut": []
     },
     "coreLibs": [
         "standalone_electron"

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Astro Bee Overlay</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module">
+        try {
+            const mod = await import('../../lib/slides-studio-client.js?v=1.0.5');
+            window.slidesStudioClient = { create: mod.create };
+        } catch (e) {
+            // Optional dependency when running outside slides studio environment
+        }
+    </script>
+    <script src="../lib/p5.min.js"></script>
+    <script src="preset.js"></script>
+    <script src="registration.js"></script>
+    <script src="../../lib/soft-takeover-client.js"></script>
+    <script src="websocket.js"></script>
+    <script src="sketch.js"></script>
+</head>
+
+<body>
+    <!-- Canvas injected by p5.js -->
+</body>
+
+</html>
+

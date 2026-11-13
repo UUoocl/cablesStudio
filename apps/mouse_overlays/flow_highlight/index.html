@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Flow Highlight Overlay</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script type="module">
+        try {
+            const mod = await import('../../lib/slides-studio-client.js?v=1.0.5');
+            window.slidesStudioClient = { create: mod.create };
+        } catch (e) {
+            // Optional dependency when running outside slides studio environment
+        }
+    </script>
+    <script src="preset.js"></script>
+    <script src="registration.js"></script>
+    <script src="../../lib/soft-takeover-client.js"></script>
+    <script src="websocket.js"></script>
+</head>
+
+<body>
+    <canvas id="glcanvas" width="100vw" height="100vh" tabindex="1"></canvas>
+
+    <script type="text/javascript" src="../patches/Fast_Fluid_Simulation.js" async></script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>
+
