@@ -180,7 +180,6 @@ function draw() {
   // --- CANVASES HIDING / EMPTY LOGIC ---
   if ((hideNoText && (!inpText || inpText.trim() === "")) || !inpText || inpText === "") {
     clear();
-    if (typeof captureFrame === 'function') captureFrame();
     return;
   }
 
@@ -253,8 +252,6 @@ function draw() {
     }
   }
   pop();
-
-  if (typeof captureFrame === 'function') captureFrame();
 }
 
 function sinEngine(xLength, xCounter, yLength, yCounter, Speed, slopeN) {

@@ -248,15 +248,6 @@ function handleMessage(data) {
     }
 }
 
-function captureFrame() {
-    if (pubChannel) {
-        pubChannel.postMessage({ type: 'draw' });
-    }
-    if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
-        wsInstance.send(JSON.stringify({ type: 'draw' }));
-    }
-}
-
 function signalReady() {
     console.log("[STG Cylinder] Sending ready signal...");
     const payload = {
