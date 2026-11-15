@@ -250,71 +250,82 @@ function draw() {
   // rotation
   rotateY(frameCount * (rRotate / 1000));
 
-  for (var i = 0; i < inpText.length * stackNum; i++) {
-    var ringSpot = i % inpText.length;
+  const textLen = inpText.length;
+  const totalChars = textLen * stackNum;
+  const waveTime = frameCount * (rWaveSpeed / 1000);
+
+  // Precompute stroke and background colors when not alternating through all 6
+  if (inpNumber != 6) {
+    strkColor = inp1;
+    bkgdStrokeColor = lerpColor(strkColor, bkgdColor, 0.75);
+  }
+
+  for (var i = 0; i < totalChars; i++) {
+    var stackIdx = Math.floor(i / textLen);
+    var ringSpot = i % textLen;
     letter_select = ringSpot;
 
-    if (floor(i / inpText.length) % 2 === 1) {
-      strecherY = map(sin(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000)), -1, 1, 0, strecherYsize);
+    var spotPhase = ringSpot * rWaveOffset + waveTime;
+    var stackPhase = stackIdx * rWaveOffset + waveTime;
+
+    if (stackIdx % 2 === 1) {
+      strecherY = map(sin(spotPhase), -1, 1, 0, strecherYsize);
     } else {
-      strecherY = map(sin(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000) + PI), -1, 1, 0, strecherYsize);
+      strecherY = map(sin(spotPhase + PI), -1, 1, 0, strecherYsize);
     }
 
-    strecherX = map(sin(floor(i / inpText.length) * rWaveOffset + frameCount * (rWaveSpeed / 1000)), -1, 1, 0, strecherXsize);
+    strecherX = map(sin(stackPhase), -1, 1, 0, strecherXsize);
 
     push();
     // stack translates
-    rotateY(floor(i / inpText.length) * rOffset);
-    translate(0, floor(i / inpText.length) * stackHeight);
+    rotateY(stackIdx * rOffset);
+    translate(0, stackIdx * stackHeight);
     // ring translates
     rotateY(ringSpot * pieSlice);
 
     translate(0, 0, radius);
     if (rLong != 0) {
-      var rLonger = sin(floor(i / inpText.length) * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * rLong;
+      var rLonger = sin(stackPhase) * rLong;
       translate(0, 0, rLonger);
     }
     if (rZaxis != 0) {
-      var rZaxiser = sin(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * rZaxis;
+      var rZaxiser = sin(spotPhase) * rZaxis;
       translate(0, rZaxiser, 0);
     }
     if (rWave != 0) {
-      var rWaver = sin(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * rWave;
+      var rWaver = sin(spotPhase) * rWave;
       translate(0, 0, rWaver);
     }
     if (yRotTweak != 0) {
-      rotateY(cos(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * -radians(yRotTweak));
+      rotateY(cos(spotPhase) * -radians(yRotTweak));
     }
     if (xRotTweak != 0) {
-      rotateX(cos(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * -radians(xRotTweak));
+      rotateX(cos(spotPhase) * -radians(xRotTweak));
     }
 
     if (rLong != 0) {
       // fix rLong y-rotation
-      var prerLonger = sin(floor((i / inpText.length) - 1) * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * rLong;
-      var postrLonger = sin(floor((i / inpText.length) + 1) * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * rLong;
-      var rLongAdjust = atan2(stackHeight * 2, (prerLonger - postrLonger))
+      var prerLonger = sin((stackIdx - 1) * rWaveOffset + waveTime) * rLong;
+      var postrLonger = sin((stackIdx + 1) * rWaveOffset + waveTime) * rLong;
+      var rLongAdjust = atan2(stackHeight * 2, (prerLonger - postrLonger));
       rotateX(rLongAdjust - PI / 2);
     }
 
     if (zRotTweak != 0) {
-      rotateZ(cos(ringSpot * rWaveOffset + frameCount * (rWaveSpeed / 1000)) * radians(zRotTweak));
+      rotateZ(cos(spotPhase) * radians(zRotTweak));
     }
 
     translate(-(typeX + strecherX) / 2, -(typeY + strecherY) / 2, 0);
     // outer surface
     if (inpNumber == 6) {
-      setTextColor(floor(i / inpText.length));
-    } else {
-      strkColor = inp1;
-      bkgdStrokeColor = lerpColor(strkColor, bkgdColor, 0.75);
+      setTextColor(stackIdx);
     }
     stroke(strkColor);
     keyboardEngine();
     translate(0, 0, -1);
     // inner surface
     stroke(bkgdStrokeColor);
-    keyboardEngine()
+    keyboardEngine();
     pop();
   }
   pop();

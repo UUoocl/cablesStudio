@@ -707,30 +707,34 @@
                     ? 'cylinder'
                     : (cidLower.includes('stripes') || nameLower.includes('stripes')
                         ? 'stripes'
-                        : (cidLower.includes('magic-wand') || cidLower.includes('magicwand') || nameLower.includes('magic wand')
-                            ? 'magic_wand'
-                            : (cidLower.includes('trassel') || nameLower.includes('trassel')
-                                ? 'trassel'
-                                : (cidLower.includes('astro-bee') || cidLower.includes('astrobee') || nameLower.includes('astro bee')
-                                    ? 'astro_bee'
-                                    : (cidLower.includes('flow-highlight') || nameLower.includes('flow highlight')
-                                        ? 'flow_highlight'
-                                        : '')))))
+                        : (cidLower.includes('field') || nameLower.includes('field')
+                            ? 'field'
+                            : (cidLower.includes('magic-wand') || cidLower.includes('magicwand') || nameLower.includes('magic wand')
+                                ? 'magic_wand'
+                                : (cidLower.includes('trassel') || nameLower.includes('trassel')
+                                    ? 'trassel'
+                                    : (cidLower.includes('astro-bee') || cidLower.includes('astrobee') || nameLower.includes('astro bee')
+                                        ? 'astro_bee'
+                                        : (cidLower.includes('flow-highlight') || nameLower.includes('flow highlight')
+                                            ? 'flow_highlight'
+                                            : ''))))))
             );
             const presetFile = (manifest && manifest.presetFile) || (
                 appType === 'stripes'
                     ? 'apps/space_type_generator-ws/stripes/preset.js'
                     : (appType === 'cylinder'
                         ? 'apps/space_type_generator-ws/cylinder/preset.js'
-                        : (appType === 'magic_wand'
-                            ? 'apps/mouse_overlays/magic_wand/preset.js'
-                            : (appType === 'trassel'
-                                ? 'apps/mouse_overlays/trassel/preset.js'
-                                : (appType === 'astro_bee'
-                                    ? 'apps/mouse_overlays/astro_bee/preset.js'
-                                    : (appType === 'flow_highlight'
-                                        ? 'apps/mouse_overlays/flow_highlight/preset.js'
-                                        : '')))))
+                        : (appType === 'field'
+                            ? 'apps/space_type_generator-ws/field/preset.js'
+                            : (appType === 'magic_wand'
+                                ? 'apps/mouse_overlays/magic_wand/preset.js'
+                                : (appType === 'trassel'
+                                    ? 'apps/mouse_overlays/trassel/preset.js'
+                                    : (appType === 'astro_bee'
+                                        ? 'apps/mouse_overlays/astro_bee/preset.js'
+                                        : (appType === 'flow_highlight'
+                                            ? 'apps/mouse_overlays/flow_highlight/preset.js'
+                                            : ''))))))
             );
             return { appType, presetFile };
         }

@@ -1,0 +1,100 @@
+{
+    "id": "9a652f53-32d6-4676-adee-1f4fcb0b7eb9",
+    "authorName": "cables user",
+    "name": "Ops.Extension.Standalone.MacOs.ShortcutsCli",
+    "created": 1763137765000,
+    "summary": "Run a macOS Shortcut asynchronously via the shortcuts CLI with optional JSON stdin payload and stdout capture.",
+    "layout": {
+        "portsIn": [
+            {
+                "type": 5,
+                "name": "Shortcut Name"
+            },
+            {
+                "type": 2,
+                "name": "Input Payload"
+            },
+            {
+                "type": 1,
+                "name": "Execute"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "Completed"
+            },
+            {
+                "type": 5,
+                "name": "Stdout"
+            },
+            {
+                "type": 5,
+                "name": "Stderr"
+            },
+            {
+                "type": 2,
+                "name": "JSON Output"
+            },
+            {
+                "type": 0,
+                "name": "Exit Code",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Running",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Error"
+            }
+        ]
+    },
+    "docs": {
+        "ports": [
+            {
+                "name": "Shortcut Name",
+                "text": "The name or UUID identifier of the macOS Shortcut to run."
+            },
+            {
+                "name": "Input Payload",
+                "text": "Optional object payload serialized as JSON and passed to the shortcut via standard input."
+            },
+            {
+                "name": "Execute",
+                "text": "Trigger this port to run the shortcut in a non-blocking child process."
+            },
+            {
+                "name": "Completed",
+                "text": "Triggered when the shortcut process finishes."
+            },
+            {
+                "name": "Stdout",
+                "text": "The standard output returned by the shortcut."
+            },
+            {
+                "name": "Stderr",
+                "text": "The standard error output from the shortcuts CLI."
+            },
+            {
+                "name": "JSON Output",
+                "text": "If Stdout is valid JSON, it is parsed and output here as an object."
+            },
+            {
+                "name": "Exit Code",
+                "text": "The exit code of the shortcuts process (0 on success)."
+            },
+            {
+                "name": "Running",
+                "text": "True while the shortcut child process is currently running."
+            },
+            {
+                "name": "Error",
+                "text": "Triggered if the shortcuts process fails or returns a non-zero exit code."
+            }
+        ]
+    }
+}
+

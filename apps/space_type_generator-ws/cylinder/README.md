@@ -39,15 +39,15 @@ http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?ws=true&client
 - **`clientID`**: Sets an isolated client identifier (`stg-cylinder` by default). Messages and parameter updates destined for one client ID are ignored by other instances.
 - **`preset`** (or `p`): Immediately applies a preset style (`simple`, `weave`, `jellyfish`, `crown`, `complex`, `zebra`, `hoops`, `pride`) on initial load and synchronizes it with the dashboard manifest.
 
-### 3. BroadcastChannel
+### 3. Connection & Query Parameters
+WebSocket connection connects automatically on load (defaulting to the current host or `127.0.0.1:8080`).
 ```
-http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?channel=YOUR_CHANNEL_NAME&width=1024&height=1024
+http://127.0.0.1:8080/space_type_generator-ws/cylinder/index.html?clientID=cylinder-1&preset=jellyfish&width=1920&height=1080
 ```
-- `channel` or `bc`: BroadcastChannel name for synchronization.
+- `ws`: Custom WebSocket host/port (e.g. `?ws=127.0.0.1:8080` or disable with `?ws=false`).
 - `clientID`: Custom client ID for targeted message handling.
-- `preset`: Preload visual preset on startup.
+- `preset` (or `p`): Preload visual preset on startup.
 - `width` / `height`: Optional initial canvas dimensions.
-- `ws`: Enable WebSocket client connection (defaults to `127.0.0.1:8080` or pass custom host `?ws=127.0.0.1:8080`).
 
 ### 4. Capture
 Use the `Ops.Local.GetIframeCanvas` operator in Cables to retrieve the DOM canvas element from the iframe and pipe it into a `CanvasToTexture` operator.

@@ -205,6 +205,11 @@ function draw() {
 
   // FLAG / STRIPES
   for (var k = 0; k < ribbonCount; k++) {
+    // Precompute wave offsets for this ribbon to avoid redundant recalculation
+    var rowYWavers = [];
+    for (var i = -1; i <= runLength + 1; i++) {
+      rowYWavers[i + 1] = sinEngine(offset, i, ribbonOffset, k, -speed, slope) * yWave;
+    }
 
     // Ribbon Shadow
     strokeWeight(typeY + ribbonSize);
@@ -213,8 +218,7 @@ function draw() {
     strokeJoin(ROUND);
     beginShape();
     for (var i = -1; i <= runLength; i++) {
-      yWaver = sinEngine(offset, i, ribbonOffset, k, -speed, slope) * yWave;
-      vertex(i * xSpace + k * ribbonSpaceX - ribbonSpaceX / 7, k * ribbonSpaceY - ribbonSpaceY / 7 + yWaver);
+      vertex(i * xSpace + k * ribbonSpaceX - ribbonSpaceX / 7, k * ribbonSpaceY - ribbonSpaceY / 7 + rowYWavers[i + 1]);
     }
     endShape();
 
@@ -224,8 +228,7 @@ function draw() {
     stroke(ribbonColor);
     beginShape();
     for (var i = -1; i <= runLength; i++) {
-      yWaver = sinEngine(offset, i, ribbonOffset, k, -speed, slope) * yWave;
-      vertex(i * xSpace + k * ribbonSpaceX, k * ribbonSpaceY + yWaver);
+      vertex(i * xSpace + k * ribbonSpaceX, k * ribbonSpaceY + rowYWavers[i + 1]);
     }
     endShape();
 
@@ -235,11 +238,11 @@ function draw() {
     stroke(strkColor);
     strokeCap(PROJECT);
     for (var i = 0; i < runLength; i++) {
-      var yWaverPre = sinEngine(offset, i - 1, ribbonOffset, k, -speed, slope) * yWave;
-      var yWaverPost = sinEngine(offset, i + 1, ribbonOffset, k, -speed, slope) * yWave;
+      var yWaverPre = rowYWavers[i];
+      var yWaverPost = rowYWavers[i + 2];
       var rotateFix = atan2(yWaverPost - yWaverPre, 2 * xSpace);
 
-      yWaver = sinEngine(offset, i, ribbonOffset, k, -speed, slope) * yWave;
+      yWaver = rowYWavers[i + 1];
       letter_select = i;
 
       push();
@@ -255,10 +258,10 @@ function draw() {
 }
 
 function sinEngine(xLength, xCounter, yLength, yCounter, Speed, slopeN) {
-  var sinus = sin((frameCount * Speed + xCounter * xLength + yCounter * yLength));
+  var sinus = sin(frameCount * Speed + xCounter * xLength + yCounter * yLength);
+  if (slopeN === 1) return sinus;
   var sign = (sinus >= 0 ? 1 : -1);
-  var sinerSquare = sign * (1 - pow(1 - abs(sinus), slopeN));
-  return sinerSquare;
+  return sign * (1 - pow(1 - abs(sinus), slopeN));
 }
 
 function setRibbonColor(switcher) {

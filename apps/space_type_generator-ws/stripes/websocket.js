@@ -1,6 +1,6 @@
 /**
- * STG Stripes - WebSocket & Communication Bridge
- * Handles WebSocket connection, BroadcastChannel syncing, and remote message routing.
+ * STG Stripes - WebSocket Communication Bridge
+ * Handles WebSocket connection, Soft Takeover, and remote message routing.
  */
 
 // --- COMMUNICATION BRIDGE ---
@@ -12,8 +12,6 @@ window.urlParams = urlParams;
 window.initialWidth = initialWidth;
 window.initialHeight = initialHeight;
 
-var pubChannel = null;
-var subChannel = null;
 var wsInstance = null;
 
 var softTakeoverFilter = (typeof SoftTakeoverClient !== 'undefined')
@@ -26,29 +24,14 @@ var softTakeoverFilter = (typeof SoftTakeoverClient !== 'undefined')
     : null;
 window.softTakeoverFilter = softTakeoverFilter;
 
-// BroadcastChannel support for both 'bc' and 'channel' parameters
-var bcName = urlParams.get('bc') || urlParams.get('channel');
-if (bcName) {
-    const channelName = (bcName === 'true' || bcName === '1') ? 'stg-stripes-sync' : bcName;
-    console.log("[STG Stripes] Starting BroadcastChannel:", channelName);
-    pubChannel = new BroadcastChannel('pub-' + channelName);
-    subChannel = new BroadcastChannel('sub-' + channelName);
-
-    subChannel.onmessage = (event) => {
-        if (!event.data) return;
-        handleMessage(event.data);
-    };
-}
-
-// WebSocket connection support (auto-connects if 'ws' flag is present)
-if (urlParams.has('ws')) {
+// WebSocket connection (auto-connects by default unless explicitly disabled with ?ws=false)
+var wsFlag = urlParams.get('ws');
+if (wsFlag !== 'false' && wsFlag !== '0') {
     startWebSocket();
 }
 
 function sendPayload(payload) {
-    if (pubChannel) {
-        pubChannel.postMessage(payload);
-    }
+    if (!payload) return;
     if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
         if (payload.type === 'client:register' || payload.type === 'client:update') {
             wsInstance.send(JSON.stringify({
@@ -253,9 +236,6 @@ function signalReady() {
         originId: typeof originId !== 'undefined' ? originId : 'stg-stripes',
         clientId: typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'stg-stripes'
     };
-    if (pubChannel) {
-        pubChannel.postMessage(payload);
-    }
     if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
         wsInstance.send(JSON.stringify(payload));
     }
