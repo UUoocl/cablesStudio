@@ -54,10 +54,77 @@ var inpNumber = 1;
 var clearTextDelay = 0;
 var clearMethod = "all at once";
 var seqInterval = 100;
+var animateSlidersToZero = false;
 var hideNoText = false;
 var lastTextTime = 0;
 var isClearing = false;
 var lastRemoveTime = 0;
+var savedSliderValues = null;
+var clearStartTime = 0;
+var clearTotalDuration = 0;
+
+const CLEAR_ANIMATED_SLIDERS = [
+  { key: 'column', get: () => column, set: v => { column = v; } },
+  { key: 'row', get: () => row, set: v => { row = v; } },
+  { key: 'tracking', get: () => tracking, set: v => { tracking = v; } },
+  { key: 'lineSpace', get: () => lineSpace, set: v => { lineSpace = v; } },
+  { key: 'typeX', get: () => typeX, set: v => { typeX = v; } },
+  { key: 'typeY', get: () => typeY, set: v => { typeY = v; } },
+  { key: 'typeStroke', get: () => typeStroke, set: v => { typeStroke = v; } },
+  { key: 'speed', get: () => speed, set: v => { speed = v; } },
+  { key: 'xOffset', get: () => xOffset, set: v => { xOffset = v; } },
+  { key: 'yOffset', get: () => yOffset, set: v => { yOffset = v; } },
+  { key: 'zWave', get: () => zWave, set: v => { zWave = v; } },
+  { key: 'xWave', get: () => xWave, set: v => { xWave = v; } },
+  { key: 'yWave', get: () => yWave, set: v => { yWave = v; } },
+  { key: 'yWavezRot', get: () => yWavezRot, set: v => { yWavezRot = v; } },
+  { key: 'yWavexStr', get: () => yWavexStr, set: v => { yWavexStr = v; } },
+  { key: 'xStrechWave', get: () => xStrechWave, set: v => { xStrechWave = v; } },
+  { key: 'yStrechWave', get: () => yStrechWave, set: v => { yStrechWave = v; } },
+  { key: 'xRotCamera', get: () => xRotCamera, set: v => { xRotCamera = v; } },
+  { key: 'yRotCamera', get: () => yRotCamera, set: v => { yRotCamera = v; } },
+  { key: 'zRotCamera', get: () => zRotCamera, set: v => { zRotCamera = v; } },
+  { key: 'zoomCamera', get: () => zoomCamera, set: v => { zoomCamera = v; } }
+];
+
+function snapshotSlidersForClear() {
+  const snap = {};
+  for (const s of CLEAR_ANIMATED_SLIDERS) {
+    snap[s.key] = Number(s.get()) || 0;
+  }
+  savedSliderValues = snap;
+  clearStartTime = millis();
+  clearTotalDuration = Math.max(1, inpText.length * Math.max(1, seqInterval));
+}
+
+function interpolateSlidersForClear(t) {
+  if (!savedSliderValues) return;
+  for (const s of CLEAR_ANIMATED_SLIDERS) {
+    const orig = savedSliderValues[s.key];
+    if (orig !== undefined) {
+      s.set(orig * (1 - t));
+    }
+  }
+  if (typeof syncConfigFromSketch === 'function') {
+    syncConfigFromSketch();
+  }
+}
+
+function restoreSlidersFromClear(shouldNotify = true) {
+  if (!savedSliderValues) return;
+  for (const s of CLEAR_ANIMATED_SLIDERS) {
+    if (savedSliderValues[s.key] !== undefined) {
+      s.set(savedSliderValues[s.key]);
+    }
+  }
+  savedSliderValues = null;
+  if (typeof syncConfigFromSketch === 'function') {
+    syncConfigFromSketch();
+  }
+  if (shouldNotify && typeof notifyConfigChange === 'function') {
+    notifyConfigChange();
+  }
+}
 
 var font;
 
@@ -129,10 +196,14 @@ function reSetting() {
   clearTextDelay = 0;
   clearMethod = "all at once";
   seqInterval = 100;
+  animateSlidersToZero = false;
   hideNoText = false;
   lastTextTime = millis();
   isClearing = false;
   lastRemoveTime = 0;
+  savedSliderValues = null;
+  clearStartTime = 0;
+  clearTotalDuration = 0;
 }
 
 function applyCustomPreset(settings) {
@@ -198,6 +269,9 @@ function draw() {
     if (millis() - lastTextTime >= clearTextDelay) {
       isClearing = true;
       lastRemoveTime = millis();
+      if ((clearMethod === "sequential" || clearMethod === "reverseSeq") && animateSlidersToZero) {
+        snapshotSlidersForClear();
+      }
     }
   }
 
@@ -205,20 +279,22 @@ function draw() {
     if (clearMethod === "all at once") {
       inpText = "";
       isClearing = false;
-    } else if (clearMethod === "sequential") {
-      if (millis() - lastRemoveTime >= seqInterval) {
-        inpText = inpText.substring(1);
-        lastRemoveTime = millis();
-        if (inpText === "") {
-          isClearing = false;
-        }
+      restoreSlidersFromClear();
+    } else if (clearMethod === "sequential" || clearMethod === "reverseSeq") {
+      if (savedSliderValues) {
+        const t = constrain((millis() - clearStartTime) / clearTotalDuration, 0, 1);
+        interpolateSlidersForClear(t);
       }
-    } else if (clearMethod === "reverseSeq") {
       if (millis() - lastRemoveTime >= seqInterval) {
-        inpText = inpText.substring(0, inpText.length - 1);
+        inpText = (clearMethod === "sequential")
+          ? inpText.substring(1)
+          : inpText.substring(0, inpText.length - 1);
         lastRemoveTime = millis();
         if (inpText === "") {
           isClearing = false;
+          restoreSlidersFromClear();
+        } else if (savedSliderValues && typeof notifyConfigChange === 'function') {
+          notifyConfigChange();
         }
       }
     }
@@ -260,23 +336,27 @@ function draw() {
   rotateY(radians(yRotCamera));
   rotateZ(radians(zRotCamera));
 
+  var safeColumn = Math.max(1, Math.round(column));
+  var safeXOffset = Math.abs(xOffset) < 0.001 ? (xOffset < 0 ? -0.001 : 0.001) : xOffset;
+  var safeYOffset = Math.abs(yOffset) < 0.001 ? (yOffset < 0 ? -0.001 : 0.001) : yOffset;
+
   var textLen = inpText.length;
   if (fullText === true) {
-    runLength = row * column;
-    translate(-column * xSpace / 2, -row * ySpace / 2);
+    runLength = row * safeColumn;
+    translate(-safeColumn * xSpace / 2, -row * ySpace / 2);
   } else {
     runLength = textLen;
-    if (textLen >= column) {
-      translate(-column * xSpace / 2, -Math.floor(textLen / column) * ySpace / 2);
+    if (textLen >= safeColumn) {
+      translate(-safeColumn * xSpace / 2, -Math.floor(textLen / safeColumn) * ySpace / 2);
     } else {
-      translate(-textLen * xSpace / 2, -Math.floor(textLen / column) * ySpace / 2);
+      translate(-textLen * xSpace / 2, -Math.floor(textLen / safeColumn) * ySpace / 2);
     }
   }
 
   // Precompute frame phase & color if single color
   var timePhase = frameCount * speed / 100;
-  var invXOffset = 1 / xOffset;
-  var invYOffset = 1 / yOffset;
+  var invXOffset = 1 / safeXOffset;
+  var invYOffset = 1 / safeYOffset;
 
   if (inpNumber == 1) {
     strkColor = inp1;
@@ -285,8 +365,8 @@ function draw() {
 
   // THE TYPE
   for (var i = 0; i < runLength; i++) {
-    var colIdx = i % column;
-    var rowIdx = Math.floor(i / column);
+    var colIdx = i % safeColumn;
+    var rowIdx = Math.floor(i / safeColumn);
 
     if (fullText === true) {
       letter_select = i % textLen;

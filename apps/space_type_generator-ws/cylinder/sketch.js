@@ -42,10 +42,78 @@ var inpNumber = 1;
 var clearTextDelay = 0;
 var clearMethod = "all at once";
 var seqInterval = 100;
+var animateSlidersToZero = false;
 var hideNoText = false;
 var lastTextTime = 0;
 var isClearing = false;
 var lastRemoveTime = 0;
+var savedSliderValues = null;
+var clearStartTime = 0;
+var clearTotalDuration = 0;
+
+const CLEAR_ANIMATED_SLIDERS = [
+  { key: 'radius', get: () => radius, set: v => { radius = v; } },
+  { key: 'stackNum', get: () => stackNum, set: v => { stackNum = v; } },
+  { key: 'stackHeightAdjust', get: () => stackHeightAdjust, set: v => { stackHeightAdjust = v; } },
+  { key: 'rRotate', get: () => rRotate, set: v => { rRotate = v; } },
+  { key: 'rOffset', get: () => rOffset, set: v => { rOffset = v; } },
+  { key: 'rWaveCount', get: () => rWaveCount, set: v => { rWaveCount = v; } },
+  { key: 'rWaveSpeed', get: () => rWaveSpeed, set: v => { rWaveSpeed = v; } },
+  { key: 'rWave', get: () => rWave, set: v => { rWave = v; } },
+  { key: 'rZaxis', get: () => rZaxis, set: v => { rZaxis = v; } },
+  { key: 'rLong', get: () => rLong, set: v => { rLong = v; } },
+  { key: 'typeX', get: () => typeX, set: v => { typeX = v; } },
+  { key: 'typeY', get: () => typeY, set: v => { typeY = v; } },
+  { key: 'typeStroke', get: () => typeStroke, set: v => { typeStroke = v; } },
+  { key: 'strecherX', get: () => strecherXsize, set: v => { strecherXsize = v; } },
+  { key: 'strecherY', get: () => strecherYsize, set: v => { strecherYsize = v; } },
+  { key: 'xRotTweak', get: () => xRotTweak, set: v => { xRotTweak = v; } },
+  { key: 'yRotTweak', get: () => yRotTweak, set: v => { yRotTweak = v; } },
+  { key: 'zRotTweak', get: () => zRotTweak, set: v => { zRotTweak = v; } },
+  { key: 'xRotCamera', get: () => xRotCamera, set: v => { xRotCamera = v; } },
+  { key: 'yRotCamera', get: () => yRotCamera, set: v => { yRotCamera = v; } },
+  { key: 'zRotCamera', get: () => zRotCamera, set: v => { zRotCamera = v; } },
+  { key: 'zoomCamera', get: () => zoomCamera, set: v => { zoomCamera = v; } }
+];
+
+function snapshotSlidersForClear() {
+  const snap = {};
+  for (const s of CLEAR_ANIMATED_SLIDERS) {
+    snap[s.key] = Number(s.get()) || 0;
+  }
+  savedSliderValues = snap;
+  clearStartTime = millis();
+  clearTotalDuration = Math.max(1, inpText.length * Math.max(1, seqInterval));
+}
+
+function interpolateSlidersForClear(t) {
+  if (!savedSliderValues) return;
+  for (const s of CLEAR_ANIMATED_SLIDERS) {
+    const orig = savedSliderValues[s.key];
+    if (orig !== undefined) {
+      s.set(orig * (1 - t));
+    }
+  }
+  if (typeof syncConfigFromSketch === 'function') {
+    syncConfigFromSketch();
+  }
+}
+
+function restoreSlidersFromClear(shouldNotify = true) {
+  if (!savedSliderValues) return;
+  for (const s of CLEAR_ANIMATED_SLIDERS) {
+    if (savedSliderValues[s.key] !== undefined) {
+      s.set(savedSliderValues[s.key]);
+    }
+  }
+  savedSliderValues = null;
+  if (typeof syncConfigFromSketch === 'function') {
+    syncConfigFromSketch();
+  }
+  if (shouldNotify && typeof notifyConfigChange === 'function') {
+    notifyConfigChange();
+  }
+}
 
 function preload() {
   font = loadFont('../assets/IBMPlexMono-Regular.otf');
@@ -115,10 +183,14 @@ function reSetting() {
   clearTextDelay = 0;
   clearMethod = "all at once";
   seqInterval = 100;
+  animateSlidersToZero = false;
   hideNoText = false;
   lastTextTime = millis();
   isClearing = false;
   lastRemoveTime = 0;
+  savedSliderValues = null;
+  clearStartTime = 0;
+  clearTotalDuration = 0;
 
   if (typeof syncConfigFromSketch === 'function') {
     syncConfigFromSketch();
@@ -181,6 +253,9 @@ function draw() {
     if (millis() - lastTextTime >= clearTextDelay) {
       isClearing = true;
       lastRemoveTime = millis();
+      if ((clearMethod === "sequential" || clearMethod === "reverseSeq") && animateSlidersToZero) {
+        snapshotSlidersForClear();
+      }
     }
   }
 
@@ -188,20 +263,22 @@ function draw() {
     if (clearMethod === "all at once") {
       inpText = "";
       isClearing = false;
-    } else if (clearMethod === "sequential") {
-      if (millis() - lastRemoveTime >= seqInterval) {
-        inpText = inpText.substring(1);
-        lastRemoveTime = millis();
-        if (inpText === "") {
-          isClearing = false;
-        }
+      restoreSlidersFromClear();
+    } else if (clearMethod === "sequential" || clearMethod === "reverseSeq") {
+      if (savedSliderValues) {
+        const t = constrain((millis() - clearStartTime) / clearTotalDuration, 0, 1);
+        interpolateSlidersForClear(t);
       }
-    } else if (clearMethod === "reverseSeq") {
       if (millis() - lastRemoveTime >= seqInterval) {
-        inpText = inpText.substring(0, inpText.length - 1);
+        inpText = (clearMethod === "sequential")
+          ? inpText.substring(1)
+          : inpText.substring(0, inpText.length - 1);
         lastRemoveTime = millis();
         if (inpText === "") {
           isClearing = false;
+          restoreSlidersFromClear();
+        } else if (savedSliderValues && typeof notifyConfigChange === 'function') {
+          notifyConfigChange();
         }
       }
     }

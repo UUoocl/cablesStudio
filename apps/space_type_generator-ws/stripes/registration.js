@@ -26,11 +26,18 @@ if (initialPresetParam && typeof customPresets !== 'undefined') {
     }
 }
 
+// Determine initial text input mode and STT channel from query parameters
+var initialTextInputParam = (urlParams.get('textInput') || urlParams.get('input') || 'keyboard').trim().toLowerCase();
+var initialTextInputMode = (initialTextInputParam === 'stt' || initialTextInputParam === 'both') ? initialTextInputParam : 'keyboard';
+var initialSttChannel = (urlParams.get('channel') || urlParams.get('sttChannel') || '').trim();
+
 // Central configuration synced with Dashboard / Cables
 window.stripesConfig = {
     text: "SPACE TYPE GENERATOR _V.STRIPES",
     preset: initialPreset,
     hideNoText: false,
+    textInputMode: initialTextInputMode,
+    sttChannel: initialSttChannel,
 
     ribbonCount: 9,
     ribbonSpaceX: -17,
@@ -59,7 +66,8 @@ window.stripesConfig = {
 
     clearTextDelay: 0,
     clearMethod: "all at once",
-    seqInterval: 100
+    seqInterval: 100,
+    animateSlidersToZero: false
 };
 
 function rgbToHex(rgb) {
@@ -147,6 +155,23 @@ function getRegistrationPayload() {
                     type: 'string',
                     value: String(window.stripesConfig.text),
                     label: 'Text',
+                    group: 'Content'
+                },
+                textInputMode: {
+                    type: 'string',
+                    value: String(window.stripesConfig.textInputMode),
+                    label: 'Text Input',
+                    group: 'Content',
+                    options: {
+                        'Keyboard': 'keyboard',
+                        'Speech-to-Text (STT)': 'stt',
+                        'Both (Keyboard + STT)': 'both'
+                    }
+                },
+                sttChannel: {
+                    type: 'string',
+                    value: String(window.stripesConfig.sttChannel || ''),
+                    label: 'STT Channel',
                     group: 'Content'
                 },
                 preset: {
@@ -384,11 +409,18 @@ function getRegistrationPayload() {
                     step: 10,
                     label: 'Sequence Interval (ms)',
                     group: 'Text Clear'
+                },
+                animateSlidersToZero: {
+                    type: 'boolean',
+                    value: Boolean(window.stripesConfig.animateSlidersToZero),
+                    label: 'Animate Sliders to 0',
+                    group: 'Text Clear'
                 }
             },
             subscriptions: {
                 mouse: true,
-                keyboard: true,
+                keyboard: window.stripesConfig.textInputMode !== 'stt',
+                stt: window.stripesConfig.textInputMode !== 'keyboard',
                 stateUpdates: true
             }
         }
@@ -408,6 +440,7 @@ function syncConfigFromSketch() {
     if (typeof clearTextDelay !== 'undefined') window.stripesConfig.clearTextDelay = clearTextDelay;
     if (typeof clearMethod !== 'undefined') window.stripesConfig.clearMethod = clearMethod;
     if (typeof seqInterval !== 'undefined') window.stripesConfig.seqInterval = seqInterval;
+    if (typeof animateSlidersToZero !== 'undefined') window.stripesConfig.animateSlidersToZero = animateSlidersToZero;
 
     if (typeof ribbonCount !== 'undefined') window.stripesConfig.ribbonCount = ribbonCount;
     if (typeof ribbonSpaceX !== 'undefined') window.stripesConfig.ribbonSpaceX = ribbonSpaceX;
@@ -473,22 +506,44 @@ function applyParameterUpdates(params) {
         window.stripesConfig.text = inpText;
         if (typeof millis === 'function') lastTextTime = millis();
         if (typeof isClearing !== 'undefined') isClearing = false;
+        if (typeof restoreSlidersFromClear === 'function') restoreSlidersFromClear();
     }
     if (params.hideNoText !== undefined) {
         hideNoText = Boolean(params.hideNoText) || params.hideNoText === 'true';
         window.stripesConfig.hideNoText = hideNoText;
     }
+    if (params.textInputMode !== undefined) {
+        const mode = String(params.textInputMode).trim().toLowerCase();
+        window.stripesConfig.textInputMode = (mode === 'stt' || mode === 'both') ? mode : 'keyboard';
+    }
+    if (params.sttChannel !== undefined) {
+        window.stripesConfig.sttChannel = String(params.sttChannel).trim();
+    }
     if (params.clearTextDelay !== undefined) {
         clearTextDelay = Number(params.clearTextDelay);
         window.stripesConfig.clearTextDelay = clearTextDelay;
+        if (clearTextDelay <= 0) {
+            if (typeof isClearing !== 'undefined') isClearing = false;
+            if (typeof restoreSlidersFromClear === 'function') restoreSlidersFromClear();
+        }
     }
     if (params.clearMethod !== undefined) {
         clearMethod = String(params.clearMethod);
         window.stripesConfig.clearMethod = clearMethod;
+        if (clearMethod === 'all at once' && typeof restoreSlidersFromClear === 'function') {
+            restoreSlidersFromClear();
+        }
     }
     if (params.seqInterval !== undefined) {
         seqInterval = Number(params.seqInterval);
         window.stripesConfig.seqInterval = seqInterval;
+    }
+    if (params.animateSlidersToZero !== undefined) {
+        animateSlidersToZero = Boolean(params.animateSlidersToZero) && params.animateSlidersToZero !== 'false';
+        window.stripesConfig.animateSlidersToZero = animateSlidersToZero;
+        if (!animateSlidersToZero && typeof restoreSlidersFromClear === 'function') {
+            restoreSlidersFromClear();
+        }
     }
 
     if (params.ribbonCount !== undefined) {

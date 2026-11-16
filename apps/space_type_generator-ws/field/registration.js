@@ -26,12 +26,19 @@ if (initialPresetParam && typeof customPresets !== 'undefined') {
     }
 }
 
+// Determine initial text input mode and STT channel from query parameters
+var initialTextInputParam = (urlParams.get('textInput') || urlParams.get('input') || 'keyboard').trim().toLowerCase();
+var initialTextInputMode = (initialTextInputParam === 'stt' || initialTextInputParam === 'both') ? initialTextInputParam : 'keyboard';
+var initialSttChannel = (urlParams.get('channel') || urlParams.get('sttChannel') || '').trim();
+
 // Central configuration synced with Dashboard / Cables
 window.fieldConfig = {
     text: "EVERYTHING IS STRANGE. THINGS ARE HUGE AND VERY SMALL.",
     preset: initialPreset,
     fullText: true,
     hideNoText: false,
+    textInputMode: initialTextInputMode,
+    sttChannel: initialSttChannel,
 
     column: 33,
     row: 7,
@@ -74,7 +81,8 @@ window.fieldConfig = {
 
     clearTextDelay: 0,
     clearMethod: "all at once",
-    seqInterval: 100
+    seqInterval: 100,
+    animateSlidersToZero: false
 };
 
 function rgbToHex(rgb) {
@@ -163,6 +171,23 @@ function getRegistrationPayload() {
                     type: 'string',
                     value: String(cfg.text),
                     label: 'Text',
+                    group: 'Content'
+                },
+                textInputMode: {
+                    type: 'string',
+                    value: String(cfg.textInputMode),
+                    label: 'Text Input',
+                    group: 'Content',
+                    options: {
+                        'Keyboard': 'keyboard',
+                        'Speech-to-Text (STT)': 'stt',
+                        'Both (Keyboard + STT)': 'both'
+                    }
+                },
+                sttChannel: {
+                    type: 'string',
+                    value: String(cfg.sttChannel || ''),
+                    label: 'STT Channel',
                     group: 'Content'
                 },
                 preset: {
@@ -492,11 +517,18 @@ function getRegistrationPayload() {
                     step: 10,
                     label: 'Seq Interval (ms)',
                     group: 'Text Clear'
+                },
+                animateSlidersToZero: {
+                    type: 'boolean',
+                    value: Boolean(cfg.animateSlidersToZero),
+                    label: 'Animate Sliders to 0',
+                    group: 'Text Clear'
                 }
             },
             subscriptions: {
                 mouse: true,
-                keyboard: true,
+                keyboard: cfg.textInputMode !== 'stt',
+                stt: cfg.textInputMode !== 'keyboard',
                 stateUpdates: true
             }
         }
@@ -518,6 +550,7 @@ function syncConfigFromSketch() {
     if (typeof clearTextDelay !== 'undefined') cfg.clearTextDelay = clearTextDelay;
     if (typeof clearMethod !== 'undefined') cfg.clearMethod = clearMethod;
     if (typeof seqInterval !== 'undefined') cfg.seqInterval = seqInterval;
+    if (typeof animateSlidersToZero !== 'undefined') cfg.animateSlidersToZero = animateSlidersToZero;
 
     if (typeof column !== 'undefined') cfg.column = column;
     if (typeof row !== 'undefined') cfg.row = row;
@@ -600,6 +633,7 @@ function applyParameterUpdates(params) {
             lastTextTime = millis();
             isClearing = false;
         }
+        if (typeof restoreSlidersFromClear === 'function') restoreSlidersFromClear();
     }
 
     if (params.fullText !== undefined) {
@@ -612,6 +646,14 @@ function applyParameterUpdates(params) {
         const val = Boolean(params.hideNoText);
         if (typeof hideNoText !== 'undefined') hideNoText = val;
         cfg.hideNoText = val;
+    }
+
+    if (params.textInputMode !== undefined) {
+        const mode = String(params.textInputMode).trim().toLowerCase();
+        cfg.textInputMode = (mode === 'stt' || mode === 'both') ? mode : 'keyboard';
+    }
+    if (params.sttChannel !== undefined) {
+        cfg.sttChannel = String(params.sttChannel).trim();
     }
 
     // Grid
@@ -791,16 +833,31 @@ function applyParameterUpdates(params) {
         const v = Math.max(0, Number(params.clearTextDelay));
         if (typeof clearTextDelay !== 'undefined') clearTextDelay = v;
         cfg.clearTextDelay = v;
+        if (v <= 0) {
+            if (typeof isClearing !== 'undefined') isClearing = false;
+            if (typeof restoreSlidersFromClear === 'function') restoreSlidersFromClear();
+        }
     }
     if (params.clearMethod !== undefined) {
         const m = String(params.clearMethod);
         if (typeof clearMethod !== 'undefined') clearMethod = m;
         cfg.clearMethod = m;
+        if (m === 'all at once' && typeof restoreSlidersFromClear === 'function') {
+            restoreSlidersFromClear();
+        }
     }
     if (params.seqInterval !== undefined && !isNaN(Number(params.seqInterval))) {
         const v = Math.max(10, Number(params.seqInterval));
         if (typeof seqInterval !== 'undefined') seqInterval = v;
         cfg.seqInterval = v;
+    }
+    if (params.animateSlidersToZero !== undefined) {
+        const val = Boolean(params.animateSlidersToZero) && params.animateSlidersToZero !== 'false';
+        if (typeof animateSlidersToZero !== 'undefined') animateSlidersToZero = val;
+        cfg.animateSlidersToZero = val;
+        if (!val && typeof restoreSlidersFromClear === 'function') {
+            restoreSlidersFromClear();
+        }
     }
 }
 

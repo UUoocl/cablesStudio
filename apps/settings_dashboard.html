@@ -988,6 +988,7 @@
                 clientType: String(manifest.clientType || 'unknown'),
                 subMouse: Boolean(subs.mouse),
                 subKeyboard: Boolean(subs.keyboard),
+                subStt: Boolean(subs.stt),
                 subStateUpdates: Boolean(subs.stateUpdates)
             };
 
@@ -995,6 +996,7 @@
             metaFolder.addMonitor(metaObj, 'clientType', { label: 'Type' });
             metaFolder.addMonitor(metaObj, 'subMouse', { label: 'Sub: Mouse' });
             metaFolder.addMonitor(metaObj, 'subKeyboard', { label: 'Sub: Keyboard' });
+            metaFolder.addMonitor(metaObj, 'subStt', { label: 'Sub: STT' });
             metaFolder.addMonitor(metaObj, 'subStateUpdates', { label: 'Sub: State' });
         }
 

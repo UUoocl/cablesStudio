@@ -6,7 +6,7 @@
     "userId": "6a5204fba38f50d1a7edfab5",
     "cachedUsername": "",
     "created": 1783760123008,
-    "updated": 1794698547766,
+    "updated": 1794781117651,
     "visibility": "private",
     "ops": [
         {
@@ -1095,9 +1095,9 @@
                     "name": "HTTP Response Data",
                     "links": [
                         {
-                            "portIn": "Value",
+                            "portIn": "Response",
                             "portOut": "HTTP Response Data",
-                            "objIn": "yjwd3yjtm",
+                            "objIn": "a5k9xcxyr",
                             "objOut": "esgruuzis"
                         }
                     ]
@@ -1121,7 +1121,7 @@
                 },
                 {
                     "name": "WS Message Channel",
-                    "value": ""
+                    "value": "clientRegistry"
                 },
                 {
                     "name": "WS Message Data",
@@ -1142,7 +1142,7 @@
                 },
                 {
                     "name": "WS Active Clients",
-                    "value": 4
+                    "value": 0
                 },
                 {
                     "name": "Error",
@@ -1361,7 +1361,7 @@
             "portsOut": [
                 {
                     "name": "CC Value Out",
-                    "value": 0.007874015748031496
+                    "value": 0
                 },
                 {
                     "name": "Event",
@@ -1963,59 +1963,59 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 3",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 4",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 5",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 6",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 7",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 8",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 9",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 10",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 11",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 12",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 13",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 14",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "Output 15",
-                    "value": 103
+                    "value": 57
                 }
             ]
         },
@@ -2997,7 +2997,7 @@
                 },
                 {
                     "name": "Num Lines",
-                    "value": 2
+                    "value": 1
                 }
             ]
         },
@@ -3447,7 +3447,7 @@
                 },
                 {
                     "name": "bs between",
-                    "value": 0
+                    "value": 1
                 }
             ]
         },
@@ -3539,15 +3539,15 @@
                 },
                 {
                     "name": "Output 1",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 2",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 3",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 4",
@@ -3562,47 +3562,47 @@
                 },
                 {
                     "name": "Output 5",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 6",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 7",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 8",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 9",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 10",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 11",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 12",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 13",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 14",
-                    "value": 15
+                    "value": 0
                 },
                 {
                     "name": "Output 15",
-                    "value": 15
+                    "value": 0
                 }
             ]
         },
@@ -3988,7 +3988,7 @@
             "portsOut": [
                 {
                     "name": "Index 0 Value",
-                    "value": 0.68
+                    "value": 0.112
                 },
                 {
                     "name": "Index 1 Value",
@@ -4029,7 +4029,7 @@
                 },
                 {
                     "name": "Index 5 Value",
-                    "value": 0
+                    "value": 0.128
                 },
                 {
                     "name": "Index 6 Value",
@@ -4037,11 +4037,11 @@
                 },
                 {
                     "name": "Index 7 Value",
-                    "value": 0.096
+                    "value": 0.104
                 },
                 {
                     "name": "Index 8 Value",
-                    "value": 0.048
+                    "value": 0.128
                 },
                 {
                     "name": "Index 9 Value",
@@ -5225,7 +5225,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -5280,8 +5280,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -1645.9806801285877,
-                    "y": -945.5571967886667
+                    "x": -1744.6016676682727,
+                    "y": -958.2370380437692
                 }
             },
             "portsIn": [
@@ -5353,8 +5353,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -1645.9806801285877,
-                    "y": -870.3909604455723
+                    "x": -1744.6016676682727,
+                    "y": -883.0708017006748
                 }
             },
             "portsIn": [
@@ -5399,8 +5399,8 @@
                 "comment_title": "Keyboard Input",
                 "title": "Keyboard Input",
                 "translate": {
-                    "x": -1749.7618747043766,
-                    "y": -1071.203010142081
+                    "x": -1846.9739909934947,
+                    "y": -1083.8828513971835
                 },
                 "area": {
                     "w": 684.6743537982702,
@@ -5424,8 +5424,8 @@
             "uiAttribs": {
                 "title": ">varWsTrigger",
                 "translate": {
-                    "x": -1303.441780891561,
-                    "y": -711.0043329959245
+                    "x": -1402.062768431246,
+                    "y": -718.0486892487593
                 }
             },
             "portsIn": [
@@ -5444,8 +5444,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": -1291.441780891561,
-                    "y": -745.6125847651276
+                    "x": -1390.062768431246,
+                    "y": -752.6569410179624
                 }
             },
             "portsIn": [
@@ -5463,8 +5463,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -1303.441780891561,
-                    "y": -814.5153305296908
+                    "x": -1402.062768431246,
+                    "y": -821.5596867825255
                 }
             },
             "portsOut": [
@@ -5501,8 +5501,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1645.9806801285877,
-                    "y": -745.778839234732
+                    "x": -1744.6016676682727,
+                    "y": -758.4586804898345
                 }
             },
             "portsIn": [
@@ -5534,8 +5534,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1645.9806801285877,
-                    "y": -810.7555031056845
+                    "x": -1744.6016676682727,
+                    "y": -823.435344360787
                 }
             },
             "portsIn": [
@@ -5571,8 +5571,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1645.9806801285877,
-                    "y": -678.7547671033847
+                    "x": -1744.6016676682727,
+                    "y": -691.4346083584871
                 }
             },
             "portsIn": [
@@ -5604,8 +5604,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": -1645.9806801285877,
-                    "y": -612.7633352438578
+                    "x": -1744.6016676682727,
+                    "y": -625.4431764989603
                 }
             },
             "portsIn": [
@@ -5775,11 +5775,11 @@
                 },
                 {
                     "name": "CC Number",
-                    "value": 103
+                    "value": 57
                 },
                 {
                     "name": "CC Value",
-                    "value": 13
+                    "value": 15
                 },
                 {
                     "name": "Pitch Bend Value",
@@ -6084,6 +6084,12 @@
                             "portOut": "Trigger out",
                             "objIn": "2mqbutox6",
                             "objOut": "rjjsqx1r4"
+                        },
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "Trigger out",
+                            "objIn": "a5k9xcxyr",
+                            "objOut": "rjjsqx1r4"
                         }
                     ]
                 }
@@ -6178,8 +6184,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": 2743.235574876174,
-                    "y": -1503.3166993705981
+                    "x": 2794.652301008228,
+                    "y": -1504.4137333491267
                 }
             },
             "portsIn": [
@@ -7214,8 +7220,8 @@
                 "comment_title": "Shortcuts Request",
                 "title": "Shortcuts Request",
                 "translate": {
-                    "x": 977.4217262996207,
-                    "y": -2513.8707142588933
+                    "x": 1586.2497981559463,
+                    "y": -4079.7765150733626
                 },
                 "area": {
                     "w": 642.0692198248432,
@@ -7240,8 +7246,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1140.231157375471,
-                    "y": -2244.588224369323
+                    "x": 1736.88266779467,
+                    "y": -3810.4940251837925
                 }
             },
             "portsIn": [
@@ -7284,8 +7290,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1209.351487229632,
-                    "y": -2190.494038938272
+                    "x": 1818.1795590859576,
+                    "y": -3756.399839752741
                 }
             },
             "portsIn": [
@@ -7351,8 +7357,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1286.424374464274,
-                    "y": -2250.640290852938
+                    "x": 1895.2524463205996,
+                    "y": -3816.5460916674074
                 }
             },
             "portsIn": [
@@ -7391,8 +7397,8 @@
                 "comment_title": "Shortcuts Response",
                 "title": "Shortcuts Response",
                 "translate": {
-                    "x": 977.4217262996207,
-                    "y": -2050.4826477263978
+                    "x": 1586.2497981559463,
+                    "y": -3616.388448540867
                 },
                 "area": {
                     "w": 1016.7174604419952,
@@ -7417,8 +7423,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1140.231157375471,
-                    "y": -2129.151525261781
+                    "x": 1736.88266779467,
+                    "y": -3695.0573260762503
                 }
             }
         },
@@ -7433,8 +7439,8 @@
                 "comment_title": "Shortcuts URL Protocol",
                 "title": "Shortcuts URL Protocol",
                 "translate": {
-                    "x": 964,
-                    "y": -2608.211492406646
+                    "x": 1572,
+                    "y": -4174.117293221116
                 },
                 "area": {
                     "w": 1120.469689664692,
@@ -7458,8 +7464,8 @@
             "uiAttribs": {
                 "title": "var get",
                 "translate": {
-                    "x": 1159.8940834802543,
-                    "y": -1970.075392539449
+                    "x": 1756.5455938994533,
+                    "y": -3535.981193353918
                 }
             },
             "portsIn": [
@@ -7490,8 +7496,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1176.231157375471,
-                    "y": -2371.3804217300217
+                    "x": 1772.88266779467,
+                    "y": -3937.286222544491
                 }
             },
             "portsOut": [
@@ -7528,27 +7534,14 @@
             "uiAttribs": {
                 "title": "var get",
                 "translate": {
-                    "x": 1176.231157375471,
-                    "y": -2430.9824590181265
+                    "x": 1772,
+                    "y": -4001.552441396048
                 }
             },
             "portsIn": [
                 {
                     "name": "Variable",
                     "value": "/api/shortcuts"
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Value",
-                    "links": [
-                        {
-                            "portIn": "Object",
-                            "portOut": "Value",
-                            "objIn": "2hfkqb9to",
-                            "objOut": "khnjgjzy5"
-                        }
-                    ]
                 }
             ]
         },
@@ -7561,8 +7554,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1188.231157375471,
-                    "y": -2306.3982842610253
+                    "x": 1784.88266779467,
+                    "y": -3872.3040850754946
                 }
             },
             "portsIn": [
@@ -7589,7 +7582,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -7601,8 +7594,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1159.8940834802543,
-                    "y": -1915.7164181778696
+                    "x": 1756.5455938994533,
+                    "y": -3481.6222189923387
                 }
             },
             "portsOut": [
@@ -7704,7 +7697,7 @@
                 },
                 {
                     "name": "Duration MS",
-                    "value": 30010
+                    "value": 30013
                 }
             ]
         },
@@ -7716,8 +7709,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1171.8940834802543,
-                    "y": -1854.862552032365
+                    "x": 1768.5455938994533,
+                    "y": -3420.7683528468347
                 }
             },
             "portsOut": [
@@ -7754,8 +7747,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1073.7552922923637,
-                    "y": -1790.4588340051503
+                    "x": 1682.5833641486893,
+                    "y": -3356.3646348196194
                 }
             },
             "portsIn": [
@@ -7782,7 +7775,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -7794,8 +7787,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1161.5927481102572,
-                    "y": -1673.1431044569358
+                    "x": 1771.5571383952447,
+                    "y": -3239.048905271405
                 },
                 "color": "#07F78C"
             }
@@ -7808,8 +7801,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1222.9896351648922,
-                    "y": -1730.2133587250637
+                    "x": 1831.8177070212178,
+                    "y": -3296.119159539533
                 }
             }
         },
@@ -7822,8 +7815,8 @@
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 1313.2049377758933,
-                    "y": -1790.170361206849
+                    "x": 1922.0330096322189,
+                    "y": -3356.0761620213184
                 }
             },
             "portsIn": [
@@ -7855,8 +7848,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": 1560,
-                    "y": -1885.8671261649824
+                    "x": 2163,
+                    "y": -3451.7729269794518
                 }
             },
             "portsIn": [
@@ -7877,8 +7870,8 @@
                 "comment_title": "Shortcuts Variables",
                 "title": "Shortcuts Variables",
                 "translate": {
-                    "x": 1533,
-                    "y": -1971.4734723799168
+                    "x": 2137,
+                    "y": -3537.3792731943863
                 },
                 "area": {
                     "w": 260.7580289019302,
@@ -7902,8 +7895,8 @@
             "uiAttribs": {
                 "title": "var get",
                 "translate": {
-                    "x": -714.9221359582202,
-                    "y": -2489.547328849529
+                    "x": -1123.0268379968736,
+                    "y": -2526.07031774793
                 }
             },
             "portsIn": [
@@ -7934,8 +7927,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": -714.9221359582202,
-                    "y": -2377.6761798690013
+                    "x": -1123.0268379968736,
+                    "y": -2414.199168767402
                 }
             },
             "portsOut": [
@@ -7980,8 +7973,8 @@
                 "width": 130,
                 "resizable": true,
                 "translate": {
-                    "x": -968.2423734117436,
-                    "y": -2239.2538228158346
+                    "x": -1384.2868556457015,
+                    "y": -2275.7768117142355
                 }
             },
             "portsIn": [
@@ -7993,7 +7986,7 @@
             "portsOut": [
                 {
                     "name": "Count",
-                    "value": 60
+                    "value": 4
                 }
             ]
         },
@@ -8008,8 +8001,8 @@
                 "comment_title": "Get Camo Scenes Shortcut",
                 "title": "Get Camo Scenes Shortcut",
                 "translate": {
-                    "x": -1030.3775063928413,
-                    "y": -2618.4981076753197
+                    "x": -1448.20764786703,
+                    "y": -2655.0210965737206
                 },
                 "area": {
                     "w": 1024.6011675890009,
@@ -8027,7 +8020,9 @@
         {
             "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
             "id": "lu59i09gd",
-            "attribs": {},
+            "attribs": {
+                "area": "mjq0g2aoj"
+            },
             "uiAttribs": {
                 "height": 340.43350757892244,
                 "width": 327.6253031494048,
@@ -8093,7 +8088,7 @@
             "portsOut": [
                 {
                     "name": "Count",
-                    "value": 4784
+                    "value": 2
                 }
             ]
         },
@@ -8179,7 +8174,7 @@
             "portsOut": [
                 {
                     "name": "Count",
-                    "value": 45
+                    "value": 9
                 }
             ]
         },
@@ -8215,8 +8210,8 @@
             },
             "uiAttribs": {
                 "translate": {
-                    "x": 1586.1884498432175,
-                    "y": -16.00189757955166
+                    "x": 1572.2600054126697,
+                    "y": 4.310417214997365
                 },
                 "comment": "camo"
             },
@@ -8349,8 +8344,8 @@
             "uiAttribs": {
                 "extendTitlePort": "key",
                 "translate": {
-                    "x": -702.9221359582202,
-                    "y": -2296.9270443725013
+                    "x": -1111.0268379968736,
+                    "y": -2333.450033270902
                 }
             },
             "portsIn": [
@@ -8373,7 +8368,7 @@
                 },
                 {
                     "name": "Length",
-                    "value": 3
+                    "value": 0
                 }
             ]
         },
@@ -8386,8 +8381,8 @@
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": -716,
-                    "y": -2180.814961473835
+                    "x": -1132.0444822339578,
+                    "y": -2217.337950372236
                 }
             },
             "portsIn": [
@@ -8437,8 +8432,8 @@
             "uiAttribs": {
                 "title": ">Refresh Stream Deck Trigger Out",
                 "translate": {
-                    "x": -492.4257989035864,
-                    "y": -2210.1713347022487
+                    "x": -908.4702811375442,
+                    "y": -2246.6943236006496
                 }
             },
             "portsIn": [
@@ -8459,8 +8454,8 @@
                 "resizableY": false,
                 "stretchPorts": true,
                 "translate": {
-                    "x": 1627.5693758919524,
-                    "y": 50.8354748163434
+                    "x": 1640.9174684712273,
+                    "y": 55.47828962652604
                 }
             },
             "portsOut": [
@@ -8497,7 +8492,7 @@
             "uiAttribs": {
                 "translate": {
                     "x": 318.7488319875027,
-                    "y": -2115.7970506032602
+                    "y": -2106.5395113873965
                 }
             },
             "portsOut": [
@@ -8514,7 +8509,7 @@
                 },
                 {
                     "name": "Stdout",
-                    "value": "{\"scene\":\"\",\"shortcut\":\"SwitchCamoScene\"}"
+                    "value": ""
                 },
                 {
                     "name": "Stderr",
@@ -8642,7 +8637,7 @@
                 },
                 {
                     "name": "Found",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
@@ -8670,7 +8665,8 @@
                 "translate": {
                     "x": 342.7488319875027,
                     "y": -1924.0079453694839
-                }
+                },
+                "extendTitle": ""
             },
             "portsOut": [
                 {
@@ -8800,7 +8796,7 @@
                     "x": 1187.6332093256701,
                     "y": -311.61112776062987
                 },
-                "comment": " "
+                "comment": ""
             },
             "portsIn": [
                 {
@@ -8938,70 +8934,72 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 3",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 4",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 5",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 6",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 7",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 8",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 9",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 10",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 11",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 12",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 13",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 14",
-                    "value": 1
+                    "value": 0
                 },
                 {
                     "name": "Output 15",
-                    "value": 1
+                    "value": 0
                 }
             ]
         },
         {
             "opId": "e437c074-190f-4adb-8265-3fddea27fe33",
             "id": "mnntbvfpq",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
                 "translate": {
-                    "x": 1805.1775153184374,
-                    "y": 111.90079029565948
+                    "x": 1734.3745894631522,
+                    "y": 122.34712361857041
                 }
             },
             "portsOut": [
@@ -9021,17 +9019,19 @@
         {
             "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
             "id": "kwjce3787",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
                 "translate": {
-                    "x": 1856.2535257489865,
-                    "y": 52.28453842683894
+                    "x": 1850.0822372786386,
+                    "y": 82.37527499896979
                 }
             },
             "portsIn": [
                 {
                     "name": "JSON String",
-                    "value": "{\n\n\"shortcut\": \"GetCamoObsScenes_Cli\"\n\n}"
+                    "value": "{\n\"scene\":\"\",\n\"shortcut\": \"GetCamoObsScenes_Cli\"\n\n}"
                 }
             ],
             "portsOut": [
@@ -9055,13 +9055,15 @@
         {
             "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
             "id": "lur0qy623",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
+                "title": "var set",
                 "translate": {
-                    "x": 1817.1775153184374,
-                    "y": 209.57598539665813
-                },
-                "title": "var set"
+                    "x": 1790.4813301598872,
+                    "y": 226.40618908357018
+                }
             },
             "portsIn": [
                 {
@@ -9077,11 +9079,11 @@
                 "area": "c2555vie9"
             },
             "uiAttribs": {
+                "title": "var get",
                 "translate": {
                     "x": 255.02468494981508,
-                    "y": -2375.837434956933
-                },
-                "title": "var get"
+                    "y": -2374.8394273475483
+                }
             },
             "portsIn": [
                 {
@@ -9098,12 +9100,6 @@
                             "portOut": "Value",
                             "objIn": "tf6shxbs6",
                             "objOut": "i5d843pye"
-                        },
-                        {
-                            "portIn": "Object",
-                            "portOut": "Value",
-                            "objIn": "1b23rtbqv",
-                            "objOut": "i5d843pye"
                         }
                     ]
                 }
@@ -9118,21 +9114,10 @@
             "uiAttribs": {
                 "translate": {
                     "x": 255.02468494981508,
-                    "y": -2319.353470887495
+                    "y": -2318.21669577791
                 }
             },
             "portsOut": [
-                {
-                    "name": "Changed",
-                    "links": [
-                        {
-                            "portIn": "Execute",
-                            "portOut": "Changed",
-                            "objIn": "mjk5qol7r",
-                            "objOut": "tf6shxbs6"
-                        }
-                    ]
-                },
                 {
                     "name": "Result",
                     "links": [
@@ -9155,34 +9140,40 @@
             "uiAttribs": {
                 "translate": {
                     "x": 267.0246849498151,
-                    "y": -2256.266175455075
+                    "y": -2270.1718729814984
                 }
             },
             "portsOut": [
                 {
-                    "name": "Output 1",
+                    "name": "Output 0",
                     "links": [
                         {
-                            "portIn": "Input Payload",
-                            "portOut": "Output 1",
-                            "objIn": "mjk5qol7r",
-                            "objOut": "nqbfpv96a"
-                        },
-                        {
-                            "portIn": "Object",
-                            "portOut": "Output 1",
-                            "objIn": "dt5s1mdub",
+                            "portIn": "data",
+                            "portOut": "Output 0",
+                            "objIn": "l20goq78m",
                             "objOut": "nqbfpv96a"
                         }
                     ]
                 },
                 {
-                    "name": "Output 3",
+                    "name": "Output 1",
                     "links": [
                         {
+                            "portIn": "Object",
+                            "portOut": "Output 1",
+                            "objIn": "3qa0wdake",
+                            "objOut": "nqbfpv96a"
+                        },
+                        {
                             "portIn": "data",
-                            "portOut": "Output 3",
-                            "objIn": "l20goq78m",
+                            "portOut": "Output 1",
+                            "objIn": "4tqfu6pxk",
+                            "objOut": "nqbfpv96a"
+                        },
+                        {
+                            "portIn": "data",
+                            "portOut": "Output 1",
+                            "objIn": "rzsd60e91",
                             "objOut": "nqbfpv96a"
                         }
                     ]
@@ -9199,7 +9190,7 @@
                 "extendTitlePort": "Key",
                 "translate": {
                     "x": 267.0246849498151,
-                    "y": -2188.7275687086926
+                    "y": -2192.1868725419345
                 }
             },
             "portsIn": [
@@ -9214,17 +9205,6 @@
             ],
             "portsOut": [
                 {
-                    "name": "Result",
-                    "links": [
-                        {
-                            "portIn": "Shortcut Name",
-                            "portOut": "Result",
-                            "objIn": "mjk5qol7r",
-                            "objOut": "l20goq78m"
-                        }
-                    ]
-                },
-                {
                     "name": "Found",
                     "value": 1
                 }
@@ -9233,7 +9213,9 @@
         {
             "opId": "4a053e7a-6b00-4e71-bd51-90cdb190994c",
             "id": "3kvnz7934",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
                 "translate": {
                     "x": 2398.608815995285,
@@ -9370,71 +9352,73 @@
                 },
                 {
                     "name": "Output 2",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 3",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 4",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 5",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 6",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 7",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 8",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 9",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 10",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 11",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 12",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 13",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 14",
-                    "value": "OBS_Stage"
+                    "value": ""
                 },
                 {
                     "name": "Output 15",
-                    "value": "OBS_Stage"
+                    "value": ""
                 }
             ]
         },
         {
             "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
             "id": "7czc3kcvd",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
                 "title": "var set",
                 "translate": {
-                    "x": 2124.2522776856185,
-                    "y": 47.33542751674506
+                    "x": 2101.681450167732,
+                    "y": 204.37163993036899
                 }
             },
             "portsIn": [
@@ -9445,144 +9429,15 @@
             ]
         },
         {
-            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
-            "id": "dt5s1mdub",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 200,
-                "width": 400,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": -170.65994250846958,
-                    "y": -2150.301734699381
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "ZoomText",
-                    "value": 0
-                },
-                {
-                    "name": "Line Numbers",
-                    "value": 0
-                },
-                {
-                    "name": "Sort Keys",
-                    "value": 0
-                },
-                {
-                    "name": "Hide Array Data",
-                    "value": 1
-                },
-                {
-                    "name": "Font Size",
-                    "value": 10
-                },
-                {
-                    "name": "Scroll",
-                    "value": 0
-                },
-                {
-                    "name": "Search",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
-            "id": "1b23rtbqv",
-            "attribs": {},
-            "uiAttribs": {
-                "height": 200,
-                "width": 400,
-                "resizable": true,
-                "vizLayerMaxZoom": 3500,
-                "translate": {
-                    "x": 518.2252842698492,
-                    "y": -2320.193648295163
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "ZoomText",
-                    "value": 0
-                },
-                {
-                    "name": "Line Numbers",
-                    "value": 0
-                },
-                {
-                    "name": "Sort Keys",
-                    "value": 0
-                },
-                {
-                    "name": "Hide Array Data",
-                    "value": 1
-                },
-                {
-                    "name": "Font Size",
-                    "value": 10
-                },
-                {
-                    "name": "Scroll",
-                    "value": 0
-                },
-                {
-                    "name": "Search",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "opId": "c85b449b-fb4e-40b3-928e-5eea6a5d0ebc",
-            "id": "kerivg9lx",
-            "attribs": {},
-            "uiAttribs": {
-                "translate": {
-                    "x": 1989.7300283804464,
-                    "y": 16.764527713416044
-                }
-            },
-            "portsIn": [
-                {
-                    "name": "Clear",
-                    "value": 1
-                }
-            ],
-            "portsOut": [
-                {
-                    "name": "Next",
-                    "links": [
-                        {
-                            "portIn": "Update",
-                            "portOut": "Next",
-                            "objIn": "j52ag2auv",
-                            "objOut": "kerivg9lx"
-                        }
-                    ]
-                },
-                {
-                    "name": "Result",
-                    "links": [
-                        {
-                            "portIn": "Value",
-                            "portOut": "Result",
-                            "objIn": "7czc3kcvd",
-                            "objOut": "kerivg9lx"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "opId": "874380ae-4a10-4a53-92d9-4982f4c1f3a2",
             "id": "wwryjqjae",
-            "attribs": {},
+            "attribs": {
+                "area": "9f09yv43w"
+            },
             "uiAttribs": {
                 "translate": {
-                    "x": 1909.4102922990362,
-                    "y": -41.265575165738056
+                    "x": 1907.5987161334428,
+                    "y": -59.45716444208011
                 }
             },
             "portsOut": [
@@ -9590,9 +9445,9 @@
                     "name": "Changed",
                     "links": [
                         {
-                            "portIn": "Update",
+                            "portIn": "exe",
                             "portOut": "Changed",
-                            "objIn": "kerivg9lx",
+                            "objIn": "nw3vs3wyx",
                             "objOut": "wwryjqjae"
                         }
                     ]
@@ -9601,9 +9456,9 @@
                     "name": "Result",
                     "links": [
                         {
-                            "portIn": "String",
+                            "portIn": "String 0",
                             "portOut": "Result",
-                            "objIn": "j52ag2auv",
+                            "objIn": "u1s4xxcgm",
                             "objOut": "wwryjqjae"
                         }
                     ]
@@ -9611,49 +9466,147 @@
             ]
         },
         {
-            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
-            "id": "j52ag2auv",
+            "opId": "f44bfe36-c44a-45f3-a2e7-a71399c22733",
+            "id": "i99mf2ytp",
             "attribs": {
-                "area": "y2g5otvmo"
+                "area": "9f09yv43w"
             },
             "uiAttribs": {
-                "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2001.0945874791837,
-                    "y": 96.73109497349554
+                    "x": 2101.681450167732,
+                    "y": 100.3129673060904
                 }
             },
             "portsIn": [
                 {
-                    "name": "Key",
-                    "value": "scene"
+                    "name": "Strings",
+                    "multiPortNum": 4,
+                    "multiPortManual": true
+                },
+                {
+                    "name": "Seperator index",
+                    "value": 0
+                },
+                {
+                    "name": "Seperator",
+                    "value": "None"
+                },
+                {
+                    "name": "Strings_0",
+                    "value": "{\"scene\": \""
+                },
+                {
+                    "name": "Strings_2",
+                    "value": "\",   \"shortcut\": \"SwitchCamoScene\" }"
+                },
+                {
+                    "name": "Strings_3",
+                    "value": "",
+                    "title": "add port"
                 }
             ],
             "portsOut": [
                 {
-                    "name": "Next",
+                    "name": "String",
                     "links": [
                         {
-                            "portIn": "Update",
-                            "portOut": "Next",
-                            "objIn": "q8wvtzdq1",
-                            "objOut": "j52ag2auv"
+                            "portIn": "JSON String",
+                            "portOut": "String",
+                            "objIn": "o06o65uw6",
+                            "objOut": "i99mf2ytp"
+                        }
+                    ]
+                },
+                {
+                    "name": "Num Strings",
+                    "value": 3
+                }
+            ]
+        },
+        {
+            "opId": "2ce8a4d3-37d3-4cdc-abd1-a560fbe841ee",
+            "id": "o06o65uw6",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 2101.681450167732,
+                    "y": 154.59097076985844
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Value",
+                            "portOut": "Result",
+                            "objIn": "7czc3kcvd",
+                            "objOut": "o06o65uw6"
+                        }
+                    ]
+                },
+                {
+                    "name": "Valid",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "67969ea9-7d2b-48e5-8bb0-a2e4f6c4888d",
+            "id": "3qa0wdake",
+            "attribs": {
+                "area": "c2555vie9"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 590.4117463133547,
+                    "y": -2249.0160731773863
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Changed",
+                    "links": [
+                        {
+                            "portIn": "Execute",
+                            "portOut": "Changed",
+                            "objIn": "mjk5qol7r",
+                            "objOut": "3qa0wdake"
+                        }
+                    ]
+                },
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Input Payload",
+                            "portOut": "Result",
+                            "objIn": "mjk5qol7r",
+                            "objOut": "3qa0wdake"
+                        },
+                        {
+                            "portIn": "data",
+                            "portOut": "Result",
+                            "objIn": "pgsv9bptj",
+                            "objOut": "3qa0wdake"
                         }
                     ]
                 }
             ]
         },
         {
-            "opId": "b5a24d4c-4b1d-44c7-b6ef-a38cc71b9ad1",
-            "id": "q8wvtzdq1",
+            "opId": "c04a204d-cd52-401f-80c9-02da396ed676",
+            "id": "pgsv9bptj",
             "attribs": {
-                "area": "y2g5otvmo"
+                "area": "c2555vie9"
             },
             "uiAttribs": {
                 "extendTitlePort": "Key",
                 "translate": {
-                    "x": 2034.5821792745037,
-                    "y": 160.52145235436208
+                    "x": 602.4117463133547,
+                    "y": -2126.6485143462546
                 }
             },
             "portsIn": [
@@ -9662,8 +9615,600 @@
                     "value": "shortcut"
                 },
                 {
-                    "name": "String",
-                    "value": "SwitchCamoScene"
+                    "name": "Output Key if missing",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Shortcut Name",
+                            "portOut": "Result",
+                            "objIn": "mjk5qol7r",
+                            "objOut": "pgsv9bptj"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "22b731fe-bc97-42fe-a550-92cf0cedb133",
+            "id": "3g32sa0ax",
+            "attribs": {},
+            "uiAttribs": {
+                "height": 200,
+                "width": 400,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": -189.1333619158156,
+                    "y": -2026.0114070018274
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Number",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "c04a204d-cd52-401f-80c9-02da396ed676",
+            "id": "4tqfu6pxk",
+            "attribs": {},
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": -109.91912328090405,
+                    "y": -2218.9215794709135
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "sceneName"
+                },
+                {
+                    "name": "Output Key if missing",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Result",
+                            "objIn": "3g32sa0ax",
+                            "objOut": "4tqfu6pxk"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "c04a204d-cd52-401f-80c9-02da396ed676",
+            "id": "rzsd60e91",
+            "attribs": {
+                "area": "c2555vie9"
+            },
+            "uiAttribs": {
+                "extendTitlePort": "Key",
+                "translate": {
+                    "x": 37.44199063098014,
+                    "y": -2105.738048088802
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "sceneName"
+                },
+                {
+                    "name": "Output Key if missing",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Found",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "aa47bb8b-d5d7-4175-b217-ab0157d3365d",
+            "id": "lknlcxmyn",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 1942.6066200625796,
+                    "y": 41.5935088280771
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "boolean",
+                            "portOut": "Result",
+                            "objIn": "nw3vs3wyx",
+                            "objOut": "lknlcxmyn"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "9549e2ed-a544-4d33-a672-05c7854ccf5d",
+            "id": "nw3vs3wyx",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 1980.3389282390547,
+                    "y": 98.90467238303253
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "then",
+                    "links": [
+                        {
+                            "portIn": "Trigger",
+                            "portOut": "then",
+                            "objIn": "97sj4ow7w",
+                            "objOut": "nw3vs3wyx"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "ee0459bd-3dc1-4b32-b6c1-01f98d06eebd",
+            "id": "u1s4xxcgm",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 1942.6066200625796,
+                    "y": -9.550608387772993
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "String 1",
+                    "value": ""
+                },
+                {
+                    "name": "String 2",
+                    "value": ""
+                },
+                {
+                    "name": "String 3",
+                    "value": ""
+                },
+                {
+                    "name": "String 4",
+                    "value": ""
+                },
+                {
+                    "name": "String 5",
+                    "value": ""
+                },
+                {
+                    "name": "String 6",
+                    "value": ""
+                },
+                {
+                    "name": "String 7",
+                    "value": ""
+                },
+                {
+                    "name": "String 8",
+                    "value": ""
+                },
+                {
+                    "name": "String 9",
+                    "value": ""
+                },
+                {
+                    "name": "String 10",
+                    "value": ""
+                },
+                {
+                    "name": "String 11",
+                    "value": ""
+                },
+                {
+                    "name": "String 12",
+                    "value": ""
+                },
+                {
+                    "name": "String 13",
+                    "value": ""
+                },
+                {
+                    "name": "String 14",
+                    "value": ""
+                },
+                {
+                    "name": "String 15",
+                    "value": ""
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Output 0",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Output 0",
+                            "objIn": "lknlcxmyn",
+                            "objOut": "u1s4xxcgm"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 1",
+                    "links": [
+                        {
+                            "portIn": "String",
+                            "portOut": "Output 1",
+                            "objIn": "97sj4ow7w",
+                            "objOut": "u1s4xxcgm"
+                        }
+                    ]
+                },
+                {
+                    "name": "Output 2",
+                    "value": ""
+                },
+                {
+                    "name": "Output 3",
+                    "value": ""
+                },
+                {
+                    "name": "Output 4",
+                    "value": ""
+                },
+                {
+                    "name": "Output 5",
+                    "value": ""
+                },
+                {
+                    "name": "Output 6",
+                    "value": ""
+                },
+                {
+                    "name": "Output 7",
+                    "value": ""
+                },
+                {
+                    "name": "Output 8",
+                    "value": ""
+                },
+                {
+                    "name": "Output 9",
+                    "value": ""
+                },
+                {
+                    "name": "Output 10",
+                    "value": ""
+                },
+                {
+                    "name": "Output 11",
+                    "value": ""
+                },
+                {
+                    "name": "Output 12",
+                    "value": ""
+                },
+                {
+                    "name": "Output 13",
+                    "value": ""
+                },
+                {
+                    "name": "Output 14",
+                    "value": ""
+                },
+                {
+                    "name": "Output 15",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "217482b8-2ee6-4609-b7ad-4550e6aaa371",
+            "id": "97sj4ow7w",
+            "attribs": {
+                "area": "9f09yv43w"
+            },
+            "uiAttribs": {
+                "translate": {
+                    "x": 2198.8259334240875,
+                    "y": 48.55337196453153
+                }
+            },
+            "portsOut": [
+                {
+                    "name": "Result",
+                    "links": [
+                        {
+                            "portIn": "Strings_1",
+                            "portOut": "Result",
+                            "objIn": "i99mf2ytp",
+                            "objOut": "97sj4ow7w"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "b250d606-f7f8-44d3-b099-c29efff2608a",
+            "id": "o3wxh7pi8",
+            "attribs": {},
+            "uiAttribs": {
+                "mathTitle": true,
+                "translate": {
+                    "x": 2021.4822732159612,
+                    "y": -100
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "number1",
+                    "value": 0
+                },
+                {
+                    "name": "number2",
+                    "value": 0
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "result",
+                    "value": 0
+                }
+            ]
+        },
+        {
+            "opId": "c7608375-5b45-4bca-87ef-d0c5e970779a",
+            "id": "qwxtpdr4y",
+            "attribs": {
+                "area": "mjq0g2aoj"
+            },
+            "uiAttribs": {
+                "title": "var set",
+                "translate": {
+                    "x": 3134,
+                    "y": -1547.468220990653
+                },
+                "color": "#07F78C"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/stt/result"
+                }
+            ]
+        },
+        {
+            "opId": "38f79614-b0de-4960-8da5-2827e7f43415",
+            "id": "3fur4e9aq",
+            "attribs": {
+                "area": "uxxfjt76n"
+            },
+            "uiAttribs": {
+                "hasArea": true,
+                "comment_title": "Speech to text",
+                "title": "Speech to text",
+                "translate": {
+                    "x": 1128,
+                    "y": -2380
+                },
+                "area": {
+                    "w": 683.5282849192492,
+                    "h": 410.2136883600331,
+                    "id": "uxxfjt76n"
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Title",
+                    "value": "Speech to text"
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "mp8j6bn4k",
+            "attribs": {
+                "area": "uxxfjt76n"
+            },
+            "uiAttribs": {
+                "title": "var get",
+                "translate": {
+                    "x": 1297.801138016672,
+                    "y": -2284.6082837137096
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "/api/stt/result"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Value",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Value",
+                            "objIn": "0q9mndsgh",
+                            "objOut": "mp8j6bn4k"
+                        },
+                        {
+                            "portIn": "Object",
+                            "portOut": "Value",
+                            "objIn": "920wc7r6w",
+                            "objOut": "mp8j6bn4k"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "opId": "d09bc53e-9f52-4872-94c7-4ef777512222",
+            "id": "0q9mndsgh",
+            "attribs": {
+                "area": "uxxfjt76n"
+            },
+            "uiAttribs": {
+                "height": 570.0816364738794,
+                "width": 535.7978849604938,
+                "resizable": true,
+                "vizLayerMaxZoom": 3500,
+                "translate": {
+                    "x": 1574.5320373607606,
+                    "y": -2196.157272740263
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "ZoomText",
+                    "value": 0
+                },
+                {
+                    "name": "Line Numbers",
+                    "value": 0
+                },
+                {
+                    "name": "Sort Keys",
+                    "value": 0
+                },
+                {
+                    "name": "Hide Array Data",
+                    "value": 1
+                },
+                {
+                    "name": "Font Size",
+                    "value": 10
+                },
+                {
+                    "name": "Scroll",
+                    "value": 0
+                },
+                {
+                    "name": "Search",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "20ff324a-e4a5-45f9-a456-8550478197c6",
+            "id": "a5k9xcxyr",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2778.9405313117336,
+                    "y": -1292.2582955291841
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Body",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "opId": "321419d9-69c7-4310-a327-93d310bc2b8e",
+            "id": "v5282bbfm",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 2795.0088819671755,
+                    "y": -1460.7428362623396
+                },
+                "title": "var get"
+            },
+            "portsIn": [
+                {
+                    "name": "Variable",
+                    "value": "HttpFileServer_ResponseData"
+                }
+            ]
+        },
+        {
+            "opId": "574513c7-472b-433c-bf99-d906d3c737cd",
+            "id": "920wc7r6w",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1297.801138016672,
+                    "y": -2189.5445317935782
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Path",
+                    "value": "results.0"
+                }
+            ],
+            "portsOut": [
+                {
+                    "name": "Output",
+                    "links": [
+                        {
+                            "portIn": "Object",
+                            "portOut": "Output",
+                            "objIn": "ca27tahzn",
+                            "objOut": "920wc7r6w"
+                        }
+                    ]
+                },
+                {
+                    "name": "Found",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "opId": "1ed8f375-c3d7-4662-88c7-1afbc3dc6129",
+            "id": "ca27tahzn",
+            "attribs": {},
+            "uiAttribs": {
+                "translate": {
+                    "x": 1297.801138016672,
+                    "y": -2124.51175307501
+                }
+            },
+            "portsIn": [
+                {
+                    "name": "Key",
+                    "value": "type"
+                },
+                {
+                    "name": "Value",
+                    "value": "stt_result"
                 }
             ]
         }
@@ -9697,9 +10242,9 @@
         "bookmarks": [],
         "viewBoxesGl": {
             "0": {
-                "x": 708.6294406431372,
-                "y": -3596.8493373146075,
-                "z": 1068.8658915350347
+                "x": 1340.7563354513559,
+                "y": -3603.1736718205225,
+                "z": 446.21458551188925
             },
             "bp2sub_9yl8ogfw8": {
                 "x": 137.01789724371042,
@@ -9726,7 +10271,7 @@
     "summary": {
         "title": "cablesStudio"
     },
-    "opsHash": "370c2516577ab7eadbf5959bf15b8684085d8781",
+    "opsHash": "7f0e961658da31b89404444d11708b836ef50eb9",
     "buildInfo": {
         "updateWarning": false,
         "core": {

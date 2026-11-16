@@ -104,6 +104,19 @@ window.addEventListener('message', (event) => {
     }
 });
 
+function applyIncomingText(val) {
+    inpText = String(val);
+    if (window.stripesConfig) {
+        window.stripesConfig.text = inpText;
+    }
+    if (typeof millis === 'function') lastTextTime = millis();
+    if (typeof isClearing !== 'undefined') isClearing = false;
+    if (typeof restoreSlidersFromClear === 'function') restoreSlidersFromClear(false);
+    if (typeof notifyConfigChange === 'function') {
+        notifyConfigChange();
+    }
+}
+
 function handleMessage(data) {
     if (!data || typeof data !== 'object') return;
 
@@ -178,54 +191,67 @@ function handleMessage(data) {
             break;
 
         case 'keyboard_pressed': {
+            if (window.stripesConfig && window.stripesConfig.textInputMode === 'stt') {
+                break;
+            }
             const val = (data.combo !== undefined && data.combo !== null && data.combo !== '')
                 ? data.combo
                 : (data.key !== undefined && data.key !== null && data.key !== '')
                     ? data.key
                     : (data.value !== undefined && data.value !== null ? data.value : data.text);
             if (val !== undefined && val !== null) {
-                inpText = String(val);
-                if (window.stripesConfig) {
-                    window.stripesConfig.text = inpText;
-                }
-                if (typeof millis === 'function') lastTextTime = millis();
-                if (typeof isClearing !== 'undefined') isClearing = false;
-                if (typeof notifyConfigChange === 'function') {
-                    notifyConfigChange();
-                }
+                applyIncomingText(val);
             }
             break;
         }
 
         case 'keyboard':
+            if (window.stripesConfig && window.stripesConfig.textInputMode === 'stt') {
+                break;
+            }
             if (data.combo !== undefined && data.combo !== null && data.combo !== '') {
-                inpText = String(data.combo);
-                if (window.stripesConfig) {
-                    window.stripesConfig.text = inpText;
-                }
-                if (typeof millis === 'function') lastTextTime = millis();
-                if (typeof isClearing !== 'undefined') isClearing = false;
-                if (typeof notifyConfigChange === 'function') {
-                    notifyConfigChange();
-                }
+                applyIncomingText(data.combo);
             } else if (data.key && typeof data.key === 'string') {
+                let nextText = inpText;
                 if (data.key === 'Backspace') {
-                    inpText = inpText.slice(0, -1);
+                    nextText = nextText.slice(0, -1);
                 } else if (data.key.length === 1) {
-                    inpText += data.key;
+                    nextText += data.key;
                 } else {
-                    inpText = data.key;
+                    nextText = data.key;
                 }
-                if (window.stripesConfig) {
-                    window.stripesConfig.text = inpText;
-                }
-                if (typeof millis === 'function') lastTextTime = millis();
-                if (typeof isClearing !== 'undefined') isClearing = false;
-                if (typeof notifyConfigChange === 'function') {
-                    notifyConfigChange();
-                }
+                applyIncomingText(nextText);
             }
             break;
+
+        case 'stt_result':
+        case 'stt': {
+            const mode = window.stripesConfig ? window.stripesConfig.textInputMode : 'keyboard';
+            if (mode === 'keyboard') {
+                break;
+            }
+            const firstResult = Array.isArray(data.results) && data.results.length > 0 ? data.results[0] : null;
+            const msgChannel = (data.device !== undefined && data.device !== null)
+                ? String(data.device)
+                : (data.channel !== undefined && data.channel !== null)
+                    ? String(data.channel)
+                    : (firstResult && firstResult.device !== undefined ? String(firstResult.device) : '');
+            const targetChannel = window.stripesConfig ? String(window.stripesConfig.sttChannel || '').trim() : '';
+            if (targetChannel && msgChannel && msgChannel.trim().toLowerCase() !== targetChannel.toLowerCase()) {
+                break;
+            }
+            const transcript = (data.transcript !== undefined && data.transcript !== null)
+                ? data.transcript
+                : (data.text !== undefined && data.text !== null)
+                    ? data.text
+                    : (data.value !== undefined && data.value !== null)
+                        ? data.value
+                        : (firstResult && firstResult.transcript !== undefined ? firstResult.transcript : null);
+            if (transcript !== undefined && transcript !== null) {
+                applyIncomingText(transcript);
+            }
+            break;
+        }
     }
 }
 
