@@ -4,6 +4,20 @@ This op establishes a connection to any local or remote WebSocket server (such a
 
 Because Cables patches often run inside HTTPS or sandboxed iframe environments where browser security policies (such as mixed-content rules, private network access restrictions, or iframe sandbox limitations) block direct connections to insecure `ws://localhost` or `ws://127.0.0.1` servers, this op spawns a clean popup window to establish the connection and relays all messages bidirectionally via `BroadcastChannel`.
 
+## Architecture
+
+```mermaid
+flowchart LR
+    Patch["Cables Patch (HTTPS / Sandboxed iframe)"]
+    Op["WebSocket External Popup Bridge Op"]
+    Popup["External Popup Bridge Window"]
+    Server["WebSocket Server (ws:// or wss://)"]
+
+    Patch <-->|"Inputs & Outputs (JSON / Text)"| Op
+    Op <-->|"BroadcastChannel (ws-external-bridge)"| Popup
+    Popup <-->|"WebSocket Connection (with Auto-Reconnect)"| Server
+```
+
 ## Features
 
 * **Custom URL**: Connect to any WebSocket URL (`ws://` or `wss://`) including custom ports and query strings.

@@ -25,6 +25,9 @@ let activeDevice = null;
 let isConnected = false;
 let buttonStates = [];
 let deviceInfo = null;
+let connectGeneration = 0;
+let pairingOverlay = null;
+let suppressActiveChange = false;
 
 outConnection.set(null);
 outDeviceInfo.set(null);
@@ -68,6 +71,17 @@ function getUserKeyIndex(productId, deviceKeyIndex) {
 }
 
 function checkWebHIDSupport() {
+    if (typeof window !== "undefined" && window.isSecureContext === false) {
+        op.logError("[WebHid.StreamDeck] WebHID requires a secure context (HTTPS).");
+        outStatus.set("Requires HTTPS / Secure Context");
+        return false;
+    }
+    const policy = document.permissionsPolicy || document.featurePolicy;
+    if (policy && typeof policy.allowsFeature === "function" && !policy.allowsFeature("hid")) {
+        op.logError("[WebHid.StreamDeck] WebHID is blocked by iframe Permissions-Policy.");
+        outStatus.set("HID Blocked by Permissions Policy");
+        return false;
+    }
     if (!navigator.hid) {
         op.logError("[WebHid.StreamDeck] WebHID API is not supported in this environment.");
         outStatus.set("WebHID Not Supported");
@@ -76,27 +90,144 @@ function checkWebHIDSupport() {
     return true;
 }
 
-async function requestDevicePermission() {
-    if (!checkWebHIDSupport()) return;
-    try {
-        const filters = Object.keys(DEVICE_SPECS).map((pid) => ({
-            vendorId: STREAM_DECK_VID,
-            productId: parseInt(pid, 10)
-        }));
-        // Fallback filter for any Elgato HID device
-        filters.push({ vendorId: STREAM_DECK_VID });
+function getDeviceFilters() {
+    const filters = Object.keys(DEVICE_SPECS).map((pid) => ({
+        vendorId: STREAM_DECK_VID,
+        productId: parseInt(pid, 10)
+    }));
+    // Fallback filter for any Elgato HID device
+    filters.push({ vendorId: STREAM_DECK_VID });
+    return filters;
+}
 
-        const selectedDevices = await navigator.hid.requestDevice({ filters });
+function removePairingOverlay() {
+    if (pairingOverlay && pairingOverlay.parentNode) {
+        pairingOverlay.parentNode.removeChild(pairingOverlay);
+    }
+    pairingOverlay = null;
+}
+
+async function executeDevicePicker() {
+    try {
+        const selectedDevices = await navigator.hid.requestDevice({ filters: getDeviceFilters() });
+        removePairingOverlay();
+
         if (selectedDevices && selectedDevices.length > 0) {
-            op.log(`[WebHid.StreamDeck] Device selected via picker: ${selectedDevices[0].productName}`);
-            if (inActive.get()) {
-                connectDevice();
+            const selected = selectedDevices[0];
+            op.log(`[WebHid.StreamDeck] Device selected via picker: ${selected.productName || "Stream Deck"}`);
+
+            if (!inActive.get()) {
+                suppressActiveChange = true;
+                inActive.set(true);
+                suppressActiveChange = false;
             }
+
+            const generation = ++connectGeneration;
+            await disconnectDevice();
+            if (generation === connectGeneration) {
+                await connectToDevice(selected, generation);
+            }
+        } else if (!isConnected) {
+            outStatus.set("No Device Selected");
         }
     } catch (e) {
-        op.logError("[WebHid.StreamDeck] Device request canceled or failed: " + e.message);
-        outStatus.set("Permission Request Failed");
+        if (e && (e.name === "SecurityError" || e.name === "NotAllowedError") && /gesture|activation/i.test(e.message || "")) {
+            op.logWarn("[WebHid.StreamDeck] User gesture required inside iframe; showing in-canvas pairing prompt.");
+            showPairingOverlay();
+            return;
+        }
+        removePairingOverlay();
+        op.logError("[WebHid.StreamDeck] Device request canceled or failed: " + (e ? e.message : String(e)));
+        outStatus.set(e && e.name === "AbortError" ? "Permission Request Canceled" : "Permission Request Failed");
     }
+}
+
+function showPairingOverlay() {
+    removePairingOverlay();
+
+    const container = (op.patch && op.patch.cgl && op.patch.cgl.canvas && op.patch.cgl.canvas.parentElement) || document.body;
+    if (!container) {
+        outStatus.set("User Gesture Required");
+        return;
+    }
+
+    const overlay = document.createElement("div");
+    overlay.style.cssText = [
+        "position: fixed",
+        "top: 16px",
+        "right: 16px",
+        "z-index: 99999",
+        "background: rgba(18, 18, 22, 0.94)",
+        "color: #f3f4f6",
+        "border: 1px solid rgba(255, 255, 255, 0.16)",
+        "border-radius: 8px",
+        "padding: 12px 14px",
+        "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        "font-size: 13px",
+        "box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45)",
+        "display: flex",
+        "align-items: center",
+        "gap: 10px"
+    ].join(";");
+
+    const label = document.createElement("span");
+    label.textContent = "Stream Deck pairing requires a click inside the patch:";
+
+    const pairBtn = document.createElement("button");
+    pairBtn.type = "button";
+    pairBtn.textContent = "Pair Stream Deck";
+    pairBtn.style.cssText = [
+        "background: #2563eb",
+        "color: #fff",
+        "border: none",
+        "border-radius: 5px",
+        "padding: 6px 12px",
+        "font-size: 12px",
+        "font-weight: 600",
+        "cursor: pointer"
+    ].join(";");
+    pairBtn.addEventListener("click", () => {
+        executeDevicePicker();
+    });
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.type = "button";
+    cancelBtn.textContent = "Cancel";
+    cancelBtn.style.cssText = [
+        "background: transparent",
+        "color: #9ca3af",
+        "border: 1px solid rgba(255, 255, 255, 0.2)",
+        "border-radius: 5px",
+        "padding: 6px 10px",
+        "font-size: 12px",
+        "cursor: pointer"
+    ].join(";");
+    cancelBtn.addEventListener("click", () => {
+        removePairingOverlay();
+        if (!isConnected) {
+            outStatus.set("Pairing Canceled");
+        }
+    });
+
+    overlay.appendChild(label);
+    overlay.appendChild(pairBtn);
+    overlay.appendChild(cancelBtn);
+    container.appendChild(overlay);
+    pairingOverlay = overlay;
+    outStatus.set("Click 'Pair Stream Deck' in patch");
+}
+
+async function requestDevicePermission() {
+    if (!checkWebHIDSupport()) return;
+
+    // In embedded iframes (e.g. cables.gl editor), parameter-panel triggers lack transient
+    // user activation inside the iframe; show an in-iframe button to capture a direct click.
+    if (navigator.userActivation && !navigator.userActivation.isActive) {
+        showPairingOverlay();
+        return;
+    }
+
+    await executeDevicePicker();
 }
 
 inRequestDevice.onTriggered = () => {
@@ -352,33 +483,33 @@ function processImageToFormat(base64Data, targetSize, isJpeg, quality = 0.85) {
     });
 }
 
-async function connectDevice() {
-    await disconnectDevice();
-    if (!inActive.get()) return;
+async function getPairedStreamDeckDevices() {
+    const devices = await navigator.hid.getDevices();
+    const vidMatches = devices.filter((d) => d.vendorId === STREAM_DECK_VID);
+    const interfaceMatches = vidMatches.filter((d) => {
+        if (!d.collections || d.collections.length === 0) return true;
+        return d.collections.some((c) =>
+            (c.inputReports && c.inputReports.length > 0) ||
+            (c.outputReports && c.outputReports.length > 0) ||
+            (c.featureReports && c.featureReports.length > 0)
+        );
+    });
+    return interfaceMatches.length > 0 ? interfaceMatches : vidMatches;
+}
 
-    if (!checkWebHIDSupport()) return;
-
+async function connectToDevice(dev, generation) {
     try {
-        const devices = await navigator.hid.getDevices();
-        const streamDeckDevices = devices.filter((d) => d.vendorId === STREAM_DECK_VID);
-
-        const index = inDeviceIndex.get();
-
-        if (streamDeckDevices.length === 0) {
-            outStatus.set("No devices found (Use Request Device)");
-            return;
-        }
-
-        if (index < 0 || index >= streamDeckDevices.length) {
-            outStatus.set("Device index out of range");
-            return;
-        }
-
-        const dev = streamDeckDevices[index];
         outStatus.set("Connecting...");
 
         if (!dev.opened) {
             await dev.open();
+        }
+
+        if (generation !== connectGeneration) {
+            try {
+                if (dev.opened) await dev.close();
+            } catch (e) {}
+            return;
         }
 
         activeDevice = dev;
@@ -388,6 +519,11 @@ async function connectDevice() {
         activeDevice.addEventListener("inputreport", handleInputReport);
 
         await resetDevice();
+
+        if (generation !== connectGeneration) {
+            await disconnectDevice();
+            return;
+        }
 
         isConnected = true;
         outIsConnected.set(true);
@@ -486,10 +622,43 @@ async function connectDevice() {
     }
 }
 
+async function connectDevice() {
+    const generation = ++connectGeneration;
+    await disconnectDevice();
+    if (generation !== connectGeneration || !inActive.get()) return;
+
+    if (!checkWebHIDSupport()) return;
+
+    try {
+        const streamDeckDevices = await getPairedStreamDeckDevices();
+        if (generation !== connectGeneration) return;
+
+        const index = inDeviceIndex.get();
+
+        if (streamDeckDevices.length === 0) {
+            outStatus.set("No devices found (Use Request Device)");
+            return;
+        }
+
+        if (index < 0 || index >= streamDeckDevices.length) {
+            outStatus.set("Device index out of range");
+            return;
+        }
+
+        await connectToDevice(streamDeckDevices[index], generation);
+    } catch (e) {
+        op.logError("[WebHid.StreamDeck] Device discovery failed: " + String(e));
+        outStatus.set("Connection Failed");
+        await disconnectDevice();
+    }
+}
+
 inActive.onChange = () => {
+    if (suppressActiveChange) return;
     if (inActive.get()) {
         connectDevice();
     } else {
+        connectGeneration++;
         disconnectDevice();
         outStatus.set("Stopped");
     }
@@ -501,23 +670,37 @@ inDeviceIndex.onChange = () => {
     }
 };
 
-if (navigator.hid) {
-    navigator.hid.addEventListener("connect", (event) => {
-        if (event.device && event.device.vendorId === STREAM_DECK_VID && inActive.get() && !isConnected) {
-            op.log("[WebHid.StreamDeck] Stream Deck attached, connecting...");
-            connectDevice();
-        }
-    });
+function onHidConnect(event) {
+    if (event.device && event.device.vendorId === STREAM_DECK_VID && inActive.get() && !isConnected) {
+        op.log("[WebHid.StreamDeck] Stream Deck attached, connecting...");
+        connectDevice();
+    }
+}
 
-    navigator.hid.addEventListener("disconnect", (event) => {
-        if (activeDevice && event.device === activeDevice) {
-            op.log("[WebHid.StreamDeck] Active Stream Deck disconnected.");
-            disconnectDevice();
-            outStatus.set("Disconnected");
-        }
-    });
+function onHidDisconnect(event) {
+    if (activeDevice && event.device === activeDevice) {
+        op.log("[WebHid.StreamDeck] Active Stream Deck disconnected.");
+        connectGeneration++;
+        disconnectDevice();
+        outStatus.set("Disconnected");
+    }
+}
+
+if (typeof navigator !== "undefined" && navigator.hid) {
+    navigator.hid.addEventListener("connect", onHidConnect);
+    navigator.hid.addEventListener("disconnect", onHidDisconnect);
 }
 
 op.onDelete = () => {
+    connectGeneration++;
+    removePairingOverlay();
+    if (typeof navigator !== "undefined" && navigator.hid) {
+        navigator.hid.removeEventListener("connect", onHidConnect);
+        navigator.hid.removeEventListener("disconnect", onHidDisconnect);
+    }
     disconnectDevice();
 };
+
+if (inActive.get()) {
+    connectDevice();
+}

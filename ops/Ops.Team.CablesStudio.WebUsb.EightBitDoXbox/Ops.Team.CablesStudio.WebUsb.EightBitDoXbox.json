@@ -1,0 +1,223 @@
+{
+    "id": "D18294A2-92B0-4E81-A215-9204918294A2",
+    "created": 1782944800000,
+    "license": "MIT",
+    "authorName": "Antigravity",
+    "changelog": [
+        {
+            "message": "op created for Ops.Team.CablesStudio.WebUsb.EightBitDoXbox",
+            "type": "new op",
+            "author": "Antigravity",
+            "date": 1782944800000
+        },
+        {
+            "message": "Added WebUSB Xbox GIP protocol support and 4-motor rumble for 8BitDo Lite SE on macOS",
+            "type": "improvement",
+            "author": "Antigravity",
+            "date": 1793568960000
+        }
+    ],
+    "layout": {
+        "portsIn": [
+            {
+                "type": 0,
+                "name": "Active",
+                "group": "Controls",
+                "subType": "boolean"
+            },
+            {
+                "type": 1,
+                "name": "Request Device",
+                "group": "Controls"
+            },
+            {
+                "type": 0,
+                "name": "Device Index",
+                "group": "Settings",
+                "subType": "integer"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Left",
+                "group": "Rumble",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Rumble Right",
+                "group": "Rumble",
+                "subType": "number"
+            },
+            {
+                "type": 1,
+                "name": "Trigger Rumble",
+                "group": "Rumble"
+            },
+            {
+                "type": 0,
+                "name": "Send Rumble on Change",
+                "group": "Rumble",
+                "subType": "boolean"
+            }
+        ],
+        "portsOut": [
+            {
+                "type": 1,
+                "name": "On Event"
+            },
+            {
+                "type": 5,
+                "name": "Status"
+            },
+            {
+                "type": 0,
+                "name": "Is Connected",
+                "subType": "boolean"
+            },
+            {
+                "type": 3,
+                "name": "Buttons Pressed"
+            },
+            {
+                "type": 0,
+                "name": "A",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "B",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "X",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Y",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "LB",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "RB",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Back",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Start",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Xbox",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Share",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "LS",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "RS",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Up",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Down",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Left",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Dpad Right",
+                "subType": "boolean"
+            },
+            {
+                "type": 0,
+                "name": "Left Stick X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Left Stick Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Right Stick X",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Right Stick Y",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Left Trigger",
+                "subType": "number"
+            },
+            {
+                "type": 0,
+                "name": "Right Trigger",
+                "subType": "number"
+            }
+        ]
+    },
+    "coreLibs": [],
+    "summary": "Interfaces with the 8BitDo Lite SE Xbox Controller using WebUSB and Native IOKit.",
+    "docs": {
+        "ports": [
+            {
+                "name": "Active",
+                "text": "Activates the driver."
+            },
+            {
+                "name": "Request Device",
+                "text": "Triggers browser permission picker for the 8BitDo Lite SE Xbox controller."
+            },
+            {
+                "name": "Rumble Left",
+                "text": "Intensity of the left grip rumble motor (0.0 .. 1.0)."
+            },
+            {
+                "name": "Rumble Right",
+                "text": "Intensity of the right grip rumble motor (0.0 .. 1.0)."
+            },
+            {
+                "name": "Trigger Rumble",
+                "text": "Transmits rumble motor intensities to the controller."
+            },
+            {
+                "name": "Send Rumble on Change",
+                "text": "Automatically sends rumble packets when values change."
+            }
+        ]
+    }
+}
