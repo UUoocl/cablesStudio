@@ -22,6 +22,12 @@ const outParticipants = op.outNumber("Participants Count", 0);
 const outLastChatSender = op.outString("Last Chat Sender", "");
 const outLastChatMessage = op.outString("Last Chat Message", "");
 const outOnChatMessage = op.outTrigger("On Chat Message");
+const outLastReactionSender = op.outString("Last Reaction Sender", "");
+const outLastReactionEmoji = op.outString("Last Reaction Emoji", "");
+const outLastReactionCode = op.outString("Last Reaction Code", "");
+const outOnReaction = op.outTrigger("On Reaction");
+const outRaisedHands = op.outArray("Raised Hands");
+const outReactions = op.outArray("Reactions");
 const outConnection = op.outString("Connection Status", "disconnected");
 const outError = op.outString("Error", "");
 const outInjectorCode = op.outString("Injector Code", "");
@@ -49,7 +55,10 @@ const injectorScriptTemplate = `(function() {
         activeSpeaker: null,
         participantsCount: null,
         lastChatSender: null,
-        lastChatMessage: null
+        lastChatMessage: null,
+        reactionsJson: '[]',
+        raisedHandsJson: '[]',
+        activeReactionKeys: {}
     };
 
     // Helper to send message to parent window (opener)
@@ -165,6 +174,104 @@ const injectorScriptTemplate = `(function() {
             sendToParent('stateUpdate', changes);
         }
 
+        // 5. Reactions & Raised Hands
+        var reactionWrappers = doc.querySelectorAll('.reaction-pop-up-container__icon-wrapper');
+        var byParticipant = {};
+        var participantOrder = [];
+
+        function extractReactionFromEl(el, prefixRegex) {
+            if (!el) return null;
+            var cls = typeof el.className === 'string' ? el.className : (el.getAttribute && el.getAttribute('class')) || '';
+            var match = cls.match(prefixRegex);
+            if (!match || !match[1]) return null;
+            var hex = match[1].toLowerCase();
+            var cp = parseInt(hex, 16);
+            var emoji = !isNaN(cp) ? String.fromCodePoint(cp) : '';
+            return { code: hex, emoji: emoji };
+        }
+
+        function findParticipantName(wrapper) {
+            var container = wrapper.closest(
+                '[class*="video-avatar__avatar"], [class*="avatar-container"], [class*="gallery-video-container"], [class*="speaker-video-container"], [class*="participants-item"], [role="listitem"], li'
+            );
+            if (!container) return '';
+            var nameEl = container.querySelector(
+                '[class*="video-avatar__avatar-name"], [class*="avatar-name"], [class*="participants-item__display-name"], [class*="display-name"], [class*="user-name"]'
+            );
+            return nameEl ? nameEl.textContent.trim() : '';
+        }
+
+        for (var rIdx = 0; rIdx < reactionWrappers.length; rIdx++) {
+            var wrapper = reactionWrappers[rIdx];
+            var pName = findParticipantName(wrapper) || 'Unknown';
+            if (!byParticipant[pName]) {
+                byParticipant[pName] = { name: pName, reactions: [], handRaised: false, seenCodes: {} };
+                participantOrder.push(pName);
+            }
+            var entry = byParticipant[pName];
+
+            var staticIcons = wrapper.querySelectorAll('[class*="lazy-icon-nvf/"]');
+            for (var sIdx = 0; sIdx < staticIcons.length; sIdx++) {
+                var parsedStatic = extractReactionFromEl(staticIcons[sIdx], /lazy-icon-nvf\\/([0-9a-fA-F]+)/);
+                if (parsedStatic && !entry.seenCodes[parsedStatic.code]) {
+                    entry.seenCodes[parsedStatic.code] = true;
+                    entry.reactions.push(parsedStatic);
+                    if (parsedStatic.code === '270b') entry.handRaised = true;
+                }
+            }
+
+            var animIcons = wrapper.querySelectorAll('[class*="animation-reactions/"]');
+            for (var aIdx = 0; aIdx < animIcons.length; aIdx++) {
+                var parsedAnim = extractReactionFromEl(animIcons[aIdx], /animation-reactions\\/([0-9a-fA-F]+)/);
+                if (parsedAnim && !entry.seenCodes[parsedAnim.code]) {
+                    entry.seenCodes[parsedAnim.code] = true;
+                    entry.reactions.push(parsedAnim);
+                    if (parsedAnim.code === '270b') entry.handRaised = true;
+                }
+            }
+        }
+
+        var reactionsList = [];
+        var raisedHandsList = [];
+        var nextActiveKeys = {};
+
+        for (var pIdx = 0; pIdx < participantOrder.length; pIdx++) {
+            var pObj = byParticipant[participantOrder[pIdx]];
+            if (pObj.reactions.length === 0) continue;
+            reactionsList.push({
+                name: pObj.name,
+                reactions: pObj.reactions,
+                handRaised: pObj.handRaised
+            });
+            if (pObj.handRaised) {
+                raisedHandsList.push(pObj.name);
+            }
+            for (var kIdx = 0; kIdx < pObj.reactions.length; kIdx++) {
+                var rItem = pObj.reactions[kIdx];
+                var rKey = pObj.name + '::' + rItem.code;
+                nextActiveKeys[rKey] = true;
+                if (!lastState.activeReactionKeys[rKey]) {
+                    sendToParent('reaction', {
+                        sender: pObj.name,
+                        code: rItem.code,
+                        emoji: rItem.emoji
+                    });
+                }
+            }
+        }
+
+        lastState.activeReactionKeys = nextActiveKeys;
+        var reactionsJson = JSON.stringify(reactionsList);
+        var raisedHandsJson = JSON.stringify(raisedHandsList);
+        if (reactionsJson !== lastState.reactionsJson || raisedHandsJson !== lastState.raisedHandsJson) {
+            lastState.reactionsJson = reactionsJson;
+            lastState.raisedHandsJson = raisedHandsJson;
+            sendToParent('stateUpdate', {
+                reactions: reactionsList,
+                raisedHands: raisedHandsList
+            });
+        }
+
         // Keep checking if the chat observer needs setup or cleanup
         checkChatObserver();
     }
@@ -270,6 +377,16 @@ const onParentWindowMessage = (event) => {
             if (updates.videoOff !== undefined) outVideoOff.set(!!updates.videoOff);
             if (updates.activeSpeaker !== undefined) outActiveSpeaker.set(updates.activeSpeaker || "");
             if (updates.participantsCount !== undefined) outParticipants.set(Number(updates.participantsCount) || 0);
+            if (updates.raisedHands !== undefined) outRaisedHands.set(Array.isArray(updates.raisedHands) ? updates.raisedHands : []);
+            if (updates.reactions !== undefined) outReactions.set(Array.isArray(updates.reactions) ? updates.reactions : []);
+        } else if (payload.type === 'reaction') {
+            const reaction = payload.data;
+            if (reaction) {
+                outLastReactionSender.set(reaction.sender || "Unknown");
+                outLastReactionEmoji.set(reaction.emoji || "");
+                outLastReactionCode.set(reaction.code || "");
+                outOnReaction.trigger();
+            }
         } else if (payload.type === 'chatMessage') {
             const chat = payload.data;
             if (chat) {

@@ -1,0 +1,137 @@
+{
+  "name": "konva",
+  "version": "10.11.0",
+  "description": "HTML5 2d canvas library for interactive graphics, design editors, whiteboards, and diagrams.",
+  "author": "Anton Lavrenov",
+  "type": "module",
+  "files": [
+    "README.md",
+    "konva.js",
+    "konva.min.js",
+    "lib"
+  ],
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./lib/*": {
+      "types": "./lib/*.d.ts",
+      "default": "./lib/*.js"
+    },
+    "./lib/*.js": {
+      "types": "./lib/*.d.ts",
+      "default": "./lib/*.js"
+    },
+    "./canvas-backend": {
+      "types": "./lib/canvas-backend.d.ts",
+      "default": "./lib/canvas-backend.js"
+    },
+    "./skia-backend": {
+      "types": "./lib/skia-backend.d.ts",
+      "default": "./lib/skia-backend.js"
+    },
+    "./napi-backend": {
+      "types": "./lib/napi-backend.d.ts",
+      "default": "./lib/napi-backend.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "start": "npm run test:watch",
+    "compile": "npm run clean && tsc && rollup lib/index.js --file konva.js --format umd --name Konva --no-freeze",
+    "prepublishOnly": "npm run build",
+    "build": "npm run compile && node build.mjs",
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check .",
+    "test:import": "npm run build  && node ./test/import-test.cjs && node ./test/import-test.mjs",
+    "test": "npm run test:types && npm run test:browser && npm run test:node && npm run test:import",
+    "test:types": "tsc -p test/types/tsconfig.json",
+    "test:build": "rimraf ./.parcel-cache && PARCEL_WORKER_BACKEND=process parcel build ./test/unit-tests.html --dist-dir ./test-build --target none --public-url ./ --no-source-maps",
+    "test:browser": "npm run test:build && mocha-headless-chrome -f ./test-build/unit-tests.html -a disable-web-security -a allow-file-access-from-files -a no-sandbox -a disable-setuid-sandbox",
+    "test:watch": "rimraf ./.parcel-cache && PARCEL_WORKERS=0  parcel serve ./test/unit-tests.html ./test/manual-tests.html ./test/sandbox.html ./test/text-paths.html ./test/bunnies.html",
+    "test:node:canvas": "mocha -r tsx --file ./test/node-canvas-setup.ts --file ./test/setup.ts --extension ts --recursive './test/unit/'",
+    "test:node:skia": "mocha -r tsx --file ./test/node-skia-setup.ts --file ./test/setup.ts --extension ts --recursive './test/unit/'",
+    "test:node:napi": "mocha -r tsx --file ./test/node-napi-setup.ts --file ./test/setup.ts --extension ts --recursive './test/unit/'",
+    "test:node": "npm run test:node:canvas && npm run test:node:skia && npm run test:node:napi",
+    "clean": "rimraf ./lib ./test-build"
+  },
+  "targets": {
+    "none": {}
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/lavrton"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/konva"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/lavrton"
+    }
+  ],
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.1.1",
+    "canvas": "^3.2.3",
+    "chai": "6.3.0",
+    "mocha": "^12.0.3",
+    "mocha-headless-chrome": "^5.1.0",
+    "parcel": "2.16.4",
+    "prettier": "^3.10.1",
+    "rimraf": "^6.1.4",
+    "rollup": "^4.68.7",
+    "skia-canvas": "^4.0.1",
+    "stats.js": "0.17.0",
+    "terser": "^5.51.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "peerDependencies": {
+    "@napi-rs/canvas": "^1.1.0",
+    "canvas": "^3.0.0",
+    "skia-canvas": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@napi-rs/canvas": {
+      "optional": true
+    },
+    "canvas": {
+      "optional": true
+    },
+    "skia-canvas": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "canvas",
+    "html5",
+    "2d",
+    "graphics",
+    "animation",
+    "drag-and-drop",
+    "design-editor",
+    "canvas-editor",
+    "whiteboard",
+    "transformer",
+    "konva"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "bugs": {
+    "url": "https://github.com/konvajs/konva/issues"
+  },
+  "homepage": "https://konvajs.org/",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/konvajs/konva.git"
+  },
+  "license": "MIT"
+}

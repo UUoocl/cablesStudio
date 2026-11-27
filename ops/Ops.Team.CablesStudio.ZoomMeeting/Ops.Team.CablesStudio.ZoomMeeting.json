@@ -97,6 +97,30 @@
             },
             {
                 "type": 5,
+                "name": "Last Reaction Sender"
+            },
+            {
+                "type": 5,
+                "name": "Last Reaction Emoji"
+            },
+            {
+                "type": 5,
+                "name": "Last Reaction Code"
+            },
+            {
+                "type": 1,
+                "name": "On Reaction"
+            },
+            {
+                "type": 3,
+                "name": "Raised Hands"
+            },
+            {
+                "type": 3,
+                "name": "Reactions"
+            },
+            {
+                "type": 5,
                 "name": "Connection Status"
             },
             {
